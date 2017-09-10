@@ -7,6 +7,7 @@ public class MovementController : MonoBehaviour {
     private Vector3 forward, right, velocity, acceleration;
     private float accelspeed, frc;
     private bool ismoving;
+	private bool isUnwrapped;
 
     // Use this for initialization
     void Start () {
@@ -17,16 +18,23 @@ public class MovementController : MonoBehaviour {
         acceleration = new Vector3(0, 0, 0);
         accelspeed = .2f;
         ismoving = false;
+		isUnwrapped = false;
 	}
 	
 	// Update is called once per frame
 	void Update () {
-        if (Input.anyKey) // only execute if a key is being pressed
-            Move();
-        else
-            ismoving = false;
-
-            
+		// only execute if a key is being pressed
+		if (Input.anyKey) {
+			Move ();
+			// Wrap up burrito
+			isUnwrapped = false;
+		} else {
+			ismoving = false;
+			// Unwrap burrito
+			isUnwrapped = true;
+		}
+		// Enable/disable catching falling objects based on wrapped state
+		GetComponent<CatchFallingObjects> ().canCatch = isUnwrapped;  
     }
     void Move()
     {
