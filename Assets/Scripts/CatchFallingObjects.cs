@@ -4,13 +4,17 @@ using UnityEngine;
 
 public class CatchFallingObjects : MonoBehaviour {
 
-	private bool canCatch;
+	public bool canCatch;
 
 	void Start () {
-		
+		canCatch = true;
 	}
 
 	void OnCollisionEnter (Collision collision) {
+		if (!canCatch) {
+			return;
+		}
+
 		GameObject gameObj = collision.gameObject;
 		if (gameObj.tag == "FallingObject") {
 			Destroy (gameObj);
