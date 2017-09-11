@@ -11,11 +11,28 @@ public class ObjectCatcher : MonoBehaviour {
 		canCatch = true;
 		caughtObjects = new Dictionary<string, int> ();
 	}
-
-	void OnCollisionEnter (Collision collision) {
-		if (!canCatch) {
-			return;
+		
+	/** Returns the number of caught objects, summing up across all object types */
+	public int getNumCaughtObjects () {
+		if (isEmpty ()) {
+			return 0;
+		} else {
+			int numCaughtObjects = 0;
+			foreach (KeyValuePair<string, int> kvp in caughtObjects) {
+				numCaughtObjects += kvp.Value;
+			}
+			return numCaughtObjects;
 		}
+	}
+
+	/** Returns true if this ObjectCatcher is empty */
+	public bool isEmpty () {
+		return caughtObjects.Count == 0;
+	}
+
+
+	/** Handle collisions with falling objects */
+	void OnCollisionEnter (Collision collision) {
 
 		GameObject gameObj = collision.gameObject;
 		if (gameObj.tag == "FallingObject") {
@@ -46,10 +63,9 @@ public class ObjectCatcher : MonoBehaviour {
 	}
 
 	/** Returns the content of the [caughtObjects] dictionary as a string */
-	string CaughtObjectsToString () {
+	public string CaughtObjectsToString () {
 		string result = "";
 		foreach (KeyValuePair<string, int> kvp in caughtObjects) {
-			Debug.Log (kvp.Key);
 			result += string.Format("{0} {1}(s), ", kvp.Value, kvp.Key);
 		}
 		result = result.Substring (0, result.Length - 2);
