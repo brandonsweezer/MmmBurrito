@@ -34,7 +34,7 @@ public class MovementController : MonoBehaviour {
 			isUnwrapped = true;
 		}
 		// Enable/disable catching falling objects based on wrapped state
-		GetComponent<CatchFallingObjects> ().canCatch = isUnwrapped;  
+		GetComponent<ObjectCatcher> ().canCatch = isUnwrapped;  
     }
     void Move()
     {
