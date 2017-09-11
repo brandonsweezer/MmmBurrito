@@ -33,6 +33,9 @@ public class ObjectCatcher : MonoBehaviour {
 
 	/** Handle collisions with falling objects */
 	void OnCollisionEnter (Collision collision) {
+		if (!canCatch) {
+			return;
+		}
 
 		GameObject gameObj = collision.gameObject;
 		if (gameObj.tag == "FallingObject") {
