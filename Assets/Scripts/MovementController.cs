@@ -12,7 +12,7 @@ public class MovementController : MonoBehaviour {
     // Use this for initialization
     void Start () {
         print(transform.rotation);
-        forward = Vector3.Normalize(Camera.main.transform.forward);
+        forward = Vector3.Normalize(new Vector3(45,0,45));
         right = Quaternion.Euler(new Vector3(0, 90, 0))*forward;
         velocity = new Vector3(0, 0, 0);
         acceleration = new Vector3(0, 0, 0);
@@ -51,10 +51,12 @@ public class MovementController : MonoBehaviour {
         velocity += acceleration;
 
         transform.forward = Vector3.Normalize(rmove + vmove);
-        transform.rotation *= Quaternion.Euler(new Vector3(0, 0, 90));
+        //transform.rotation *= Quaternion.Euler(new Vector3(1, 1, 90));
 
-        transform.position += rmove * 8;
-        transform.position += vmove * 8;
+        Rigidbody rb = transform.GetComponent<Rigidbody>();
+        rb.AddForce(acceleration * 10);
+        rb.MoveRotation(Quaternion.Euler(new Vector3(0, 90, 0)));
+        
         
 
     }
