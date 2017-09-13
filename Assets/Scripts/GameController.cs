@@ -6,9 +6,20 @@ public class GameController : MonoBehaviour {
 	public GameObject[] fallingObjectList;
 	public Vector3 spawnValues;
 	public float spawnInterval;
+	public Dictionary<Order, int> orderList;
+
+	private OrderList globalOrders;
 
 	void Start () {
+		orderList = new Dictionary<Order, int> ();
+		globalOrders = new OrderList ();
 		StartCoroutine (SpawnFallingObjects ());
+		orderList.Add (globalOrders.getOrders(2), 1);
+		foreach (KeyValuePair<Order, int> entry in orderList) {
+			for (int i = 0; i < entry.Value; i++) {
+				entry.Key.print ();
+			}
+		}
 	}
 
 	IEnumerator SpawnFallingObjects () {
