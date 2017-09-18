@@ -50,7 +50,7 @@ public class MovementController : MonoBehaviour {
         velocity += acceleration;
 
         transform.forward = Vector3.Normalize(rmove + vmove);
-        //transform.rotation *= Quaternion.Euler(new Vector3(1, 1, 90));
+        transform.rotation *= Quaternion.Euler(new Vector3(1, 1, 90));
 
         Rigidbody rb = transform.GetComponent<Rigidbody>();
        
