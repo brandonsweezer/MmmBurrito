@@ -54,8 +54,8 @@ public class MovementController : MonoBehaviour {
         //transform.rotation *= Quaternion.Euler(new Vector3(1, 1, 90));
 
         Rigidbody rb = transform.GetComponent<Rigidbody>();
-        rb.AddForce(acceleration * 10);
-        rb.MoveRotation(Quaternion.Euler(new Vector3(0, 90, 0)));
+        rb.AddForce(acceleration * 15);
+        //rb.MoveRotation(Quaternion.Euler(new Vector3(0, 90, 0)));
         
         
 
