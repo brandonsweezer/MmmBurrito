@@ -33,13 +33,14 @@ public class ObjectCatcher : MonoBehaviour {
 
 	/** Handle collisions with falling objects */
 	void OnCollisionEnter (Collision collision) {
-		if (!canCatch) {
-			return;
-		}
+        if (!canCatch)
+        {
+            return;
+        }
 
 		GameObject gameObj = collision.gameObject;
-		if (gameObj.tag == "FallingObject") {
-			CatchObject (gameObj);
+		if (gameObj.tag == "FallingObject") { 
+            CatchObject (gameObj);
 			Destroy (gameObj);
 		}
 
@@ -52,6 +53,7 @@ public class ObjectCatcher : MonoBehaviour {
 		Instantiate(explosionPrefab, pos, rot);
 		*/
 	}
+
 
 	/** Catches an object by updating the caught values for the [caughtObjects] dictionary */
 	void CatchObject (GameObject gameObj) {

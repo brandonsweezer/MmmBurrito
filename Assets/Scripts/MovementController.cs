@@ -40,20 +40,20 @@ public class MovementController : MonoBehaviour {
     {
         if (ismoving == false)
         {
-            velocity = new Vector3(0, 0, 0);
             ismoving = true;
         }
            
-        Vector3 rmove = right * Time.deltaTime * Input.GetAxis("Horizontal");
-        Vector3 vmove = forward * Time.deltaTime * Input.GetAxis("Vertical");
+        Vector3 rmove = right * Input.GetAxis("Horizontal");
+        Vector3 vmove = forward * Input.GetAxis("Vertical");
 
         acceleration = Vector3.Normalize(rmove + vmove);
         velocity += acceleration;
 
         transform.forward = Vector3.Normalize(rmove + vmove);
-        transform.rotation *= Quaternion.Euler(new Vector3(1, 1, 90));
+        //transform.rotation *= Quaternion.Euler(new Vector3(1, 1, 90));
 
         Rigidbody rb = transform.GetComponent<Rigidbody>();
+       
         rb.AddForce(acceleration * 15);
         //rb.MoveRotation(Quaternion.Euler(new Vector3(0, 90, 0)));
         
