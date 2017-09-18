@@ -5,6 +5,7 @@ using UnityEngine;
 public class SubmissionController : MonoBehaviour {
 
 	public GameObject burritoPrefab;
+	public GameObject gameController;
 	private Quaternion spawnRotation = Quaternion.FromToRotation(Vector3.up, new Vector3(1, 0, 1));
 
 	void OnCollisionEnter (Collision collision) {
@@ -33,5 +34,41 @@ public class SubmissionController : MonoBehaviour {
 	void SubmitBurrito (GameObject burrito) {
 		Debug.Log ("Submitted a burrito with contents: " + burrito.GetComponent<ObjectCatcher> ().CaughtObjectsToString ());
 		// TODO: Add logic regarding ordering system
+		Dictionary<Order, int> orders = gameController.GetComponent<GameController>().orderList;
+		foreach (KeyValuePair<Order, int> kvp in orders) {
+
+			if (compareBurrito (kvp.Key)) {
+				//MATCHES
+				Debug.Log ("Matches one of the orders!");
+				if (kvp.Value == 1) {
+					orders.Remove (kvp.Key);
+					// TODO: Check, did we win??
+				} 
+				else {
+					gameController.GetComponent<GameController>().orderList[kvp.Key] = kvp.Value - 1;
+				}
+			} 
+			else {
+				//DOES NOT MATCH
+				Debug.Log("Submitted burrito does not match");
+			}
+		}
+	}
+
+	bool compareBurrito(Order o){
+		Dictionary<string, int> burritoIngredients = burritoPrefab.GetComponent<ObjectCatcher> ().getIngredients ();
+		Dictionary<string, int> orderIngredients = o.ingredients;
+		Debug.Log (burritoIngredients.Count);
+		Debug.Log (orderIngredients.Count);
+		if (burritoIngredients.Count != orderIngredients.Count) {
+			return false;
+		}
+		foreach (KeyValuePair<string, int> pair in burritoIngredients) {
+			int temp;
+			if (!orderIngredients.TryGetValue (pair.Key, out temp) || temp != pair.Value) {
+				return false;
+			}
+		}
+		return true;
 	}
 }

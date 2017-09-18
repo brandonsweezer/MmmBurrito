@@ -74,4 +74,8 @@ public class ObjectCatcher : MonoBehaviour {
 		result = result.Substring (0, result.Length - 2);
 		return result;
 	}
+
+	public Dictionary<string, int> getIngredients(){
+		return caughtObjects;
+	}
 }
