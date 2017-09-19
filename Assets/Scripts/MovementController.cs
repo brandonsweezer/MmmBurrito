@@ -6,7 +6,7 @@ public class MovementController : MonoBehaviour {
 
     private Vector3 forward, right, velocity, acceleration;
     private float accelspeed, frc;
-    private bool ismoving;
+	private bool ismoving;
 	private bool isUnwrapped;
 
     // Use this for initialization
@@ -60,5 +60,9 @@ public class MovementController : MonoBehaviour {
         
 
     }
+
+	public bool getMovement() {
+		return ismoving; 
+	}
 
 }
