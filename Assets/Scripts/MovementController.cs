@@ -61,4 +61,8 @@ public class MovementController : MonoBehaviour {
 
     }
 
+	public bool getMovement() {
+		return ismoving;
+	}
+
 }
