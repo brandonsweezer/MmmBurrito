@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class GameController : MonoBehaviour {
+
+	public GameObject player;
 	
 	public Dictionary<Order, int> orderList;
 	private OrderList globalOrders;
