@@ -7,6 +7,9 @@ public class GameController : MonoBehaviour {
 	public GameObject player;
 	
 	public Dictionary<Order, int> orderList;
+
+    public int gameTime;
+
 	private OrderList globalOrders;
 
 	void Start () {
@@ -19,5 +22,20 @@ public class GameController : MonoBehaviour {
 				entry.Key.print ();
 			}
 		}
+        StartCoroutine(StartCountdown());
 	}
+    float currCountdownValue;
+    public IEnumerator StartCountdown(float countdownValue = 10f){
+        currCountdownValue = countdownValue;
+        while (currCountdownValue > 0)
+        {
+            //We should display this number instead of printing
+            Debug.Log("Countdown: " + currCountdownValue);
+            yield return new WaitForSeconds(1.0f);
+            currCountdownValue--;
+        }
+        //Timer is now 0, we lose
+        //Again, display this
+        Debug.Log("Time Elapsed - YOU LOSE");
+    }
 }
