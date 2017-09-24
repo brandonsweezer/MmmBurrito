@@ -13,7 +13,7 @@ public class GameController : MonoBehaviour {
 		orderList = new Dictionary<Order, int> ();
 		globalOrders = new OrderList ();
 		//should be different for each level
-		orderList.Add (globalOrders.getOrders(2), 1);
+		orderList.Add (globalOrders.getOrders(3), 1);
 		foreach (KeyValuePair<Order, int> entry in orderList) {
 			for (int i = 0; i < entry.Value; i++) {
 				entry.Key.print ();

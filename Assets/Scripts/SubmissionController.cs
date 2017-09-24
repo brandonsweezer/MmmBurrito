@@ -36,17 +36,20 @@ public class SubmissionController : MonoBehaviour {
 		Debug.Log ("Submitted a burrito with contents: " + burrito.GetComponent<ObjectCatcher> ().CaughtObjectsToString ());
 		// TODO: Add logic regarding ordering system
 		Dictionary<Order, int> orders = gameController.orderList;
-		foreach (KeyValuePair<Order, int> kvp in orders) {
+        List<Order> keys = new List<Order>(orders.Keys);
+		foreach (Order key in keys) {
 
-			if (compareBurrito (kvp.Key)) {
+			if (compareBurrito (key)) {
 				//MATCHES
 				Debug.Log ("Matches one of the orders!");
-				if (kvp.Value == 1) {
-					orders.Remove (kvp.Key);
-					// TODO: Check, did we win??
+				if (orders[key] == 1) {
+					orders.Remove (key);
+                    if (orders.Count == 0){
+                        Debug.Log("All orders completed");
+                    }
 				} 
 				else {
-					gameController.orderList[kvp.Key] = kvp.Value - 1;
+					gameController.orderList[key] = orders[key] - 1;
 				}
 			} 
 			else {
@@ -67,6 +70,8 @@ public class SubmissionController : MonoBehaviour {
 		foreach (KeyValuePair<string, int> pair in burritoIngredients) {
 			int temp;
 			if (!orderIngredients.TryGetValue (pair.Key, out temp) || temp != pair.Value) {
+                Debug.Log(pair.Key);
+                Debug.Log(temp);
 				return false;
 			}
 		}
