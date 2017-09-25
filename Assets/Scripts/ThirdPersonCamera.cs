@@ -7,8 +7,7 @@ public class ThirdPersonCamera : MonoBehaviour {
 	private const float Y_ANGLE_MIN = 0.0f;
 	private const float Y_ANGLE_MAX = 50.0f;
 
-	public Transform target;
-	public GameObject burrito; 
+	public GameObject gameControllerObject; 
 	public float restDistance; 
 	public float restHeight; 
 	public float moveDistance;
@@ -42,6 +41,8 @@ public class ThirdPersonCamera : MonoBehaviour {
 	}
 
 	private void LateUpdate () {
+		GameObject burrito = gameControllerObject.GetComponent<GameController> ().player;
+		Transform target = burrito.transform;
 		if (!burrito.GetComponent<MovementController> ().getMovement()) {
 			Vector3 dir = new Vector3 (0, restHeight, -restDistance);
 			Quaternion rotation = Quaternion.Euler (0, speed*currentX, 0); //currentY?

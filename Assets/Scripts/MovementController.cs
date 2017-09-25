@@ -12,7 +12,7 @@ public class MovementController : MonoBehaviour {
     // Use this for initialization
     void Start () {
         print(transform.rotation);
-        forward = Vector3.Normalize(new Vector3(45,0,45));
+        forward = Vector3.Normalize(transform.forward);
         right = Quaternion.Euler(new Vector3(0, 90, 0))*forward;
         velocity = new Vector3(0, 0, 0);
         acceleration = new Vector3(0, 0, 0);

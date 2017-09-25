@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.4465785, g: 0.49641252, b: 0.574817, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657844, g: 0.49641222, b: 0.57481694, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -697,7 +697,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &759329869
 GameObject:
@@ -1062,7 +1062,7 @@ Transform:
   m_Children:
   - {fileID: 759329870}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1142168866
 GameObject:
@@ -1141,7 +1141,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1142168866}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 17.46, y: 0.01, z: 17.76}
+  m_LocalPosition: {x: 7.82, y: 0.01, z: 17.99}
   m_LocalScale: {x: 1.7779962, y: 0.04388801, z: 1.7779946}
   m_Children: []
   m_Father: {fileID: 0}
@@ -1530,16 +1530,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 50ea9823afc775b49a38fb9152013a1b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fallingObjectList:
-  - {fileID: 1238977373733884, guid: a74c0811f7ec50e49ba894c9747094de, type: 2}
-  - {fileID: 1008423336532690, guid: ab105cec4f58f2a4eb975700eee884ac, type: 2}
-  - {fileID: 1699427756972874, guid: 85d0ab4bf098bae4e8650ba53e53ae04, type: 2}
-  - {fileID: 1812699630454538, guid: f1b901134ea3a054fb96d151525710af, type: 2}
-  - {fileID: 1508528037697742, guid: 5f56e0ea7cac3c0479938b96570d48d9, type: 2}
-  - {fileID: 1276072598772892, guid: e2883ff2e11f98941ba280c597e35741, type: 2}
-  - {fileID: 1805473012813944, guid: 98d28835d60ad924caeeb50f39b4f6f0, type: 2}
-  spawnValues: {x: 15, y: 10, z: 15}
-  spawnInterval: 2
+  player: {fileID: 490605521}
+  gameTime: 120
 --- !u!4 &1976711168
 Transform:
   m_ObjectHideFlags: 0
