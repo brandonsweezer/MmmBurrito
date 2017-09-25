@@ -17,7 +17,6 @@ public class OrderUI : MonoBehaviour {
 	void Start () {
 		orderstring = "Orders: ";
 		orders = gameControllerObject.GetComponent<GameController>().orderList;
-		Debug.Log(orders);
 
 		foreach (KeyValuePair<Order, int> entry in orders) {
 			orderstring += "{";
