@@ -12,7 +12,7 @@ public class MovementController : MonoBehaviour {
     // Use this for initialization
     void Start () {
         print(transform.rotation);
-        forward = Vector3.Normalize(transform.forward);
+        forward = (transform.forward);
         right = Quaternion.Euler(new Vector3(0, 90, 0))*forward;
         velocity = new Vector3(0, 0, 0);
         acceleration = new Vector3(0, 0, 0);
@@ -25,7 +25,8 @@ public class MovementController : MonoBehaviour {
 	void Update () {
 		// only execute if a key is being pressed
 		if (Input.anyKey) {
-			Move ();
+            forward = Quaternion.Euler(new Vector3(0, -90, 0)) * transform.right;
+            Move ();
 			// Wrap up burrito
 			isUnwrapped = false;
 		} else {
@@ -46,14 +47,18 @@ public class MovementController : MonoBehaviour {
         Vector3 rmove = right * Input.GetAxis("Horizontal");
         Vector3 vmove = forward * Input.GetAxis("Vertical");
 
-        acceleration = Vector3.Normalize(rmove + vmove);
+        acceleration = Vector3.Normalize(vmove + rmove);
         velocity += acceleration;
 
-        transform.forward = Vector3.Normalize(rmove + vmove);
-        //transform.rotation *= Quaternion.Euler(new Vector3(1, 1, 90));
+        //transform.forward = Vector3.Normalize(rmove + vmove);
+        
+        float startangle = transform.rotation.eulerAngles.y;
+        float endangle = transform.rotation.eulerAngles.y + (Input.GetAxis("Horizontal"))*90;
+        float turnrate = .05f;
+        float newyrot = startangle * (1 - turnrate) + endangle * turnrate;
+        transform.rotation = Quaternion.Euler(new Vector3(transform.rotation.eulerAngles.x, newyrot, transform.rotation.eulerAngles.z));
 
         Rigidbody rb = transform.GetComponent<Rigidbody>();
-       
         rb.AddForce(acceleration * 15);
         //rb.MoveRotation(Quaternion.Euler(new Vector3(0, 90, 0)));
         
