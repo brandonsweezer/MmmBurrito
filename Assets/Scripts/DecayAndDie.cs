@@ -15,6 +15,10 @@ public class DecayAndDie : MonoBehaviour {
 		qualityLevel = startingQualityLevel;
 	}
 
+    public int getQuality(){
+        return qualityLevel;
+    }
+
 	// Start decaying only after hitting a static object (i.e. the terrain)
 	void OnCollisionEnter(Collision col) {
 		if (col.gameObject.isStatic) {

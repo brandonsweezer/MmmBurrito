@@ -16,6 +16,16 @@ public class Order {
 		Debug.Log (result);
 	}
 
+
+	public string toString(){
+		string result = "";
+		foreach (KeyValuePair<string, int> entry in ingredients) {
+			result += string.Format("{0} {1}(s), ", entry.Value, entry.Key);
+		}
+		result = result.Substring (0, result.Length - 2);
+		return result;
+	}
+
 	//clears contents of the order
 	public void clear(){
 		ingredients.Clear();

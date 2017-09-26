@@ -6,7 +6,7 @@ public class ObjectSpawn : MonoBehaviour {
 	public GameObject[] fallingObjectList;
 	public float spawnInterval;
 
-	private static float spawnHeight = 0.5f;
+	private static float spawnHeight = 10f;
 
 	private float[] spawnRangeX;
 	private float[] spawnRangeZ;

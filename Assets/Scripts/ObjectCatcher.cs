@@ -5,11 +5,11 @@ using UnityEngine;
 public class ObjectCatcher : MonoBehaviour {
 
 	public bool canCatch;
-	private Dictionary<string, int> caughtObjects;
+	private Dictionary<string, List<int>> caughtObjects;
 
 	void Start () {
 		canCatch = true;
-		caughtObjects = new Dictionary<string, int> ();
+		caughtObjects = new Dictionary<string, List<int>> ();
 	}
 		
 	/** Returns the number of caught objects, summing up across all object types */
@@ -18,8 +18,8 @@ public class ObjectCatcher : MonoBehaviour {
 			return 0;
 		} else {
 			int numCaughtObjects = 0;
-			foreach (KeyValuePair<string, int> kvp in caughtObjects) {
-				numCaughtObjects += kvp.Value;
+			foreach (KeyValuePair<string, List<int>> kvp in caughtObjects) {
+				numCaughtObjects += kvp.Value.Count;
 			}
 			return numCaughtObjects;
 		}
@@ -54,14 +54,16 @@ public class ObjectCatcher : MonoBehaviour {
 		*/
 	}
 
-
 	/** Catches an object by updating the caught values for the [caughtObjects] dictionary */
 	void CatchObject (GameObject gameObj) {
 		string objectName = gameObj.name.Replace ("(Clone)", "");
-		// Increment the count for this object type, or set it to 1 if non-existent in dictionary
-		int currentCount;
-		caughtObjects.TryGetValue (objectName, out currentCount);
-		caughtObjects [objectName] = currentCount + 1;
+        // Increment the count for this object type, or set it to 1 if non-existent in dictionary
+        if (caughtObjects.ContainsKey(objectName)){
+            caughtObjects[objectName].Add(gameObj.GetComponent<DecayAndDie>().getQuality());
+        }
+        else{
+            caughtObjects.Add(objectName, new List<int>(new int[] {gameObj.GetComponent<DecayAndDie>().getQuality()}));
+        }
 
 		// Print out for now
 		Debug.Log (string.Format("Caught a {0}, burrito now contains:\n{1}", objectName, CaughtObjectsToString ()));
@@ -70,14 +72,14 @@ public class ObjectCatcher : MonoBehaviour {
 	/** Returns the content of the [caughtObjects] dictionary as a string */
 	public string CaughtObjectsToString () {
 		string result = "";
-		foreach (KeyValuePair<string, int> kvp in caughtObjects) {
-			result += string.Format("{0} {1}(s), ", kvp.Value, kvp.Key);
+		foreach (KeyValuePair<string, List<int>> kvp in caughtObjects) {
+			result += string.Format("{0} {1}(s), ", kvp.Value.Count, kvp.Key);
 		}
 		result = result.Substring (0, result.Length - 2);
 		return result;
 	}
 
-	public Dictionary<string, int> getIngredients(){
+	public Dictionary<string, List<int>> getIngredients(){
 		return caughtObjects;
 	}
 }
