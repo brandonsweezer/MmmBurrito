@@ -7,10 +7,23 @@ public class ObjectCatcher : MonoBehaviour {
 	public bool canCatch;
 	private Dictionary<string, List<int>> caughtObjects;
 
+
+	private string currentBurritoText; 
+
 	void Start () {
 		canCatch = true;
 		caughtObjects = new Dictionary<string, List<int>> ();
+		setTextString("");
 	}
+
+	public void setTextString (string text) {
+		currentBurritoText = text;
+	}
+
+	public string getTextString () {
+		return currentBurritoText;
+	}
+
 		
 	/** Returns the number of caught objects, summing up across all object types */
 	public int getNumCaughtObjects () {
@@ -67,6 +80,7 @@ public class ObjectCatcher : MonoBehaviour {
 
 		// Print out for now
 		Debug.Log (string.Format("Caught a {0}, burrito now contains:\n{1}", objectName, CaughtObjectsToString ()));
+		setTextString(string.Format("Caught a {0}, burrito now contains:\n{1}", objectName, CaughtObjectsToString ()));
 	}
 
 	/** Returns the content of the [caughtObjects] dictionary as a string */

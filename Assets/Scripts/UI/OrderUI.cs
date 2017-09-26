@@ -5,37 +5,62 @@ using UnityEngine.UI;
 
 public class OrderUI : MonoBehaviour {
 
-	private string orderstring;
-	public Text textInstance;
+	private string orderString;
+	public Text levelOrderList;
+
+
+	private string burritoString;
+	public Text currentBurrito;
+
+	private string submissionString;
+	public Text submissionMessage;
+
+	private string winString;
+	public Text winMessage;
 
 	private Dictionary<Order, int> orders;
 	public GameObject gameControllerObject; 
 
 
+	public GameObject subPlate;
+	private GameObject burrito;
+
+
+
+
 
 	// Use this for initialization
 	void Start () {
-		orderstring = "Orders: ";
+		orderString = "Orders: ";
 		orders = gameControllerObject.GetComponent<GameController>().orderList;
+		burrito = gameControllerObject.GetComponent<GameController> ().player;
+
+
+
+		burritoString = burrito.GetComponent<ObjectCatcher>().getTextString();
+		submissionString = subPlate.GetComponent<SubmissionController>().getTextString();
+		winString = subPlate.GetComponent<SubmissionController>().getWinString();
 
 		foreach (KeyValuePair<Order, int> entry in orders) {
-			orderstring += "{";
+			orderString += "{";
 			for (int i = 0; i < entry.Value; i++) {
-				orderstring += entry.Key.toString ();
+				orderString += entry.Key.toString ();
 			}
-			orderstring += "}";
+			orderString += "}";
 
 		}
 
-
-		textInstance.text = orderstring;
-
+		levelOrderList.text = orderString;
+		currentBurrito.text = burritoString;
+		submissionMessage.text = submissionString;
+		winMessage.text = winString;
 
 	}
 
 	// Update is called once per frame
-	void Update() {
+	void FixedUpdate() {
 		Start ();
+
 	}
 
 

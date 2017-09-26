@@ -7,13 +7,38 @@ public class SubmissionController : MonoBehaviour {
 	public GameObject burritoPrefab;
 	public GameObject gameControllerObject;
     private GameController gameController;
+
+	private string submissionText; 
+	private string winText; 
+
     private Dictionary<string, List<int>> burritoIngredients;
 
     private Quaternion spawnRotation = Quaternion.FromToRotation(Vector3.up, new Vector3(1, 0, 1));
 
+
+
 	void Start () {
 		gameController = gameControllerObject.GetComponent<GameController> ();
+		setTextString ("");
+		setWinString ("");
 	}
+
+	public void setTextString (string text) {
+		submissionText = text;
+	}
+
+	public string getTextString () {
+		return submissionText;
+	}
+
+	public void setWinString (string text) {
+		winText = text;
+	}
+
+	public string getWinString () {
+		return winText;
+	}
+
 
 	void OnCollisionEnter (Collision collision) {
 		// Disregard any collisions that aren't with the burrito
@@ -43,6 +68,7 @@ public class SubmissionController : MonoBehaviour {
 			if (compareBurrito (key)) {
 				//MATCHES
 				Debug.Log ("Matches one of the orders!");
+				setTextString ("Matches one of the orders!");
                 int score = 0;
                 foreach (KeyValuePair<string, List<int>> pair in burritoIngredients){
                     foreach (int quality in pair.Value) {
@@ -54,6 +80,7 @@ public class SubmissionController : MonoBehaviour {
 					orders.Remove (key);
                     if (orders.Count == 0){
                         Debug.Log("All orders completed");
+						setWinString ("All orders completed");
                     }
 				} 
 				else {
@@ -63,6 +90,7 @@ public class SubmissionController : MonoBehaviour {
 			else {
 				//DOES NOT MATCH
 				Debug.Log("Submitted burrito does not match");
+				setTextString ("Submitted burrito does not match");
 			}
 		}
 	}
