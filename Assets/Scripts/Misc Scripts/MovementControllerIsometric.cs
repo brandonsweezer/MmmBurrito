@@ -12,6 +12,9 @@ public class MovementControllerIsometric : MonoBehaviour {
 	private float accelSpeed = 20f;
 	private float rotationSpeedFactor = 0.2f;
 	private float maxSpeed = 10f;
+	private float slowDownFactor = 0.976f;
+
+	private Vector3 targetDirection;
 
 	// Use this for initialization
 	void Start () {
@@ -49,37 +52,35 @@ public class MovementControllerIsometric : MonoBehaviour {
 		Vector3 rmove = right * Input.GetAxis("Horizontal");
 		Vector3 vmove = forward * Input.GetAxis("Vertical");
 
-		Vector3 targetDirection = Vector3.Normalize(rmove + vmove);
-		// velocity += acceleration;
+		targetDirection = Vector3.Normalize(rmove + vmove);
+	}
 
-		Vector3 currentRotEuler = transform.rotation.eulerAngles;
+	void FixedUpdate() {
+		if (ismoving) {
+			// Determine new rotation.
+			// (Found a real easy way to set the forward so we rotate in both the X and Y axis)
+			Vector3 newRight = Vector3.Cross (Vector3.up, targetDirection);
+			transform.forward = Vector3.ProjectOnPlane (transform.forward, newRight);
 
-		// Determine new rotation
-		// Approach #1 -- set transform forward (using Vector3 lerping)
-		transform.forward = Vector3.Lerp(transform.forward, Vector3.Normalize(rmove + vmove), rotationSpeedFactor);
-
-		// Approach #2 -- break it down into euler angles and lerp the y rotation
-		// This mostly works except for one weird case (1 direction out of 4) where it turns
-		// awkwardly
-		/*
-		float currentYRot = currentRotEuler.y;
-		float targetYRot = Vector3.Angle (targetDirection, Vector3.forward);
-		float newYRot = targetYRot * rotationSpeedFactor + currentYRot * (1 - rotationSpeedFactor);
-		Vector3 newRotationEuler = new Vector3(currentRotEuler.x, newYRot, currentRotEuler.z);
-		transform.rotation = Quaternion.Euler (newRotationEuler);*/
-
-		Rigidbody rb = transform.GetComponent<Rigidbody>();
-
-		float currentSpeed = rb.velocity.magnitude;
-		if (currentSpeed > maxSpeed) {
-			// Cap the velocity if we're going too fast.
-			float factor = maxSpeed / currentSpeed;
-			rb.velocity.Scale (new Vector3 (factor, factor, factor));
+			// Velocity changes.
+			Rigidbody rb = transform.GetComponent<Rigidbody> ();
+			float currentSpeed = rb.velocity.magnitude;
+			if (currentSpeed > maxSpeed) {
+				// Cap the velocity if we're going too fast.
+				float factor = maxSpeed / currentSpeed;
+				rb.velocity.Scale (new Vector3 (factor, factor, factor));
+			} else {
+				// Accelerate otherwise.
+				rb.AddForce (targetDirection * accelSpeed);
+			}
 		} else {
-			// Accelerate otherwise.
-			rb.AddForce (targetDirection * accelSpeed);
+			SlowDown ();
 		}
+	}
 
+	void SlowDown() {
+		Rigidbody rb = transform.GetComponent<Rigidbody>();
+		rb.velocity = new Vector3(rb.velocity.x*slowDownFactor, rb.velocity.y*slowDownFactor, rb.velocity.z*slowDownFactor);
 	}
 
 	public bool getMovement() {
