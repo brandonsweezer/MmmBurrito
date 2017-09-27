@@ -33,19 +33,16 @@ public class LevelLoader : MonoBehaviour {
 	{
 		//Tell our 'OnLevelFinishedLoading' function to start listening for a scene change as soon as this script is enabled.
 		SceneManager.sceneLoaded += OnLevelFinishedLoading;
-		Debug.Log ("add");
 	}
 
 	void OnDisable()
 	{
 		//Tell our 'OnLevelFinishedLoading' function to stop listening for a scene change as soon as this script is disabled. Remember to always have an unsubscription for every delegate you subscribe to!
 		SceneManager.sceneLoaded -= OnLevelFinishedLoading;
-		Debug.Log ("remove");
 	}
 
 	void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode)
 	{	
-		Debug.Log ("finished loading " + scene.name);
 		if (scene.name.Contains ("Level_")) {
 			// Loaded a level.
 			InitializeLevel (loadingLevelNumber);
@@ -66,6 +63,8 @@ public class LevelLoader : MonoBehaviour {
 		SetupLevelVars (levelNumber);
 
 		SpawnController.instance.SpawnBurrito ();
+
+		OrderUI.instance.ResetUIFields();
 
 		GetComponent<Timer> ().startTimer ();
 	}

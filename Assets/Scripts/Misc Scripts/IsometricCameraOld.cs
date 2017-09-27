@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class IsometricCamera : MonoBehaviour {
+public class IsometricCameraOld : MonoBehaviour {
 
 
 	private const float Y_ANGLE_MIN = 0.0f;

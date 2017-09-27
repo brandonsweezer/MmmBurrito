@@ -25,16 +25,12 @@ public class OrderUI : MonoBehaviour {
 		}
 	}
 
-
-	void Start () {
-		// empty out all fields
+	public void ResetUIFields () {
 		levelOrderList.text = "";
 		currentBurrito.text = "";
 		submissionMessage.text = "";
 		winMessage.text = "";
 		loseMessage.text = "";
-		// hide the HUD in the level selection screen
-		canvasHUD.SetActive (false);
 	}
 
 

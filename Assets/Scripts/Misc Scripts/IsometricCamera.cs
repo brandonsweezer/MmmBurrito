@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CameraPlayerBias : MonoBehaviour {
+public class IsometricCamera : MonoBehaviour {
 
 	// Note: could make these two variables public, but for the sake of consistency we won't
 	// [Tooltip("[0..1]")]
