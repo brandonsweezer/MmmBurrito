@@ -27,11 +27,13 @@ public class OrderController : MonoBehaviour {
 	}
 
 	public string OrderListToString () {
-		string orderString = "ORDERS: ";
+		string orderString = "Orders: ";
 		foreach (KeyValuePair<Order, int> entry in OrderController.instance.orderList) {
-			orderString += entry.Value + " X (";
-			orderString += entry.Key.ToString ();
-			orderString += "), ";
+			if (entry.Value > 1) {
+				orderString += entry.Value + " X ";
+			} else {
+				orderString += "(" + entry.Key.ToString () + "), ";
+			}
 		}
 		orderString.Trim ();
 		return orderString.Substring (0, orderString.Length - 2);

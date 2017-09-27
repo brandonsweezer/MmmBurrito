@@ -5,9 +5,13 @@ using UnityEngine;
 public class MovementControllerIsometric : MonoBehaviour {
 
 	private Vector3 forward, right, velocity, acceleration;
-	private float accelspeed, frc;
+	private float frc;
 	private bool ismoving;
 	private bool isUnwrapped;
+
+	private float accelSpeed = 20f;
+	private float rotationSpeedFactor = 0.2f;
+	private float maxSpeed = 10f;
 
 	// Use this for initialization
 	void Start () {
@@ -15,7 +19,6 @@ public class MovementControllerIsometric : MonoBehaviour {
 		right = Quaternion.Euler(new Vector3(0, 90, 0))*forward;
 		velocity = new Vector3(0, 0, 0);
 		acceleration = new Vector3(0, 0, 0);
-		accelspeed = .2f;
 		ismoving = false;
 		isUnwrapped = false;
 	}
@@ -35,6 +38,7 @@ public class MovementControllerIsometric : MonoBehaviour {
 		// Enable/disable catching falling objects based on wrapped state
 		GetComponent<ObjectCatcher> ().canCatch = isUnwrapped;  
 	}
+
 	void Move()
 	{
 		if (ismoving == false)
@@ -45,18 +49,36 @@ public class MovementControllerIsometric : MonoBehaviour {
 		Vector3 rmove = right * Input.GetAxis("Horizontal");
 		Vector3 vmove = forward * Input.GetAxis("Vertical");
 
-		acceleration = Vector3.Normalize(rmove + vmove);
-		velocity += acceleration;
+		Vector3 targetDirection = Vector3.Normalize(rmove + vmove);
+		// velocity += acceleration;
 
-		transform.forward = Vector3.Normalize(rmove + vmove);
-		//transform.rotation *= Quaternion.Euler(new Vector3(1, 1, 90));
+		Vector3 currentRotEuler = transform.rotation.eulerAngles;
+
+		// Determine new rotation
+		// Approach #1 -- set transform forward (using Vector3 lerping)
+		transform.forward = Vector3.Lerp(transform.forward, Vector3.Normalize(rmove + vmove), rotationSpeedFactor);
+
+		// Approach #2 -- break it down into euler angles and lerp the y rotation
+		// This mostly works except for one weird case (1 direction out of 4) where it turns
+		// awkwardly
+		/*
+		float currentYRot = currentRotEuler.y;
+		float targetYRot = Vector3.Angle (targetDirection, Vector3.forward);
+		float newYRot = targetYRot * rotationSpeedFactor + currentYRot * (1 - rotationSpeedFactor);
+		Vector3 newRotationEuler = new Vector3(currentRotEuler.x, newYRot, currentRotEuler.z);
+		transform.rotation = Quaternion.Euler (newRotationEuler);*/
 
 		Rigidbody rb = transform.GetComponent<Rigidbody>();
 
-		rb.AddForce(acceleration * 20);
-		//rb.MoveRotation(Quaternion.Euler(new Vector3(0, 90, 0)));
-
-
+		float currentSpeed = rb.velocity.magnitude;
+		if (currentSpeed > maxSpeed) {
+			// Cap the velocity if we're going too fast.
+			float factor = maxSpeed / currentSpeed;
+			rb.velocity.Scale (new Vector3 (factor, factor, factor));
+		} else {
+			// Accelerate otherwise.
+			rb.AddForce (targetDirection * accelSpeed);
+		}
 
 	}
 

@@ -80,7 +80,7 @@ public class ObjectCatcher : MonoBehaviour {
 
 		// Print out for now
 		Debug.Log (string.Format("Caught a {0}, burrito now contains:\n{1}", objectName, CaughtObjectsToString ()));
-		setTextString(string.Format("Caught a {0}, burrito now contains:\n{1}", objectName, CaughtObjectsToString ()));
+		setTextString(string.Format("Burrito contents: {0}", CaughtObjectsToString ()));
 	}
 
 	/** Returns the content of the [caughtObjects] dictionary as a string */
