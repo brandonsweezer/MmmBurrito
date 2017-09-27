@@ -5,12 +5,11 @@ using UnityEngine;
 public class Conveyor : MonoBehaviour {
 
     Vector3 direction;
-    float speed;
+    public float speed;
 
     // Use this for initialization
     void Start () {
         direction = transform.forward;
-        speed = 0.1f;
 	}
 	
 	// Update is called once per frame
