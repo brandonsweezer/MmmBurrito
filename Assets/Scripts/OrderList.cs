@@ -32,7 +32,13 @@ public class OrderList {
 		// Order 3
 		orders.Add (new Order());
 		orders [orders.Count-1].add ("Tomato", 1);
-		orders [orders.Count-1].add ("Beans", 1);
+		orders [orders.Count-1].add ("Cheese", 1);
 		orders [orders.Count-1].add ("Rice", 1);
+
+		// Order 4
+		orders.Add (new Order());
+		orders [orders.Count-1].add ("Beans", 1);
+		orders [orders.Count-1].add ("Lettuce", 1);
+		orders [orders.Count-1].add ("Cheese", 1);
 	}
 }

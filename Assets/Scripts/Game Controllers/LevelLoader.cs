@@ -67,7 +67,8 @@ public class LevelLoader : MonoBehaviour {
 			case 3:
 				OrderController.instance.AddOrder (2, 2);
 				OrderController.instance.AddOrder (3, 1);
-				timer.TimerInit (180);
+				OrderController.instance.AddOrder (4, 1);
+				timer.TimerInit (230);
 				break;
 		}
 		Debug.Log (OrderController.instance.OrderListToString ());
