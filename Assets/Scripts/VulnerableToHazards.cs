@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class VulnerableToHazards : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
+	public GameObject submissionPlate;
+
+	/** Handle collisions with deadly hazards */
+	void OnCollisionEnter (Collision collision) {
+		GameObject gameObj = collision.gameObject;
+		if (gameObj.tag == "DeadlyHazard") {
+			submissionPlate.GetComponent<SubmissionController> ().DestroyAndRespawn ();
+		}
 	}
 }
