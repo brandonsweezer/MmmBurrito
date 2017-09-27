@@ -56,7 +56,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4361466391201830}
   - component: {fileID: 54695322293938318}
-  - component: {fileID: 135016835268543292}
+  - component: {fileID: 65199662740698284}
   - component: {fileID: 114005528061802410}
   m_Layer: 0
   m_Name: Knife
@@ -98,7 +98,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1307991631258302}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.634716, y: 0.05, z: -19.576593}
+  m_LocalPosition: {x: -9.70512, y: 0.05, z: -19.514103}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4237024657451466}
@@ -199,6 +199,18 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!65 &65199662740698284
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1307991631258302}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.3, y: 0.6, z: 1.4}
+  m_Center: {x: 0, y: 0.2, z: 0}
 --- !u!65 &65228347302487898
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -224,18 +236,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startingQualityLevel: 1
   decayRate: 5
---- !u!135 &135016835268543292
-SphereCollider:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1307991631258302}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!136 &136208850970919982
 CapsuleCollider:
   m_ObjectHideFlags: 1

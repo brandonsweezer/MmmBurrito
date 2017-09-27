@@ -10,7 +10,7 @@ public class VulnerableToHazards : MonoBehaviour {
 	void OnCollisionEnter (Collision collision) {
 		GameObject gameObj = collision.gameObject;
 		if (gameObj.tag == "DeadlyHazard") {
-			submissionPlate.GetComponent<SubmissionController> ().DestroyAndRespawn ();
+			SpawnController.instance.DestroyAndRespawn ();
 		}
 	}
 }

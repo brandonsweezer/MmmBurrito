@@ -16,6 +16,6 @@ public class TrashController : MonoBehaviour {
 
 		// Destroy burrito and spawn a new one.
 		Debug.Log("trash");
-		submissionPlate.GetComponent<SubmissionController> ().DestroyAndRespawn ();
+		SpawnController.instance.DestroyAndRespawn ();
 	}
 }

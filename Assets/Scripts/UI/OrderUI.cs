@@ -32,8 +32,8 @@ public class OrderUI : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		orderString = "Orders: ";
-		orders = gameControllerObject.GetComponent<GameController>().orderList;
-		burrito = gameControllerObject.GetComponent<GameController> ().player;
+		orders = OrderController.instance.orderList;
+		burrito = GameController.instance.player;
 
 
 

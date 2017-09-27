@@ -5,8 +5,6 @@ using UnityEngine;
 public class SubmissionController : MonoBehaviour {
 
 	public GameObject burritoPrefab;
-	public GameObject gameControllerObject;
-    private GameController gameController;
 
 	private string submissionText; 
 	private string winText; 
@@ -18,7 +16,6 @@ public class SubmissionController : MonoBehaviour {
 
 
 	void Start () {
-		gameController = gameControllerObject.GetComponent<GameController> ();
 		setTextString ("");
 		setWinString ("");
 	}
@@ -54,14 +51,14 @@ public class SubmissionController : MonoBehaviour {
 
 		SubmitBurrito (burrito);
 
-		DestroyAndRespawn ();
+		SpawnController.instance.DestroyAndRespawn ();
 	}
 
 	/** Submits a burrito */
 	void SubmitBurrito (GameObject burrito) {
 		Debug.Log ("Submitted a burrito with contents: " + burrito.GetComponent<ObjectCatcher> ().CaughtObjectsToString ());
 		// TODO: Add logic regarding ordering system
-		Dictionary<Order, int> orders = gameController.orderList;
+		Dictionary<Order, int> orders = OrderController.instance.orderList;
         List<Order> keys = new List<Order>(orders.Keys);
 		foreach (Order key in keys) {
 
@@ -84,7 +81,7 @@ public class SubmissionController : MonoBehaviour {
                     }
 				} 
 				else {
-					gameController.orderList[key] = orders[key] - 1;
+					OrderController.instance.orderList[key] = orders[key] - 1;
 				}
 			} 
 			else {
@@ -96,7 +93,7 @@ public class SubmissionController : MonoBehaviour {
 	}
 
 	bool compareBurrito(Order o){
-        burritoIngredients = gameController.player.GetComponent<ObjectCatcher>().getIngredients();
+		burritoIngredients = GameController.instance.player.GetComponent<ObjectCatcher>().getIngredients();
         Dictionary<string, int> orderIngredients = o.ingredients;
 		Debug.Log (burritoIngredients.Count);
 		Debug.Log (orderIngredients.Count);
@@ -112,20 +109,5 @@ public class SubmissionController : MonoBehaviour {
 			}
 		}
 		return true;
-	}
-
-	// Destroy burrito and spawn a new one.
-	public void DestroyAndRespawn () {
-		Destroy (gameController.player);
-		SpawnBurrito ();
-	}
-
-	public void SpawnBurrito () {
-		Vector3 spawnPosition = gameObject.transform.position;
-		spawnPosition.y += 1;
-		GameObject newBurrito = Instantiate (burritoPrefab, spawnPosition, spawnRotation) as GameObject;
-		newBurrito.tag = "Player";
-		// set reference in GameController
-		gameController.player = newBurrito;
 	}
 }
