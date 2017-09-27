@@ -9,7 +9,7 @@ public class Conveyor : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        direction = transform.right;
+        direction = transform.forward;
         speed = 0.1f;
 	}
 	
