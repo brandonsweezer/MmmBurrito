@@ -5,50 +5,59 @@ using UnityEngine.UI;
 
 public class OrderUI : MonoBehaviour {
 
-	private string orderString;
+	public GameObject canvasHUD;
+
 	public Text levelOrderList;
-
-
-	private string burritoString;
 	public Text currentBurrito;
-
-	private string submissionString;
 	public Text submissionMessage;
-
-	private string winString;
 	public Text winMessage;
+	public Text loseMessage;
 
 	private Dictionary<Order, int> orders;
 
-	public GameObject subPlate;
-	private GameObject burrito;
+	// Make this class a singleton
+	public static OrderUI instance = null;
+	void Awake () {
+		if (instance == null) {
+			instance = this;
+		} else if (instance != this) {
+			Destroy (this);
+		}
+	}
 
 
-
+	void Start () {
+		// empty out all fields
+		levelOrderList.text = "";
+		currentBurrito.text = "";
+		submissionMessage.text = "";
+		winMessage.text = "";
+		loseMessage.text = "";
+		// hide the HUD in the level selection screen
+		canvasHUD.SetActive (false);
+	}
 
 
 	// Use this for initialization
-	void Start () {
-		orders = OrderController.instance.orderList;
-		burrito = GameController.instance.player;
+	public void UpdateUI () {
+		levelOrderList.text = OrderController.instance.OrderListToString();
+		if (GameController.instance.player != null) {
+			currentBurrito.text = GameController.instance.player.GetComponent<ObjectCatcher> ().getTextString ();
+		}
+	}
 
-		burritoString = burrito.GetComponent<ObjectCatcher>().getTextString();
-		submissionString = subPlate.GetComponent<SubmissionController>().getTextString();
-		winString = subPlate.GetComponent<SubmissionController>().getWinString();
-
-		orderString = OrderController.instance.OrderListToString();
-
-		levelOrderList.text = orderString;
-		currentBurrito.text = burritoString;
-		submissionMessage.text = submissionString;
-		winMessage.text = winString;
-
+	public void setWinMessage(string msg) {
+		winMessage.text = msg;
+	}
+	public void setSubmissionMessage(string msg) {
+		submissionMessage.text = msg;
 	}
 
 	// Update is called once per frame
 	void FixedUpdate() {
-		Start ();
-
+		if (canvasHUD.activeSelf) {
+			UpdateUI ();
+		}
 	}
 
 

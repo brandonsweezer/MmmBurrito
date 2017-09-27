@@ -33,7 +33,7 @@ public class SpawnController : MonoBehaviour {
 			return;
 		}
 
-		Vector3 spawnPosition = spawnPoint.transform.position;
+		Vector3 spawnPosition = spawnPoint.transform.position + new Vector3 (0, 1, 0);
 		GameObject newBurrito = Instantiate (burritoPrefab, spawnPosition, Quaternion.identity) as GameObject;
 		newBurrito.tag = "Player";
 

@@ -5,29 +5,13 @@ using UnityEngine.SceneManagement;
 
 public class LevelLoader : MonoBehaviour {
 
-	public Camera menuCamera;
+	public GameObject canvasHUD;
+
+	private int loadingLevelNumber = -1;
 
 	public void goToLevel(int levelNumber) {
+		loadingLevelNumber = levelNumber;
 		SceneManager.LoadScene ("Level_"+levelNumber);
-
-		OrderController.instance.orderList.Clear ();
-		switch (levelNumber) {
-			case 1:
-				OrderController.instance.AddOrder (1, 1);
-				break;
-			case 2:
-				OrderController.instance.AddOrder (1, 1);
-				OrderController.instance.AddOrder (1, 1);
-				OrderController.instance.AddOrder (2, 1);
-				break;
-			case 3:
-				OrderController.instance.AddOrder (2, 2);
-				OrderController.instance.AddOrder (3, 1);
-				break;
-		}
-		Debug.Log (OrderController.instance.OrderListToString ());
-
-
 	}
 
 	// http://answers.unity3d.com/questions/1174255/since-onlevelwasloaded-is-deprecated-in-540b15-wha.html
@@ -47,16 +31,46 @@ public class LevelLoader : MonoBehaviour {
 	{	
 		if (scene.name.Contains ("Level_")) {
 			// Loaded a level.
-			InitializeLevel ();
+			InitializeLevel (loadingLevelNumber);
+			loadingLevelNumber = -1;
 		} else {
 			// Loaded a menu.
 
 		}
 	}
 
-	void InitializeLevel () {
-		// Initialize the game
+	void InitializeLevel (int levelNumber) {
+		
+		SetupLevelVars (levelNumber);
+
 		SpawnController.instance.SpawnBurrito ();
+
+		canvasHUD.SetActive(true);
+		GetComponent<Timer> ().startTimer ();
+	}
+
+	// Setup the level variables for the specified level.
+	void SetupLevelVars (int levelNumber) {
+		OrderController.instance.orderList.Clear ();
+		Timer timer = GetComponent<Timer> ();
+		switch (levelNumber) {
+			case 1:
+				OrderController.instance.AddOrder (0, 1);
+				timer.TimerInit (120);
+				break;
+			case 2:
+				OrderController.instance.AddOrder (0, 1);
+				OrderController.instance.AddOrder (1, 1);
+				OrderController.instance.AddOrder (2, 1);
+				timer.TimerInit (120);
+				break;
+			case 3:
+				OrderController.instance.AddOrder (2, 2);
+				OrderController.instance.AddOrder (3, 1);
+				timer.TimerInit (180);
+				break;
+		}
+		Debug.Log (OrderController.instance.OrderListToString ());
 	}
 
 

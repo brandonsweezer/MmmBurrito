@@ -5,33 +5,33 @@ using UnityEngine.UI;
 
 public class Timer : MonoBehaviour {
 
-	public Slider sliderInstace; 
-	public float maxTime;
-	public float minTime;
+	public Slider sliderInstance;
+
 	private float time;
 
 	private string timeDisplay;
 	public Text textInstance;
 	public Text losetext; 
 
+	private bool running;
 
+	void Start () {
+		running = false;
+	}
 
-
-
-
-	public void TimerInit () {
-		sliderInstace.minValue = minTime;
-		sliderInstace.maxValue =maxTime;
+	public void TimerInit (int maxTime) {
+		sliderInstance.minValue = 0;
+		sliderInstance.maxValue = maxTime;
 		time = maxTime;
-		losetext.text = "";
+	}
 
-		//textInstance = GetComponent<Text>();
-
+	public void startTimer () {
+		running = true;
 	}
 
 	public void TimerUpdate () {
 		time -= Time.deltaTime; 
-		sliderInstace.value = time;
+		sliderInstance.value = time;
 		if (time < 10) {
 			textInstance.color = Color.red;
 			if (time < 0) {
@@ -49,15 +49,11 @@ public class Timer : MonoBehaviour {
 	
 
 	}
-
-	// Use this for initialization
-	void Start () {
-		TimerInit ();
-		
-	}
 	
 	// Update is called once per frame
 	void Update () {
-		TimerUpdate ();
+		if (running) {
+			TimerUpdate ();
+		}
 	}
 }

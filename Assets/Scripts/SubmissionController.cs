@@ -57,13 +57,15 @@ public class SubmissionController : MonoBehaviour {
 	/** Submits a burrito */
 	void SubmitBurrito (GameObject burrito) {
 		Debug.Log ("Submitted a burrito with contents: " + burrito.GetComponent<ObjectCatcher> ().CaughtObjectsToString ());
-		// TODO: Add logic regarding ordering system
+
+		// Logic regarding ordering system.
 		Dictionary<Order, int> orders = OrderController.instance.orderList;
         List<Order> keys = new List<Order>(orders.Keys);
+		bool matched = false;
 		foreach (Order key in keys) {
-
 			if (compareBurrito (key)) {
 				//MATCHES
+				matched = true;
 				Debug.Log ("Matches one of the orders!");
 				setTextString ("Matches one of the orders!");
                 int score = 0;
@@ -72,7 +74,7 @@ public class SubmissionController : MonoBehaviour {
                         score += quality;
                     }
                 }
-                Debug.Log(score*100);
+                Debug.Log("You just got "+score*100+" score!");
                 if (orders[key] == 1) {
 					orders.Remove (key);
                     if (orders.Count == 0){
@@ -83,28 +85,32 @@ public class SubmissionController : MonoBehaviour {
 				else {
 					OrderController.instance.orderList[key] = orders[key] - 1;
 				}
-			} 
-			else {
-				//DOES NOT MATCH
-				Debug.Log("Submitted burrito does not match");
-				setTextString ("Submitted burrito does not match");
+
+				Debug.Log ("Remaining " + OrderController.instance.OrderListToString ()); // print remaining orders
 			}
+		} 
+		if (!matched) {
+			//DOES NOT MATCH
+			Debug.Log("Submitted burrito does not match");
+			setTextString ("Submitted burrito does not match");
 		}
+
+		// Update UI
+		OrderUI.instance.setSubmissionMessage (getTextString());
+		OrderUI.instance.setWinMessage (getWinString());
 	}
 
 	bool compareBurrito(Order o){
 		burritoIngredients = GameController.instance.player.GetComponent<ObjectCatcher>().getIngredients();
-        Dictionary<string, int> orderIngredients = o.ingredients;
-		Debug.Log (burritoIngredients.Count);
-		Debug.Log (orderIngredients.Count);
+		Dictionary<string, int> orderIngredients = o.ingredients;
 		if (burritoIngredients.Count != orderIngredients.Count) {
 			return false;
 		}
 		foreach (KeyValuePair<string, List<int>> pair in burritoIngredients) {
 			int temp;
 			if (!orderIngredients.TryGetValue (pair.Key, out temp) || temp != pair.Value.Count) {
-                Debug.Log(pair.Key);
-                Debug.Log(temp);
+                // Debug.Log(pair.Key);
+                // Debug.Log(temp);
 				return false;
 			}
 		}

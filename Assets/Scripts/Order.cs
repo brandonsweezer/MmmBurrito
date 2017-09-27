@@ -17,7 +17,7 @@ public class Order {
 	}
 
 
-	public string toString(){
+	public string ToString(){
 		string result = "";
 		foreach (KeyValuePair<string, int> entry in ingredients) {
 			result += string.Format("{0} {1}, ", entry.Value, entry.Key);

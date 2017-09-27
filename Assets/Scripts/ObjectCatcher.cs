@@ -48,7 +48,7 @@ public class ObjectCatcher : MonoBehaviour {
 	void OnCollisionEnter (Collision collision) {
         if (!canCatch)
         {
-            return;
+            // return; // disabled until we can visually show the burrito's wrap-state
         }
 
 		GameObject gameObj = collision.gameObject;
