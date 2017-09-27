@@ -53,7 +53,7 @@ public class MovementControllerIsometric : MonoBehaviour {
 
 		Rigidbody rb = transform.GetComponent<Rigidbody>();
 
-		rb.AddForce(acceleration * 15);
+		rb.AddForce(acceleration * 20);
 		//rb.MoveRotation(Quaternion.Euler(new Vector3(0, 90, 0)));
 
 

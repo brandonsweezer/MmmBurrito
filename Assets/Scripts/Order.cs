@@ -10,7 +10,7 @@ public class Order {
 	public void print(){
 		string result = "";
 		foreach (KeyValuePair<string, int> entry in ingredients) {
-			result += string.Format("{0} {1}(s), ", entry.Value, entry.Key);
+			result += string.Format("{0} {1}, ", entry.Value, entry.Key);
 		}
 		result = result.Substring (0, result.Length - 2);
 		Debug.Log (result);
@@ -20,7 +20,7 @@ public class Order {
 	public string toString(){
 		string result = "";
 		foreach (KeyValuePair<string, int> entry in ingredients) {
-			result += string.Format("{0} {1}(s), ", entry.Value, entry.Key);
+			result += string.Format("{0} {1}, ", entry.Value, entry.Key);
 		}
 		result = result.Substring (0, result.Length - 2);
 		return result;
@@ -32,8 +32,8 @@ public class Order {
 	}
 
 	//adds ingredients to the order
-	public void add(string s, int i){
-		ingredients.Add(s, i);
+	public void add(string ingredientName, int count){
+		ingredients.Add(ingredientName, count);
 	}
 
 	public Order(){

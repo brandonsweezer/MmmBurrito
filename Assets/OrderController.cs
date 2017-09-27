@@ -23,6 +23,17 @@ public class OrderController : MonoBehaviour {
 	}
 
 	public void AddOrder(int orderIndex, int count) {
-		orderList.Add (globalOrders.getOrders(orderIndex), count);
+		orderList.Add (OrderList.getOrder(orderIndex), count);
+	}
+
+	public string OrderListToString () {
+		string orderString = "ORDERS: ";
+		foreach (KeyValuePair<Order, int> entry in OrderController.instance.orderList) {
+			orderString += entry.Value + " X (";
+			orderString += entry.Key.toString ();
+			orderString += "), ";
+		}
+		orderString.Trim ();
+		return orderString.Substring (0, orderString.Length - 2);
 	}
 }

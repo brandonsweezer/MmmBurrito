@@ -4,33 +4,35 @@ using UnityEngine;
 
 public class OrderList {
 
-	//List of all types of orders in our game
-	public List<Order> orders = new List<Order>();
+	// List of all types of orders in our game.
+	public static List<Order> orders = new List<Order>();
 
-	//retrieves a specific order
-	public Order getOrders(int i){
+	// Retrieves a specific order.
+	public static Order getOrder(int i){
 		return orders [i];
 	}
 
-	// Use this for initialization
+	// Setup all the orders in the constructor.
 	public OrderList(){
 		orders = new List<Order> ();
-		//Order 0
+
+		// Order 0
 		orders.Add (new Order ());
-		orders[0].add("Tomato", 1);
+		orders[orders.Count-1].add("Tomato", 1);
 
-		//Order 1
+		// Order 1
+		orders.Add(new Order());
+		orders[orders.Count-1].add("Cheese", 1);
+
+		// Order 2
 		orders.Add (new Order());
-		orders[1].add("Tomato", 2);
-		orders[1].add("Beans", 2);
+		orders[orders.Count-1].add("Tomato", 2);
+		orders[orders.Count-1].add("Beans", 2);
 
-		//Order 2
+		// Order 3
 		orders.Add (new Order());
-		orders [2].add ("Tomato", 1);
-		orders [2].add ("Beans", 1);
-		orders [2].add ("Rice", 1);
-
-        orders.Add(new Order());
-        orders[3].add("Cheese", 1);
+		orders [orders.Count-1].add ("Tomato", 1);
+		orders [orders.Count-1].add ("Beans", 1);
+		orders [orders.Count-1].add ("Rice", 1);
 	}
 }

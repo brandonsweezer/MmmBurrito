@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class LevelLoader : MonoBehaviour {
@@ -10,10 +12,21 @@ public class LevelLoader : MonoBehaviour {
 
 		OrderController.instance.orderList.Clear ();
 		switch (levelNumber) {
-		case 3:
-			OrderController.instance.AddOrder (3, 1);
-			break;
+			case 1:
+				OrderController.instance.AddOrder (1, 1);
+				break;
+			case 2:
+				OrderController.instance.AddOrder (1, 1);
+				OrderController.instance.AddOrder (1, 1);
+				OrderController.instance.AddOrder (2, 1);
+				break;
+			case 3:
+				OrderController.instance.AddOrder (2, 2);
+				OrderController.instance.AddOrder (3, 1);
+				break;
 		}
+		Debug.Log (OrderController.instance.OrderListToString ());
+
 
 	}
 
