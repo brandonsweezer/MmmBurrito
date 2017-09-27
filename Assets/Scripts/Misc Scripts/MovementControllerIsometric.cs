@@ -12,7 +12,7 @@ public class MovementControllerIsometric : MonoBehaviour {
 	private float accelSpeed = 20f;
 	private float rotationSpeedFactor = 0.2f;
 	private float maxSpeed = 10f;
-	private float slowDownFactor = 0.976f;
+	private float slowDownFactor = 0.962f;
 
 	private Vector3 targetDirection;
 
