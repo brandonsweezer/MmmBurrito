@@ -6,12 +6,26 @@ using UnityEngine.SceneManagement;
 public class LevelLoader : MonoBehaviour {
 
 	public GameObject canvasHUD;
+	public GameObject canvasMenu;
 
-	private int loadingLevelNumber = -1;
+	private int loadingLevelNumber;
+	private bool inMenu;
 
-	public void goToLevel(int levelNumber) {
+	void Awake () {
+		loadingLevelNumber = -1;
+		inMenu = true;
+	}
+
+	public void GoToLevel(int levelNumber) {
+		Debug.Log ("gotolevel");
+		inMenu = false;
 		loadingLevelNumber = levelNumber;
 		SceneManager.LoadScene ("Level_"+levelNumber);
+	}
+
+	public void GoToMenu () {
+		inMenu = true;
+		SceneManager.LoadScene ("LevelSelection");
 	}
 
 	// http://answers.unity3d.com/questions/1174255/since-onlevelwasloaded-is-deprecated-in-540b15-wha.html
@@ -19,33 +33,40 @@ public class LevelLoader : MonoBehaviour {
 	{
 		//Tell our 'OnLevelFinishedLoading' function to start listening for a scene change as soon as this script is enabled.
 		SceneManager.sceneLoaded += OnLevelFinishedLoading;
+		Debug.Log ("add");
 	}
 
 	void OnDisable()
 	{
 		//Tell our 'OnLevelFinishedLoading' function to stop listening for a scene change as soon as this script is disabled. Remember to always have an unsubscription for every delegate you subscribe to!
 		SceneManager.sceneLoaded -= OnLevelFinishedLoading;
+		Debug.Log ("remove");
 	}
 
 	void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode)
 	{	
+		Debug.Log ("finished loading " + scene.name);
 		if (scene.name.Contains ("Level_")) {
 			// Loaded a level.
 			InitializeLevel (loadingLevelNumber);
 			loadingLevelNumber = -1;
+			SetActiveCanvas ();
 		} else {
 			// Loaded a menu.
-
+			SetActiveCanvas ();
 		}
 	}
 
+	void SetActiveCanvas () {
+		canvasHUD.SetActive(!inMenu);
+		canvasMenu.SetActive(inMenu);
+	}
+
 	void InitializeLevel (int levelNumber) {
-		
 		SetupLevelVars (levelNumber);
 
 		SpawnController.instance.SpawnBurrito ();
 
-		canvasHUD.SetActive(true);
 		GetComponent<Timer> ().startTimer ();
 	}
 
@@ -72,6 +93,12 @@ public class LevelLoader : MonoBehaviour {
 				break;
 		}
 		Debug.Log (OrderController.instance.OrderListToString ());
+	}
+
+	void Update () {
+		if (Input.GetKeyDown (KeyCode.Escape) && !inMenu) {
+			GoToMenu ();
+		}
 	}
 
 
