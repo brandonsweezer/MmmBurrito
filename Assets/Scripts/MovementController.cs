@@ -30,12 +30,14 @@ public class MovementController : MonoBehaviour {
 			isUnwrapped = false;
 		} else {
 			ismoving = false;
-			// Unwrap burrito
-			isUnwrapped = true;
+            // Unwrap burrito
+            Unwrap();
 		}
 		// Enable/disable catching falling objects based on wrapped state
 		GetComponent<ObjectCatcher> ().canCatch = isUnwrapped;  
     }
+
+
     void Move()
     {
         if (ismoving == false)
@@ -46,7 +48,7 @@ public class MovementController : MonoBehaviour {
         Vector3 rmove = right * Input.GetAxis("Horizontal");
         Vector3 vmove = forward * Input.GetAxis("Vertical");
 
-        acceleration = Vector3.Normalize(vmove + rmove);
+        acceleration = Vector3.Normalize(vmove);
         velocity += acceleration;
 
         //transform.forward = Vector3.Normalize(rmove + vmove);
@@ -58,10 +60,16 @@ public class MovementController : MonoBehaviour {
         transform.rotation = Quaternion.Euler(new Vector3(transform.rotation.eulerAngles.x, newyrot, transform.rotation.eulerAngles.z));
 
         Rigidbody rb = transform.GetComponent<Rigidbody>();
-        rb.AddForce(acceleration * 15);
+        rb.AddForce(acceleration * 20);
         //rb.MoveRotation(Quaternion.Euler(new Vector3(0, 90, 0)));
         
         
+
+    }
+
+    void Unwrap()
+    {
+        isUnwrapped = true;
 
     }
 
