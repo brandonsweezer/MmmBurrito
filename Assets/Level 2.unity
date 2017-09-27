@@ -147,9 +147,19 @@ Prefab:
       propertyPath: m_RootOrder
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 114920230758878220, guid: 4cb015304e67d2a468022c874071129e,
+        type: 2}
+      propertyPath: submissionPlate
+      value: 
+      objectReference: {fileID: 510220484}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 4cb015304e67d2a468022c874071129e, type: 2}
   m_IsPrefabParent: 0
+--- !u!1 &510220484 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1043363676344668, guid: b908e8fcd52d52a43b3f2c15c86e8c66,
+    type: 2}
+  m_PrefabInternal: {fileID: 2013900601}
 --- !u!1001 &536145674
 Prefab:
   m_ObjectHideFlags: 0
@@ -193,6 +203,11 @@ Prefab:
       propertyPath: m_Name
       value: Trash (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 114920230758878220, guid: 4cb015304e67d2a468022c874071129e,
+        type: 2}
+      propertyPath: submissionPlate
+      value: 
+      objectReference: {fileID: 2146615771}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 4cb015304e67d2a468022c874071129e, type: 2}
   m_IsPrefabParent: 0
@@ -304,6 +319,11 @@ Prefab:
       propertyPath: m_Name
       value: Trash (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 114920230758878220, guid: 4cb015304e67d2a468022c874071129e,
+        type: 2}
+      propertyPath: submissionPlate
+      value: 
+      objectReference: {fileID: 2146615771}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 4cb015304e67d2a468022c874071129e, type: 2}
   m_IsPrefabParent: 0
@@ -314,6 +334,11 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 114518617242926320, guid: 02f2f65737435bd4c99cdc5ee8b2d948,
+        type: 2}
+      propertyPath: fallingObjectList.Array.size
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 4136392095946356, guid: 02f2f65737435bd4c99cdc5ee8b2d948, type: 2}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -353,6 +378,27 @@ Prefab:
     - target: {fileID: 4136392095946356, guid: 02f2f65737435bd4c99cdc5ee8b2d948, type: 2}
       propertyPath: m_LocalScale.z
       value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 114518617242926320, guid: 02f2f65737435bd4c99cdc5ee8b2d948,
+        type: 2}
+      propertyPath: spawnInterval
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114518617242926320, guid: 02f2f65737435bd4c99cdc5ee8b2d948,
+        type: 2}
+      propertyPath: fallingObjectList.Array.data[0]
+      value: 
+      objectReference: {fileID: 1008423336532690, guid: ab105cec4f58f2a4eb975700eee884ac,
+        type: 2}
+    - target: {fileID: 114518617242926320, guid: 02f2f65737435bd4c99cdc5ee8b2d948,
+        type: 2}
+      propertyPath: fallingObjectList.Array.data[1]
+      value: 
+      objectReference: {fileID: 1812699630454538, guid: f1b901134ea3a054fb96d151525710af,
+        type: 2}
+    - target: {fileID: 1175849715299252, guid: 02f2f65737435bd4c99cdc5ee8b2d948, type: 2}
+      propertyPath: m_TagString
+      value: SpawnArea
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 02f2f65737435bd4c99cdc5ee8b2d948, type: 2}
@@ -400,6 +446,17 @@ Prefab:
       propertyPath: m_Name
       value: SubmissionPlate (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 114451218391294138, guid: b908e8fcd52d52a43b3f2c15c86e8c66,
+        type: 2}
+      propertyPath: burritoPrefab
+      value: 
+      objectReference: {fileID: 1301576944361112, guid: 56fcc88aadc26be4b965ff6eb9472028,
+        type: 2}
+    - target: {fileID: 114451218391294138, guid: b908e8fcd52d52a43b3f2c15c86e8c66,
+        type: 2}
+      propertyPath: gameControllerObject
+      value: 
+      objectReference: {fileID: 1162230964}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: b908e8fcd52d52a43b3f2c15c86e8c66, type: 2}
   m_IsPrefabParent: 0
@@ -488,6 +545,11 @@ Prefab:
       propertyPath: m_Name
       value: Trash (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 114920230758878220, guid: 4cb015304e67d2a468022c874071129e,
+        type: 2}
+      propertyPath: submissionPlate
+      value: 
+      objectReference: {fileID: 510220484}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 4cb015304e67d2a468022c874071129e, type: 2}
   m_IsPrefabParent: 0
@@ -731,6 +793,21 @@ Prefab:
       propertyPath: m_RootOrder
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 114451218391294138, guid: b908e8fcd52d52a43b3f2c15c86e8c66,
+        type: 2}
+      propertyPath: gameControllerObject
+      value: 
+      objectReference: {fileID: 1162230964}
+    - target: {fileID: 114451218391294138, guid: b908e8fcd52d52a43b3f2c15c86e8c66,
+        type: 2}
+      propertyPath: burritoPrefab
+      value: 
+      objectReference: {fileID: 1301576944361112, guid: 56fcc88aadc26be4b965ff6eb9472028,
+        type: 2}
+    - target: {fileID: 1043363676344668, guid: b908e8fcd52d52a43b3f2c15c86e8c66, type: 2}
+      propertyPath: m_TagString
+      value: SpawnArea
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: b908e8fcd52d52a43b3f2c15c86e8c66, type: 2}
   m_IsPrefabParent: 0
@@ -781,3 +858,8 @@ GameObject:
   m_PrefabParentObject: {fileID: 1301576944361112, guid: 56fcc88aadc26be4b965ff6eb9472028,
     type: 2}
   m_PrefabInternal: {fileID: 2066175600}
+--- !u!1 &2146615771 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1043363676344668, guid: b908e8fcd52d52a43b3f2c15c86e8c66,
+    type: 2}
+  m_PrefabInternal: {fileID: 1086165901}

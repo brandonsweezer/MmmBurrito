@@ -22,7 +22,7 @@ public class Conveyor : MonoBehaviour {
     {
         
         GameObject gameObj = collision.gameObject;
-        if (gameObj.tag != "Terrain")
+		if (gameObj.tag != "Terrain" && gameObj.tag != "SpawnArea")
         {
             System.Console.WriteLine("DETECTED");
             Rigidbody rb = gameObj.transform.GetComponent<Rigidbody>();
