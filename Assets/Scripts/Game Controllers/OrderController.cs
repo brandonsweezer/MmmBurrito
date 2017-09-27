@@ -30,10 +30,9 @@ public class OrderController : MonoBehaviour {
 		string orderString = "Orders: ";
 		foreach (KeyValuePair<Order, int> entry in OrderController.instance.orderList) {
 			if (entry.Value > 1) {
-				orderString += entry.Value + " X ";
-			} else {
-				orderString += "(" + entry.Key.ToString () + "), ";
+				orderString += entry.Value + "X";
 			}
+			orderString += "(" + entry.Key.ToString () + "), ";
 		}
 		orderString.Trim ();
 		return orderString.Substring (0, orderString.Length - 2);
