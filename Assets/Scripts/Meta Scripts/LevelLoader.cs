@@ -17,7 +17,6 @@ public class LevelLoader : MonoBehaviour {
 	}
 
 	public void GoToLevel(int levelNumber) {
-		Debug.Log ("gotolevel");
 		inMenu = false;
 		loadingLevelNumber = levelNumber;
 		SceneManager.LoadScene ("Level_"+levelNumber);
