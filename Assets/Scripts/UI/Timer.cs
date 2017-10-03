@@ -6,8 +6,12 @@ using UnityEngine.UI;
 public class Timer : MonoBehaviour {
 
 	public Slider sliderInstance;
+	public Image circle;
+
 
 	private float time;
+	private float tick;
+	private float maxT;
 
 	private string timeDisplay;
 	public Text textInstance;
@@ -23,6 +27,8 @@ public class Timer : MonoBehaviour {
 		sliderInstance.minValue = 0;
 		sliderInstance.maxValue = maxTime;
 		time = maxTime;
+		maxT = maxTime;
+		tick = .0001f;
 	}
 
 	public void startTimer () {
@@ -31,6 +37,7 @@ public class Timer : MonoBehaviour {
 
 	public void TimerUpdate () {
 		time -= Time.deltaTime; 
+		circle.fillAmount = time/maxT;
 		sliderInstance.value = time;
 		if (time < 10) {
 			textInstance.color = Color.red;
@@ -39,12 +46,8 @@ public class Timer : MonoBehaviour {
 				losetext.text = "Level Over";
 			}
 		}
-		if (Mathf.Ceil (time) == 1) {
-			timeDisplay = "Time Remaining: " + (Mathf.Ceil (time)).ToString () + " Second";
-		} 
-		else { 
-			timeDisplay = "Time Remaining: " + (Mathf.Ceil (time)).ToString () + " Seconds";
-		}
+		timeDisplay = (Mathf.Ceil (time)).ToString ();
+
 		textInstance.text = timeDisplay;
 	
 

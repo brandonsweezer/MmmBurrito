@@ -12,8 +12,17 @@ public class OrderUI : MonoBehaviour {
 	public Text submissionMessage;
 	public Text winMessage;
 	public Text loseMessage;
+	public Text orderTotalDisplay;
+
+
+	public Image ticket1;
+	public Image ticket2;
+	public Image ticket3;
+
+	private int orderTotal;
 
 	private Dictionary<Order, int> orders;
+	private int orderCount;
 
 	// Make this class a singleton
 	public static OrderUI instance = null;
@@ -23,7 +32,31 @@ public class OrderUI : MonoBehaviour {
 		} else if (instance != this) {
 			Destroy (this);
 		}
+
 	}
+
+	public void TicketInit (Image orderTicket){
+		GridLayoutGroup tick = orderTicket.GetComponent<GridLayoutGroup> ();
+		if (orderTotal == 1) {
+			tick.cellSize = new Vector2 (150, 60);
+			Debug.Log ("one order");
+		}
+		else if (orderTotal == 2) {
+			tick.cellSize = new Vector2 (75, 60);
+		}
+
+		else if (orderTotal <= 4) {
+			tick.cellSize = new Vector2 (75, 30);
+		}
+
+		else {
+			tick.cellSize = new Vector2 (75, 20);
+		}
+
+//		Dictionary<Order, int>.KeyCollection key = orders.Keys;
+//		foreach (Order keyvalue in key)
+			}
+
 
 	public void ResetUIFields () {
 		levelOrderList.text = "";
@@ -31,12 +64,16 @@ public class OrderUI : MonoBehaviour {
 		submissionMessage.text = "";
 		winMessage.text = "";
 		loseMessage.text = "";
+		orderTotalDisplay.text = "";
 	}
 
 
 	// Use this for initialization
 	public void UpdateUI () {
+		orders = OrderController.instance.orderList;
 		levelOrderList.text = OrderController.instance.OrderListToString();
+		orderTotal = orders.Count;
+		orderTotalDisplay.text = orders.Count.ToString();
 		if (GameController.instance.player != null) {
 			currentBurrito.text = GameController.instance.player.GetComponent<ObjectCatcher> ().getTextString ();
 		}
@@ -53,6 +90,7 @@ public class OrderUI : MonoBehaviour {
 	void FixedUpdate() {
 		if (canvasHUD.activeSelf) {
 			UpdateUI ();
+			TicketInit(ticket1);
 		}
 	}
 
