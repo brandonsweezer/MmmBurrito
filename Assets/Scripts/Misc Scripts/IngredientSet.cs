@@ -18,28 +18,32 @@ public class IngredientSet {
 		Tomato
 	};
 
+	// Converts an input like "tomato" to Ingredients.Tomato
 	public static Ingredients StringToIngredient(string ingredientString) {
 		return (Ingredients) Enum.Parse(typeof(Ingredients), ingredientString);
 	}
 
+	// the count of each of the different ingredient types (from the Ingredients enum defined above)
 	private static int numIngredientTypes = Enum.GetNames(typeof(Ingredients)).Length;
 
+	// The number of each ingredient type in this ingredient set
 	public int[] ingredients;
 
 	public IngredientSet(){
 		ingredients = new int[numIngredientTypes];
 	}
 
-	// Sets an ingredient requirement to the order
+	// Sets the count of a specific ingredient in this ingredient set
 	public void SetCount(Ingredients ingredient, int count) {
 		ingredients[(int) ingredient] = count;
 	}
 
-	// Returns the number of a certain ingredient
+	// Returns the count of a specific ingredient in this ingredient set
 	public int GetCount(Ingredients ingredient) {
 		return ingredients[(int) ingredient];
 	}
 
+	// Returns true if there are no ingredients in this ingredient set
 	public bool IsEmpty() {
 		for (int i = 0; i < ingredients.Length; i++) {
 			if (ingredients [i] != 0) {
@@ -49,12 +53,12 @@ public class IngredientSet {
 		return true;
 	}
 
-	// Clears contents of the order
+	// Clears contents of the ingredient set
 	public void Clear(){
 		Array.Clear (ingredients, 0, ingredients.Length);
 	}
 
-	// Formats the order as a string
+	// Formats the ingredient set as a string
 	override public string ToString(){
 		string result = "";
 		for (int i = 0; i < ingredients.Length; i++) {
@@ -65,11 +69,13 @@ public class IngredientSet {
 		return result.Substring (0, result.Length - 2);
 	}
 
-	// Prints out contents of the order
+	// Prints out the contents of the ingredient set
 	public void Print(){
 		Debug.Log (ToString());
 	}
 
+	// Returns true if the other IngredientSet has the same ingredient counts
+	// (i.e. same number of beans, cheese, tomatoes, etc.)
 	public bool Equivalent(IngredientSet other) {
 		bool ingredientsAllMatch = Enumerable.SequenceEqual(this.ingredients, other.ingredients);
 		return (other != null && ingredientsAllMatch);
