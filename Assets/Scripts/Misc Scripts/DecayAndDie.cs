@@ -13,6 +13,10 @@ public class DecayAndDie : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		qualityLevel = startingQualityLevel;
+		// only enable first child (which should be the freshest model/material)
+		for (int i = 1; i < transform.childCount; i++) {
+			transform.GetChild (i).gameObject.SetActive(false);
+		}
 	}
 
     public int getQuality(){
@@ -24,10 +28,26 @@ public class DecayAndDie : MonoBehaviour {
 		StartCoroutine (Decay ());
 	}
 
+	// Sets the quality level to a particular value, and enables the corresponding child model
+	void SetQualityLevel(int newQualityLevel) {
+		qualityLevel = newQualityLevel;
+
+		// update displayed model
+		if (qualityLevel <= 0 || transform.childCount == 1) {
+			return;
+		}
+		foreach (Transform child in transform) {
+			child.gameObject.SetActive (false);
+		}
+		int newChildIndex = (int)Mathf.Min (transform.childCount-1, startingQualityLevel - qualityLevel);
+		Transform childToActivate = transform.GetChild(newChildIndex);
+		childToActivate.gameObject.SetActive (true);
+	}
+
 	IEnumerator Decay () {
 		while (qualityLevel > 0) {
 			yield return new WaitForSeconds (decayRate);
-			qualityLevel--;
+			SetQualityLevel(qualityLevel-1);
 		}
 		Destroy (gameObject);
 	}
