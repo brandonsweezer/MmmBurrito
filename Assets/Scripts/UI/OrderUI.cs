@@ -39,7 +39,7 @@ public class OrderUI : MonoBehaviour {
 		GridLayoutGroup tick = orderTicket.GetComponent<GridLayoutGroup> ();
 		if (orderTotal == 1) {
 			tick.cellSize = new Vector2 (150, 60);
-			//Debug.Log ("one order");
+			Debug.Log ("one order");
 		}
 		else if (orderTotal == 2) {
 			tick.cellSize = new Vector2 (75, 60);
@@ -64,7 +64,7 @@ public class OrderUI : MonoBehaviour {
 		submissionMessage.text = "";
 		winMessage.text = "";
 		loseMessage.text = "";
-		//orderTotalDisplay.text = "";
+		orderTotalDisplay.text = "";
 	}
 
 
