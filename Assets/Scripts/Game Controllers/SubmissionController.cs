@@ -74,16 +74,14 @@ public class SubmissionController : MonoBehaviour {
 				setTextString ("Matches one of the orders!");
 				int score = burritoCaughtIngredients.getSumOfQualities ();
                 Debug.Log("You just got "+score*100+" score!");
-                if (orders[key] == 1) {
-					orders.Remove (key);
-                    if (orders.Count == 0){
-                        Debug.Log("All orders completed");
-						setWinString ("All orders completed");
+				orders.Remove (order);
+                if (orders.Count == 0){
+                    Debug.Log("All orders completed");
+					setWinString ("All orders completed");
 
-                        //Create GoToWinScreen instead?
-                        GameController.instance.GetComponent<LevelLoader>().GoToMenu();
-                    }
-                } 
+                    //Create GoToWinScreen instead?
+                    GameController.instance.GetComponent<LevelLoader>().GoToMenu();
+                }
 				else {
 					Debug.Log ("Remaining " + OrderController.instance.OrderListToString ()); // print remaining orders
 				}
