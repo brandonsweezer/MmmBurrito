@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class OrderController : MonoBehaviour {
 	
-	public OrderList globalOrders;
-	public Dictionary<Order, int> orderList;
+	public List<IngredientSet> orderList;
 
 	// Make this class a singleton
 	public static OrderController instance = null;
@@ -18,21 +17,19 @@ public class OrderController : MonoBehaviour {
 	}
 
 	void Start () {
-		orderList = new Dictionary<Order, int> ();
-		globalOrders = new OrderList ();
+		orderList = new List<IngredientSet> ();
 	}
 
-	public void AddOrder(int orderIndex, int count) {
-		orderList.Add (OrderList.getOrder(orderIndex), count);
+	public void AddOrder(int orderIndex, int count = 1) {
+		for (int i = 0; i < count; i++) {
+			orderList.Add (OrderList.instance.getOrder (orderIndex));
+		}
 	}
 
 	public string OrderListToString () {
 		string orderString = "Orders: ";
-		foreach (KeyValuePair<Order, int> entry in OrderController.instance.orderList) {
-			if (entry.Value > 1) {
-				orderString += entry.Value + "X";
-			}
-			orderString += "(" + entry.Key.ToString () + "), ";
+		foreach (IngredientSet order in orderList) {
+			orderString += "(" + order.ToString () + "), ";
 		}
 		orderString.Trim ();
 		return orderString.Substring (0, orderString.Length - 2);

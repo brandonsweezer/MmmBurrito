@@ -11,7 +11,7 @@ public class SubmissionController : MonoBehaviour {
 	private string submissionText; 
 	private string winText; 
 
-    private Dictionary<string, List<int>> burritoIngredients;
+    private CaughtIngredientSet burritoCaughtIngredients;
 
     private Quaternion spawnRotation = Quaternion.FromToRotation(Vector3.up, new Vector3(1, 0, 1));
 
@@ -47,7 +47,7 @@ public class SubmissionController : MonoBehaviour {
 		}
 
 		// Prevent submission if we haven't caught any objects.
-		if (burrito.GetComponent<ObjectCatcher> ().isEmpty ()) {
+		if (burrito.GetComponent<ObjectCatcher> ().IsEmpty ()) {
 			return;
 		}
 
@@ -60,22 +60,19 @@ public class SubmissionController : MonoBehaviour {
 	void SubmitBurrito (GameObject burrito) {
 		Debug.Log ("Submitted a burrito with contents: " + burrito.GetComponent<ObjectCatcher> ().CaughtObjectsToString ());
 
+		// Get a reference to the caught ingredients
+		burritoCaughtIngredients = GameController.instance.player.GetComponent<ObjectCatcher> ().getIngredients ();
+
 		// Logic regarding ordering system.
-		Dictionary<Order, int> orders = OrderController.instance.orderList;
-        List<Order> keys = new List<Order>(orders.Keys);
+		List<IngredientSet> orders = OrderController.instance.orderList;
 		bool matched = false;
-		foreach (Order key in keys) {
-			if (compareBurrito (key)) {
+		foreach (IngredientSet order in orders) {
+			if (compareBurrito (order)) {
 				//MATCHES
 				matched = true;
 				Debug.Log ("Matches one of the orders!");
 				setTextString ("Matches one of the orders!");
-                int score = 0;
-                foreach (KeyValuePair<string, List<int>> pair in burritoIngredients){
-                    foreach (int quality in pair.Value) {
-                        score += quality;
-                    }
-                }
+				int score = burritoCaughtIngredients.getSumOfQualities ();
                 Debug.Log("You just got "+score*100+" score!");
                 if (orders[key] == 1) {
 					orders.Remove (key);
@@ -88,10 +85,9 @@ public class SubmissionController : MonoBehaviour {
                     }
                 } 
 				else {
-					OrderController.instance.orderList[key] = orders[key] - 1;
+					Debug.Log ("Remaining " + OrderController.instance.OrderListToString ()); // print remaining orders
 				}
-
-				Debug.Log ("Remaining " + OrderController.instance.OrderListToString ()); // print remaining orders
+				break;
 			}
 		} 
 		if (!matched) {
@@ -105,20 +101,8 @@ public class SubmissionController : MonoBehaviour {
 		OrderUI.instance.setWinMessage (getWinString());
 	}
 
-	bool compareBurrito(Order o){
-		burritoIngredients = GameController.instance.player.GetComponent<ObjectCatcher>().getIngredients();
-		Dictionary<string, int> orderIngredients = o.ingredients;
-		if (burritoIngredients.Count != orderIngredients.Count) {
-			return false;
-		}
-		foreach (KeyValuePair<string, List<int>> pair in burritoIngredients) {
-			int temp;
-			if (!orderIngredients.TryGetValue (pair.Key, out temp) || temp != pair.Value.Count) {
-                // Debug.Log(pair.Key);
-                // Debug.Log(temp);
-				return false;
-			}
-		}
-		return true;
+	bool compareBurrito(IngredientSet targetOrder){
+		IngredientSet burritoIngredients = burritoCaughtIngredients.ingredientSet;
+		return burritoIngredients.Equivalent(targetOrder);
 	}
 }

@@ -21,7 +21,7 @@ public class OrderUI : MonoBehaviour {
 
 	private int orderTotal;
 
-	private Dictionary<Order, int> orders;
+	private List<IngredientSet> orders;
 	private int orderCount;
 
 	// Make this class a singleton
