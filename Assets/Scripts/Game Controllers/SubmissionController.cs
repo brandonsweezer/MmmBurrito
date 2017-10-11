@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+
 
 public class SubmissionController : MonoBehaviour {
 
@@ -80,8 +82,11 @@ public class SubmissionController : MonoBehaviour {
                     if (orders.Count == 0){
                         Debug.Log("All orders completed");
 						setWinString ("All orders completed");
+
+                        //Create GoToWinScreen instead?
+                        GameController.instance.GetComponent<LevelLoader>().GoToMenu();
                     }
-				} 
+                } 
 				else {
 					OrderController.instance.orderList[key] = orders[key] - 1;
 				}
