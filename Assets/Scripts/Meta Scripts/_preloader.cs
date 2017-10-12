@@ -16,9 +16,9 @@ public class _preloader : MonoBehaviour {
          * 1 Ingredient Spawn (ObjectSpawn)
          * 2 Submission (SubmissionController Twice)
          * 3 Trashing (TrashController)
-         * 4 Dashing - NOT DONE
+         * 4 Dashing (MovementControllerIsometric)
          * 5 Death (VulnerableToHazards)
          * 6 Catching Ingredients (ObjectCatcher)
          */
-	}
+    }
 }
