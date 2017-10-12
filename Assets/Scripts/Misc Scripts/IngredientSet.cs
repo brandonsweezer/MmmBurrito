@@ -61,6 +61,10 @@ public class IngredientSet {
 
 	// Formats the ingredient set as a string
 	override public string ToString(){
+		if (ingredients.Length == 0) {
+			return "Empty ingredient set";
+		}
+
 		string result = "";
 		for (int i = 0; i < ingredients.Length; i++) {
 			if (ingredients[i] != 0) {
