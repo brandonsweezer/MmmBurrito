@@ -8,7 +8,7 @@ public class _preloader : MonoBehaviour {
 	void Awake () {
 		SceneManager.LoadScene ("LevelSelection");
         Debug.Log("hi");
-        LoggingManager.instance.Initialize(094, 1, false);
+        LoggingManager.instance.Initialize(094, 1, true);
         LoggingManager.instance.RecordPageLoad();
 
         /* GAME EVENT IDS
