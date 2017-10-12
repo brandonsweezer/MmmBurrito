@@ -25,6 +25,7 @@ public class ObjectSpawn : MonoBehaviour {
 			Vector3 spawnPosition = new Vector3 (Random.Range (spawnRangeX[0], spawnRangeX[1]), spawnHeight, Random.Range (spawnRangeZ[0], spawnRangeZ[1]));
 			Quaternion spawnRotation = Quaternion.identity;
 			GameObject obj = Instantiate (objectToSpawn, spawnPosition, spawnRotation) as GameObject;
+            LoggingManager.instance.RecordEvent(1, obj.name+ "Spawned");
 			yield return new WaitForSeconds (spawnInterval);
 		}
 	}

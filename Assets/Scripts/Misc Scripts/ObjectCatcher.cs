@@ -40,6 +40,7 @@ public class ObjectCatcher : MonoBehaviour {
 		GameObject gameObj = collision.gameObject;
 		if (gameObj.tag == "FallingObject") { 
             CatchObject (gameObj);
+            LoggingManager.instance.RecordEvent(6, "Caught ingredient - " + gameObj.name);
 			Destroy (gameObj);
 		}
 	}

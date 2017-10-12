@@ -12,6 +12,8 @@ public class MovementControllerIsometric : MonoBehaviour {
 	private float accelSpeed = 20f;
 	private float rotationSpeedFactor = 0.2f;
 	private float maxSpeed = 10f;
+    private int LOGGINGTIMER = 60;
+    private int timerVar;
 
 	// Use this for initialization
 	void Start () {
@@ -21,10 +23,21 @@ public class MovementControllerIsometric : MonoBehaviour {
 		acceleration = new Vector3(0, 0, 0);
 		ismoving = false;
 		isUnwrapped = false;
+        timerVar = LOGGINGTIMER;
 	}
 
 	// Update is called once per frame
 	void Update () {
+        if (timerVar <= 0)
+        {
+            LoggingManager.instance.RecordEvent(0, "Coordinates: " + GameController.instance.player.transform.position.x + ", "
+                + GameController.instance.player.transform.position.z);
+            timerVar = LOGGINGTIMER;
+        }
+        else
+        {
+            timerVar--;
+        }
 		// only execute if a key is being pressed
 		if (Input.anyKey) {
 			Move ();

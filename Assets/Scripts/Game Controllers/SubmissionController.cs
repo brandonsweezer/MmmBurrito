@@ -74,7 +74,9 @@ public class SubmissionController : MonoBehaviour {
 				setTextString ("Matches one of the orders!");
 				int score = burritoCaughtIngredients.getSumOfQualities ();
                 Debug.Log("You just got "+score*100+" score!");
-				orders.Remove (order);
+                LoggingManager.instance.RecordEvent(2, "Submitted ingredients: " + GameController.instance.player.GetComponent<ObjectCatcher>().getIngredients().ToString()
+                    + ". Gained score: " + score*100);
+                orders.Remove (order);
                 if (orders.Count == 0){
                     Debug.Log("All orders completed");
 					setWinString ("All orders completed");
@@ -92,7 +94,9 @@ public class SubmissionController : MonoBehaviour {
 			//DOES NOT MATCH
 			Debug.Log("Submitted burrito does not match");
 			setTextString ("Submitted burrito does not match");
-		}
+            LoggingManager.instance.RecordEvent(2, "Submitted ingredients: " + GameController.instance.player.GetComponent<ObjectCatcher>().getIngredients().ToString()
+            + ". Did not match.");
+        }
 
 		// Update UI
 		OrderUI.instance.setSubmissionMessage (getTextString());
