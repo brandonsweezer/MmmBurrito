@@ -9,6 +9,7 @@ public class SpawnController : MonoBehaviour {
 	// Burrito spawn location
 	public GameObject spawnPoint;
 
+
 	// Make this class a singleton
 	public static SpawnController instance = null;
 	void Awake () {
