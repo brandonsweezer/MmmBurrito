@@ -8,3 +8,4 @@ public class IdentifyAsSpawnPoint : MonoBehaviour {
 		SpawnController.instance.spawnPoint = gameObject;
 	}
 }
+.

@@ -34,13 +34,11 @@ public class WalkingChef : MonoBehaviour{
 
                 Rigidbody rb = transform.GetComponent<Rigidbody>();
                 rb.velocity = targetDirection * 5f;
-                Debug.Log(coordinates[coordPointer]);
 
                 //don't know if I need tolerance
                 if (transform.position.x < coordinates[coordPointer].x + tolerance && transform.position.x > coordinates[coordPointer].x - tolerance &&
                     transform.position.z < coordinates[coordPointer].y + tolerance && transform.position.z > coordinates[coordPointer].y - tolerance)
                 {
-                    Debug.Log("hit");
                     coordPointer++;
                 }
                 if (coordPointer >= coordinates.Length)
