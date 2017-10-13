@@ -63,7 +63,7 @@ public class LevelLoader : MonoBehaviour {
 
 		SpawnController.instance.SpawnBurrito ();
 
-		OrderUI.instance.ResetUIFields();
+		OrderUI.instance.ResetUI();
 
 		GetComponent<Timer> ().startTimer ();
 	}

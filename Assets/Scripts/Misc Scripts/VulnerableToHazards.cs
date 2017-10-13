@@ -11,6 +11,7 @@ public class VulnerableToHazards : MonoBehaviour {
 		GameObject gameObj = collision.gameObject;
 		if (gameObj.tag == "DeadlyHazard") {
 			SpawnController.instance.DestroyAndRespawn ();
+			OrderUI.instance.ResetAfterDeath ();
 		}
 	}
 }

@@ -52,6 +52,7 @@ public class SubmissionController : MonoBehaviour {
 		SubmitBurrito (burrito);
 
 		SpawnController.instance.DestroyAndRespawn ();
+		OrderUI.instance.ResetAfterDeath ();
 	}
 
 	/** Submits a burrito */

@@ -9,19 +9,29 @@ public class ObjectCatcher : MonoBehaviour {
 
 
 	private string currentBurritoText; 
+	private bool newIngredient=false; 
+	public IngredientSet.Ingredients ingredientType;
 
 	void Start () {
 		canCatch = true;
 		caughtIngredients = new CaughtIngredientSet();
-		setTextString("");
+		SetTextString("");
 	}
 
-	public void setTextString (string text) {
+	public void SetTextString (string text) {
 		currentBurritoText = text;
 	}
 
-	public string getTextString () {
+	public string GetTextString () {
 		return currentBurritoText;
+	}
+
+	public void SetnewIngredient(bool boolean) {
+		newIngredient = boolean;
+	}
+
+	public bool GetnewIngredient() {
+		return newIngredient;
 	}
 
 	/** Returns true if this ObjectCatcher is empty */
@@ -48,13 +58,14 @@ public class ObjectCatcher : MonoBehaviour {
 	void CatchObject (GameObject gameObj) {
 		// Catch object
 		string objectName = gameObj.name.Replace ("(Clone)", "");
-		IngredientSet.Ingredients ingredientType = IngredientSet.StringToIngredient (objectName);
+		ingredientType = IngredientSet.StringToIngredient (objectName);
 		int quality = gameObj.GetComponent<DecayAndDie> ().getQuality ();
 		caughtIngredients.CatchIngredient (ingredientType, quality);
+		SetnewIngredient (true);
 
 		// Print out
 		Debug.Log (string.Format("Caught a {0}, burrito now contains:\n{1}", objectName, CaughtObjectsToString ()));
-		setTextString(string.Format("Burrito contents: {0}", CaughtObjectsToString ()));
+		SetTextString(string.Format("Burrito contents: {0}", CaughtObjectsToString ()));
 	}
 
 	/** Returns the content of the [caughtObjects] dictionary as a string */

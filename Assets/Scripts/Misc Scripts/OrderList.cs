@@ -23,12 +23,14 @@ public class OrderList {
 		// Order 1
 		newOrder = new IngredientSet();
 		newOrder.SetCount (IngredientSet.Ingredients.Cheese, 1);
+		newOrder.SetCount (IngredientSet.Ingredients.Meatball, 1);
 		orders.Add (newOrder);
 
 		// Order 2
 		newOrder = new IngredientSet();
 		newOrder.SetCount (IngredientSet.Ingredients.Tomato, 2);
 		newOrder.SetCount (IngredientSet.Ingredients.Beans, 2);
+		newOrder.SetCount (IngredientSet.Ingredients.Rice, 3);
 		orders.Add (newOrder);
 
 		// Order 3
@@ -36,6 +38,8 @@ public class OrderList {
 		newOrder.SetCount (IngredientSet.Ingredients.Tomato, 1);
 		newOrder.SetCount (IngredientSet.Ingredients.Cheese, 1);
 		newOrder.SetCount (IngredientSet.Ingredients.Rice, 1);
+		newOrder.SetCount (IngredientSet.Ingredients.Meatball, 1);
+		newOrder.SetCount (IngredientSet.Ingredients.Lettuce, 1);
 		orders.Add (newOrder);
 
 		// Order 4
