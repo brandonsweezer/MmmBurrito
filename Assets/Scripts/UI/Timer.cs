@@ -48,7 +48,8 @@ public class Timer : MonoBehaviour {
 			textInstance.color = Color.red;
 			if (time < 0) {
 				time = 0.0f;
-				losetext.text = "Level Over";
+				losetext.text = "You Lose! No time left!\nPress escape to return to the main menu";
+				GameController.instance.levelComplete = true;
 			}
 		}
 		timeDisplay = (Mathf.Ceil (time)).ToString ();
