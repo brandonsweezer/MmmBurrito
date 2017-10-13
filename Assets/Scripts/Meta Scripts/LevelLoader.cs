@@ -86,7 +86,7 @@ public class LevelLoader : MonoBehaviour {
 			break;
 		// 2 ingredients
 		case 2:
-			timer.TimerInit (120);
+			timer.TimerInit (60);
 			OrderController.instance.AddOrder (
 				IngredientSet.Ingredients.Tomato, 1,
 				IngredientSet.Ingredients.Cheese, 1
@@ -94,7 +94,7 @@ public class LevelLoader : MonoBehaviour {
 			break;
 		// 3 ingredients
 		case 3:
-			timer.TimerInit (120);
+			timer.TimerInit (70);
 			OrderController.instance.AddOrder (
 				IngredientSet.Ingredients.Tomato, 2,
 				IngredientSet.Ingredients.Cheese, 1,
@@ -103,7 +103,7 @@ public class LevelLoader : MonoBehaviour {
 			break;
 		// 4 ingredients + multiple orders
 		case 4:
-			timer.TimerInit (120);
+			timer.TimerInit (80);
 			OrderController.instance.AddOrder (
 				IngredientSet.Ingredients.Tomato, 1,
 				IngredientSet.Ingredients.Cheese, 1
@@ -118,7 +118,7 @@ public class LevelLoader : MonoBehaviour {
 			);
 			break;
 		case 5:
-			timer.TimerInit (120);
+			timer.TimerInit (90);
 			OrderController.instance.AddOrder (
 				IngredientSet.Ingredients.Tomato, 1,
 				IngredientSet.Ingredients.Cheese, 1,
@@ -135,8 +135,8 @@ public class LevelLoader : MonoBehaviour {
 			);
 			break;
 		case 6:
-			timer.TimerInit (120);
-			for (int i = 0; i < 4; i++) {
+			timer.TimerInit (100);
+			for (int i = 0; i < 6; i++) {
 				OrderController.instance.AddOrder (
 					IngredientSet.Ingredients.Tomato, 1,
 					IngredientSet.Ingredients.Cheese, 1,

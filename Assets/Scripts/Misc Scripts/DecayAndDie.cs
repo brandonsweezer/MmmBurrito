@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class DecayAndDie : MonoBehaviour {
 
+	private bool decaying;
+
 	public int startingQualityLevel;
 	// Number of seconds it takes to decrease one quality level
 	public float decayRate;
@@ -12,6 +14,7 @@ public class DecayAndDie : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		decaying = false;
 		qualityLevel = startingQualityLevel;
 		// only enable first child (which should be the freshest model/material)
 		for (int i = 1; i < transform.childCount; i++) {
@@ -25,8 +28,11 @@ public class DecayAndDie : MonoBehaviour {
 
 	// Start decaying after hitting something
 	void OnCollisionEnter(Collision col) {
-		StartCoroutine (Decay ());
-		GetComponent<IngredientIndicator> ().DestroyIndicator ();
+		if (!decaying) {
+			decaying = true;
+			StartCoroutine (Decay ());
+			GetComponent<IngredientIndicator> ().DestroyIndicator ();
+		}
 	}
 
 	// Sets the quality level to a particular value, and enables the corresponding child model
