@@ -125,82 +125,62 @@ public class OrderUI : MonoBehaviour {
 	}
 
 	public void TicketUpdate() {
-		//Debug.Log ("Bool in OUI is: ");
-		//Debug.Log (GameController.instance.player.GetComponent<ObjectCatcher> ().GetnewIngredient ());
 		if (GameController.instance.player.GetComponent<ObjectCatcher> ().GetnewIngredient ()==true){
-			//Debug.Log (GameController.instance.player.GetComponent<ObjectCatcher> ().GetnewIngredient ());
-			//Debug.Log ("in loop; ingred caught");
 			//if TicketHUD has Ticket children
-			//Debug.Log ("ticketHUD Child count");
-			//Debug.Log (TicketHUD.transform.childCount);
 			if (TicketHUD.transform.childCount > 0) {
 				//Get each ticket
 				for (int i = 0; i < TicketHUD.transform.childCount; i++) {
-//					Debug.Log ("ticketHUD child count index");
-//					Debug.Log (i);
 					//individual ticket 
 					GameObject ticket= TicketHUD.transform.GetChild(i).gameObject;
-//					Debug.Log ("Printing Ticket");
-//					Debug.Log (ticket);
-//					Debug.Log ("ticket Child count");
-//					Debug.Log (ticket.transform.childCount);
+					bool OrderComplete=true;
 					for (int ii = 0; ii < ticket.transform.childCount; ii++) {
-						//Debug.Log ("HERE");
-//						Debug.Log ("child count index");
-//						Debug.Log (ii);
+						Debug.Log ("index is:"+ii);
+						Debug.Log ("bool= "+OrderComplete);
 						//individual ingredient 
 						GameObject ingredient= ticket.transform.GetChild(ii).gameObject;
-//						Debug.Log ("Printing ingredient field");
-//						Debug.Log (ingredient);
-//						Debug.Log ("Printing ingredient caught");
-//						Debug.Log (GameController.instance.player.GetComponent<ObjectCatcher> ().ingredientType);
-//						Debug.Log ("Printing sprite");
-//						Debug.Log (ingredient.GetComponent<Image> ().sprite);
-//						Debug.Log ("Printing dictionary value");
-						//Debug.Log (IngredientSet.ingredientSprites [GameController.instance.player.GetComponent<ObjectCatcher> ().ingredientType]);
-						//Debug.Log ("HERE 2");
 						//Check if ingredient collected matches an order ingredient
 						if (IngredientSet.ingredientSprites [GameController.instance.player.GetComponent<ObjectCatcher> ().ingredientType]==ingredient.GetComponent<Image> ().sprite
 							|| IngredientSet.ingredientSprites_full [GameController.instance.player.GetComponent<ObjectCatcher> ().ingredientType]==ingredient.GetComponent<Image> ().sprite) {
-							//Debug.Log ("HERE 3");
-							//Debug.Log ("Change Sprite");
+
+							//Set filled image
 							ingredient.GetComponent<Image> ().sprite = IngredientSet.ingredientSprites_full [GameController.instance.player.GetComponent<ObjectCatcher> ().ingredientType];
 							ingredient.GetComponent<Image> ().color = Color.white;
+
+							//Decrement the count by one 
 							Text countText = ingredient.transform.GetChild (0).GetChild (0).GetComponent<Text> ();
-							//Debug.Log ("countText= "+countText);
 							string stringCount = countText.text.ToString ();
-							//Debug.Log ("stringCount= "+stringCount);
 							int intCount = Int32.Parse (stringCount);
-							//Debug.Log ("Count is "+intCount);
 							intCount -= 1;
-							//Debug.Log ("Count is now "+intCount);
+							//Ingredient Remaning Logic
 							if (intCount == 0) {
-								ticket.GetComponent<Image> ().color = Color.green;
-								//Debug.Log ("IS ZERO");
+								ingredient.GetComponent<Image> ().color =new Color (0f, 1f, 0f, 1f);
+								countText.color = Color.green;
+								Debug.Log ("IS ZERO");
 							}
 							if (intCount < 0) {
-								//Debug.Log ("LESS than zero");
+								Debug.Log ("LESS than zero");
 								intCount = 0; 
 								ticket.GetComponent<Image> ().color = new Color (1f, 0f, 0f, .5f);
 								countText.color = Color.black;
 								ingredient.GetComponent<Image> ().color =new Color (.2f, .2f, .2f, .5f);
 							}
+							if (intCount > 0) {
+								Debug.Log ("MORE to go");
+								OrderComplete = false;
+							}
 							string newStringCount = intCount.ToString ();
-							//Debug.Log ("NEWstringCount= "+newStringCount);
 							countText.text = newStringCount;
-							//Debug.Log ("NEWcountText= "+countText);
 						}
-
-						//Debug.Log ("PROCESSED an ingredient");
+							
 					}
-					//Debug.Log ("DONE with inner loop (ingredients)");
-					//Debug.Log ("PROCESSED a ticket");
+//					if (OrderComplete && ticket.tag=="Ticket") {
+//						Debug.Log ("Turn Green");
+//						ticket.GetComponent<Image> ().color = Color.green;
+//						OrderComplete = false;
+//					}
 				}
-				//Debug.Log ("DONE with outer loop (tickets)");
 			}
 		}
-		//Debug.Log ("Set False");
-		//Debug.Log (SpawnController.instance.burritoPrefab.GetComponent<ObjectCatcher> ().GetnewIngredient ());
 	}
 
 	public void CreateCollectedItem () {
@@ -223,34 +203,23 @@ public class OrderUI : MonoBehaviour {
 	public void CollectionUIUpdate () {
 		if (GameController.instance.player.GetComponent<ObjectCatcher> ().GetnewIngredient () == true) {
 			if (CollectionHUD.transform.childCount > 0) {
-				//Debug.Log ("There are collected Items");
-				//Debug.Log ("Hud has  "+CollectionHUD.transform.childCount+"  children: ");
 				bool haveIt=false; 
 				for (int i = 0; i < CollectionHUD.transform.childCount; i++) {
-					//Debug.Log ("Index is "+i);
-					//individual collected ingredient 
 					GameObject collectedItem = CollectionHUD.transform.GetChild (i).GetChild(0).gameObject;
-					//Debug.Log ("indexed collected is "+collectedItem);
-					//Check if ingredient is already collected
-					//Debug.Log ("Dictionary Lookup = "+IngredientSet.ingredientSprites_full [GameController.instance.player.GetComponent<ObjectCatcher> ().ingredientType]);
-					//Debug.Log ("previosuly collected sprite is "+collectedItem.GetComponent<Image> ().sprite);
 					if (IngredientSet.ingredientSprites_full [GameController.instance.player.GetComponent<ObjectCatcher> ().ingredientType] == collectedItem.GetComponent<Image> ().sprite) {
 						//Already Collected, Update Count
-						//Debug.Log ("Have the item, update count");
 						Text countText = collectedItem.transform.GetChild (0).GetChild (0).GetComponent<Text> ();
 						string stringCount = countText.text.ToString ();
 						int intCount = Int32.Parse (stringCount);
 						intCount += 1;
 						string newStringCount = intCount.ToString ();
 						countText.text = newStringCount;
-						//Debug.Log ("UPDATED COUNT");
 						haveIt = true;
 						break;
 					}
 				}
 				if (!haveIt) {
 					CreateCollectedItem ();
-
 				}
 			}
 			//New Item

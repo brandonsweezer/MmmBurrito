@@ -23,7 +23,6 @@ public class OrderList {
 		// Order 1
 		newOrder = new IngredientSet();
 		newOrder.SetCount (IngredientSet.Ingredients.Cheese, 1);
-		newOrder.SetCount (IngredientSet.Ingredients.Meatball, 1);
 		orders.Add (newOrder);
 
 		// Order 2
