@@ -122,6 +122,15 @@ public class LevelLoader : MonoBehaviour {
 				IngredientSet.Ingredients.Cheese, 1,
 				IngredientSet.Ingredients.Meatball, 1
 			);
+			OrderController.instance.AddOrder (
+				IngredientSet.Ingredients.Lettuce, 1,
+				IngredientSet.Ingredients.Cheese, 1,
+				IngredientSet.Ingredients.Meatball, 1
+			);
+			OrderController.instance.AddOrder (
+				IngredientSet.Ingredients.Tomato, 1,
+				IngredientSet.Ingredients.Meatball, 1
+			);
 			break;
 		case 6:
 			timer.TimerInit (120);
