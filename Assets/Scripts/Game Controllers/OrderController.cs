@@ -26,6 +26,32 @@ public class OrderController : MonoBehaviour {
 		}
 	}
 
+	public void AddOrder(IngredientSet order, int count = 1) {
+		for (int i = 0; i < count; i++) {
+			orderList.Add (order);
+		}
+	}
+
+	public void AddOrder(Dictionary<IngredientSet.Ingredients, int> ingredients) {
+		IngredientSet newOrder = new IngredientSet ();
+		foreach (KeyValuePair<IngredientSet.Ingredients, int> kvp in ingredients) {
+			newOrder.SetCount (kvp.Key, kvp.Value);
+		}
+		orderList.Add (newOrder);
+	}
+
+	// Must be alternating parameter types between IngredientSet.Ingredients and ints
+	public void AddOrder(params object[] parameters) {
+		IngredientSet newOrder = new IngredientSet ();
+		if (parameters.Length < 2) {
+			return;
+		}
+		for (int i = 0; i < parameters.Length; i+=2) {
+			newOrder.SetCount ((IngredientSet.Ingredients) parameters[i], (int) parameters[i+1]);
+		}
+		orderList.Add (newOrder);
+	}
+
 	public string OrderListToString () {
 		string orderString = "Orders: ";
 		foreach (IngredientSet order in orderList) {

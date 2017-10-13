@@ -83,7 +83,7 @@ public class SubmissionController : MonoBehaviour {
 					setWinString ("All orders completed");
 
                     //Create GoToWinScreen instead?
-                    GameController.instance.GetComponent<LevelLoader>().GoToMenu();
+                    // GameController.instance.GetComponent<LevelLoader>().GoToMenu();
                 }
 				else {
 					Debug.Log ("Remaining " + OrderController.instance.OrderListToString ()); // print remaining orders
