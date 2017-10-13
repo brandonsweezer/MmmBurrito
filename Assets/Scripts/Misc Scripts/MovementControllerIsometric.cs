@@ -121,10 +121,6 @@ public class MovementControllerIsometric : MonoBehaviour {
             ismoving = true;
         }
 
-		// Do not take input if in the air
-		if (!Physics.Raycast (transform.position, Vector3.down, 1f)) {
-			return;
-		}
 
 
 
@@ -179,7 +175,12 @@ public class MovementControllerIsometric : MonoBehaviour {
 
 		// Accelerate only if not going too fast
 		if (rb.velocity.magnitude < maxSpeed) {
-			rb.AddForce (targetDirection * accelSpeed);
+			bool grounded = Physics.Raycast (transform.position, Vector3.down, 1f);
+			if (grounded) {
+				rb.AddForce (targetDirection * accelSpeed);
+			} else {
+				rb.AddForce (targetDirection * accelSpeed / 2);
+			}
 		}
 
 	}
