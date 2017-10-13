@@ -10,7 +10,7 @@ public class MovementControllerIsometric : MonoBehaviour {
 	private bool isUnwrapped;
 
     //Gen movement variables
-	private float accelSpeed = 70f;
+	private float accelSpeed = 60f;
 	private float rotationSpeedFactor = 0.5f;
 	private float maxSpeed = 15f;
 
@@ -138,6 +138,9 @@ public class MovementControllerIsometric : MonoBehaviour {
 		transform.rotation = Quaternion.Euler (newRotationEuler);*/
 
         Rigidbody rb = transform.GetComponent<Rigidbody>();
+
+		// preliminary velocity turning
+		rb.velocity = rb.velocity.magnitude * Vector3.Lerp(rb.velocity.normalized, targetDirection, 0.05f);
 
         float currentSpeed = rb.velocity.magnitude;
 
