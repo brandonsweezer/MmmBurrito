@@ -125,6 +125,10 @@ public class OrderUI : MonoBehaviour {
 	}
 
 	public void TicketUpdate() {
+		CaughtIngredientSet currIngredsSet=GameController.instance.player.GetComponent<ObjectCatcher> ().getIngredients();
+		IngredientSet currIngreds = currIngredsSet.ingredientSet;
+
+
 		if (GameController.instance.player.GetComponent<ObjectCatcher> ().GetnewIngredient ()==true){
 			//if TicketHUD has Ticket children
 			if (TicketHUD.transform.childCount > 0) {
@@ -132,15 +136,25 @@ public class OrderUI : MonoBehaviour {
 				for (int i = 0; i < TicketHUD.transform.childCount; i++) {
 					//individual ticket 
 					GameObject ticket= TicketHUD.transform.GetChild(i).gameObject;
+					bool invalidTicket=false;
 					bool OrderComplete=true;
 					for (int ii = 0; ii < ticket.transform.childCount; ii++) {
 						Debug.Log ("index is:"+ii);
 						Debug.Log ("bool= "+OrderComplete);
 						//individual ingredient 
 						GameObject ingredient= ticket.transform.GetChild(ii).gameObject;
+
+						bool match = IngredientSet.ingredientSprites [GameController.instance.player.GetComponent<ObjectCatcher> ().ingredientType] == ingredient.GetComponent<Image> ().sprite
+						            || IngredientSet.ingredientSprites_full [GameController.instance.player.GetComponent<ObjectCatcher> ().ingredientType] == ingredient.GetComponent<Image> ().sprite;
+
+						invalidTicket = (invalidTicket || match);
+
+//						foreach (IngredientSet.Ingredients collectedIngredient in Enum.GetValues(typeof(IngredientSet.Ingredients))){
+//							invalidTicket= (invalidTicket || (
+//						}
+
 						//Check if ingredient collected matches an order ingredient
-						if (IngredientSet.ingredientSprites [GameController.instance.player.GetComponent<ObjectCatcher> ().ingredientType]==ingredient.GetComponent<Image> ().sprite
-							|| IngredientSet.ingredientSprites_full [GameController.instance.player.GetComponent<ObjectCatcher> ().ingredientType]==ingredient.GetComponent<Image> ().sprite) {
+						if (match) {
 
 							//Set filled image
 							ingredient.GetComponent<Image> ().sprite = IngredientSet.ingredientSprites_full [GameController.instance.player.GetComponent<ObjectCatcher> ().ingredientType];
@@ -151,6 +165,10 @@ public class OrderUI : MonoBehaviour {
 							string stringCount = countText.text.ToString ();
 							int intCount = Int32.Parse (stringCount);
 							intCount -= 1;
+
+
+
+
 							//Ingredient Remaning Logic
 							if (intCount == 0) {
 								ingredient.GetComponent<Image> ().color =new Color (0f, 1f, 0f, 1f);
@@ -172,6 +190,10 @@ public class OrderUI : MonoBehaviour {
 							countText.text = newStringCount;
 						}
 							
+					}
+					if (!invalidTicket && ticket.tag=="Ticket") {
+						Debug.Log ("BAD TICKET");
+						ticket.GetComponent<Image> ().color = new Color (1f, 0f, 0f, .5f);
 					}
 //					if (OrderComplete && ticket.tag=="Ticket") {
 //						Debug.Log ("Turn Green");
