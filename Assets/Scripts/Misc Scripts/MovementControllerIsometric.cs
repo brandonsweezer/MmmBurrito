@@ -10,14 +10,14 @@ public class MovementControllerIsometric : MonoBehaviour {
 	private bool isUnwrapped;
 
     //Gen movement variables
-	private float accelSpeed = 15f;
+	private float accelSpeed = 40f;
 	private float rotationSpeedFactor = 0.5f;
 	private float maxSpeed = 20f;
 
     //Dashing variables
     private float dashStamp;
     private bool dashing;
-    private float slowdown = 30f; 
+    private float slowdown = 10f; 
     private float maxDash = 30f;
     private float minDash = 15f;
     private float dashCooldown = .6f; //seconds
@@ -80,7 +80,7 @@ public class MovementControllerIsometric : MonoBehaviour {
         Debug.Log(timeSinceDash);
         if (timeSinceDash >= dashCooldown)
         {
-            Debug.Log("HERE");
+            
             //Set dashing and timestamp variables
             dashing = true;
             dashStamp = currtime;
@@ -92,7 +92,7 @@ public class MovementControllerIsometric : MonoBehaviour {
             Vector3 targetDirection = Vector3.Normalize(rmove + vmove);
 
             Rigidbody rb = GetComponent<Rigidbody>();
-            rb.velocity += targetDirection * maxDash;
+            rb.velocity = (.5f * rb.velocity) + targetDirection * maxDash;
             if (rb.velocity.magnitude > maxDash) {
                 rb.velocity = targetDirection * maxDash;
             }
