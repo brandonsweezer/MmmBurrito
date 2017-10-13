@@ -10,7 +10,7 @@ public class MovementControllerIsometric : MonoBehaviour {
 	private bool isUnwrapped;
 
     //Gen movement variables
-	private float accelSpeed = 60f;
+	private float accelSpeed = 70f;
 	private float rotationSpeedFactor = 0.5f;
 	private float maxSpeed = 13f;
     private float hackedTurnrate = 0.05f;
@@ -116,6 +116,11 @@ public class MovementControllerIsometric : MonoBehaviour {
             ismoving = true;
         }
 
+		// Do not take input if in the air
+		if (!Physics.Raycast (transform.position, Vector3.down, 1f)) {
+			return;
+		}
+
 
 
         Vector3 rmove = right * Input.GetAxis("Horizontal");
@@ -144,18 +149,45 @@ public class MovementControllerIsometric : MonoBehaviour {
         Rigidbody rb = transform.GetComponent<Rigidbody>();
 
 		// preliminary velocity turning
-		rb.velocity = rb.velocity.magnitude * Vector3.Lerp(rb.velocity.normalized, targetDirection, hackedTurnrate);
+		Vector3 currentVelocityDir = rb.velocity.normalized;
+		if (rb.velocity.sqrMagnitude == 0) {
+			currentVelocityDir = transform.forward;
+		}
+		// have min velocity (i.e. can go up slopes)
+		rb.velocity = rb.velocity.magnitude * Vector3.Lerp(currentVelocityDir, targetDirection, hackedTurnrate);
 
-        float currentSpeed = rb.velocity.magnitude;
-
-        if (currentSpeed > maxSpeed) {
-			// If going too fast, slow down (note: this is done on top of the standard friction slow-down)
-			rb.velocity = Vector3.Lerp(rb.velocity, rb.velocity.normalized * maxSpeed, speedRestitutionFactor);
+		// lower friction if on slope
+		Vector3 groundNormal = Vector3.up;
+		RaycastHit hit;
+		bool floorInFront = Physics.Raycast (transform.position + rb.velocity.normalized * 0.25f, Vector3.down, out hit, 1f);
+		if (floorInFront) {
+			groundNormal = hit.normal.normalized;
+		}
+		if (Mathf.Abs(groundNormal.x) > 0.15f || Mathf.Abs(groundNormal.z) > 0.15f || !floorInFront) {
+			// on ground, lower friction
+			GetComponent<Collider> ().material.dynamicFriction = 0.7f;
+			GetComponent<Collider> ().material.staticFriction = 0.7f;
 		} else {
-			// Accelerate otherwise.
+			GetComponent<Collider> ().material.dynamicFriction = 3f;
+			GetComponent<Collider> ().material.staticFriction = 3f;
+		}
+
+		// Accelerate only if not going too fast
+		if (rb.velocity.magnitude < maxSpeed) {
 			rb.AddForce (targetDirection * accelSpeed);
 		}
 
+	}
+
+	void FixedUpdate() {
+
+		Rigidbody rb = transform.GetComponent<Rigidbody>();
+		// cap speed
+		float currentSpeed = rb.velocity.magnitude;
+		if (currentSpeed > maxSpeed) {
+			// If going too fast, slow down
+			rb.velocity = Vector3.Lerp(rb.velocity, rb.velocity.normalized * maxSpeed, speedRestitutionFactor);
+		}
 	}
 
 	public bool getMovement() {
