@@ -167,6 +167,15 @@ public class OrderUI : MonoBehaviour {
 							intCount -= 1;
 
 
+							for (int iii = 0; iii < CollectionHUD.transform.childCount; iii++) {
+								GameObject collectedItem = CollectionHUD.transform.GetChild (i).GetChild(0).gameObject;
+								if (ingredient.transform.GetChild (0).GetChild (0).GetComponent<Text> ()== collectedItem.transform.GetChild (0).GetChild (0).GetComponent<Text> ()) {
+									ingredient.GetComponent<Image> ().color =new Color (0f, 1f, 0f, 1f);
+									countText.color = Color.green;
+								}
+							}
+
+
 
 
 							//Ingredient Remaning Logic
@@ -187,7 +196,7 @@ public class OrderUI : MonoBehaviour {
 								OrderComplete = false;
 							}
 							string newStringCount = intCount.ToString ();
-							countText.text = newStringCount;
+							//countText.text = newStringCount;
 						}
 							
 					}
