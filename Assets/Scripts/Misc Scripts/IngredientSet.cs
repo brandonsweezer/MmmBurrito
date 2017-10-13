@@ -147,6 +147,7 @@ public class IngredientSet : MonoBehaviour {
 	// (i.e. same number of beans, cheese, tomatoes, etc.)
 	public bool Equivalent(IngredientSet other) {
 		bool ingredientsAllMatch = Enumerable.SequenceEqual(this.ingredients, other.ingredients);
-		return (other != null && ingredientsAllMatch);
+		return ingredientsAllMatch;
+		// TODO: read null check
 	}
 }
