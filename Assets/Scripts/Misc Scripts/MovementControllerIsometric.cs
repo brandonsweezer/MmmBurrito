@@ -45,6 +45,11 @@ public class MovementControllerIsometric : MonoBehaviour {
 	// Update is called once per frame
 	void Update ()
     {
+		// Do nothing if level is complete
+		if (GameController.instance.levelComplete) {
+			return;
+		}
+
         if (timerVar <= 0)
         {
             LoggingManager.instance.RecordEvent(0, "Coordinates: " + GameController.instance.player.transform.position.x + ", "
@@ -55,7 +60,7 @@ public class MovementControllerIsometric : MonoBehaviour {
         {
             timerVar--;
         }
-        // only execute if a key is being 
+        // only execute if a key is being held
         if (Input.anyKey) {
             
             if (Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKeyDown(KeyCode.Space))

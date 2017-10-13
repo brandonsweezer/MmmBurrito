@@ -125,6 +125,9 @@ public class OrderUI : MonoBehaviour {
 	}
 
 	public void TicketUpdate() {
+		if (GameController.instance.player == null) {
+			return;
+		}
 		CaughtIngredientSet currIngredsSet=GameController.instance.player.GetComponent<ObjectCatcher> ().getIngredients();
 		IngredientSet currIngreds = currIngredsSet.ingredientSet;
 
@@ -232,6 +235,10 @@ public class OrderUI : MonoBehaviour {
 
 
 	public void CollectionUIUpdate () {
+		if (GameController.instance.player == null) {
+			return;
+		}
+
 		if (GameController.instance.player.GetComponent<ObjectCatcher> ().GetnewIngredient () == true) {
 			if (CollectionHUD.transform.childCount > 0) {
 				bool haveIt=false; 

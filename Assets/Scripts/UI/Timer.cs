@@ -36,7 +36,12 @@ public class Timer : MonoBehaviour {
 	}
 
 	public void TimerUpdate () {
-		time -= Time.deltaTime; 
+		// only update timer if level is in progress
+		if (GameController.instance.levelComplete) {
+			return;
+		}
+
+		time -= Time.deltaTime;
 		circle.fillAmount = time/maxT;
 		sliderInstance.value = time;
 		if (time < 10) {

@@ -22,8 +22,12 @@ public class SpawnController : MonoBehaviour {
 
 	// Destroy the current burrito and spawn a new one.
 	public void DestroyAndRespawn () {
-		Destroy (GameController.instance.player);
+		DestroyBurrito ();
 		SpawnBurrito ();
+	}
+
+	public void DestroyBurrito() {
+		Destroy (GameController.instance.player);
 	}
 
 	// Spawns a burrito at the spawn point

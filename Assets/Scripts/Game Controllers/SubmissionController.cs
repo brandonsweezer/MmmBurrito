@@ -53,8 +53,12 @@ public class SubmissionController : MonoBehaviour {
 
 		SubmitBurrito (burrito);
 
-		SpawnController.instance.DestroyAndRespawn ();
-		OrderUI.instance.ResetAfterDeath ();
+		if (!GameController.instance.levelComplete) {
+			SpawnController.instance.DestroyAndRespawn ();
+			OrderUI.instance.ResetAfterDeath ();
+		} else {
+			SpawnController.instance.DestroyBurrito ();
+		}
 	}
 
 	/** Submits a burrito */
@@ -73,14 +77,16 @@ public class SubmissionController : MonoBehaviour {
 				matched = true;
 				Debug.Log ("Matches one of the orders!");
 				setTextString ("Matches one of the orders!");
-				int score = burritoCaughtIngredients.getSumOfQualities ();
-                Debug.Log("You just got "+score*100+" score!");
+				int score = burritoCaughtIngredients.getSumOfQualities ()*100;
+				GameController.instance.score += score;
+                Debug.Log("You just got "+score+" score!");
                 LoggingManager.instance.RecordEvent(2, "Submitted ingredients: " + GameController.instance.player.GetComponent<ObjectCatcher>().getIngredients().ToString()
-                    + ". Gained score: " + score*100);
+                    + ". Gained score: " + score);
                 orders.Remove (order);
                 if (orders.Count == 0){
                     Debug.Log("All orders completed");
-					setWinString ("All orders completed");
+					setWinString ("You Win! Score: "+score+"\n(Press escape to return to menu)");
+					GameController.instance.levelComplete = true;
 
                     //Create GoToWinScreen instead?
                     // GameController.instance.GetComponent<LevelLoader>().GoToMenu();

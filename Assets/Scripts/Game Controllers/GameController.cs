@@ -6,6 +6,9 @@ public class GameController : MonoBehaviour {
 
 	public GameObject player;
 
+	public bool levelComplete;
+	public int score;
+
     public int gameTime;
 
 	// Make this class a singleton
@@ -17,6 +20,4 @@ public class GameController : MonoBehaviour {
 			Destroy (this);
 		}
 	}
-
-
 }

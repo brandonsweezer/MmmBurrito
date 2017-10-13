@@ -22,6 +22,9 @@ public class ObjectSpawn : MonoBehaviour {
 
 	IEnumerator SpawnFallingObjects () {
 		while (true) {
+			while (GameController.instance.levelComplete) {
+				yield return null;
+			}
 
 			// Determine Position
 			Vector3 spawnPosition = new Vector3 (Random.Range (spawnRangeX[0], spawnRangeX[1]), maxSpawnHeight, Random.Range (spawnRangeZ[0], spawnRangeZ[1]));
