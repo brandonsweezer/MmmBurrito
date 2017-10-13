@@ -13,6 +13,7 @@ public class MovementControllerIsometric : MonoBehaviour {
 	private float accelSpeed = 60f;
 	private float rotationSpeedFactor = 0.5f;
 	private float maxSpeed = 15f;
+    private float hackedTurnrate = 0.05f;
 
     //Dashing variables
     private float dashStamp;
@@ -140,7 +141,7 @@ public class MovementControllerIsometric : MonoBehaviour {
         Rigidbody rb = transform.GetComponent<Rigidbody>();
 
 		// preliminary velocity turning
-		rb.velocity = rb.velocity.magnitude * Vector3.Lerp(rb.velocity.normalized, targetDirection, 0.05f);
+		rb.velocity = rb.velocity.magnitude * Vector3.Lerp(rb.velocity.normalized, targetDirection, hackedTurnrate);
 
         float currentSpeed = rb.velocity.magnitude;
 
