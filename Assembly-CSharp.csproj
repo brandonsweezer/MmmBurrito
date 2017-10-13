@@ -51,6 +51,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\IngredientIndicator.cs" />
+     <Compile Include="Assets\Logging\LoggingManager.cs" />
      <Compile Include="Assets\Scripts\Game Controllers\GameController.cs" />
      <Compile Include="Assets\Scripts\Game Controllers\OrderController.cs" />
      <Compile Include="Assets\Scripts\Game Controllers\SpawnController.cs" />
@@ -58,25 +60,43 @@
      <Compile Include="Assets\Scripts\Meta Scripts\_preloader.cs" />
      <Compile Include="Assets\Scripts\Meta Scripts\DontDestroyOnLoad.cs" />
      <Compile Include="Assets\Scripts\Meta Scripts\LevelLoader.cs" />
+     <Compile Include="Assets\Scripts\Misc Scripts\CaughtIngredientSet.cs" />
      <Compile Include="Assets\Scripts\Misc Scripts\Conveyor.cs" />
      <Compile Include="Assets\Scripts\Misc Scripts\DecayAndDie.cs" />
      <Compile Include="Assets\Scripts\Misc Scripts\FollowPlayer.cs" />
      <Compile Include="Assets\Scripts\Misc Scripts\IdentifyAsSpawnPoint.cs" />
+     <Compile Include="Assets\Scripts\Misc Scripts\IngredientSet.cs" />
      <Compile Include="Assets\Scripts\Misc Scripts\IsometricCamera.cs" />
      <Compile Include="Assets\Scripts\Misc Scripts\IsometricCameraOld.cs" />
      <Compile Include="Assets\Scripts\Misc Scripts\MovementController.cs" />
      <Compile Include="Assets\Scripts\Misc Scripts\MovementControllerIsometric.cs" />
      <Compile Include="Assets\Scripts\Misc Scripts\ObjectCatcher.cs" />
      <Compile Include="Assets\Scripts\Misc Scripts\ObjectSpawn.cs" />
-     <Compile Include="Assets\Scripts\Misc Scripts\Order.cs" />
      <Compile Include="Assets\Scripts\Misc Scripts\OrderList.cs" />
      <Compile Include="Assets\Scripts\Misc Scripts\RotationPrevention.cs" />
      <Compile Include="Assets\Scripts\Misc Scripts\ThirdPersonCamera.cs" />
      <Compile Include="Assets\Scripts\Misc Scripts\TrashController.cs" />
      <Compile Include="Assets\Scripts\Misc Scripts\VulnerableToHazards.cs" />
+     <Compile Include="Assets\Scripts\Misc Scripts\WalkingChef.cs" />
      <Compile Include="Assets\Scripts\UI\LevelEndUI.cs" />
      <Compile Include="Assets\Scripts\UI\OrderUI.cs" />
      <Compile Include="Assets\Scripts\UI\Timer.cs" />
+     <Compile Include="Assets\TiledFloor.cs" />
+     <Compile Include="Assets\TileDraw\Scripts\Assets\Entity.cs" />
+     <Compile Include="Assets\TileDraw\Scripts\Assets\EntitySet.cs" />
+     <Compile Include="Assets\TileDraw\Scripts\Assets\IAsset.cs" />
+     <Compile Include="Assets\TileDraw\Scripts\Assets\Set.cs" />
+     <Compile Include="Assets\TileDraw\Scripts\Assets\TextureAsset.cs" />
+     <Compile Include="Assets\TileDraw\Scripts\Assets\TileSet.cs" />
+     <Compile Include="Assets\TileDraw\Scripts\Map\Cell.cs" />
+     <Compile Include="Assets\TileDraw\Scripts\Map\CellFactory.cs" />
+     <Compile Include="Assets\TileDraw\Scripts\Map\MapEditing.cs" />
+     <Compile Include="Assets\TileDraw\Scripts\Map\MapManager.cs" />
+     <Compile Include="Assets\TileDraw\Scripts\Map\Tile.cs" />
+     <Compile Include="Assets\TileDraw\Scripts\Util\CreatePlane.cs" />
+     <Compile Include="Assets\TileDraw\Scripts\Util\Enums.cs" />
+     <Compile Include="Assets\TileDraw\Scripts\Util\Util.cs" />
+     <None Include="Assets\TileDraw\readme.txt" />
  <Reference Include="UnityEngine.UI">
  <HintPath>D:/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>
