@@ -125,7 +125,7 @@ public class IngredientSet : MonoBehaviour {
 
 	// Formats the ingredient set as a string
 	override public string ToString(){
-		if (ingredients.Length == 0) {
+		if (ingredients.Length == 0 || this == null) {
 			return "Empty ingredient set";
 		}
 
@@ -134,6 +134,9 @@ public class IngredientSet : MonoBehaviour {
 			if (ingredients[i] != 0) {
 				result += string.Format ("{0} {1}, ", ingredients[i], (Ingredients)i);
 			}
+		}
+		if (result.Length < 2) {
+			return "Empty ingredient set (error printing)";
 		}
 		return result.Substring (0, result.Length - 2);
 	}
