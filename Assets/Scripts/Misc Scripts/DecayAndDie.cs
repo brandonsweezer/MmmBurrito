@@ -26,6 +26,7 @@ public class DecayAndDie : MonoBehaviour {
 	// Start decaying after hitting something
 	void OnCollisionEnter(Collision col) {
 		StartCoroutine (Decay ());
+		GetComponent<IngredientIndicator> ().DestroyIndicator ();
 	}
 
 	// Sets the quality level to a particular value, and enables the corresponding child model

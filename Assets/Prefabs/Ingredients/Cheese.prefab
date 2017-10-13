@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 54863043858535432}
   - component: {fileID: 114793750701899426}
   - component: {fileID: 65519179826970880}
+  - component: {fileID: 114421908461745536}
   m_Layer: 0
   m_Name: Cheese
   m_TagString: FallingObject
@@ -53,7 +54,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1008423336532690}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 10.879203, y: 0.17113712, z: -1.9430717}
+  m_LocalPosition: {x: 11.443711, y: -8.681265, z: 23.037342}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4514614579295446}
@@ -133,12 +134,26 @@ BoxCollider:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1008423336532690}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 6a484f54c9d7f4247b208e13169b3d2f, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 0.4, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 1.2, y: 0.5, z: 1}
+  m_Center: {x: 0.15, y: 0.03, z: 0}
+--- !u!114 &114421908461745536
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1008423336532690}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af2e5d346bb93fd49abdaefb30a7f536, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  indicatorPrefab: {fileID: 1488541010008626, guid: cd7a43ab8658aa946b00dc3c05429d2f,
+    type: 2}
+  image: {fileID: 2800000, guid: e828456f7e90d4506a3c870f8e092882, type: 3}
 --- !u!114 &114793750701899426
 MonoBehaviour:
   m_ObjectHideFlags: 1

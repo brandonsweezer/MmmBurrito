@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 54922947980555896}
   - component: {fileID: 135894140595062290}
   - component: {fileID: 114239602967162748}
+  - component: {fileID: 114652309350892874}
   m_Layer: 0
   m_Name: Beans
   m_TagString: FallingObject
@@ -280,13 +281,27 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startingQualityLevel: 3
   decayRate: 2
+--- !u!114 &114652309350892874
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1238977373733884}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af2e5d346bb93fd49abdaefb30a7f536, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  indicatorPrefab: {fileID: 1488541010008626, guid: cd7a43ab8658aa946b00dc3c05429d2f,
+    type: 2}
+  image: {fileID: 2800000, guid: 8470ba9908732490e94ac78bc79016ec, type: 3}
 --- !u!135 &135894140595062290
 SphereCollider:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1238977373733884}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 6a484f54c9d7f4247b208e13169b3d2f, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2

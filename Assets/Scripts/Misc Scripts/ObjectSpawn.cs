@@ -6,8 +6,8 @@ public class ObjectSpawn : MonoBehaviour {
 	public GameObject[] fallingObjectList;
 	public float spawnInterval;
 
-	private static float spawnYOffset = 10f;
-	private static float maxSpawnHeight = 200f;
+	private static float spawnYOffset = 15f;
+	public static float maxSpawnHeight = 200f;
 
 	private float[] spawnRangeX;
 	private float[] spawnRangeZ;
@@ -30,8 +30,8 @@ public class ObjectSpawn : MonoBehaviour {
 			spawnPosition.z = Mathf.Round(spawnPosition.z / TiledFloor.tileHeight) * TiledFloor.tileHeight;
 			// Offset position a certain distance above ground below that position
 			RaycastHit hit;
-			bool raycastResult = Physics.Raycast (spawnPosition, Vector3.down, out hit, maxSpawnHeight);
-			if (!raycastResult) {
+			bool raycast = RaycastUntilTerrain(spawnPosition, Vector3.down, out hit, maxSpawnHeight);
+			if (!raycast) {
 				// Debug.LogError ("Oops! An object spawn region is hovering over the void! Spawning object at height "+maxSpawnHeight);
 			} else {
 				spawnPosition.y = hit.point.y + spawnYOffset;
@@ -45,5 +45,20 @@ public class ObjectSpawn : MonoBehaviour {
 			LoggingManager.instance.RecordEvent(1, obj.name+ "Spawned");
 			yield return new WaitForSeconds (spawnInterval);
 		}
+	}
+
+	public static bool RaycastUntilTerrain(Vector3 position, Vector3 direction, out RaycastHit outHit, float maxDistance = Mathf.Infinity) {
+		outHit = new RaycastHit();
+		RaycastHit[] hits = Physics.RaycastAll (position, direction);
+		if (hits.Length == 0) {
+			return false;
+		}
+		foreach (RaycastHit hit in hits) {
+			if (hit.transform.gameObject.tag == "Terrain") {
+				outHit = hit;
+				return true;
+			}
+		}
+		return false;
 	}
 }
