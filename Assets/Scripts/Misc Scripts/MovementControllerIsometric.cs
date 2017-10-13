@@ -12,16 +12,19 @@ public class MovementControllerIsometric : MonoBehaviour {
     //Gen movement variables
 	private float accelSpeed = 60f;
 	private float rotationSpeedFactor = 0.5f;
-	private float maxSpeed = 15f;
+	private float maxSpeed = 13f;
     private float hackedTurnrate = 0.05f;
+	private float speedRestitutionFactor = 0.05f;
 
     //Dashing variables
     private float dashStamp;
     private bool dashing;
     private float slowdown = 10f; 
-    private float maxDash = 30f;
+    private float maxDash = 40f;
     private float minDash = 15f;
     private float dashCooldown = .6f; //seconds
+	private float dashMomentumConservationFactor = 0.2f;
+
     private int LOGGINGTIMER = 60;
     private int timerVar;
 
@@ -93,7 +96,7 @@ public class MovementControllerIsometric : MonoBehaviour {
             Vector3 targetDirection = Vector3.Normalize(rmove + vmove);
 
             Rigidbody rb = GetComponent<Rigidbody>();
-            rb.velocity = (.5f * rb.velocity) + targetDirection * maxDash;
+            rb.velocity = (dashMomentumConservationFactor * rb.velocity) + targetDirection * maxDash;
             if (rb.velocity.magnitude > maxDash) {
                 rb.velocity = targetDirection * maxDash;
             }
@@ -146,9 +149,8 @@ public class MovementControllerIsometric : MonoBehaviour {
         float currentSpeed = rb.velocity.magnitude;
 
         if (currentSpeed > maxSpeed) {
-            float factor = currentSpeed - maxSpeed;
-            rb.AddForce(-1 * slowdown * rb.velocity.normalized);
-            
+			// If going too fast, slow down (note: this is done on top of the standard friction slow-down)
+			rb.velocity = Vector3.Lerp(rb.velocity, rb.velocity.normalized * maxSpeed, speedRestitutionFactor);
 		} else {
 			// Accelerate otherwise.
 			rb.AddForce (targetDirection * accelSpeed);
