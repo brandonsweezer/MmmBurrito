@@ -145,7 +145,7 @@ public class OrderUI : MonoBehaviour {
 //					Debug.Log ("ticket Child count");
 //					Debug.Log (ticket.transform.childCount);
 					for (int ii = 0; ii < ticket.transform.childCount; ii++) {
-						Debug.Log ("HERE");
+						//Debug.Log ("HERE");
 //						Debug.Log ("child count index");
 //						Debug.Log (ii);
 						//individual ingredient 
@@ -158,37 +158,37 @@ public class OrderUI : MonoBehaviour {
 //						Debug.Log (ingredient.GetComponent<Image> ().sprite);
 //						Debug.Log ("Printing dictionary value");
 						//Debug.Log (IngredientSet.ingredientSprites [GameController.instance.player.GetComponent<ObjectCatcher> ().ingredientType]);
-						Debug.Log ("HERE 2");
+						//Debug.Log ("HERE 2");
 						//Check if ingredient collected matches an order ingredient
 						if (IngredientSet.ingredientSprites [GameController.instance.player.GetComponent<ObjectCatcher> ().ingredientType]==ingredient.GetComponent<Image> ().sprite
 							|| IngredientSet.ingredientSprites_full [GameController.instance.player.GetComponent<ObjectCatcher> ().ingredientType]==ingredient.GetComponent<Image> ().sprite) {
-							Debug.Log ("HERE 3");
+							//Debug.Log ("HERE 3");
 							//Debug.Log ("Change Sprite");
 							ingredient.GetComponent<Image> ().sprite = IngredientSet.ingredientSprites_full [GameController.instance.player.GetComponent<ObjectCatcher> ().ingredientType];
 							ingredient.GetComponent<Image> ().color = Color.white;
 							Text countText = ingredient.transform.GetChild (0).GetChild (0).GetComponent<Text> ();
-							Debug.Log ("countText= "+countText);
+							//Debug.Log ("countText= "+countText);
 							string stringCount = countText.text.ToString ();
-							Debug.Log ("stringCount= "+stringCount);
+							//Debug.Log ("stringCount= "+stringCount);
 							int intCount = Int32.Parse (stringCount);
-							Debug.Log ("Count is "+intCount);
+							//Debug.Log ("Count is "+intCount);
 							intCount -= 1;
-							Debug.Log ("Count is now "+intCount);
+							//Debug.Log ("Count is now "+intCount);
 							if (intCount == 0) {
 								ticket.GetComponent<Image> ().color = Color.green;
-								Debug.Log ("IS ZERO");
+								//Debug.Log ("IS ZERO");
 							}
 							if (intCount < 0) {
-								Debug.Log ("LESS than zero");
+								//Debug.Log ("LESS than zero");
 								intCount = 0; 
 								ticket.GetComponent<Image> ().color = new Color (1f, 0f, 0f, .5f);
 								countText.color = Color.black;
 								ingredient.GetComponent<Image> ().color =new Color (.2f, .2f, .2f, .5f);
 							}
 							string newStringCount = intCount.ToString ();
-							Debug.Log ("NEWstringCount= "+newStringCount);
+							//Debug.Log ("NEWstringCount= "+newStringCount);
 							countText.text = newStringCount;
-							Debug.Log ("NEWcountText= "+countText);
+							//Debug.Log ("NEWcountText= "+countText);
 						}
 
 						//Debug.Log ("PROCESSED an ingredient");
@@ -204,7 +204,7 @@ public class OrderUI : MonoBehaviour {
 	}
 
 	public void CreateCollectedItem () {
-		Debug.Log ("Create a new item");
+		//Debug.Log ("Create a new item");
 		//creates the collection container prefab 
 		GameObject container = Instantiate (CollectionContainerPrefab) as GameObject;
 		container.transform.SetParent (CollectionHUD.transform, false);	
@@ -243,7 +243,7 @@ public class OrderUI : MonoBehaviour {
 						intCount += 1;
 						string newStringCount = intCount.ToString ();
 						countText.text = newStringCount;
-						Debug.Log ("UPDATED COUNT");
+						//Debug.Log ("UPDATED COUNT");
 						haveIt = true;
 						break;
 					}

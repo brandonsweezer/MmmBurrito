@@ -9,9 +9,10 @@ public class VulnerableToHazards : MonoBehaviour {
 	/** Handle collisions with deadly hazards */
 	void OnCollisionEnter (Collision collision) {
 		GameObject gameObj = collision.gameObject;
-		if (gameObj.tag == "DeadlyHazard") {
+		if (gameObj.tag == "DeadlyHazard" || gameObj.tag == "Chef") {
 			SpawnController.instance.DestroyAndRespawn ();
 			OrderUI.instance.ResetAfterDeath ();
+            LoggingManager.instance.RecordEvent(5, "Died to a " + gameObj.tag);
 		}
 	}
 }

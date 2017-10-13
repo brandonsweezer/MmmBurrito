@@ -7,5 +7,17 @@ public class _preloader : MonoBehaviour {
 
 	void Awake () {
 		SceneManager.LoadScene ("LevelSelection");
-	}
+        LoggingManager.instance.Initialize(094, 1, true);
+        LoggingManager.instance.RecordPageLoad();
+
+        /* GAME EVENT IDS
+         * 0 Location (MovementControllerIsometric)
+         * 1 Ingredient Spawn (ObjectSpawn)
+         * 2 Submission (SubmissionController Twice)
+         * 3 Trashing (TrashController)
+         * 4 Dashing (MovementControllerIsometric)
+         * 5 Death (VulnerableToHazards)
+         * 6 Catching Ingredients (ObjectCatcher)
+         */
+    }
 }

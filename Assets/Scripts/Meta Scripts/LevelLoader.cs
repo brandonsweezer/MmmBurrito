@@ -20,12 +20,14 @@ public class LevelLoader : MonoBehaviour {
 		inMenu = false;
 		loadingLevelNumber = levelNumber;
 		SceneManager.LoadScene ("Level_"+levelNumber);
-	}
+        LoggingManager.instance.RecordLevelStart(levelNumber, "");
+    }
 
 	public void GoToMenu () {
 		inMenu = true;
 		SceneManager.LoadScene ("LevelSelection");
-	}
+        LoggingManager.instance.RecordLevelEnd();
+    }
 
 	// http://answers.unity3d.com/questions/1174255/since-onlevelwasloaded-is-deprecated-in-540b15-wha.html
 	void OnEnable()

@@ -9,24 +9,58 @@ public class MovementControllerIsometric : MonoBehaviour {
 	private bool ismoving;
 	private bool isUnwrapped;
 
-	private float accelSpeed = 20f;
-	private float rotationSpeedFactor = 0.2f;
-	private float maxSpeed = 10f;
+    //Gen movement variables
+	private float accelSpeed = 60f;
+	private float rotationSpeedFactor = 0.5f;
+	private float maxSpeed = 15f;
+    private float hackedTurnrate = 0.05f;
 
-	// Use this for initialization
-	void Start () {
+    //Dashing variables
+    private float dashStamp;
+    private bool dashing;
+    private float slowdown = 10f; 
+    private float maxDash = 30f;
+    private float minDash = 15f;
+    private float dashCooldown = .6f; //seconds
+    private int LOGGINGTIMER = 60;
+    private int timerVar;
+
+    // Use this for initialization
+    void Start ()
+    {
 		forward = Vector3.Normalize(transform.forward);
 		right = Quaternion.Euler(new Vector3(0, 90, 0))*forward;
 		velocity = new Vector3(0, 0, 0);
 		acceleration = new Vector3(0, 0, 0);
 		ismoving = false;
 		isUnwrapped = false;
+        dashStamp = Time.time;
+        dashing = false;
+        timerVar = LOGGINGTIMER;
 	}
 
 	// Update is called once per frame
-	void Update () {
-		// only execute if a key is being pressed
-		if (Input.anyKey) {
+	void Update ()
+    {
+        if (timerVar <= 0)
+        {
+            LoggingManager.instance.RecordEvent(0, "Coordinates: " + GameController.instance.player.transform.position.x + ", "
+                + GameController.instance.player.transform.position.z);
+            timerVar = LOGGINGTIMER;
+        }
+        else
+        {
+            timerVar--;
+        }
+        // only execute if a key is being 
+        if (Input.anyKey) {
+            
+            if (Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKeyDown(KeyCode.Space))
+            { 
+                Dash();
+                LoggingManager.instance.RecordEvent(4, "Dashing");
+            }
+
 			Move ();
 			// Wrap up burrito
 			isUnwrapped = false;
@@ -39,42 +73,82 @@ public class MovementControllerIsometric : MonoBehaviour {
 		GetComponent<ObjectCatcher> ().canCatch = isUnwrapped;  
 	}
 
-	void Move()
-	{
-		if (ismoving == false)
-		{
-			ismoving = true;
-		}
+    //Adds velocity according to your current movement direction, capped at maxDash and minDash
+    void Dash()
+    {
+        float currtime = Time.time;
+        float timeSinceDash = currtime - dashStamp;
+        Debug.Log(timeSinceDash);
+        if (timeSinceDash >= dashCooldown)
+        {
+            
+            //Set dashing and timestamp variables
+            dashing = true;
+            dashStamp = currtime;
 
-		Vector3 rmove = right * Input.GetAxis("Horizontal");
-		Vector3 vmove = forward * Input.GetAxis("Vertical");
+            //Do the dash
+            Vector3 rmove = right * Input.GetAxis("Horizontal");
+            Vector3 vmove = forward * Input.GetAxis("Vertical");
 
-		Vector3 targetDirection = Vector3.Normalize(rmove + vmove);
-		// velocity += acceleration;
+            Vector3 targetDirection = Vector3.Normalize(rmove + vmove);
 
-		Vector3 currentRotEuler = transform.rotation.eulerAngles;
+            Rigidbody rb = GetComponent<Rigidbody>();
+            rb.velocity = (.5f * rb.velocity) + targetDirection * maxDash;
+            if (rb.velocity.magnitude > maxDash) {
+                rb.velocity = targetDirection * maxDash;
+            }
+            if (rb.velocity.magnitude < minDash)
+            {
+                rb.velocity = targetDirection * minDash;
+            }
+        }
 
-		// Determine new rotation
-		// Approach #1 -- set transform forward (using Vector3 lerping)
-		transform.forward = Vector3.Lerp(transform.forward, Vector3.Normalize(rmove + vmove), rotationSpeedFactor);
 
-		// Approach #2 -- break it down into euler angles and lerp the y rotation
-		// This mostly works except for one weird case (1 direction out of 4) where it turns
-		// awkwardly
-		/*
+    }
+
+    void Move()
+    {
+        if (ismoving == false)
+        {
+            ismoving = true;
+        }
+
+
+
+        Vector3 rmove = right * Input.GetAxis("Horizontal");
+        Vector3 vmove = forward * Input.GetAxis("Vertical");
+
+        Vector3 targetDirection = Vector3.Normalize(rmove + vmove);
+
+        // velocity += acceleration;
+
+        Vector3 currentRotEuler = transform.rotation.eulerAngles;
+
+        // Determine new rotation
+        // Approach #1 -- set transform forward (using Vector3 lerping)
+        transform.forward = Vector3.Lerp(transform.forward, Vector3.Normalize(rmove + vmove), rotationSpeedFactor);
+
+        // Approach #2 -- break it down into euler angles and lerp the y rotation
+        // This mostly works except for one weird case (1 direction out of 4) where it turns
+        // awkwardly
+        /*
 		float currentYRot = currentRotEuler.y;
 		float targetYRot = Vector3.Angle (targetDirection, Vector3.forward);
 		float newYRot = targetYRot * rotationSpeedFactor + currentYRot * (1 - rotationSpeedFactor);
 		Vector3 newRotationEuler = new Vector3(currentRotEuler.x, newYRot, currentRotEuler.z);
 		transform.rotation = Quaternion.Euler (newRotationEuler);*/
 
-		Rigidbody rb = transform.GetComponent<Rigidbody>();
+        Rigidbody rb = transform.GetComponent<Rigidbody>();
 
-		float currentSpeed = rb.velocity.magnitude;
-		if (currentSpeed > maxSpeed) {
-			// Cap the velocity if we're going too fast.
-			float factor = maxSpeed / currentSpeed;
-			rb.velocity.Scale (new Vector3 (factor, factor, factor));
+		// preliminary velocity turning
+		rb.velocity = rb.velocity.magnitude * Vector3.Lerp(rb.velocity.normalized, targetDirection, hackedTurnrate);
+
+        float currentSpeed = rb.velocity.magnitude;
+
+        if (currentSpeed > maxSpeed) {
+            float factor = currentSpeed - maxSpeed;
+            rb.AddForce(-1 * slowdown * rb.velocity.normalized);
+            
 		} else {
 			// Accelerate otherwise.
 			rb.AddForce (targetDirection * accelSpeed);

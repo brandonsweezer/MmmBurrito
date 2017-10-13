@@ -18,5 +18,6 @@ public class TrashController : MonoBehaviour {
 		Debug.Log("trash");
 		SpawnController.instance.DestroyAndRespawn ();
 		OrderUI.instance.ResetAfterDeath ();
+        LoggingManager.instance.RecordEvent(3, "Trashed ingredients: " + GameController.instance.player.GetComponent<ObjectCatcher>().getIngredients().ToString());
 	}
 }
