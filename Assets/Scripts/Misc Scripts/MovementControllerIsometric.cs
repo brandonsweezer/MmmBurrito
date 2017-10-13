@@ -10,9 +10,9 @@ public class MovementControllerIsometric : MonoBehaviour {
 	private bool isUnwrapped;
 
     //Gen movement variables
-	private float accelSpeed = 40f;
+	private float accelSpeed = 70f;
 	private float rotationSpeedFactor = 0.5f;
-	private float maxSpeed = 20f;
+	private float maxSpeed = 15f;
 
     //Dashing variables
     private float dashStamp;
