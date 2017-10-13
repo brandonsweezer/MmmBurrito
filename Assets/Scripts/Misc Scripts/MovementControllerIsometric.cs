@@ -12,7 +12,7 @@ public class MovementControllerIsometric : MonoBehaviour {
     //Gen movement variables
 	private float accelSpeed = 70f;
 	private float rotationSpeedFactor = 0.5f;
-	private float maxSpeed = 13f;
+	private float maxSpeed = 12f;
     private float hackedTurnrate = 0.05f;
 	private float speedRestitutionFactor = 0.05f;
 
@@ -165,21 +165,23 @@ public class MovementControllerIsometric : MonoBehaviour {
 			groundNormal = hit.normal.normalized;
 		}
 		if (Mathf.Abs(groundNormal.x) > 0.15f || Mathf.Abs(groundNormal.z) > 0.15f || !floorInFront) {
-			// on ground, lower friction
-			GetComponent<Collider> ().material.dynamicFriction = 0.7f;
-			GetComponent<Collider> ().material.staticFriction = 0.7f;
+			// on slope, lower friction so we can go up the slope
+			GetComponent<Collider> ().material.dynamicFriction = 0.5f;
+			GetComponent<Collider> ().material.staticFriction = 0.5f;
 		} else {
 			GetComponent<Collider> ().material.dynamicFriction = 3f;
 			GetComponent<Collider> ().material.staticFriction = 3f;
 		}
 
-		// Accelerate only if not going too fast
-		if (rb.velocity.magnitude < maxSpeed) {
+		// Accelerate only if not going too fast in the x-z plane
+		if (Mathf.Pow(rb.velocity.x,2) + Mathf.Pow(rb.velocity.z,2) < Mathf.Pow(maxSpeed,2)) {
 			bool grounded = Physics.Raycast (transform.position, Vector3.down, 1f);
 			if (grounded) {
+				// if grounded, accelerate normally
 				rb.AddForce (targetDirection * accelSpeed);
-			} else {
-				rb.AddForce (targetDirection * accelSpeed / 2);
+			} else if (rb.velocity.magnitude < maxSpeed / 3f) {
+				// if not grounded and not moving fast, accelerate slowly
+				rb.AddForce (targetDirection * accelSpeed / 5f);
 			}
 		}
 
