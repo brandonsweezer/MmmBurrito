@@ -81,7 +81,7 @@ public class LevelLoader : MonoBehaviour {
 		case 1:
 			timer.TimerInit (120);
 			OrderController.instance.AddOrder (
-				IngredientSet.Ingredients.Tomato, 1
+				IngredientSet.Ingredients.Tomato, 3
 			);
 			break;
 		// 2 ingredients

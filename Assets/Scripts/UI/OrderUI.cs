@@ -128,11 +128,10 @@ public class OrderUI : MonoBehaviour {
 		if (GameController.instance.player == null) {
 			return;
 		}
-		CaughtIngredientSet currIngredsSet=GameController.instance.player.GetComponent<ObjectCatcher> ().getIngredients();
-		IngredientSet currIngreds = currIngredsSet.ingredientSet;
 
 
 		if (GameController.instance.player.GetComponent<ObjectCatcher> ().GetnewIngredient ()==true){
+			//Checks each ticket agaisnt the newly picked up ingredient to determine if new or duplicate
 			//if TicketHUD has Ticket children
 			if (TicketHUD.transform.childCount > 0) {
 				//Get each ticket
@@ -140,10 +139,7 @@ public class OrderUI : MonoBehaviour {
 					//individual ticket 
 					GameObject ticket= TicketHUD.transform.GetChild(i).gameObject;
 					bool invalidTicket=false;
-					bool OrderComplete=true;
 					for (int ii = 0; ii < ticket.transform.childCount; ii++) {
-						Debug.Log ("index is:"+ii);
-						Debug.Log ("bool= "+OrderComplete);
 						//individual ingredient 
 						GameObject ingredient= ticket.transform.GetChild(ii).gameObject;
 
@@ -152,53 +148,36 @@ public class OrderUI : MonoBehaviour {
 
 						invalidTicket = (invalidTicket || match);
 
-//						foreach (IngredientSet.Ingredients collectedIngredient in Enum.GetValues(typeof(IngredientSet.Ingredients))){
-//							invalidTicket= (invalidTicket || (
-//						}
-
 						//Check if ingredient collected matches an order ingredient
 						if (match) {
 
-							//Set filled image
+							//Set filled image in top HUD
 							ingredient.GetComponent<Image> ().sprite = IngredientSet.ingredientSprites_full [GameController.instance.player.GetComponent<ObjectCatcher> ().ingredientType];
 							ingredient.GetComponent<Image> ().color = Color.white;
 
-							//Decrement the count by one 
-							Text countText = ingredient.transform.GetChild (0).GetChild (0).GetComponent<Text> ();
-							string stringCount = countText.text.ToString ();
-							int intCount = Int32.Parse (stringCount);
-							intCount -= 1;
-
-
-							for (int iii = 0; iii < CollectionHUD.transform.childCount; iii++) {
-								GameObject collectedItem = CollectionHUD.transform.GetChild (iii).GetChild(0).gameObject;
-								if (ingredient.transform.GetChild (0).GetChild (0).GetComponent<Text> ()== collectedItem.transform.GetChild (0).GetChild (0).GetComponent<Text> ()) {
-									ingredient.GetComponent<Image> ().color =new Color (0f, 1f, 0f, 1f);
-									countText.color = Color.green;
-								}
-							}
-
-
-
-
+							//Decrement the count by one (might be taken out)
+//							Text countText = ingredient.transform.GetChild (0).GetChild (0).GetComponent<Text> ();
+//							string stringCount = countText.text.ToString ();
+//							int intCount = Int32.Parse (stringCount);
+//							intCount -= 1;
 							//Ingredient Remaning Logic
-							if (intCount == 0) {
-								ingredient.GetComponent<Image> ().color =new Color (0f, 1f, 0f, 1f);
-								countText.color = Color.green;
-								Debug.Log ("IS ZERO");
-							}
-							if (intCount < 0) {
-								Debug.Log ("LESS than zero");
-								intCount = 0; 
-								ticket.GetComponent<Image> ().color = new Color (1f, 0f, 0f, .5f);
-								countText.color = Color.black;
-								ingredient.GetComponent<Image> ().color =new Color (.2f, .2f, .2f, .5f);
-							}
-							if (intCount > 0) {
-								Debug.Log ("MORE to go");
-								OrderComplete = false;
-							}
-							string newStringCount = intCount.ToString ();
+//							if (intCount == 0) {
+//								ingredient.GetComponent<Image> ().color =new Color (0f, 1f, 0f, 1f);
+//								countText.color = Color.green;
+//								Debug.Log ("IS ZERO");
+//							}
+//							if (intCount < 0) {
+//								Debug.Log ("LESS than zero");
+//								intCount = 0; 
+//								ticket.GetComponent<Image> ().color = new Color (1f, 0f, 0f, .5f);
+//								countText.color = Color.black;
+//								ingredient.GetComponent<Image> ().color =new Color (.2f, .2f, .2f, .5f);
+//							}
+//							if (intCount > 0) {
+//								Debug.Log ("MORE to go");
+//								OrderComplete = false;
+//							}
+//							string newStringCount = intCount.ToString ();
 							//countText.text = newStringCount;
 						}
 							
@@ -207,11 +186,6 @@ public class OrderUI : MonoBehaviour {
 						Debug.Log ("BAD TICKET");
 						ticket.GetComponent<Image> ().color = new Color (1f, 0f, 0f, .5f);
 					}
-//					if (OrderComplete && ticket.tag=="Ticket") {
-//						Debug.Log ("Turn Green");
-//						ticket.GetComponent<Image> ().color = Color.green;
-//						OrderComplete = false;
-//					}
 				}
 			}
 		}
@@ -231,8 +205,104 @@ public class OrderUI : MonoBehaviour {
 		icon.GetComponent<Image> ().sprite = IngredientSet.ingredientSprites_full [GameController.instance.player.GetComponent<ObjectCatcher> ().ingredientType];
 		//sets the collected amount to 1 
 		icon.transform.GetChild (0).GetChild (0).GetComponent<Text> ().text = "1";
+		CheckIngredientComplete (icon.transform.GetChild (0).GetChild (0).GetComponent<Text>(), icon);
 	}
 
+	public void CheckIngredientComplete (Text collectedIngredCount, GameObject collectedItem) {
+		//Iterates through top HUD and checks the ingredient requirements with the collection number of collectedItem
+		//Gets each ticket
+		for (int ii = 0; ii < TicketHUD.transform.childCount; ii++) {
+			//bool orderComplete = true;
+			GameObject ticket = TicketHUD.transform.GetChild (ii).gameObject;
+			//Gets each ingredient item
+			for (int iii = 0; iii < ticket.transform.childCount; iii++) {
+				GameObject ingredient = ticket.transform.GetChild (iii).gameObject;
+				//Checks if ingredient and collected item are the same
+				if (ingredient.GetComponent<Image> ().sprite == collectedItem.GetComponent<Image> ().sprite) {
+					//Equal
+					if (ingredient.transform.GetChild (0).GetChild (0).GetComponent<Text> ().text == collectedIngredCount.text) {
+						//Debug.Log ("turn text green");
+						ingredient.transform.GetChild (0).GetChild (0).GetComponent<Text> ().color = Color.green;
+						//ingredient.GetComponent<Image> ().color =new Color (0f, 1f, 0f, 1f);
+					} 
+					//Check if you have too many
+					if (Int32.Parse (ingredient.transform.GetChild (0).GetChild (0).GetComponent<Text> ().text) < Int32.Parse (collectedIngredCount.text)) {
+						Debug.Log ("Collected too many: turn ticket red");
+						ingredient.transform.GetChild (0).GetChild (0).GetComponent<Text> ().color = Color.white;
+						ticket.GetComponent<Image> ().color = new Color (1f, 0f, 0f, .5f);
+						//ingredient.GetComponent<Image> ().color =new Color (0f, 1f, 0f, 1f);
+					}
+				} 
+			}
+		}
+	}
+
+	public void CheckOrderComplete () {
+		if (GameController.instance.player.GetComponent<ObjectCatcher> ().GetnewIngredient () == true) {
+			for (int i = 0; i < TicketHUD.transform.childCount; i++) {
+				//individual ticket 
+				GameObject ticket = TicketHUD.transform.GetChild (i).gameObject;
+				bool orderComplete = true; 
+				for (int ii = 0; ii < ticket.transform.childCount; ii++) {
+					//individual ingredient 
+					GameObject ingredient = ticket.transform.GetChild (ii).gameObject;
+
+					bool ingredientChecked = false; 
+
+					Debug.Log ("ingredient index is: "+ii);
+					Debug.Log ("ingredient is: "+ingredient.GetComponent<Image> ().sprite);
+					Debug.Log ("orderComplete= "+orderComplete);
+
+
+					//Get each collected ingredient
+					for (int iii = 0; iii < CollectionHUD.transform.childCount; iii++) {
+						GameObject collectedItem = CollectionHUD.transform.GetChild (iii).GetChild (0).gameObject;
+
+
+						Debug.Log ("collection index is: "+iii);
+						Debug.Log ("collected item: "+collectedItem.GetComponent<Image> ().sprite);
+						Debug.Log ("orderComplete= "+orderComplete);
+
+						//Checks if ingredient matches collected item
+						if (ingredient.GetComponent<Image> ().sprite == collectedItem.GetComponent<Image> ().sprite) {
+
+
+							Debug.Log ("ingredient and collection sprites match");
+
+							//checks if the required count and collected count are equal
+							if (ingredient.transform.GetChild (0).GetChild (0).GetComponent<Text> ().text == collectedItem.transform.GetChild (0).GetChild (0).GetComponent<Text> ().text) {
+								orderComplete = orderComplete && true; 
+								Debug.Log ("Numbers match!!! orderComplete now= "+orderComplete);
+							} 
+							else {
+								orderComplete = orderComplete && false;
+								Debug.Log ("Numbers DO NOT MATCH. orderComplete now= "+orderComplete);
+							}
+							ingredientChecked = ingredientChecked || true; 
+						}
+						ingredientChecked = ingredientChecked || false; 
+						Debug.Log ("did a collection item ");
+					}
+					if (!ingredientChecked) {
+						orderComplete = orderComplete && false;
+					}
+					Debug.Log ("did a ticket ingredient ");
+				}
+				Debug.Log ("did a ticket");
+
+				if (orderComplete && ticket.tag=="Ticket") {
+					Debug.Log("Mark ticket complete");
+					ticket.GetComponent<Image> ().color = new Color (0f, 1f, 0f, .5f);
+					for (int iii = 0; iii < ticket.transform.childCount; iii++) {
+						GameObject ingredient = ticket.transform.GetChild (iii).gameObject;
+						ingredient.transform.GetChild (0).GetChild (0).GetComponent<Text> ().color = Color.white;
+					}
+				}
+
+			}
+		}
+	
+	}
 
 	public void CollectionUIUpdate () {
 		if (GameController.instance.player == null) {
@@ -240,10 +310,13 @@ public class OrderUI : MonoBehaviour {
 		}
 
 		if (GameController.instance.player.GetComponent<ObjectCatcher> ().GetnewIngredient () == true) {
+			Debug.Log ("TEST TESTESTES");
 			if (CollectionHUD.transform.childCount > 0) {
-				bool haveIt=false; 
+				bool haveIt=false;
+				//Get each collected ingredient
 				for (int i = 0; i < CollectionHUD.transform.childCount; i++) {
 					GameObject collectedItem = CollectionHUD.transform.GetChild (i).GetChild(0).gameObject;
+					//Check if previously collectedItem matches new ingredient sprite 
 					if (IngredientSet.ingredientSprites_full [GameController.instance.player.GetComponent<ObjectCatcher> ().ingredientType] == collectedItem.GetComponent<Image> ().sprite) {
 						//Already Collected, Update Count
 						Text countText = collectedItem.transform.GetChild (0).GetChild (0).GetComponent<Text> ();
@@ -253,8 +326,11 @@ public class OrderUI : MonoBehaviour {
 						string newStringCount = intCount.ToString ();
 						countText.text = newStringCount;
 						haveIt = true;
+						CheckIngredientComplete (countText, collectedItem);
+
 						break;
 					}
+
 				}
 				if (!haveIt) {
 					CreateCollectedItem ();
@@ -265,7 +341,7 @@ public class OrderUI : MonoBehaviour {
 				CreateCollectedItem ();
 			}
 		}
-
+		CheckOrderComplete ();
 		GameController.instance.player.GetComponent<ObjectCatcher> ().SetnewIngredient(false);
 	}
 
