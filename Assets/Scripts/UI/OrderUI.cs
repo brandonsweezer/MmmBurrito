@@ -243,11 +243,17 @@ public class OrderUI : MonoBehaviour {
 				//individual ticket 
 				GameObject ticket = TicketHUD.transform.GetChild (i).gameObject;
 				bool orderComplete = true; 
+				bool invalidTicket=false;
 				for (int ii = 0; ii < ticket.transform.childCount; ii++) {
 					//individual ingredient 
 					GameObject ingredient = ticket.transform.GetChild (ii).gameObject;
 
 					bool ingredientChecked = false; 
+
+					bool match = IngredientSet.ingredientSprites [GameController.instance.player.GetComponent<ObjectCatcher> ().ingredientType] == ingredient.GetComponent<Image> ().sprite
+						|| IngredientSet.ingredientSprites_full [GameController.instance.player.GetComponent<ObjectCatcher> ().ingredientType] == ingredient.GetComponent<Image> ().sprite;
+
+					invalidTicket = (invalidTicket || match);
 
 					Debug.Log ("ingredient index is: "+ii);
 					Debug.Log ("ingredient is: "+ingredient.GetComponent<Image> ().sprite);
@@ -265,6 +271,7 @@ public class OrderUI : MonoBehaviour {
 
 						//Checks if ingredient matches collected item
 						if (ingredient.GetComponent<Image> ().sprite == collectedItem.GetComponent<Image> ().sprite) {
+
 
 
 							Debug.Log ("ingredient and collection sprites match");
@@ -290,13 +297,17 @@ public class OrderUI : MonoBehaviour {
 				}
 				Debug.Log ("did a ticket");
 
-				if (orderComplete && ticket.tag=="Ticket") {
+				if (orderComplete && ticket.tag=="Ticket" && !invalidTicket) {
 					Debug.Log("Mark ticket complete");
 					ticket.GetComponent<Image> ().color = new Color (0f, 1f, 0f, .5f);
 					for (int iii = 0; iii < ticket.transform.childCount; iii++) {
 						GameObject ingredient = ticket.transform.GetChild (iii).gameObject;
 						ingredient.transform.GetChild (0).GetChild (0).GetComponent<Text> ().color = Color.white;
 					}
+				}
+				if (!invalidTicket && ticket.tag=="Ticket") {
+					Debug.Log ("BAD TICKET");
+					ticket.GetComponent<Image> ().color = new Color (1f, 0f, 0f, .5f);
 				}
 
 			}
