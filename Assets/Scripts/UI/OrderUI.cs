@@ -246,7 +246,7 @@ public class OrderUI : MonoBehaviour {
 					if (Int32.Parse (ingredient.transform.GetChild (0).GetChild (0).GetComponent<Text> ().text) < Int32.Parse (collectedIngredCount.text)) {
 						//Debug.Log ("Collected too many: turn ticket red");
 						//Mark Invalid
-						ingredient.transform.GetChild (0).GetChild (0).GetComponent<Text> ().color = Color.white;
+						ingredient.transform.GetChild (0).GetChild (0).GetComponent<Text> ().color = Color.red;
 						//ticket.GetComponent<Image> ().color = new Color (1f, 0f, 0f, .5f);
 						//ingredient.GetComponent<Image> ().color =new Color (0f, 1f, 0f, 1f);
 						ticket.GetComponent<Image> ().sprite = gameobjectfields.InvalidTicket;
@@ -331,7 +331,7 @@ public class OrderUI : MonoBehaviour {
 					ticket.GetComponent<Image> ().sprite = gameobjectfields.CompletedTicket;
 					for (int iii = 0; iii < ticket.transform.childCount; iii++) {
 						GameObject ingredient = ticket.transform.GetChild (iii).gameObject;
-						ingredient.transform.GetChild (0).GetChild (0).GetComponent<Text> ().color = Color.white;
+						//ingredient.transform.GetChild (0).GetChild (0).GetComponent<Text> ().color = Color.white;
 					}
 				}
 				if (!validTicket && ticket.tag=="Ticket") {
