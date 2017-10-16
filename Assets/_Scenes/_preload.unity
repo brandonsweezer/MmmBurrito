@@ -1109,7 +1109,7 @@ GameObject:
   - component: {fileID: 437090092}
   - component: {fileID: 437090091}
   m_Layer: 5
-  m_Name: TimerCircle
+  m_Name: Stopwatch Timer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1128,7 +1128,6 @@ RectTransform:
   - {fileID: 1160185029}
   - {fileID: 2014422821}
   - {fileID: 1293717692}
-  - {fileID: 626127540}
   - {fileID: 869435650}
   - {fileID: 1249739407}
   m_Father: {fileID: 1830773918}
@@ -1158,7 +1157,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: 42b324b9b0d7a40ce873b04c02ce9648, type: 3}
+  m_Sprite: {fileID: 21300000, guid: cdbb3349fee6e4911a953860d85a0d7c, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1588,74 +1587,6 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 618128909}
---- !u!1 &626127539
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 626127540}
-  - component: {fileID: 626127542}
-  - component: {fileID: 626127541}
-  m_Layer: 5
-  m_Name: CircleTest (1)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &626127540
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 626127539}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.99999446, y: 0.99999446, z: 0.99999446}
-  m_Children: []
-  m_Father: {fileID: 437090090}
-  m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.21008301, y: -4.3599854}
-  m_SizeDelta: {x: 42, y: 42}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &626127541
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 626127539}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0, b: 0, a: 0.716}
-  m_RaycastTarget: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
-      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 3
-  m_PreserveAspect: 1
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 2
---- !u!222 &626127542
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 626127539}
 --- !u!1 &718665439
 GameObject:
   m_ObjectHideFlags: 0
@@ -2101,7 +2032,7 @@ GameObject:
   - component: {fileID: 869435652}
   - component: {fileID: 869435651}
   m_Layer: 5
-  m_Name: CircleTest
+  m_Name: Time Remaining
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2118,7 +2049,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 437090090}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -2759,7 +2690,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 0}
-  levelComplete: 0
+  levelComplete: 1
   score: 0
   gameTime: 0
 --- !u!114 &1219484852
@@ -2823,24 +2754,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1a226e6ffcc24fa5886c32ab144b9b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  canvasHUD: {fileID: 880886654}
-  levelOrderList: {fileID: 1023269611}
-  currentBurrito: {fileID: 1108955728}
-  submissionMessage: {fileID: 765451550}
-  winMessage: {fileID: 1761150195}
-  loseMessage: {fileID: 2048479417}
-  orderTotalDisplay: {fileID: 568672988}
-  TicketPrefab: {fileID: 1225499680171456, guid: 2dfb5088b82224492a8ce856cfcac735,
-    type: 2}
-  IngredientPrefab: {fileID: 1088770427595590, guid: 4b7a5ad717c6a40b299cceb797f43e88,
-    type: 2}
-  Divider: {fileID: 1655355128835092, guid: 3ff3dd64dbd5246a484a89bb6b384ec7, type: 2}
-  TicketHUD: {fileID: 1161039501}
-  CollectionHUD: {fileID: 174879819}
-  CollectionContainerPrefab: {fileID: 1361657734611318, guid: d503b13b4d5994cdfba234075bc38c14,
-    type: 2}
-  CollectedIngredientPrefab: {fileID: 1914133123204290, guid: 52636a8784c2e40cbae0e21cd9547691,
-    type: 2}
+  textfields:
+    levelOrderList: {fileID: 1023269611}
+    currentBurrito: {fileID: 1108955728}
+    submissionMessage: {fileID: 765451550}
+    winMessage: {fileID: 1761150195}
+    loseMessage: {fileID: 2048479417}
+    orderTotalDisplay: {fileID: 568672988}
+  gameobjectfields:
+    canvasHUD: {fileID: 880886654}
+    TicketPrefab: {fileID: 1225499680171456, guid: 2dfb5088b82224492a8ce856cfcac735,
+      type: 2}
+    IngredientPrefab: {fileID: 1088770427595590, guid: 4b7a5ad717c6a40b299cceb797f43e88,
+      type: 2}
+    Divider: {fileID: 1655355128835092, guid: 3ff3dd64dbd5246a484a89bb6b384ec7, type: 2}
+    TicketHUD: {fileID: 1161039501}
+    CollectionHUD: {fileID: 174879819}
+    CollectionContainerPrefab: {fileID: 1361657734611318, guid: d503b13b4d5994cdfba234075bc38c14,
+      type: 2}
+    CollectedIngredientPrefab: {fileID: 1914133123204290, guid: 52636a8784c2e40cbae0e21cd9547691,
+      type: 2}
+    CompletedTicket: {fileID: 21300000, guid: c1ab54851ec2b42e0b1ba6e7d38105be, type: 3}
+    InvalidTicket: {fileID: 21300000, guid: 1edd1130cab7d4c3d9c1f0380bacd369, type: 3}
 --- !u!114 &1219484857
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2932,7 +2867,7 @@ GameObject:
   - component: {fileID: 1249739409}
   - component: {fileID: 1249739408}
   m_Layer: 5
-  m_Name: CircleTimeTest
+  m_Name: Time Remaining Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2949,7 +2884,7 @@ RectTransform:
   m_LocalScale: {x: 0.99999446, y: 0.99999446, z: 0.99999446}
   m_Children: []
   m_Father: {fileID: 437090090}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}

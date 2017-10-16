@@ -6,18 +6,21 @@ using System;
 
 
 
-
-public class OrderUI : MonoBehaviour {
-
-
-	public GameObject canvasHUD;
-
+[System.Serializable]
+public class TextFields
+{
 	public Text levelOrderList;
 	public Text currentBurrito;
 	public Text submissionMessage;
 	public Text winMessage;
 	public Text loseMessage;
 	public Text orderTotalDisplay;
+}
+
+[System.Serializable]
+public class GameObjectFields
+{
+	public GameObject canvasHUD;
 
 	public GameObject TicketPrefab;
 	public GameObject IngredientPrefab;
@@ -27,6 +30,18 @@ public class OrderUI : MonoBehaviour {
 	public GameObject CollectionHUD;
 	public GameObject CollectionContainerPrefab;
 	public GameObject CollectedIngredientPrefab;
+
+	public Sprite CompletedTicket;
+	public Sprite InvalidTicket;
+}
+
+
+
+
+public class OrderUI : MonoBehaviour {
+
+	public TextFields textfields;
+	public GameObjectFields gameobjectfields;
 
 	private Text countText;
 
@@ -85,7 +100,7 @@ public class OrderUI : MonoBehaviour {
 		if (orders.Count >= index+1) {
 			
 			//gets grid to give to SetUISize to set boxes
-			GridLayoutGroup tick = TicketPrefab.GetComponent<GridLayoutGroup> ();
+			GridLayoutGroup tick = gameobjectfields.TicketPrefab.GetComponent<GridLayoutGroup> ();
 
 			//gets the current order
 			IngredientSet currOrder = orders [index];
@@ -94,11 +109,11 @@ public class OrderUI : MonoBehaviour {
 			SetUIsize (ingredientTotal, tick);
 
 			//creates the ticket prefab container and divider
-			GameObject container = Instantiate (TicketPrefab) as GameObject;
-			container.transform.SetParent (TicketHUD.transform, false);
+			GameObject container = Instantiate (gameobjectfields.TicketPrefab) as GameObject;
+			container.transform.SetParent (gameobjectfields.TicketHUD.transform, false);
 			container.tag=("Ticket");
-			GameObject divider = Instantiate (Divider) as GameObject;
-			divider.transform.SetParent (TicketHUD.transform, false);
+			GameObject divider = Instantiate (gameobjectfields.Divider) as GameObject;
+			divider.transform.SetParent (gameobjectfields.TicketHUD.transform, false);
 				
 
 			//creates an ingredient prefab for each ingredient in the current order
@@ -107,7 +122,7 @@ public class OrderUI : MonoBehaviour {
 				count = currOrder.GetCount (ingredient);
 				if (count == 0)
 					continue;
-				GameObject icon = Instantiate (IngredientPrefab) as GameObject;
+				GameObject icon = Instantiate (gameobjectfields.IngredientPrefab) as GameObject;
 				icon.transform.SetParent (container.transform, false);
 
 				//sets the correct ingredient sprite
@@ -133,12 +148,12 @@ public class OrderUI : MonoBehaviour {
 		if (GameController.instance.player.GetComponent<ObjectCatcher> ().GetnewIngredient ()==true){
 			//Checks each ticket agaisnt the newly picked up ingredient to determine if new or duplicate
 			//if TicketHUD has Ticket children
-			if (TicketHUD.transform.childCount > 0) {
+			if (gameobjectfields.TicketHUD.transform.childCount > 0) {
 				//Get each ticket
-				for (int i = 0; i < TicketHUD.transform.childCount; i++) {
+				for (int i = 0; i < gameobjectfields.TicketHUD.transform.childCount; i++) {
 					//individual ticket 
-					GameObject ticket= TicketHUD.transform.GetChild(i).gameObject;
-					bool invalidTicket=false;
+					GameObject ticket= gameobjectfields.TicketHUD.transform.GetChild(i).gameObject;
+					bool validTicket=false;
 					for (int ii = 0; ii < ticket.transform.childCount; ii++) {
 						//individual ingredient 
 						GameObject ingredient= ticket.transform.GetChild(ii).gameObject;
@@ -146,7 +161,7 @@ public class OrderUI : MonoBehaviour {
 						bool match = IngredientSet.ingredientSprites [GameController.instance.player.GetComponent<ObjectCatcher> ().ingredientType] == ingredient.GetComponent<Image> ().sprite
 						            || IngredientSet.ingredientSprites_full [GameController.instance.player.GetComponent<ObjectCatcher> ().ingredientType] == ingredient.GetComponent<Image> ().sprite;
 
-						invalidTicket = (invalidTicket || match);
+						validTicket = (validTicket || match);
 
 						//Check if ingredient collected matches an order ingredient
 						if (match) {
@@ -182,9 +197,11 @@ public class OrderUI : MonoBehaviour {
 						}
 							
 					}
-					if (!invalidTicket && ticket.tag=="Ticket") {
-						Debug.Log ("BAD TICKET");
-						ticket.GetComponent<Image> ().color = new Color (1f, 0f, 0f, .5f);
+					if (!validTicket && ticket.tag=="Ticket") {
+						//Debug.Log ("BAD TICKET");
+						//Mark Invalid
+						//ticket.GetComponent<Image> ().color = new Color (1f, 0f, 0f, .5f);
+						ticket.GetComponent<Image> ().sprite = gameobjectfields.InvalidTicket;
 					}
 				}
 			}
@@ -194,11 +211,11 @@ public class OrderUI : MonoBehaviour {
 	public void CreateCollectedItem () {
 		//Debug.Log ("Create a new item");
 		//creates the collection container prefab 
-		GameObject container = Instantiate (CollectionContainerPrefab) as GameObject;
-		container.transform.SetParent (CollectionHUD.transform, false);	
+		GameObject container = Instantiate (gameobjectfields.CollectionContainerPrefab) as GameObject;
+		container.transform.SetParent (gameobjectfields.CollectionHUD.transform, false);	
 
 		//creates collected item prefab
-		GameObject icon = Instantiate (CollectedIngredientPrefab) as GameObject;
+		GameObject icon = Instantiate (gameobjectfields.CollectedIngredientPrefab) as GameObject;
 		icon.transform.SetParent (container.transform, false); 
 
 		//sets the correct ingredient sprite
@@ -211,9 +228,9 @@ public class OrderUI : MonoBehaviour {
 	public void CheckIngredientComplete (Text collectedIngredCount, GameObject collectedItem) {
 		//Iterates through top HUD and checks the ingredient requirements with the collection number of collectedItem
 		//Gets each ticket
-		for (int ii = 0; ii < TicketHUD.transform.childCount; ii++) {
+		for (int ii = 0; ii < gameobjectfields.TicketHUD.transform.childCount; ii++) {
 			//bool orderComplete = true;
-			GameObject ticket = TicketHUD.transform.GetChild (ii).gameObject;
+			GameObject ticket = gameobjectfields.TicketHUD.transform.GetChild (ii).gameObject;
 			//Gets each ingredient item
 			for (int iii = 0; iii < ticket.transform.childCount; iii++) {
 				GameObject ingredient = ticket.transform.GetChild (iii).gameObject;
@@ -227,10 +244,12 @@ public class OrderUI : MonoBehaviour {
 					} 
 					//Check if you have too many
 					if (Int32.Parse (ingredient.transform.GetChild (0).GetChild (0).GetComponent<Text> ().text) < Int32.Parse (collectedIngredCount.text)) {
-						Debug.Log ("Collected too many: turn ticket red");
+						//Debug.Log ("Collected too many: turn ticket red");
+						//Mark Invalid
 						ingredient.transform.GetChild (0).GetChild (0).GetComponent<Text> ().color = Color.white;
-						ticket.GetComponent<Image> ().color = new Color (1f, 0f, 0f, .5f);
+						//ticket.GetComponent<Image> ().color = new Color (1f, 0f, 0f, .5f);
 						//ingredient.GetComponent<Image> ().color =new Color (0f, 1f, 0f, 1f);
+						ticket.GetComponent<Image> ().sprite = gameobjectfields.InvalidTicket;
 					}
 				} 
 			}
@@ -239,11 +258,11 @@ public class OrderUI : MonoBehaviour {
 
 	public void CheckOrderComplete () {
 		if (GameController.instance.player.GetComponent<ObjectCatcher> ().GetnewIngredient () == true) {
-			for (int i = 0; i < TicketHUD.transform.childCount; i++) {
+			for (int i = 0; i < gameobjectfields.TicketHUD.transform.childCount; i++) {
 				//individual ticket 
-				GameObject ticket = TicketHUD.transform.GetChild (i).gameObject;
+				GameObject ticket = gameobjectfields.TicketHUD.transform.GetChild (i).gameObject;
 				bool orderComplete = true; 
-				bool invalidTicket=false;
+				bool validTicket=false;
 				for (int ii = 0; ii < ticket.transform.childCount; ii++) {
 					//individual ingredient 
 					GameObject ingredient = ticket.transform.GetChild (ii).gameObject;
@@ -253,61 +272,73 @@ public class OrderUI : MonoBehaviour {
 					bool match = IngredientSet.ingredientSprites [GameController.instance.player.GetComponent<ObjectCatcher> ().ingredientType] == ingredient.GetComponent<Image> ().sprite
 						|| IngredientSet.ingredientSprites_full [GameController.instance.player.GetComponent<ObjectCatcher> ().ingredientType] == ingredient.GetComponent<Image> ().sprite;
 
-					invalidTicket = (invalidTicket || match);
+					validTicket = (validTicket || match);
 
-					Debug.Log ("ingredient index is: "+ii);
-					Debug.Log ("ingredient is: "+ingredient.GetComponent<Image> ().sprite);
-					Debug.Log ("orderComplete= "+orderComplete);
+//					Debug.Log ("ingredient index is: "+ii);
+//					Debug.Log ("ingredient is: "+ingredient.GetComponent<Image> ().sprite);
+//					Debug.Log ("orderComplete= "+orderComplete);
 
 
 					//Get each collected ingredient
-					for (int iii = 0; iii < CollectionHUD.transform.childCount; iii++) {
-						GameObject collectedItem = CollectionHUD.transform.GetChild (iii).GetChild (0).gameObject;
+					for (int iii = 0; iii < gameobjectfields.CollectionHUD.transform.childCount; iii++) {
+						GameObject collectedItem = gameobjectfields.CollectionHUD.transform.GetChild (iii).GetChild (0).gameObject;
 
-
-						Debug.Log ("collection index is: "+iii);
-						Debug.Log ("collected item: "+collectedItem.GetComponent<Image> ().sprite);
-						Debug.Log ("orderComplete= "+orderComplete);
+//
+//						Debug.Log ("collection index is: "+iii);
+//						Debug.Log ("collected item: "+collectedItem.GetComponent<Image> ().sprite);
+//						Debug.Log ("orderComplete= "+orderComplete);
 
 						//Checks if ingredient matches collected item
 						if (ingredient.GetComponent<Image> ().sprite == collectedItem.GetComponent<Image> ().sprite) {
 
 
 
-							Debug.Log ("ingredient and collection sprites match");
+							//Debug.Log ("ingredient and collection sprites match");
 
 							//checks if the required count and collected count are equal
 							if (ingredient.transform.GetChild (0).GetChild (0).GetComponent<Text> ().text == collectedItem.transform.GetChild (0).GetChild (0).GetComponent<Text> ().text) {
 								orderComplete = orderComplete && true; 
-								Debug.Log ("Numbers match!!! orderComplete now= "+orderComplete);
+								//Debug.Log ("Numbers match!!! orderComplete now= "+orderComplete);
 							} 
 							else {
 								orderComplete = orderComplete && false;
-								Debug.Log ("Numbers DO NOT MATCH. orderComplete now= "+orderComplete);
+								//Debug.Log ("Numbers DO NOT MATCH. orderComplete now= "+orderComplete);
 							}
 							ingredientChecked = ingredientChecked || true; 
 						}
 						ingredientChecked = ingredientChecked || false; 
-						Debug.Log ("did a collection item ");
+						//Debug.Log ("did a collection item ");
+						////Debug.Log ("ingred checked "+ingredientChecked);
 					}
 					if (!ingredientChecked) {
 						orderComplete = orderComplete && false;
+						//Debug.Log ("orderComplete= "+orderComplete);
 					}
-					Debug.Log ("did a ticket ingredient ");
+					//Debug.Log ("did a ticket ingredient ");
 				}
-				Debug.Log ("did a ticket");
+				//Debug.Log ("did a ticket");
+				//Check is previously marked invalid
+				if (ticket.GetComponent<Image> ().sprite == gameobjectfields.InvalidTicket) {
+					validTicket = validTicket && false;
+					//Debug.Log ("SET INVALIDDDDDDDDD");
 
-				if (orderComplete && ticket.tag=="Ticket" && !invalidTicket) {
-					Debug.Log("Mark ticket complete");
-					ticket.GetComponent<Image> ().color = new Color (0f, 1f, 0f, .5f);
+				}
+
+				if (orderComplete && ticket.tag=="Ticket" && validTicket) {
+					//Debug.Log("Mark ticket complete");
+					//Mark Compelete
+					//ticket.GetComponent<Image> ().color = new Color (0f, 1f, 0f, .5f);
+					ticket.GetComponent<Image> ().sprite = gameobjectfields.CompletedTicket;
 					for (int iii = 0; iii < ticket.transform.childCount; iii++) {
 						GameObject ingredient = ticket.transform.GetChild (iii).gameObject;
 						ingredient.transform.GetChild (0).GetChild (0).GetComponent<Text> ().color = Color.white;
 					}
 				}
-				if (!invalidTicket && ticket.tag=="Ticket") {
-					Debug.Log ("BAD TICKET");
-					ticket.GetComponent<Image> ().color = new Color (1f, 0f, 0f, .5f);
+				if (!validTicket && ticket.tag=="Ticket") {
+					//Debug.Log ("BAD TICKET");
+					//Mark Invalid
+					//ticket.GetComponent<Image> ().color = new Color (1f, 0f, 0f, .5f);
+					ticket.GetComponent<Image> ().sprite = gameobjectfields.InvalidTicket;
 				}
 
 			}
@@ -321,12 +352,11 @@ public class OrderUI : MonoBehaviour {
 		}
 
 		if (GameController.instance.player.GetComponent<ObjectCatcher> ().GetnewIngredient () == true) {
-			Debug.Log ("TEST TESTESTES");
-			if (CollectionHUD.transform.childCount > 0) {
+			if (gameobjectfields.CollectionHUD.transform.childCount > 0) {
 				bool haveIt=false;
 				//Get each collected ingredient
-				for (int i = 0; i < CollectionHUD.transform.childCount; i++) {
-					GameObject collectedItem = CollectionHUD.transform.GetChild (i).GetChild(0).gameObject;
+				for (int i = 0; i < gameobjectfields.CollectionHUD.transform.childCount; i++) {
+					GameObject collectedItem = gameobjectfields.CollectionHUD.transform.GetChild (i).GetChild(0).gameObject;
 					//Check if previously collectedItem matches new ingredient sprite 
 					if (IngredientSet.ingredientSprites_full [GameController.instance.player.GetComponent<ObjectCatcher> ().ingredientType] == collectedItem.GetComponent<Image> ().sprite) {
 						//Already Collected, Update Count
@@ -362,12 +392,12 @@ public class OrderUI : MonoBehaviour {
 		DeleteTickets ();
 		DeleteCollectedIngredients ();
 		// reset text fields
-		levelOrderList.text = "";
-		currentBurrito.text = "";
-		submissionMessage.text = "";
-		winMessage.text = "";
-		loseMessage.text = "";
-		orderTotalDisplay.text = "";
+		textfields.levelOrderList.text = "";
+		textfields.currentBurrito.text = "";
+		textfields.submissionMessage.text = "";
+		textfields.winMessage.text = "";
+		textfields.loseMessage.text = "";
+		textfields.orderTotalDisplay.text = "";
 	}
 
 	public void ResetAfterDeath() {
@@ -385,9 +415,9 @@ public class OrderUI : MonoBehaviour {
 	}
 
 	public void DeleteTicket(int index) {
-		if (TicketHUD.transform.childCount > 2*index) {
-			GameObject.DestroyObject (TicketHUD.transform.GetChild (2*index).gameObject);
-			GameObject.DestroyObject (TicketHUD.transform.GetChild (2*index+1).gameObject);
+		if (gameobjectfields.TicketHUD.transform.childCount > 2*index) {
+			GameObject.DestroyObject (gameobjectfields.TicketHUD.transform.GetChild (2*index).gameObject);
+			GameObject.DestroyObject (gameobjectfields.TicketHUD.transform.GetChild (2*index+1).gameObject);
 		}
 	}
 		
@@ -399,8 +429,8 @@ public class OrderUI : MonoBehaviour {
 
 
 	public void DeleteColelctedContianer(int index) {
-			if (CollectionHUD.transform.childCount > index) {
-				GameObject.DestroyObject (CollectionHUD.transform.GetChild (index).gameObject);
+		if (gameobjectfields.CollectionHUD.transform.childCount > index) {
+			GameObject.DestroyObject (gameobjectfields.CollectionHUD.transform.GetChild (index).gameObject);
 		}
 	}
 
@@ -412,26 +442,26 @@ public class OrderUI : MonoBehaviour {
 
 
 		orders = OrderController.instance.orderList;
-		levelOrderList.text = OrderController.instance.OrderListToString();
+		textfields.levelOrderList.text = OrderController.instance.OrderListToString();
 		orderTotal = orders.Count;
-		orderTotalDisplay.text = orders.Count.ToString();
+		textfields.orderTotalDisplay.text = orders.Count.ToString();
 		if (GameController.instance.player != null) {
-			currentBurrito.text = GameController.instance.player.GetComponent<ObjectCatcher> ().GetTextString ();
+			textfields.currentBurrito.text = GameController.instance.player.GetComponent<ObjectCatcher> ().GetTextString ();
 		}
 	}
 
 	public void setWinMessage(string msg) {
-		winMessage.text = msg;
+		textfields.winMessage.text = msg;
 	}
 	public void setSubmissionMessage(string msg) {
-		submissionMessage.text = msg;
+		textfields.submissionMessage.text = msg;
 	}
 
 
 
 	// Update is called once per frame
 	void Update() {
-		if (canvasHUD.activeSelf) {
+		if (gameobjectfields.canvasHUD.activeSelf) {
 			UpdateUI ();
 
 			if (initializeTickets) {
