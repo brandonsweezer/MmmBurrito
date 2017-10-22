@@ -60,6 +60,12 @@ public class MovementControllerIsometric : MonoBehaviour {
         {
             timerVar--;
         }
+        if (Input.GetKeyDown(KeyCode.T))
+        {
+            LoggingManager.instance.RecordEvent(3, "Trashed ingredients with T: " + GameController.instance.player.GetComponent<ObjectCatcher>().getIngredients().ToString());
+            GameController.instance.player.GetComponent<ObjectCatcher>().getIngredients().Empty();
+            OrderUI.instance.ResetAfterDeath();
+        }
         // only execute if a key is being held
         if (Input.anyKey) {
             
