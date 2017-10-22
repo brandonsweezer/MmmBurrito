@@ -149,8 +149,11 @@ public class IngredientSet : MonoBehaviour {
 	// Returns true if the other IngredientSet has the same ingredient counts
 	// (i.e. same number of beans, cheese, tomatoes, etc.)
 	public bool Equivalent(IngredientSet other) {
+        if (this.ingredients == null || other.ingredients == null)
+        {
+            return false;
+        }
 		bool ingredientsAllMatch = Enumerable.SequenceEqual(this.ingredients, other.ingredients);
 		return ingredientsAllMatch;
-		// TODO: read null check
 	}
 }

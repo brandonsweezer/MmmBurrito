@@ -85,7 +85,7 @@ public class SubmissionController : MonoBehaviour {
                 orders.Remove (order);
                 if (orders.Count == 0){
                     Debug.Log("All orders completed");
-					setWinString ("You Win! Score: "+score+"\n(Press escape to return to menu)");
+					setWinString ("You Win! Score: "+GameController.instance.score+"\n(Press escape to return to menu)");
 					GameController.instance.levelComplete = true;
 
                     //Create GoToWinScreen instead?
