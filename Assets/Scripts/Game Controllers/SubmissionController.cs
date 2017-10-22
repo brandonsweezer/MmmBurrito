@@ -77,7 +77,7 @@ public class SubmissionController : MonoBehaviour {
 				matched = true;
 				Debug.Log ("Matches one of the orders!");
 				setTextString ("Matches one of the orders!");
-				int score = burritoCaughtIngredients.getSumOfQualities ()*100;
+				int score = burritoCaughtIngredients.getSumOfQualities ()*50;
 				GameController.instance.score += score;
                 Debug.Log("You just got "+score+" score!");
                 LoggingManager.instance.RecordEvent(2, "Submitted ingredients: " + GameController.instance.player.GetComponent<ObjectCatcher>().getIngredients().ToString()
