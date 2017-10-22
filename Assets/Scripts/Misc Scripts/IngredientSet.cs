@@ -125,7 +125,7 @@ public class IngredientSet : MonoBehaviour {
 
 	// Formats the ingredient set as a string
 	override public string ToString(){
-		if (ingredients.Length == 0 || this == null) {
+		if (ingredients.Length == 0 || this.ingredients == null) {
 			return "Empty ingredient set";
 		}
 

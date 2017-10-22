@@ -41,7 +41,7 @@ public class CaughtIngredientSet {
 		return qualitySum;
 	}
 
-	public string ToString() {
+    override public string ToString() {
 		return ingredientSet.ToString ();
 	}
 }
