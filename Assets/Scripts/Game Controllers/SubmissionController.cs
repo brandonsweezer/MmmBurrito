@@ -85,7 +85,7 @@ public class SubmissionController : MonoBehaviour {
                 orders.Remove (order);
                 if (orders.Count == 0){
                     Debug.Log("All orders completed");
-					setWinString ("You Win! Score: "+GameController.instance.score+"\n(Press escape to return to menu)");
+					setWinString ("You Win! Score: "+GameController.instance.score+"\n(Press escape to return to menu)\n(Press enter to go to next level)");
                     LoggingManager.instance.RecordEvent(8, "Won level, timer at " + GameController.instance.gameTime);
                     GameController.instance.levelComplete = true;
 

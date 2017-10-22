@@ -8,6 +8,7 @@ public class LevelLoader : MonoBehaviour {
 	public GameObject canvasHUD;
 	public GameObject canvasMenu;
 
+    private int maxLevelNumber = 6;
 	private int loadingLevelNumber;
 	private bool inMenu;
 
@@ -16,9 +17,23 @@ public class LevelLoader : MonoBehaviour {
 		inMenu = true;
 	}
 
+    public void GoToNextLevel()
+    {
+        //logging level end
+        LoggingManager.instance.RecordEvent(7, "Level_" + loadingLevelNumber + " quit, timer at " + GameController.instance.gameTime);
+        LoggingManager.instance.RecordLevelEnd();
+
+        //next level
+        loadingLevelNumber++;
+        Debug.Log(loadingLevelNumber);
+        SceneManager.LoadScene("Level_" + loadingLevelNumber);
+        LoggingManager.instance.RecordLevelStart(loadingLevelNumber, "");
+    }
+
 	public void GoToLevel(int levelNumber) {
 		inMenu = false;
 		loadingLevelNumber = levelNumber;
+        Debug.Log(loadingLevelNumber);
 		SceneManager.LoadScene ("Level_"+levelNumber);
         LoggingManager.instance.RecordLevelStart(levelNumber, "");
     }
@@ -48,7 +63,6 @@ public class LevelLoader : MonoBehaviour {
 		if (scene.name.Contains ("Level_")) {
 			// Loaded a level.
 			InitializeLevel (loadingLevelNumber);
-			loadingLevelNumber = -1;
 			SetActiveCanvas ();
 		} else {
 			// Loaded a menu.
@@ -150,9 +164,16 @@ public class LevelLoader : MonoBehaviour {
 	}
 
 	void Update () {
-		if (Input.GetKeyDown (KeyCode.Escape) && !inMenu) {
-			GoToMenu ();
-		}
+        if (Input.GetKeyDown(KeyCode.Escape) && !inMenu) {
+            GoToMenu();
+        }
+        else if (Input.GetKeyDown(KeyCode.Return) && !inMenu && GameController.instance.levelComplete)
+        {
+            if (loadingLevelNumber != maxLevelNumber)
+            {
+                GoToNextLevel();
+            }
+        }
 	}
 
 
