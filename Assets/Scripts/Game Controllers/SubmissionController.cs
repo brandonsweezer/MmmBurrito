@@ -86,7 +86,8 @@ public class SubmissionController : MonoBehaviour {
                 if (orders.Count == 0){
                     Debug.Log("All orders completed");
 					setWinString ("You Win! Score: "+GameController.instance.score+"\n(Press escape to return to menu)");
-					GameController.instance.levelComplete = true;
+                    LoggingManager.instance.RecordEvent(8, "Won level, timer at " + GameController.instance.gameTime);
+                    GameController.instance.levelComplete = true;
 
                     //Create GoToWinScreen instead?
                     // GameController.instance.GetComponent<LevelLoader>().GoToMenu();

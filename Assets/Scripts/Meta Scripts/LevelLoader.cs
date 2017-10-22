@@ -25,7 +25,8 @@ public class LevelLoader : MonoBehaviour {
 
 	public void GoToMenu () {
 		inMenu = true;
-		SceneManager.LoadScene ("LevelSelection");
+        LoggingManager.instance.RecordEvent(7, "Level_" + loadingLevelNumber + " quit, timer at " + GameController.instance.gameTime);
+        SceneManager.LoadScene ("LevelSelection");
         LoggingManager.instance.RecordLevelEnd();
     }
 

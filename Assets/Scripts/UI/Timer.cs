@@ -53,8 +53,10 @@ public class Timer : MonoBehaviour {
 			}
 		}
 		timeDisplay = (Mathf.Ceil (time)).ToString ();
+        GameController.instance.gameTime = (int)time;
 
-		textInstance.text = timeDisplay;
+
+        textInstance.text = timeDisplay;
 	
 
 	}

@@ -18,6 +18,8 @@ public class _preloader : MonoBehaviour {
          * 4 Dashing (MovementControllerIsometric)
          * 5 Death (VulnerableToHazards)
          * 6 Catching Ingredients (ObjectCatcher)
+         * 7 Level end + timer (LevelLoader)
+         * 8 Level win + timer (SubmissionController)
          */
     }
 }
