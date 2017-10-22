@@ -25,7 +25,6 @@ public class LevelLoader : MonoBehaviour {
 
         //next level
         loadingLevelNumber++;
-        Debug.Log(loadingLevelNumber);
         SceneManager.LoadScene("Level_" + loadingLevelNumber);
         LoggingManager.instance.RecordLevelStart(loadingLevelNumber, "");
     }
@@ -33,7 +32,6 @@ public class LevelLoader : MonoBehaviour {
 	public void GoToLevel(int levelNumber) {
 		inMenu = false;
 		loadingLevelNumber = levelNumber;
-        Debug.Log(loadingLevelNumber);
 		SceneManager.LoadScene ("Level_"+levelNumber);
         LoggingManager.instance.RecordLevelStart(levelNumber, "");
     }
