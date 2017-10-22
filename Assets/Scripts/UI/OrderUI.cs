@@ -57,7 +57,10 @@ public class OrderUI : MonoBehaviour {
 	private int orderCount;
 
 	private Dictionary<IngredientSet.Ingredients,Sprite> spriteDict; 
-	private Dictionary<IngredientSet.Ingredients,Sprite> spriteDict_full; 
+	private Dictionary<IngredientSet.Ingredients,Sprite> spriteDict_full;
+
+    private static int SUBMISSION_TIMER = 300;
+    private int submissionTextTimer = SUBMISSION_TIMER;
 
 
 	// Make this class a singleton
@@ -440,7 +443,7 @@ public class OrderUI : MonoBehaviour {
 		TicketUpdate();
 		CollectionUIUpdate ();
 
-
+        
 		orders = OrderController.instance.orderList;
 		textfields.levelOrderList.text = OrderController.instance.OrderListToString();
 		orderTotal = orders.Count;
@@ -448,6 +451,16 @@ public class OrderUI : MonoBehaviour {
 		if (GameController.instance.player != null) {
 			textfields.currentBurrito.text = GameController.instance.player.GetComponent<ObjectCatcher> ().GetTextString ();
 		}
+
+        // display submission text for SUBMISSION_TIMER ms
+        if (submissionTextTimer == 0) {
+            textfields.submissionMessage.text = "";
+            submissionTextTimer = SUBMISSION_TIMER;
+        }
+        else
+        {
+            submissionTextTimer--;
+        }
 	}
 
 	public void setWinMessage(string msg) {
@@ -455,6 +468,7 @@ public class OrderUI : MonoBehaviour {
 	}
 	public void setSubmissionMessage(string msg) {
 		textfields.submissionMessage.text = msg;
+        submissionTextTimer = SUBMISSION_TIMER;
 	}
 
 
