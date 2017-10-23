@@ -5,10 +5,11 @@ using UnityEngine;
 public class MovementControllerIsometricNew : MonoBehaviour {
 
 	// Speed vars
-	private static float maxSpeed = 15f;
-	private static float dashSpeed = 35f;
+	private static float maxSpeed = 13f;
+	private static float dashSpeed = 38f;
 	private static float dashBoostDistance = 0.7f;
 	private static float dashCooldown = 0.8f; // dash cooldown in seconds.
+	private static float dashSlowDownFactor = 0.1f;
 
 	// Control responsiveness vars
 	private static float velocityChangeRate = 0.2f;
@@ -86,9 +87,16 @@ public class MovementControllerIsometricNew : MonoBehaviour {
 		if (dashInput && (Time.time - timeOfLastDash) > dashCooldown) {
 			Dash(targetDirection);
 		} else {
-			// Not dashing. Simply lerp the velocity to the max speed
-			// (note: this takes care of slowing down the dash too)
-			rb.velocity = Vector3.Lerp (rb.velocity, targetDirection * maxSpeed, velocityChangeRate);
+			float currentSpeed = rb.velocity.magnitude;
+			if (currentSpeed > maxSpeed) {
+				// if going over the max speed, we decrease the speed slower than we turn
+				Vector3 newDirection = Vector3.Lerp (rb.velocity.normalized, targetDirection, velocityChangeRate);
+				float newSpeed = Mathf.Lerp (currentSpeed, maxSpeed, dashSlowDownFactor);
+				rb.velocity = newDirection * newSpeed;
+			} else {
+				// else we can just take care of it all in one
+				rb.velocity = Vector3.Lerp (rb.velocity, targetDirection * maxSpeed, velocityChangeRate);
+			}
 
 			// Set the rotation based on the velocity
 			if (rb.velocity != Vector3.zero) {
