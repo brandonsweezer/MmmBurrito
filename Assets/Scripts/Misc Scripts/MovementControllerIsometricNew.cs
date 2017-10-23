@@ -21,6 +21,10 @@ public class MovementControllerIsometricNew : MonoBehaviour {
 	private bool dashInput;
 	private float timeOfLastDash;
 
+	// Dash particle system
+	public GameObject dashParticleSystem;
+	private Vector3 dashParticleSpawnOffset = new Vector3(0, 0, 0);
+
 
 	void Awake () {
 		rb = GetComponent<Rigidbody> ();
@@ -85,18 +89,18 @@ public class MovementControllerIsometricNew : MonoBehaviour {
 			// Not dashing. Simply lerp the velocity to the max speed
 			// (note: this takes care of slowing down the dash too)
 			rb.velocity = Vector3.Lerp (rb.velocity, targetDirection * maxSpeed, velocityChangeRate);
-		}
 
-		// Set the rotation based on the velocity
-		if (rb.velocity != Vector3.zero) {
-			Vector3 targetFacing = rb.velocity;
-			// Always pick the fastest way to turn
-			// (ex: moving backwards vs forwards in quick succession should do no rotation)
-			if (Vector3.Angle (transform.forward, rb.velocity) > 90f) {
-				targetFacing = -targetFacing;
+			// Set the rotation based on the velocity
+			if (rb.velocity != Vector3.zero) {
+				Vector3 targetFacing = rb.velocity;
+				// Always pick the fastest way to turn
+				// (ex: moving backwards vs forwards in quick succession should do no rotation)
+				if (Vector3.Angle (transform.forward, rb.velocity) > 90f) {
+					targetFacing = -targetFacing;
+				}
+				// Lerp angles (on top of using the lerped velocity)
+				transform.forward = Vector3.Lerp (transform.forward, targetFacing, additionalTurnRateLerp);
 			}
-			// Lerp angles (on top of using the lerped velocity)
-			transform.forward = Vector3.Lerp(transform.forward, targetFacing, additionalTurnRateLerp);
 		}
 	}
 
@@ -105,7 +109,12 @@ public class MovementControllerIsometricNew : MonoBehaviour {
 		rb.velocity = targetDirection * dashSpeed;
 		transform.position = transform.position + targetDirection * dashBoostDistance;
 		timeOfLastDash = Time.time;
+
 		LoggingManager.instance.RecordEvent(4, "Dashing");
+
+		// dash particles
+		transform.forward = targetDirection;
+		Instantiate (dashParticleSystem, transform.position + dashParticleSpawnOffset, transform.rotation);
 	}
 
 	// Returns true if we're trying to move with the input
