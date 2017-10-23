@@ -2,29 +2,47 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DecayAndDie : MonoBehaviour {
+public class FallDecayDie : MonoBehaviour {
 
 	private bool decaying;
 
 	public int startingQualityLevel;
+
 	// Number of seconds it takes to decrease one quality level
 	public float decayRate;
 
+	// Fall speed
+	private static float slowFallSpeed = 5f;
+
 	private int qualityLevel;
+	private bool slowFalling;
+	private Rigidbody rb;
 
 	// Use this for initialization
 	void Start () {
 		decaying = false;
 		qualityLevel = startingQualityLevel;
-		// only enable first child (which should be the freshest model/material)
+
+		// Only enable first child (which should be the freshest model/material).
 		for (int i = 1; i < transform.childCount; i++) {
 			transform.GetChild (i).gameObject.SetActive(false);
 		}
+
+		// Disable gravity for constant fall speed.
+		rb = GetComponent<Rigidbody>();
+		rb.useGravity = false;
+		slowFalling = true;
 	}
 
     public int getQuality(){
         return qualityLevel;
     }
+
+	void FixedUpdate() {
+		if (slowFalling) {
+			rb.velocity = new Vector3 (rb.velocity.x, -slowFallSpeed, rb.velocity.z);
+		}
+	}
 
 	// Start decaying after hitting something
 	void OnCollisionEnter(Collision col) {
@@ -33,6 +51,10 @@ public class DecayAndDie : MonoBehaviour {
 			StartCoroutine (Decay ());
 			GetComponent<IngredientIndicator> ().DestroyIndicator ();
 		}
+
+		// re-enable gravity
+		GetComponent<Rigidbody>().useGravity = true;
+		slowFalling = false;
 	}
 
 	// Sets the quality level to a particular value, and enables the corresponding child model

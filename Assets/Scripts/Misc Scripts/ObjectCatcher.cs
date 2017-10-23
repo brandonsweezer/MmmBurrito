@@ -64,7 +64,7 @@ public class ObjectCatcher : MonoBehaviour {
 		// Catch object
 		string objectName = gameObj.name.Replace ("(Clone)", "");
 		ingredientType = IngredientSet.StringToIngredient (objectName);
-		int quality = gameObj.GetComponent<DecayAndDie> ().getQuality ();
+		int quality = gameObj.GetComponent<FallDecayDie> ().getQuality ();
 		caughtIngredients.CatchIngredient (ingredientType, quality);
 		SetnewIngredient (true);
 
