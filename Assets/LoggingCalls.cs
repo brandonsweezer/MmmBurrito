@@ -19,7 +19,6 @@ public class LoggingCalls : MonoBehaviour {
 		}
 		if (Time.time - lastPositionLog > positionLogCooldown) {
 			lastPositionLog = Time.time;
-			Debug.Log ("logged pos");
 			string positionLogMessage = "Coordinates: " + GameController.instance.player.transform.position.x + 
 				", " + GameController.instance.player.transform.position.z;
 			LoggingManager.instance.RecordEvent (0, positionLogMessage);
