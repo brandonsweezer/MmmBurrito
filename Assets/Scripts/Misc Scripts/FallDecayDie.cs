@@ -12,7 +12,7 @@ public class FallDecayDie : MonoBehaviour {
 	public float decayRate;
 
 	// Fall speed
-	private static float slowFallSpeed = 5f;
+	private static float slowFallSpeed = 7f;
 
 	private int qualityLevel;
 	private bool slowFalling;
