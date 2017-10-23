@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class Timer : MonoBehaviour {
 
-	public Slider sliderInstance;
+
 	public Image circle;
 
 
@@ -24,8 +24,7 @@ public class Timer : MonoBehaviour {
 	}
 
 	public void TimerInit (int maxTime) {
-		sliderInstance.minValue = 0;
-		sliderInstance.maxValue = maxTime;
+
 		time = maxTime;
 		maxT = maxTime;
 		tick = .0001f;
@@ -43,16 +42,31 @@ public class Timer : MonoBehaviour {
 
 		time -= Time.deltaTime;
 		circle.fillAmount = time/maxT;
-		sliderInstance.value = time;
-		if (time < 10) {
-			textInstance.color = Color.red;
-			if (time < 0) {
-				time = 0.0f;
-				losetext.text = "You Lose! No time left!\nPress escape to return to the main menu";
-				GameController.instance.levelComplete = true;
-			}
+		if (time < 0) {
+			time = 0.0f;
+			losetext.text = "You Lose! No time left!\nPress escape to return to the main menu";
+			GameController.instance.levelComplete = true;
 		}
-		timeDisplay = (Mathf.Ceil (time)).ToString ();
+		bool timeEnding = false;
+		float totalSeconds = Mathf.Ceil (time);
+		int minutes = (int) totalSeconds / 60;
+		int seconds = (int) totalSeconds % 60; 
+
+		string secondsDisplay;
+		if (seconds < 10) {
+			secondsDisplay = "0" + seconds.ToString ();
+		} else {
+			secondsDisplay = seconds.ToString ();
+		}
+		if (seconds <= 30 && minutes == 0) {
+			timeEnding = true;
+		}
+			
+
+		timeDisplay = minutes.ToString() +":" +secondsDisplay;
+		if (timeEnding) {
+			textInstance.color = Color.red;
+		}
         GameController.instance.gameTime = (int)time;
 
 

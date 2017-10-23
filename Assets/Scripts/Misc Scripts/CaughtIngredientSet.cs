@@ -24,7 +24,9 @@ public class CaughtIngredientSet {
 
 	public void Empty() {
 		ingredientSet.Clear ();
-		Array.Clear (ingredientQualities, 0, ingredientQualities.Length);
+		for (int i = 0; i < ingredientQualities.Length; i++) {
+			ingredientQualities [i].Clear();
+		}
 	}
 
 	public bool IsEmpty() {

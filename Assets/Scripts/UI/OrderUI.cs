@@ -131,7 +131,7 @@ public class OrderUI : MonoBehaviour {
 				//sets the correct ingredient sprite
 				icon.GetComponent<Image> ().sprite = IngredientSet.ingredientSprites[ingredient];
 				//sets the required number of this particular ingredient 
-				icon.transform.GetChild(0).GetChild(0).GetComponent<Text>().text= count.ToString();
+				//icon.transform.GetChild(0).GetChild(0).GetComponent<Text>().text= count.ToString();
 
 
 			//We have a UI ticket (tick). We have an order (currOrd). Need to figure out how many inredients in that order (ingredientsTotal). Iterate through the enum 
@@ -223,9 +223,9 @@ public class OrderUI : MonoBehaviour {
 
 		//sets the correct ingredient sprite
 		icon.GetComponent<Image> ().sprite = IngredientSet.ingredientSprites_full [GameController.instance.player.GetComponent<ObjectCatcher> ().ingredientType];
-		//sets the collected amount to 1 
-		icon.transform.GetChild (0).GetChild (0).GetComponent<Text> ().text = "1";
-		CheckIngredientComplete (icon.transform.GetChild (0).GetChild (0).GetComponent<Text>(), icon);
+//		//sets the collected amount to 1 
+//		icon.transform.GetChild (0).GetChild (0).GetComponent<Text> ().text = "1";
+//		CheckIngredientComplete (icon.transform.GetChild (0).GetChild (0).GetComponent<Text>(), icon);
 	}
 
 	public void CheckIngredientComplete (Text collectedIngredCount, GameObject collectedItem) {
@@ -299,15 +299,15 @@ public class OrderUI : MonoBehaviour {
 							//Debug.Log ("ingredient and collection sprites match");
 
 							//checks if the required count and collected count are equal
-							if (ingredient.transform.GetChild (0).GetChild (0).GetComponent<Text> ().text == collectedItem.transform.GetChild (0).GetChild (0).GetComponent<Text> ().text) {
-								orderComplete = orderComplete && true; 
-								//Debug.Log ("Numbers match!!! orderComplete now= "+orderComplete);
-							} 
-							else {
-								orderComplete = orderComplete && false;
-								//Debug.Log ("Numbers DO NOT MATCH. orderComplete now= "+orderComplete);
-							}
-							ingredientChecked = ingredientChecked || true; 
+//							if (ingredient.transform.GetChild (0).GetChild (0).GetComponent<Text> ().text == collectedItem.transform.GetChild (0).GetChild (0).GetComponent<Text> ().text) {
+//								orderComplete = orderComplete && true; 
+//								//Debug.Log ("Numbers match!!! orderComplete now= "+orderComplete);
+//							} 
+//							else {
+//								orderComplete = orderComplete && false;
+//								//Debug.Log ("Numbers DO NOT MATCH. orderComplete now= "+orderComplete);
+//							}
+//							ingredientChecked = ingredientChecked || true; 
 						}
 						ingredientChecked = ingredientChecked || false; 
 						//Debug.Log ("did a collection item ");
@@ -355,34 +355,38 @@ public class OrderUI : MonoBehaviour {
 		}
 
 		if (GameController.instance.player.GetComponent<ObjectCatcher> ().GetnewIngredient () == true) {
-			if (gameobjectfields.CollectionHUD.transform.childCount > 0) {
-				bool haveIt=false;
-				//Get each collected ingredient
-				for (int i = 0; i < gameobjectfields.CollectionHUD.transform.childCount; i++) {
-					GameObject collectedItem = gameobjectfields.CollectionHUD.transform.GetChild (i).GetChild(0).gameObject;
-					//Check if previously collectedItem matches new ingredient sprite 
-					if (IngredientSet.ingredientSprites_full [GameController.instance.player.GetComponent<ObjectCatcher> ().ingredientType] == collectedItem.GetComponent<Image> ().sprite) {
-						//Already Collected, Update Count
-						Text countText = collectedItem.transform.GetChild (0).GetChild (0).GetComponent<Text> ();
-						string stringCount = countText.text.ToString ();
-						int intCount = Int32.Parse (stringCount);
-						intCount += 1;
-						string newStringCount = intCount.ToString ();
-						countText.text = newStringCount;
-						haveIt = true;
-						CheckIngredientComplete (countText, collectedItem);
-
-						break;
-					}
-
-				}
-				if (!haveIt) {
-					CreateCollectedItem ();
-				}
-			}
-			//New Item
-			else {
+//			if (gameobjectfields.CollectionHUD.transform.childCount > 0) {
+//				bool haveIt=false;
+//				//Get each collected ingredient
+//				for (int i = 0; i < gameobjectfields.CollectionHUD.transform.childCount; i++) {
+//					GameObject collectedItem = gameobjectfields.CollectionHUD.transform.GetChild (i).GetChild(0).gameObject;
+//					//Check if previously collectedItem matches new ingredient sprite 
+//					if (IngredientSet.ingredientSprites_full [GameController.instance.player.GetComponent<ObjectCatcher> ().ingredientType] == collectedItem.GetComponent<Image> ().sprite) {
+//						//Already Collected, Update Count
+//						Text countText = collectedItem.transform.GetChild (0).GetChild (0).GetComponent<Text> ();
+//						string stringCount = countText.text.ToString ();
+//						int intCount = Int32.Parse (stringCount);
+//						intCount += 1;
+//						string newStringCount = intCount.ToString ();
+//						countText.text = newStringCount;
+//						haveIt = true;
+//						CheckIngredientComplete (countText, collectedItem);
+//
+//						break;
+//					}
+//
+//				}
+//				if (!haveIt) {
+//					CreateCollectedItem ();
+//				}
+//			}
+//			//New Item
+//			else {
+//				CreateCollectedItem ();
+//			}
+			if (gameobjectfields.CollectionHUD.transform.childCount < 6) {
 				CreateCollectedItem ();
+				Debug.Log ("make");
 			}
 		}
 		CheckOrderComplete ();
