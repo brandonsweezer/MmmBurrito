@@ -66,14 +66,14 @@ public class IngredientSet : MonoBehaviour {
 		return ingredients[(int) ingredient];
 	}
 
-	// Returns the ingreident count of the order
+	// Returns the number of total ingredient in the order (counts duplicate ingredients)
 	public int GetFullCount() {
 		int count = 0; 
 
 
 		for (int i = 0; i < ingredients.Length; i++) {
 			if (ingredients [i] != 0) {
-				count++;
+				count=count + ingredients [i];
 			}
 		}
 		return count;

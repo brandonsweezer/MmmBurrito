@@ -31,6 +31,7 @@ public class Timer : MonoBehaviour {
 	}
 
 	public void startTimer () {
+		textInstance.color = Color.black;
 		running = true;
 	}
 
@@ -67,6 +68,7 @@ public class Timer : MonoBehaviour {
 		if (timeEnding) {
 			textInstance.color = Color.red;
 		}
+
         GameController.instance.gameTime = (int)time;
 
 
