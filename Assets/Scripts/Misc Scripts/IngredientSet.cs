@@ -11,11 +11,14 @@ public class IngredientSet : MonoBehaviour {
 
 
 
-	public Sprite e_bean, e_cheese, e_lettuce, e_meatball, e_rice, e_tomato; 
-	public Sprite f_bean, f_cheese, f_lettuce, f_meatball, f_rice, f_tomato; 
+ 
+	public Sprite f_bean, f_cheese, f_lettuce, f_meatball, f_rice, f_tomato;
+	public Sprite g_bean, g_cheese, g_lettuce, g_meatball, g_rice, g_tomato;
 
-	public static Dictionary<IngredientSet.Ingredients,Sprite> ingredientSprites;  
+ 
 	public static Dictionary<IngredientSet.Ingredients,Sprite> ingredientSprites_full; 
+	public static Dictionary<IngredientSet.Ingredients,Sprite> ingredientSprites_glowing; 
+	public static Dictionary<Sprite,Sprite> ingredientSprites_GlowtoFull; 
 
 
 
@@ -49,8 +52,9 @@ public class IngredientSet : MonoBehaviour {
 	}
 
 	void Start () {
-		CreateDict ();
 		CreateDictFull ();
+		CreateDictGlow ();
+		CreateDictGlowtoFull ();
 	}
 
 
@@ -91,20 +95,6 @@ public class IngredientSet : MonoBehaviour {
 
 
 
-	private void CreateDict () {
-		if (IngredientSet.ingredientSprites != null) {
-			return;
-		}
-		IngredientSet.ingredientSprites=new Dictionary<IngredientSet.Ingredients,Sprite> ();
-		IngredientSet.ingredientSprites.Add  (Ingredients.Beans, e_bean);
-		IngredientSet.ingredientSprites.Add  (Ingredients.Cheese, e_cheese);
-		IngredientSet.ingredientSprites.Add  (Ingredients.Lettuce, e_lettuce);
-		IngredientSet.ingredientSprites.Add  (Ingredients.Meatball, e_meatball);
-		IngredientSet.ingredientSprites.Add  (Ingredients.Rice, e_rice);
-		IngredientSet.ingredientSprites.Add  (Ingredients.Tomato, e_tomato);
-	}
-
-
 	private void CreateDictFull () {
 		if (IngredientSet.ingredientSprites_full != null) {
 			return;
@@ -117,6 +107,35 @@ public class IngredientSet : MonoBehaviour {
 		IngredientSet.ingredientSprites_full.Add  (Ingredients.Rice, f_rice);
 		IngredientSet.ingredientSprites_full.Add  (Ingredients.Tomato, f_tomato);
 	}
+
+
+	private void CreateDictGlow () {
+		if (IngredientSet.ingredientSprites_glowing != null) {
+			return;
+		}
+		IngredientSet.ingredientSprites_glowing=new Dictionary<IngredientSet.Ingredients,Sprite> ();
+		IngredientSet.ingredientSprites_glowing.Add  (Ingredients.Beans, g_bean);
+		IngredientSet.ingredientSprites_glowing.Add  (Ingredients.Cheese, g_cheese);
+		IngredientSet.ingredientSprites_glowing.Add  (Ingredients.Lettuce, g_lettuce);
+		IngredientSet.ingredientSprites_glowing.Add  (Ingredients.Meatball, g_meatball);
+		IngredientSet.ingredientSprites_glowing.Add  (Ingredients.Rice, g_rice);
+		IngredientSet.ingredientSprites_glowing.Add  (Ingredients.Tomato, g_tomato);
+	}
+
+
+	private void CreateDictGlowtoFull () {
+		if (IngredientSet.ingredientSprites_GlowtoFull != null) {
+			return;
+		}
+		IngredientSet.ingredientSprites_GlowtoFull=new Dictionary<Sprite,Sprite> ();
+		IngredientSet.ingredientSprites_GlowtoFull.Add  (g_bean, f_bean);
+		IngredientSet.ingredientSprites_GlowtoFull.Add  (g_cheese, f_cheese);
+		IngredientSet.ingredientSprites_GlowtoFull.Add  (g_lettuce, f_lettuce);
+		IngredientSet.ingredientSprites_GlowtoFull.Add  (g_meatball, f_meatball);
+		IngredientSet.ingredientSprites_GlowtoFull.Add  (g_rice, f_rice);
+		IngredientSet.ingredientSprites_GlowtoFull.Add  (g_tomato, f_tomato);
+	}
+
 
 	// Clears contents of the ingredient set
 	public void Clear(){

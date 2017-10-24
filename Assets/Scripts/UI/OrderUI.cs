@@ -56,8 +56,9 @@ public class OrderUI : MonoBehaviour {
 	private List<IngredientSet> orders;
 	private int orderCount;
 
-	private Dictionary<IngredientSet.Ingredients,Sprite> spriteDict; 
+	private Dictionary<IngredientSet.Ingredients,Sprite> spriteDict_glowing; 
 	private Dictionary<IngredientSet.Ingredients,Sprite> spriteDict_full;
+	private Dictionary<Sprite,Sprite> spriteDict_GlowtoFull;
 
     private static int SUBMISSION_TIMER = 300;
     private int submissionTextTimer = SUBMISSION_TIMER;
@@ -164,7 +165,13 @@ public class OrderUI : MonoBehaviour {
 			//individual ingredient 
 			GameObject ingredient = ticket.transform.GetChild (i).gameObject;
 			ingredient.GetComponent<Image> ().color = new Color (.7f, .7f, .7f, .5f);
-			ingredient.tag = ("Untagged");
+				//ingredient.GetComponent<Image> ().sprite = IngredientSet.ingredientSprites_full [GameController.instance.player.GetComponent<ObjectCatcher> ().ingredientType];
+			if (ingredient.tag == "MarkedIngredient"){
+					//Debug.Log ("sprite: " + ingredient.GetComponent<Image> ().sprite);
+					//Debug.Log ("dict entry: " + IngredientSet.ingredientSprites_GlowtoFull [ingredient.GetComponent<Image> ().sprite]);
+				ingredient.GetComponent<Image> ().sprite = IngredientSet.ingredientSprites_GlowtoFull [ingredient.GetComponent<Image> ().sprite];
+				ingredient.tag = ("Untagged");
+			}
 
 		}
 	}
@@ -211,7 +218,7 @@ public class OrderUI : MonoBehaviour {
 							//Set filled image in top HUD
 							//Marks ingredient active
 							if (continueLoop) {
-								//ingredient.GetComponent<Image> ().sprite = IngredientSet.ingredientSprites_full [GameController.instance.player.GetComponent<ObjectCatcher> ().ingredientType];
+								ingredient.GetComponent<Image> ().sprite = IngredientSet.ingredientSprites_glowing [GameController.instance.player.GetComponent<ObjectCatcher> ().ingredientType];
 								ingredient.GetComponent<Image> ().color = Color.white;
 								ingredient.tag = ("MarkedIngredient");
 								validIngredient = true;
@@ -250,9 +257,10 @@ public class OrderUI : MonoBehaviour {
 						}
 
 					}
-					if (completedIngredients == ticket.transform.childCount) {
+					if (completedIngredients == ticket.transform.childCount && ticket.tag=="Ticket") {
 						//Mark Complete
 						ticket.GetComponent<Image> ().sprite = gameobjectfields.CompletedTicket;
+						Debug.Log ("complete");
 					}
 					if ((!validTicket || !validIngredient) && ticket.tag=="Ticket") {
 						//Debug.Log ("BAD TICKET");
