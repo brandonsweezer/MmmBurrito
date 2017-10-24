@@ -72,7 +72,8 @@ public class SubmissionController : MonoBehaviour {
 		List<IngredientSet> orders = OrderController.instance.orderList;
 		bool matched = false;
 		foreach (IngredientSet order in orders) {
-			if (compareBurrito (order)) {
+            Debug.Log("hi");
+            if (compareBurrito (order)) {
 				//MATCHES
 				matched = true;
 				Debug.Log ("Matches one of the orders!");
@@ -82,8 +83,8 @@ public class SubmissionController : MonoBehaviour {
                 Debug.Log("You just got "+score+" score!");
                 LoggingManager.instance.RecordEvent(2, "Submitted ingredients: " + GameController.instance.player.GetComponent<ObjectCatcher>().getIngredients().ToString()
                     + ". Gained score: " + score);
-                orders.Remove (order);
-                if (orders.Count == 0){
+                OrderController.instance.orderList.RemoveAt (OrderController.instance.orderList.FindIndex(i => i.Equivalent(order)));
+                if (OrderController.instance.orderList.Count == 0){
                     Debug.Log("All orders completed");
 					setWinString ("You Win! Score: "+GameController.instance.score+"\n(Press escape to return to menu)\n(Press enter to go to next level)");
                     LoggingManager.instance.RecordEvent(8, "Won level, timer at " + GameController.instance.gameTime);
