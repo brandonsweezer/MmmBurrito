@@ -51,7 +51,11 @@ public class ObjectCatcher : MonoBehaviour {
 		if (gameObj.tag == "FallingObject") { 
             CatchObject (gameObj);
             LoggingManager.instance.RecordEvent(6, "Caught ingredient - " + gameObj.name);
-			Destroy (gameObj);
+			if (gameObj.GetComponent<MoveToScreen> () != null) {
+				gameObj.GetComponent<MoveToScreen> ().StartMovingToScreenBottom (true);
+			} else {
+				Destroy (gameObj);
+			}
 		}
 	}
 
@@ -60,7 +64,7 @@ public class ObjectCatcher : MonoBehaviour {
 		// Catch object
 		string objectName = gameObj.name.Replace ("(Clone)", "");
 		ingredientType = IngredientSet.StringToIngredient (objectName);
-		int quality = gameObj.GetComponent<DecayAndDie> ().getQuality ();
+		int quality = gameObj.GetComponent<FallDecayDie> ().getQuality ();
 		caughtIngredients.CatchIngredient (ingredientType, quality);
 		SetnewIngredient (true);
 

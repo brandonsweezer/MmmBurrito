@@ -25,6 +25,8 @@ GameObject:
   - component: {fileID: 114246742314715380}
   - component: {fileID: 114616664483826512}
   - component: {fileID: 114648577618022494}
+  - component: {fileID: 114490580023245646}
+  - component: {fileID: 114958931308009058}
   m_Layer: 0
   m_Name: Burrito
   m_TagString: Player
@@ -142,6 +144,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   submissionPlate: {fileID: 0}
+--- !u!114 &114490580023245646
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1301576944361112}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cecfdc07d6a111f45b2a42f01d132718, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dashParticleSystem: {fileID: 1145065143558622, guid: c4ce745a3756b9549b068211e066f0c4,
+    type: 2}
 --- !u!114 &114605365041257820
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -172,9 +187,20 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1301576944361112}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6169594b3b9bc03429c8141b25e29f65, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &114958931308009058
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1301576944361112}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b5cf92cb07018ab429e537c4d01da379, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!136 &136211989946421712
