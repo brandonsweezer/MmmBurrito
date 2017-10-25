@@ -14,7 +14,7 @@ public class IngredientIndicator : MonoBehaviour {
 		RaycastHit hit;
 		bool raycast = ObjectSpawn.RaycastUntilTerrain(transform.position, Vector3.down, out hit);
 		if (raycast) {
-			indicator = Instantiate (indicatorPrefab, hit.point, Quaternion.identity) as GameObject;
+			indicator = Instantiate (indicatorPrefab, hit.point, Quaternion.AngleAxis (180, Vector3.up)) as GameObject;
 			indicator.GetComponent<Renderer> ().material.mainTexture = image;
 		}
 	}

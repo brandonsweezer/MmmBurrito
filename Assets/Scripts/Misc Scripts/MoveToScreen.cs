@@ -10,8 +10,14 @@ public class MoveToScreen : MonoBehaviour {
 		Smoothed
 	}
 
+	private static float smoothingEndBiasFactor = 0.4f;
+
 	// Duration of the movement to the screen location in seconds
-	private static float movementTime = 0.75f;
+	private static float movementTime = 0.6f;
+
+	// Scaling at the start and at the end of the movement
+	private static Vector3 startScale = new Vector3(1.1f, 1.1f, 1.1f);
+	private static Vector3 endScale = new Vector3(0.15f, 0.15f, 0.15f);
 
 	private bool movingToScreen;
 	private bool destroyWhenComplete;
@@ -28,7 +34,7 @@ public class MoveToScreen : MonoBehaviour {
 	}
 
 	public void StartMovingToScreenBottom(bool destroyWhenComplete, MoveType moveType = MoveType.Smoothed) {
-		Vector3 screenPos = new Vector3 (mainCam.pixelWidth / 2.0f, -mainCam.pixelHeight / 2.0f, 1f);
+		Vector3 screenPos = new Vector3 (-mainCam.pixelHeight * 0.75f, 0, 1f);
 		StartMovingToScreen (destroyWhenComplete, moveType, screenPos, 0.2f);
 	}
 
@@ -56,18 +62,20 @@ public class MoveToScreen : MonoBehaviour {
 					Destroy (gameObject);
 				}
 			} else {
-				// Otherwise move the game object towards the target position (updated to reflect current camera pos).
+				// Otherwise move the game object
+				// 1. Determine progress based on move type
+				switch (moveType) {
+					case MoveType.Linear:
+						break;
+					case MoveType.Smoothed:
+						progress = Mathf.Lerp (progress, 1, smoothingEndBiasFactor);
+						break;
+				}
+				// 2. Move and scale
 				Vector3 targetPos = mainCam.ScreenToWorldPoint (targetScreenPoint);
 				targetPos += (initialPos - targetPos).normalized * distanceFromCamera;
-				switch (moveType) {
-				case MoveType.Linear:
-					transform.position = Vector3.Lerp (initialPos, targetPos, progress);
-					break;
-				case MoveType.Smoothed:
-					transform.position = Vector3.Lerp (initialPos, targetPos, progress);
-					transform.position = Vector3.Lerp (transform.position, targetPos, 0.4f);
-					break;
-				}
+				transform.position = Vector3.Lerp (initialPos, targetPos, progress);
+				transform.localScale = Vector3.Lerp(startScale, endScale, progress);
 			}
 		}
 	}

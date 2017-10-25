@@ -13,13 +13,11 @@
     <TargetFrameworkIdentifier>.NETFramework</TargetFrameworkIdentifier>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>Unity Subset v3.5</TargetFrameworkProfile>
-    <CompilerResponseFile>
-    </CompilerResponseFile>
+    <CompilerResponseFile></CompilerResponseFile>
     <UnityProjectType>Game:1</UnityProjectType>
     <UnityBuildTarget>StandaloneWindows64:19</UnityBuildTarget>
     <UnityVersion>2017.1.1f1</UnityVersion>
-    <RootNamespace>
-    </RootNamespace>
+    <RootNamespace></RootNamespace>
     <LangVersion>4</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -80,7 +78,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\DestroyAfterDelay.cs" />
     <Compile Include="Assets\Logging\LoggingManager.cs" />
     <Compile Include="Assets\Scripts\Game Controllers\GameController.cs" />
     <Compile Include="Assets\Scripts\Game Controllers\OrderController.cs" />
@@ -91,6 +88,8 @@
     <Compile Include="Assets\Scripts\Meta Scripts\LevelLoader.cs" />
     <Compile Include="Assets\Scripts\Misc Scripts\CaughtIngredientSet.cs" />
     <Compile Include="Assets\Scripts\Misc Scripts\Conveyor.cs" />
+    <Compile Include="Assets\Scripts\Misc Scripts\DestroyAfterDelay.cs" />
+    <Compile Include="Assets\Scripts\Misc Scripts\DestroyOnPlayerCollision.cs" />
     <Compile Include="Assets\Scripts\Misc Scripts\FallDecayDie.cs" />
     <Compile Include="Assets\Scripts\Misc Scripts\FollowPlayer.cs" />
     <Compile Include="Assets\Scripts\Misc Scripts\IdentifyAsSpawnPoint.cs" />
@@ -103,10 +102,11 @@
     <Compile Include="Assets\Scripts\Misc Scripts\MovementControllerIsometric.cs" />
     <Compile Include="Assets\Scripts\Misc Scripts\MovementControllerIsometricNew.cs" />
     <Compile Include="Assets\Scripts\Misc Scripts\MoveToScreen.cs" />
-    <Compile Include="Assets\Scripts\Misc Scripts\Rats.cs" />
     <Compile Include="Assets\Scripts\Misc Scripts\ObjectCatcher.cs" />
     <Compile Include="Assets\Scripts\Misc Scripts\ObjectSpawn.cs" />
     <Compile Include="Assets\Scripts\Misc Scripts\OrderList.cs" />
+    <Compile Include="Assets\Scripts\Misc Scripts\Powerups\PowerupAddTime.cs" />
+    <Compile Include="Assets\Scripts\Misc Scripts\Rats.cs" />
     <Compile Include="Assets\Scripts\Misc Scripts\RotationPrevention.cs" />
     <Compile Include="Assets\Scripts\Misc Scripts\ThirdPersonCamera.cs" />
     <Compile Include="Assets\Scripts\Misc Scripts\TiledFloor.cs" />
