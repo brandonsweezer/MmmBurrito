@@ -48,7 +48,7 @@ public class ObjectCatcher : MonoBehaviour {
         }
 
 		GameObject gameObj = collision.gameObject;
-		if (gameObj.tag == "FallingObject"){ //&& caughtIngredients.ingredientSet.GetFullCount() < 6) { 
+		if (gameObj.tag == "FallingObject") { //&& caughtIngredients.ingredientSet.GetFullCount() < 6) { 
 			CatchObject (gameObj);
 			LoggingManager.instance.RecordEvent (6, "Caught ingredient - " + gameObj.name);
 			if (gameObj.GetComponent<MoveToScreen> () != null) {
@@ -56,7 +56,7 @@ public class ObjectCatcher : MonoBehaviour {
 			} else {
 				Destroy (gameObj);
 			}
-		} 
+		}
 //		else {
 //			Debug.Log ("Cannot catch anymore");
 //			SetTextString("Cannot catch anymore");

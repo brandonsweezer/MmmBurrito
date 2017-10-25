@@ -83,4 +83,8 @@ public class Timer : MonoBehaviour {
 			TimerUpdate ();
 		}
 	}
+
+	public void AddSeconds(float seconds) {
+		time += seconds;
+	}
 }
