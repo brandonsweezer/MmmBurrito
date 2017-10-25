@@ -49,7 +49,9 @@ public class FallDecayDie : MonoBehaviour {
 		if (!decaying) {
 			decaying = true;
 			StartCoroutine (Decay ());
-			GetComponent<IngredientIndicator> ().DestroyIndicator ();
+			if (GetComponent<IngredientIndicator> () != null) {
+				GetComponent<IngredientIndicator> ().DestroyIndicator ();
+			}
 		}
 
 		// re-enable gravity
