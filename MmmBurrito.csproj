@@ -13,11 +13,13 @@
     <TargetFrameworkIdentifier>.NETFramework</TargetFrameworkIdentifier>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>Unity Subset v3.5</TargetFrameworkProfile>
-    <CompilerResponseFile></CompilerResponseFile>
+    <CompilerResponseFile>
+    </CompilerResponseFile>
     <UnityProjectType>Game:1</UnityProjectType>
     <UnityBuildTarget>StandaloneWindows64:19</UnityBuildTarget>
     <UnityVersion>2017.1.1f1</UnityVersion>
-    <RootNamespace></RootNamespace>
+    <RootNamespace>
+    </RootNamespace>
     <LangVersion>4</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -76,22 +78,62 @@
     <Reference Include="UnityEngine.HoloLens">
       <HintPath>Library\UnityAssemblies\UnityEngine.HoloLens.dll</HintPath>
     </Reference>
-    <Reference Include="UnityEditor.iOS.Extensions.Xcode">
-      <HintPath>Library\UnityAssemblies\UnityEditor.iOS.Extensions.Xcode.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEditor.iOS.Extensions.Common">
-      <HintPath>Library\UnityAssemblies\UnityEditor.iOS.Extensions.Common.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Scripts\DecayAndDie.cs" />
-    <Compile Include="Assets\Scripts\GameController.cs" />
-    <Compile Include="Assets\Scripts\MovementController.cs" />
-    <Compile Include="Assets\Scripts\ObjectCatcher.cs" />
-    <Compile Include="Assets\Scripts\Order.cs" />
-    <Compile Include="Assets\Scripts\OrderList.cs" />
-    <Compile Include="Assets\Scripts\SubmissionController.cs" />
-    <Compile Include="Assets\VulnerableToHazards.cs" />
+    <Compile Include="Assets\DestroyAfterDelay.cs" />
+    <Compile Include="Assets\Logging\LoggingManager.cs" />
+    <Compile Include="Assets\Scripts\Game Controllers\GameController.cs" />
+    <Compile Include="Assets\Scripts\Game Controllers\OrderController.cs" />
+    <Compile Include="Assets\Scripts\Game Controllers\SpawnController.cs" />
+    <Compile Include="Assets\Scripts\Game Controllers\SubmissionController.cs" />
+    <Compile Include="Assets\Scripts\Meta Scripts\_preloader.cs" />
+    <Compile Include="Assets\Scripts\Meta Scripts\DontDestroyOnLoad.cs" />
+    <Compile Include="Assets\Scripts\Meta Scripts\LevelLoader.cs" />
+    <Compile Include="Assets\Scripts\Misc Scripts\CaughtIngredientSet.cs" />
+    <Compile Include="Assets\Scripts\Misc Scripts\Conveyor.cs" />
+    <Compile Include="Assets\Scripts\Misc Scripts\FallDecayDie.cs" />
+    <Compile Include="Assets\Scripts\Misc Scripts\FollowPlayer.cs" />
+    <Compile Include="Assets\Scripts\Misc Scripts\IdentifyAsSpawnPoint.cs" />
+    <Compile Include="Assets\Scripts\Misc Scripts\IngredientIndicator.cs" />
+    <Compile Include="Assets\Scripts\Misc Scripts\IngredientSet.cs" />
+    <Compile Include="Assets\Scripts\Misc Scripts\IsometricCamera.cs" />
+    <Compile Include="Assets\Scripts\Misc Scripts\IsometricCameraOld.cs" />
+    <Compile Include="Assets\Scripts\Misc Scripts\LoggingCalls.cs" />
+    <Compile Include="Assets\Scripts\Misc Scripts\MovementController.cs" />
+    <Compile Include="Assets\Scripts\Misc Scripts\MovementControllerIsometric.cs" />
+    <Compile Include="Assets\Scripts\Misc Scripts\MovementControllerIsometricNew.cs" />
+    <Compile Include="Assets\Scripts\Misc Scripts\MoveToScreen.cs" />
+    <Compile Include="Assets\Scripts\Misc Scripts\Rats.cs" />
+    <Compile Include="Assets\Scripts\Misc Scripts\ObjectCatcher.cs" />
+    <Compile Include="Assets\Scripts\Misc Scripts\ObjectSpawn.cs" />
+    <Compile Include="Assets\Scripts\Misc Scripts\OrderList.cs" />
+    <Compile Include="Assets\Scripts\Misc Scripts\RotationPrevention.cs" />
+    <Compile Include="Assets\Scripts\Misc Scripts\ThirdPersonCamera.cs" />
+    <Compile Include="Assets\Scripts\Misc Scripts\TiledFloor.cs" />
+    <Compile Include="Assets\Scripts\Misc Scripts\TrashController.cs" />
+    <Compile Include="Assets\Scripts\Misc Scripts\TrashingController.cs" />
+    <Compile Include="Assets\Scripts\Misc Scripts\VulnerableToHazards.cs" />
+    <Compile Include="Assets\Scripts\Misc Scripts\WalkingChef.cs" />
+    <Compile Include="Assets\Scripts\UI\LevelEndUI.cs" />
+    <Compile Include="Assets\Scripts\UI\OrderUI.cs" />
+    <Compile Include="Assets\Scripts\UI\Timer.cs" />
+    <Compile Include="Assets\TileDraw\Scripts\Assets\Entity.cs" />
+    <Compile Include="Assets\TileDraw\Scripts\Assets\EntitySet.cs" />
+    <Compile Include="Assets\TileDraw\Scripts\Assets\IAsset.cs" />
+    <Compile Include="Assets\TileDraw\Scripts\Assets\Set.cs" />
+    <Compile Include="Assets\TileDraw\Scripts\Assets\TextureAsset.cs" />
+    <Compile Include="Assets\TileDraw\Scripts\Assets\TileSet.cs" />
+    <Compile Include="Assets\TileDraw\Scripts\Map\Cell.cs" />
+    <Compile Include="Assets\TileDraw\Scripts\Map\CellFactory.cs" />
+    <Compile Include="Assets\TileDraw\Scripts\Map\MapEditing.cs" />
+    <Compile Include="Assets\TileDraw\Scripts\Map\MapManager.cs" />
+    <Compile Include="Assets\TileDraw\Scripts\Map\Tile.cs" />
+    <Compile Include="Assets\TileDraw\Scripts\Util\CreatePlane.cs" />
+    <Compile Include="Assets\TileDraw\Scripts\Util\Enums.cs" />
+    <Compile Include="Assets\TileDraw\Scripts\Util\Util.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Assets\TileDraw\readme.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />
