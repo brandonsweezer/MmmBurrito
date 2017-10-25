@@ -48,7 +48,14 @@ public class ObjectCatcher : MonoBehaviour {
         }
 
 		GameObject gameObj = collision.gameObject;
-		if (gameObj.tag == "FallingObject") { //&& caughtIngredients.ingredientSet.GetFullCount() < 6) { 
+		if (gameObj.tag == "FallingObject") {
+			// Make sure burrito is not full
+			if (caughtIngredients.ingredientSet.GetFullCount () >= 6) {
+				Debug.Log ("Can't catch, burrito is full!");
+				SetTextString("Cannot catch anymore");
+				return;
+			}
+
 			CatchObject (gameObj);
 			LoggingManager.instance.RecordEvent (6, "Caught ingredient - " + gameObj.name);
 			if (gameObj.GetComponent<MoveToScreen> () != null) {
@@ -57,10 +64,6 @@ public class ObjectCatcher : MonoBehaviour {
 				Destroy (gameObj);
 			}
 		}
-//		else {
-//			Debug.Log ("Cannot catch anymore");
-//			SetTextString("Cannot catch anymore");
-//		}
 	}
 
 	/** Catches an object by updating the caught values for the [caughtObjects] dictionary */
