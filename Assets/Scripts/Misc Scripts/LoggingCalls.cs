@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class LoggingCalls : MonoBehaviour {
 
-	private static float positionLogCooldown = 1f;
+	private static float positionLogCooldown = 5f;
 	private static float lastPositionLog;
 	
 	// Update is called once per frame

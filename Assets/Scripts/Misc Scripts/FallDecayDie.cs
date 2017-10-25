@@ -78,6 +78,7 @@ public class FallDecayDie : MonoBehaviour {
 			yield return new WaitForSeconds (decayRate);
 			SetQualityLevel(qualityLevel-1);
 		}
+        GameController.instance.objects.RemoveAt(0);
 		Destroy (gameObject);
 	}
 }

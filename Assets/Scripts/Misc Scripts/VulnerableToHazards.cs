@@ -11,7 +11,7 @@ public class VulnerableToHazards : MonoBehaviour {
 		GameObject gameObj = collision.gameObject;
 		if (gameObj.tag == "DeadlyHazard" || gameObj.tag == "Chef") {
 			SpawnController.instance.DestroyAndRespawn ();
-			OrderUI.instance.ResetAfterDeath ();
+			OrderUI.instance.TicketUpdate ();
             LoggingManager.instance.RecordEvent(5, "Died to a " + gameObj.tag);
 		}
 	}

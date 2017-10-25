@@ -11,11 +11,11 @@ public class _preloader : MonoBehaviour {
         LoggingManager.instance.RecordPageLoad();
 
         /* GAME EVENT IDS
-         * 0 Location (MovementControllerIsometric)
+         * 0 Location (LoggingCalls)
          * 1 Ingredient Spawn (ObjectSpawn)
          * 2 Submission (SubmissionController Twice)
-         * 3 Trashing (TrashController & MovementControllerIsometric)
-         * 4 Dashing (MovementControllerIsometric)
+         * 3 Trashing (TrashController & MovementControllerIsometricNew)
+         * 4 Dashing (MovementControllerIsometricNew)
          * 5 Death (VulnerableToHazards)
          * 6 Catching Ingredients (ObjectCatcher)
          * 7 Level end + timer (LevelLoader)

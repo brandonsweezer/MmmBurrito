@@ -33,9 +33,17 @@ public class MovementControllerIsometricNew : MonoBehaviour {
 	
 
 	void Update () {
-		// Detect move input.
+        //detect trashing code
+        if (Input.GetKeyDown(KeyCode.T))
+        {
+            LoggingManager.instance.RecordEvent(3, "Trashed ingredients with T: " + GameController.instance.player.GetComponent<ObjectCatcher>().getIngredients().ToString());
+            GameController.instance.player.GetComponent<ObjectCatcher>().getIngredients().Empty();
+            OrderUI.instance.TicketUpdate();
+        }
 
-		horizontalMoveInput = 0;
+        // Detect move input.
+
+        horizontalMoveInput = 0;
 		verticalMoveInput = 0;
 		if (Input.GetKey (KeyCode.RightArrow) || Input.GetKey(KeyCode.D)) {
 			horizontalMoveInput += 1;

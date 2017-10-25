@@ -18,8 +18,8 @@ public class CaughtIngredientSet {
 	}
 
 	public void CatchIngredient(IngredientSet.Ingredients ingredient, int quality) {
-		ingredientSet.SetCount(ingredient, ingredientSet.GetCount(ingredient)+1);
-		ingredientQualities[(int) ingredient].Add(quality);
+        ingredientSet.SetCount(ingredient, ingredientSet.GetCount(ingredient) + 1);
+        ingredientQualities[(int)ingredient].Add(quality);		
 	}
 
 	public void Empty() {

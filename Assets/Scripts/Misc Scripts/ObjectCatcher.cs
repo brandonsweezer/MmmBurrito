@@ -61,8 +61,10 @@ public class ObjectCatcher : MonoBehaviour {
 
 	/** Catches an object by updating the caught values for the [caughtObjects] dictionary */
 	void CatchObject (GameObject gameObj) {
-		// Catch object
-		string objectName = gameObj.name.Replace ("(Clone)", "");
+        //remove from GameController
+        GameController.instance.objects.RemoveAt(GameController.instance.objects.IndexOf(gameObj));
+        // Catch object
+        string objectName = gameObj.name.Replace ("(Clone)", "");
 		ingredientType = IngredientSet.StringToIngredient (objectName);
 		int quality = gameObj.GetComponent<FallDecayDie> ().getQuality ();
 		caughtIngredients.CatchIngredient (ingredientType, quality);
