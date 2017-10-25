@@ -64,10 +64,13 @@ public class IngredientSet : MonoBehaviour {
 	}
 
 	// Returns the count of a specific ingredient in this ingredient set
-
-
 	public int GetCount(Ingredients ingredient) {
 		return ingredients[(int) ingredient];
+	}
+
+	// Adds the given value to a specific ingredient's count in this ingredient set
+	public void AddToCount(Ingredients ingredient, int value) {
+		ingredients[(int) ingredient] += value;
 	}
 
 	// Returns the number of total ingredient in the order (counts duplicate ingredients)
@@ -154,8 +157,8 @@ public class IngredientSet : MonoBehaviour {
 				result += string.Format ("{0} {1}, ", ingredients[i], (Ingredients)i);
 			}
 		}
-		if (result.Length < 2) {
-			return "Empty ingredient set (error printing)";
+		if (result.Length < 1) {
+			return "Probably an empty ingredient set? (error printing)";
 		}
 		return result.Substring (0, result.Length - 2);
 	}
