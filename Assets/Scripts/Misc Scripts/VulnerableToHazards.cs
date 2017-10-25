@@ -4,14 +4,29 @@ using UnityEngine;
 
 public class VulnerableToHazards : MonoBehaviour {
 
+	private static float invulnerableColorPeriod = 0.3f;
+	private static Color invulnerableStartColor = Color.red;
+	private static Color invulnerableEndColor = Color.green;
+
 	private float invulnerableTimeLeft;
+	private Renderer burritoRenderer;
 
 	void Start () {
 		invulnerableTimeLeft = 0;
+		burritoRenderer = gameObject.transform.GetChild (0).GetComponent<Renderer> ();
 	}
 
 	void Update() {
 		invulnerableTimeLeft -= Time.deltaTime;
+
+		// Change visual if invulnerable
+		if (invulnerableTimeLeft > 0) {
+			float lerp = Mathf.PingPong (Time.time, invulnerableColorPeriod) / invulnerableColorPeriod;
+			Color invulnerableColor = Color.Lerp (invulnerableStartColor, invulnerableEndColor, lerp);
+			burritoRenderer.material.SetColor ("_Color", invulnerableColor);
+		} else {
+			burritoRenderer.material.SetColor ("_Color", Color.white);
+		}
 	}
 
 	/** Handle collisions with deadly hazards */
