@@ -48,15 +48,19 @@ public class ObjectCatcher : MonoBehaviour {
         }
 
 		GameObject gameObj = collision.gameObject;
-		if (gameObj.tag == "FallingObject") { 
-            CatchObject (gameObj);
-            LoggingManager.instance.RecordEvent(6, "Caught ingredient - " + gameObj.name);
+		if (gameObj.tag == "FallingObject"){ //&& caughtIngredients.ingredientSet.GetFullCount() < 6) { 
+			CatchObject (gameObj);
+			LoggingManager.instance.RecordEvent (6, "Caught ingredient - " + gameObj.name);
 			if (gameObj.GetComponent<MoveToScreen> () != null) {
 				gameObj.GetComponent<MoveToScreen> ().StartMovingToScreenBottom (true);
 			} else {
 				Destroy (gameObj);
 			}
-		}
+		} 
+//		else {
+//			Debug.Log ("Cannot catch anymore");
+//			SetTextString("Cannot catch anymore");
+//		}
 	}
 
 	/** Catches an object by updating the caught values for the [caughtObjects] dictionary */

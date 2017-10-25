@@ -102,7 +102,7 @@ public class SubmissionController : MonoBehaviour {
 		if (!matched) {
 			//DOES NOT MATCH
 			Debug.Log("Submitted burrito does not match");
-			setTextString ("Submitted burrito does not match");
+			setTextString ("Invalid Burrito Submission");
             LoggingManager.instance.RecordEvent(2, "Submitted ingredients: " + GameController.instance.player.GetComponent<ObjectCatcher>().getIngredients().ToString()
             + ". Did not match.");
         }
