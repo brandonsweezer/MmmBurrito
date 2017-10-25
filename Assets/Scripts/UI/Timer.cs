@@ -19,9 +19,23 @@ public class Timer : MonoBehaviour {
 
 	private bool running;
 
-	void Start () {
+    //Audio vars
+    private AudioSource audSrc;
+    private AudioClip tickReg;
+    private AudioClip tickUrgent;
+
+    bool thirty;
+    bool ten;
+
+    void Start () {
 		running = false;
-	}
+
+        audSrc = gameObject.AddComponent<AudioSource>();
+        tickReg = Resources.Load<AudioClip>("Sound/30 secs");
+        tickUrgent = Resources.Load<AudioClip>("Sound/10 secs+");
+        thirty = false;
+        ten = false;
+    }
 
 	public void TimerInit (int maxTime) {
 
@@ -51,9 +65,20 @@ public class Timer : MonoBehaviour {
 		bool timeEnding = false;
 		float totalSeconds = Mathf.Ceil (time);
 		int minutes = (int) totalSeconds / 60;
-		int seconds = (int) totalSeconds % 60; 
+        int seconds = (int)totalSeconds % 60;
 
 		string secondsDisplay;
+        if (totalSeconds == 30 && thirty == false) //TICKING
+        {
+            thirty = true;
+            audSrc.PlayOneShot(tickReg);
+        }
+        if (totalSeconds == 10 && ten == false) //URGENT TICKING
+        {
+            ten = true;
+            audSrc.PlayOneShot(tickUrgent);
+        }
+
 		if (seconds < 10) {
 			secondsDisplay = "0" + seconds.ToString ();
 		} else {

@@ -15,12 +15,19 @@ public class SubmissionController : MonoBehaviour {
 
     private Quaternion spawnRotation = Quaternion.FromToRotation(Vector3.up, new Vector3(1, 0, 1));
 
+    private AudioSource audSrc;
+    private AudioClip rightOrder;
+    private AudioClip wrongOrder;
 
 
 	void Start () {
 		setTextString ("");
 		setWinString ("");
-	}
+
+        audSrc = gameObject.GetComponent<AudioSource>();
+        rightOrder = Resources.Load<AudioClip>("Sound/submit(right)");
+        wrongOrder = Resources.Load<AudioClip>("Sound/submit(wrong)");
+    }
 
 	public void setTextString (string text) {
 		submissionText = text;
@@ -74,7 +81,8 @@ public class SubmissionController : MonoBehaviour {
 		foreach (IngredientSet order in orders) {
             Debug.Log("hi");
             if (compareBurrito (order)) {
-				//MATCHES
+                //MATCHES
+                audSrc.PlayOneShot(rightOrder);
 				matched = true;
 				Debug.Log ("Matches one of the orders!");
 				setTextString ("Matches one of the orders!");
@@ -100,7 +108,8 @@ public class SubmissionController : MonoBehaviour {
 			}
 		} 
 		if (!matched) {
-			//DOES NOT MATCH
+            //DOES NOT MATCH
+            audSrc.PlayOneShot(wrongOrder);
 			Debug.Log("Submitted burrito does not match");
 			setTextString ("Invalid Burrito Submission");
             LoggingManager.instance.RecordEvent(2, "Submitted ingredients: " + GameController.instance.player.GetComponent<ObjectCatcher>().getIngredients().ToString()

@@ -26,10 +26,19 @@ public class MovementControllerIsometricNew : MonoBehaviour {
 	public GameObject dashParticleSystem;
 	private Vector3 dashParticleSpawnOffset = new Vector3(0, 0, 0);
 
+    //Audio vars
+    AudioSource audSrc;
+    AudioClip dashSound;
+    AudioClip dashSoundAlt;
 
-	void Awake () {
+
+    void Awake () {
 		rb = GetComponent<Rigidbody> ();
-	}
+
+        audSrc = GetComponent<AudioSource>();
+        dashSound = (AudioClip)Resources.Load("Sound/dash");
+        dashSoundAlt = (AudioClip)Resources.Load("Sound/dash2");
+    }
 	
 
 	void Update () {
@@ -114,6 +123,9 @@ public class MovementControllerIsometricNew : MonoBehaviour {
 
 	// Dashes by boosting the burrito forward a bit and giving it a big velocity.
 	void Dash (Vector3 targetDirection) {
+
+        audSrc.PlayOneShot(dashSound);
+
 		rb.velocity = targetDirection * dashSpeed;
 		transform.position = transform.position + targetDirection * dashBoostDistance;
 		timeOfLastDash = Time.time;
