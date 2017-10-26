@@ -157,10 +157,13 @@ public class OrderUI : MonoBehaviour {
 		int quality = GameController.instance.player.GetComponent<ObjectCatcher> ().GetIngredientQuality();
 		if (quality == 5 || quality == 4) {
 			icon.GetComponent<Image> ().color = new Color (1f, 1f, 1f, 1f);
+			setMessageHUDMessage ("Mmm!!!");
 		} else if (quality == 3 || quality == 2) {
 			icon.GetComponent<Image> ().color = new Color (.64f, .83f, .0f, 1f);
+			setMessageHUDMessage ("Okay");
 		} else {
 			icon.GetComponent<Image> ().color = new Color (.38f, .71f, .28f, 1f);
+			setMessageHUDMessage ("Bleh!!");
 		}
 
 		qualitySum += quality; 
@@ -182,7 +185,6 @@ public class OrderUI : MonoBehaviour {
 				gameobjectfields.CollectionHUD.transform.GetChild (0).GetChild (0).GetComponent<Image> ().sprite = (Sprite) gameobjectfields.QualitySprites.GetValue (1);
 			} else if (qualityAverage == 1 || qualityAverage == 0) {
 				gameobjectfields.CollectionHUD.transform.GetChild (0).GetChild (0).GetComponent<Image> ().sprite = (Sprite) gameobjectfields.QualitySprites.GetValue (2);
-
 			} 
 		}
 		else {
