@@ -17,16 +17,16 @@ public class ObjectCatcher : MonoBehaviour {
 	void Start () {
 		canCatch = true;
 		caughtIngredients = new CaughtIngredientSet();
-		SetTextString("");
+		//SetTextString("");
 	}
 
-	public void SetTextString (string text) {
-		currentBurritoText = text;
-	}
-
-	public string GetTextString () {
-		return currentBurritoText;
-	}
+//	public void SetTextString (string text) {
+//		currentBurritoText = text;
+//	}
+//
+//	public string GetTextString () {
+//		return currentBurritoText;
+//	}
 
 	public void SetnewIngredient(bool boolean) {
 		newIngredient = boolean;
@@ -62,8 +62,8 @@ public class ObjectCatcher : MonoBehaviour {
 			SetnewIngredient (true);
 			// Make sure burrito is not full
 			if (caughtIngredients.ingredientSet.GetFullCount () >= 6) {
-				Debug.Log ("Can't catch, burrito is full!");
-				SetTextString("Cannot catch anymore. Burrito Full");
+				//Debug.Log ("Can't catch, burrito is full!");
+				//SetTextString("Cannot catch anymore. Burrito Full");
 				return;
 			}
 
@@ -90,7 +90,7 @@ public class ObjectCatcher : MonoBehaviour {
 
 		// Print out
 		Debug.Log (string.Format("Caught a {0}, burrito now contains:\n{1}", objectName, CaughtObjectsToString ()));
-		SetTextString(string.Format("Burrito contents: {0}", CaughtObjectsToString ()));
+		//SetTextString(string.Format("Burrito contents: {0}", CaughtObjectsToString ()));
 	}
 
 	/** Returns the content of the [caughtObjects] dictionary as a string */

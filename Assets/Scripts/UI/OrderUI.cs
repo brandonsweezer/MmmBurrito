@@ -11,10 +11,12 @@ public class TextFields
 {
 	public Text levelOrderList;
 	public Text currentBurrito;
-	public Text submissionMessage;
+
+	public Text messageHUDMessage;
+	public Text orderTotalDisplay;
+
 	public Text winMessage;
 	public Text loseMessage;
-	public Text orderTotalDisplay;
 }
 
 [System.Serializable]
@@ -204,9 +206,9 @@ public class OrderUI : MonoBehaviour {
 			else if (gameobjectfields.CollectionHUD.transform.childCount ==7) {
 				CreateCollectedItem ();
 				//CollectionInit ();
-				setSubmissionMessage ("Buritto Full!");
+				setMessageHUDMessage ("Buritto Full!");
 			}else {
-				setSubmissionMessage ("Cannot catch anymore. Burrito Full");
+				setMessageHUDMessage ("Cannot catch anymore. Burrito Full");
 				GameController.instance.player.GetComponent<ObjectCatcher> ().SetnewIngredient(false);
 			}
 			SetQualityIndiator ();
@@ -318,14 +320,27 @@ public class OrderUI : MonoBehaviour {
 		// reset text fields
 		textfields.levelOrderList.text = "";
 		textfields.currentBurrito.text = "";
-		textfields.submissionMessage.text = "";
-		textfields.winMessage.text = "";
-		textfields.loseMessage.text = "";
+
+		setMessageHUDMessage("");
+		setLoseMessage ("");
+		setWinMessage ("");
+
+		//textfields.winMessage.text = "";
+		//textfields.loseMessage.text = "";
+
 		textfields.orderTotalDisplay.text = "";
+
+
+
+		Debug.Log ("Reset");
+
+		qualitySum = 0;
+		gameobjectfields.CollectionHUD.transform.GetChild (0).GetChild (0).GetComponent<Image> ().color = new Color (1f, 1f, 1f, 0f);
+
 	}
 
 	public void ResetAfterDeath() {
-		Debug.Log ("Reset");
+		Debug.Log ("Reset AFTER DEATH");
 		DeleteTickets();
 		TicketInit (0);
 		TicketInit (1);
@@ -377,13 +392,13 @@ public class OrderUI : MonoBehaviour {
 		textfields.levelOrderList.text = OrderController.instance.OrderListToString();
 		orderTotal = orders.Count;
 		textfields.orderTotalDisplay.text = orders.Count.ToString();
-		if (GameController.instance.player != null) {
-			textfields.currentBurrito.text = GameController.instance.player.GetComponent<ObjectCatcher> ().GetTextString ();
-		}
+//		if (GameController.instance.player != null) {
+//			textfields.currentBurrito.text = GameController.instance.player.GetComponent<ObjectCatcher> ().GetTextString ();
+//		}
 
         // display submission text for SUBMISSION_TIMER ms
         if (submissionTextTimer == 0) {
-            textfields.submissionMessage.text = "";
+			setMessageHUDMessage ("");
             submissionTextTimer = SUBMISSION_TIMER;
         }
         else
@@ -395,8 +410,13 @@ public class OrderUI : MonoBehaviour {
 	public void setWinMessage(string msg) {
 		textfields.winMessage.text = msg;
 	}
-	public void setSubmissionMessage(string msg) {
-		textfields.submissionMessage.text = msg;
+
+	public void setLoseMessage(string msg) {
+		textfields.loseMessage.text = msg;
+	}
+
+	public void setMessageHUDMessage(string msg) {
+		textfields.messageHUDMessage.text = msg;
         submissionTextTimer = SUBMISSION_TIMER;
 	}
 
