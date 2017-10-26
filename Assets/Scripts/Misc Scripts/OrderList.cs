@@ -47,9 +47,31 @@ public class OrderList {
 		newOrder.SetCount (IngredientSet.Ingredients.Lettuce, 1);
 		newOrder.SetCount (IngredientSet.Ingredients.Cheese, 1);
 		orders.Add (newOrder);
-	}
 
-	public static OrderList instance {
+        //Order 5
+        newOrder = new IngredientSet();
+        newOrder.SetCount(IngredientSet.Ingredients.Lettuce, 1);
+        orders.Add(newOrder);
+
+        // Order 6
+        newOrder = new IngredientSet();
+        newOrder.SetCount(IngredientSet.Ingredients.Beans, 1);
+        newOrder.SetCount(IngredientSet.Ingredients.Meatball, 1);
+        newOrder.SetCount(IngredientSet.Ingredients.Cheese, 1);
+        orders.Add(newOrder);
+
+        // Order 7
+        newOrder = new IngredientSet();
+        newOrder.SetCount(IngredientSet.Ingredients.Meatball, 1);
+        newOrder.SetCount(IngredientSet.Ingredients.Tomato, 1);
+        newOrder.SetCount(IngredientSet.Ingredients.Cheese, 1);
+        orders.Add(newOrder);
+
+
+
+    }
+
+    public static OrderList instance {
 		get {
 			if (_instance == null) {
 				_instance = new OrderList ();
