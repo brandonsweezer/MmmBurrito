@@ -60,7 +60,7 @@ public class MovementControllerIsometricNew : MonoBehaviour {
 		}
 
 		dashInput = false;
-		if (Input.GetKey (KeyCode.Space) || Input.GetKey (KeyCode.LeftShift)) {
+		if (Input.GetKey (KeyCode.Space) || Input.GetKey (KeyCode.LeftShift) || Input.GetKey (KeyCode.RightShift)) {
 			dashInput = true;
 		}
 	}
