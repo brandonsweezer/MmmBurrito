@@ -65,6 +65,11 @@ public class CaughtIngredientSet {
 		return qualitySum;
 	}
 
+
+	public List<IngredientSet.Ingredients> getIngredientOrderList() {
+		return ingredientCatchOrder;
+	}
+
     override public string ToString() {
 		string result = ingredientSet.ToString ();
 		result += "; with qualities: ";

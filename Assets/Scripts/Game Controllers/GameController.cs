@@ -11,6 +11,8 @@ public class GameController : MonoBehaviour {
 
     public int gameTime;
 
+	public bool canSubmit; 
+
     public List<GameObject> objects;
 
 	// Make this class a singleton
@@ -22,4 +24,5 @@ public class GameController : MonoBehaviour {
 			Destroy (this);
 		}
 	}
+		
 }
