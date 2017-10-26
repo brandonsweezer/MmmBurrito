@@ -60,10 +60,7 @@ public class SubmissionController : MonoBehaviour {
 
 		SubmitBurrito (burrito);
 
-		if (!GameController.instance.levelComplete) {
-			SpawnController.instance.DestroyAndRespawn ();
-			OrderUI.instance.ResetAfterDeath ();
-		} else {
+		if (GameController.instance.levelComplete) {
 			SpawnController.instance.DestroyBurrito ();
 		}
 	}
@@ -79,7 +76,6 @@ public class SubmissionController : MonoBehaviour {
 		List<IngredientSet> orders = OrderController.instance.orderList;
 		bool matched = false;
 		foreach (IngredientSet order in orders) {
-            Debug.Log("hi");
             if (compareBurrito (order)) {
                 //MATCHES
                 audSrc.PlayOneShot(rightOrder);
