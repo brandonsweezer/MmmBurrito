@@ -25,11 +25,7 @@ public class ColorFlash : MonoBehaviour {
 		}
 	}
 
-	public void StartFlashing() {
-		active = true;
-	}
-
-	public void StopFlashing() {
-		active = false;
+	public void SetActive(bool active) {
+		this.active = active;
 	}
 }

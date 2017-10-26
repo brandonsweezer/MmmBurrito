@@ -6,11 +6,8 @@ public class VulnerableToHazards : MonoBehaviour {
 
 	private float invulnerableTimeLeft;
 
-	GameObject burritoModel;
-
 	void Start () {
 		invulnerableTimeLeft = 0;
-		burritoModel = gameObject.transform.GetChild (0).gameObject;
 	}
 
 	void Update() {
@@ -18,7 +15,7 @@ public class VulnerableToHazards : MonoBehaviour {
 
 		// Change visual if invulnerable
 		if (invulnerableTimeLeft <= 0) {
-			burritoModel.GetComponent<ColorFlash> ().StopFlashing ();
+			StopFlashing ();
 		}
 	}
 
@@ -47,7 +44,26 @@ public class VulnerableToHazards : MonoBehaviour {
 	public void SetInvulnerableDuration(float duration) {
 		invulnerableTimeLeft = duration;
 		if (duration > 0) {
-			burritoModel.GetComponent<ColorFlash> ().StartFlashing ();
+			StartFlashing ();
+		}
+	}
+
+	void StartFlashing() {
+		setToFlashRecursive (transform, true);
+	}
+	void StopFlashing() {
+		setToFlashRecursive (transform, false);
+	}
+
+	void setToFlashRecursive(Transform transf, bool active) {
+		// Change this transform's flash active state
+		ColorFlash flashScript = transf.gameObject.GetComponent<ColorFlash> ();
+		if (flashScript != null) {
+			flashScript.SetActive (active);
+		}
+		// Do the same for each of its children
+		foreach (Transform child in transf) {
+			setToFlashRecursive (child, active);
 		}
 	}
 }
