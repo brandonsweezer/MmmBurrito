@@ -10,7 +10,8 @@ public class ObjectCatcher : MonoBehaviour {
 
 	private string currentBurritoText; 
 	private bool newIngredient=false; 
-	public IngredientSet.Ingredients ingredientType;
+	private IngredientSet.Ingredients ingredientType;
+	private int ingredientQuality;
 
 	void Start () {
 		canCatch = true;
@@ -32,6 +33,14 @@ public class ObjectCatcher : MonoBehaviour {
 
 	public bool GetnewIngredient() {
 		return newIngredient;
+	}
+
+	public IngredientSet.Ingredients GetIngredientType() {
+		return ingredientType;
+	}
+
+	public int GetIngredientQuality() {
+		return ingredientQuality;
 	}
 
 	/** Returns true if this ObjectCatcher is empty */
@@ -73,8 +82,8 @@ public class ObjectCatcher : MonoBehaviour {
         // Catch object
         string objectName = gameObj.name.Replace ("(Clone)", "");
 		ingredientType = IngredientSet.StringToIngredient (objectName);
-		int quality = gameObj.GetComponent<FallDecayDie> ().getQuality ();
-		caughtIngredients.CatchIngredient (ingredientType, quality);
+		ingredientQuality = gameObj.GetComponent<FallDecayDie> ().getQuality ();
+		caughtIngredients.CatchIngredient (ingredientType, ingredientQuality);
 		SetnewIngredient (true);
 
 		// Print out
