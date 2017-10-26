@@ -167,8 +167,8 @@ public class OrderUI : MonoBehaviour {
 
 
 	public void SetQualityIndiator() {
-		Debug.Log ("Quality");
-		Debug.Log ("child="+gameobjectfields.CollectionHUD.transform.childCount.ToString()  );
+		//Debug.Log ("Quality");
+		//Debug.Log ("child="+gameobjectfields.CollectionHUD.transform.childCount.ToString()  );
 		
 		if (gameobjectfields.CollectionHUD.transform.childCount - 2 > 0) {
 			gameobjectfields.CollectionHUD.transform.GetChild (0).GetChild (0).GetComponent<Image> ().color = new Color (1f, 1f, 1f, 1f);
@@ -184,7 +184,7 @@ public class OrderUI : MonoBehaviour {
 			} 
 		}
 		else {
-			Debug.Log ("TEST");
+			//Debug.Log ("TEST");
 			gameobjectfields.CollectionHUD.transform.GetChild (0).GetChild (0).GetComponent<Image> ().color = new Color (1f, 1f, 1f, 0f);
 			//gameobjectfields.CollectionHUD.transform.GetChild (0).GetComponent<Image> ().sprite = gameobjectfields.QualitySprites.GetValue (4);
 
