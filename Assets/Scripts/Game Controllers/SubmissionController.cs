@@ -106,6 +106,7 @@ public class SubmissionController : MonoBehaviour {
 				else {
 					Debug.Log ("Remaining " + OrderController.instance.OrderListToString ()); // print remaining orders
 				}
+				GameController.instance.player.GetComponent<ObjectCatcher> ().getIngredients ().Empty();
 				OrderUI.instance.ResetAfterDeath();
 				break;
 			}
