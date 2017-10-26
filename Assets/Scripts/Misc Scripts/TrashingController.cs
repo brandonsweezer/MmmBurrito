@@ -11,7 +11,7 @@ public class TrashingController : MonoBehaviour {
 			GameController.instance.player.GetComponent<ObjectCatcher>().getIngredients().Empty();
 			OrderUI.instance.ResetAfterDeath();
 			OrderUI.instance.CollectionUIUpdate ();
-			OrderUI.instance.setMessageHUDMessage ("Burrito Trashed");
+			OrderUI.instance.setGeneralMessage ("Burrito Trashed");
 		}
 	}
 }

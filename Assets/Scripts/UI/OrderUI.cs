@@ -12,7 +12,8 @@ public class TextFields
 	public Text levelOrderList;
 	public Text currentBurrito;
 
-	public Text messageHUDMessage;
+	public Text generalMessage;
+	public Text qualityMessage;
 	public Text orderTotalDisplay;
 
 	public Text winMessage;
@@ -54,7 +55,6 @@ public class OrderUI : MonoBehaviour {
 	private ObjectCatcher objectcatcher; 
 
 
-	private int orderTotal;
 	private int ingredientTotal;
 
 	private List<IngredientSet> orders;
@@ -64,8 +64,15 @@ public class OrderUI : MonoBehaviour {
 	private Dictionary<IngredientSet.Ingredients,Sprite> spriteDict_full;
 	private Dictionary<Sprite,Sprite> spriteDict_GlowtoFull;
 
-    private static int SUBMISSION_TIMER = 100;
+    private static int SUBMISSION_TIMER = 150;
     private int submissionTextTimer = SUBMISSION_TIMER;
+//	private static float SUBMISSION_TIMER2 = 3f;
+//	private float start; 
+//	private float submissionTextTimer2 = SUBMISSION_TIMER2;
+
+
+	private static int QUALITY_TIMER = 100;
+	private int qualityTextTimer = QUALITY_TIMER;
 
 	private int qualitySum; 
 
@@ -79,7 +86,6 @@ public class OrderUI : MonoBehaviour {
 		} else if (instance != this) {
 			Destroy (this);
 		}
-
 	}
 		
 
@@ -157,13 +163,13 @@ public class OrderUI : MonoBehaviour {
 		int quality = GameController.instance.player.GetComponent<ObjectCatcher> ().GetIngredientQuality();
 		if (quality == 5 || quality == 4) {
 			icon.GetComponent<Image> ().color = new Color (1f, 1f, 1f, 1f);
-			setMessageHUDMessage ("Mmm!!!");
+			setQualityMessage ("Mmm!!!");
 		} else if (quality == 3 || quality == 2) {
 			icon.GetComponent<Image> ().color = new Color (.64f, .83f, .0f, 1f);
-			setMessageHUDMessage ("Okay");
+			setQualityMessage ("Okay");
 		} else {
 			icon.GetComponent<Image> ().color = new Color (.38f, .71f, .28f, 1f);
-			setMessageHUDMessage ("Bleh!!");
+			setQualityMessage ("Bleh!!");
 		}
 
 		qualitySum += quality; 
@@ -208,9 +214,9 @@ public class OrderUI : MonoBehaviour {
 			else if (gameobjectfields.CollectionHUD.transform.childCount ==7) {
 				CreateCollectedItem ();
 				//CollectionInit ();
-				setMessageHUDMessage ("Buritto Full!");
+				setGeneralMessage ("Buritto Full!");
 			}else {
-				setMessageHUDMessage ("Cannot catch anymore. Burrito Full");
+				setGeneralMessage ("Cannot catch anymore. Burrito Full");
 				GameController.instance.player.GetComponent<ObjectCatcher> ().SetnewIngredient(false);
 			}
 			SetQualityIndiator ();
@@ -323,7 +329,8 @@ public class OrderUI : MonoBehaviour {
 		textfields.levelOrderList.text = "";
 		textfields.currentBurrito.text = "";
 
-		setMessageHUDMessage("");
+		setGeneralMessage("");
+		setQualityMessage ("");
 		setLoseMessage ("");
 		setWinMessage ("");
 
@@ -334,7 +341,7 @@ public class OrderUI : MonoBehaviour {
 
 
 
-		Debug.Log ("Reset");
+		//Debug.Log ("Reset");
 
 		qualitySum = 0;
 		gameobjectfields.CollectionHUD.transform.GetChild (0).GetChild (0).GetComponent<Image> ().color = new Color (1f, 1f, 1f, 0f);
@@ -342,7 +349,7 @@ public class OrderUI : MonoBehaviour {
 	}
 
 	public void ResetAfterDeath() {
-		Debug.Log ("Reset AFTER DEATH");
+		//Debug.Log ("Reset AFTER DEATH");
 		DeleteTickets();
 		TicketInit (0);
 		TicketInit (1);
@@ -392,21 +399,28 @@ public class OrderUI : MonoBehaviour {
         
 		orders = OrderController.instance.orderList;
 		textfields.levelOrderList.text = OrderController.instance.OrderListToString();
-		orderTotal = orders.Count;
-		textfields.orderTotalDisplay.text = orders.Count.ToString();
+		setOrderCount(orders.Count.ToString());
 //		if (GameController.instance.player != null) {
 //			textfields.currentBurrito.text = GameController.instance.player.GetComponent<ObjectCatcher> ().GetTextString ();
 //		}
 
         // display submission text for SUBMISSION_TIMER ms
         if (submissionTextTimer == 0) {
-			setMessageHUDMessage ("");
+			setGeneralMessage ("");
             submissionTextTimer = SUBMISSION_TIMER;
         }
-        else
-        {
-            submissionTextTimer--;
+        else {
+			submissionTextTimer--;
         }
+
+		// display quality text for QUALITY_TIMER ms
+		if (qualityTextTimer == 0) {
+			setQualityMessage ("");
+			qualityTextTimer = QUALITY_TIMER;
+		}
+		else {
+			qualityTextTimer--;
+		}
 	}
 
 	public void setWinMessage(string msg) {
@@ -417,9 +431,17 @@ public class OrderUI : MonoBehaviour {
 		textfields.loseMessage.text = msg;
 	}
 
-	public void setMessageHUDMessage(string msg) {
-		textfields.messageHUDMessage.text = msg;
-        submissionTextTimer = SUBMISSION_TIMER;
+	public void setGeneralMessage(string msg) {
+		textfields.generalMessage.text = msg;
+	}
+
+
+	public void setQualityMessage(string msg) {
+		textfields.qualityMessage.text = msg;
+	}
+
+	public void setOrderCount(string msg) {
+		textfields.orderTotalDisplay.text = msg;
 	}
 
 

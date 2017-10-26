@@ -81,7 +81,7 @@ public class SubmissionController : MonoBehaviour {
                 audSrc.PlayOneShot(rightOrder);
 				matched = true;
 				Debug.Log ("Matches one of the orders!");
-				OrderUI.instance.setMessageHUDMessage("Matches one of the orders!");
+				OrderUI.instance.setGeneralMessage("Matches one of the orders!");
 							//setTextString ("Matches one of the orders!");
 				int score = burritoCaughtIngredients.getSumOfQualities ()*50;
 				GameController.instance.score += score;
@@ -102,6 +102,7 @@ public class SubmissionController : MonoBehaviour {
 				else {
 					Debug.Log ("Remaining " + OrderController.instance.OrderListToString ()); // print remaining orders
 				}
+				OrderUI.instance.ResetAfterDeath();
 				break;
 			}
 		} 
@@ -109,7 +110,7 @@ public class SubmissionController : MonoBehaviour {
             //DOES NOT MATCH
             audSrc.PlayOneShot(wrongOrder);
 			Debug.Log("Submitted burrito does not match");
-			OrderUI.instance.setMessageHUDMessage ("Invalid Burrito Submission");
+			OrderUI.instance.setGeneralMessage ("Invalid Burrito Submission");
 					//setTextString ("Invalid Burrito Submission");
             LoggingManager.instance.RecordEvent(1, "Submitted ingredients: " + GameController.instance.player.GetComponent<ObjectCatcher>().getIngredients().ToString()
             + ". Did not match.");
