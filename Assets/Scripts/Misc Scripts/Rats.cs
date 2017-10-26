@@ -107,6 +107,7 @@ public class Rats : MonoBehaviour
             chase = false;
             target = new GameObject();
             target.transform.position = spawnPoint;
+            LoggingManager.instance.RecordEvent(13, "Died to a rat");
         }
         else if(gameObj.tag == "FallingObject")
         {
@@ -115,6 +116,7 @@ public class Rats : MonoBehaviour
             chase = false;
             target = new GameObject();
             target.transform.position = spawnPoint;
+            LoggingManager.instance.RecordEvent(14, "Rat stole a " + gameObj.name);
         }
     }
 

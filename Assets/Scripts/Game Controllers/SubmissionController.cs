@@ -108,7 +108,7 @@ public class SubmissionController : MonoBehaviour {
             audSrc.PlayOneShot(wrongOrder);
 			Debug.Log("Submitted burrito does not match");
 			setTextString ("Invalid Burrito Submission");
-            LoggingManager.instance.RecordEvent(2, "Submitted ingredients: " + GameController.instance.player.GetComponent<ObjectCatcher>().getIngredients().ToString()
+            LoggingManager.instance.RecordEvent(1, "Submitted ingredients: " + GameController.instance.player.GetComponent<ObjectCatcher>().getIngredients().ToString()
             + ". Did not match.");
         }
 

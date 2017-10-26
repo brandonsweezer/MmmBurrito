@@ -45,8 +45,6 @@ public class ObjectSpawn : MonoBehaviour {
 			Quaternion spawnRotation = Quaternion.identity;
 			GameObject obj = Instantiate (objectToSpawn, spawnPosition, spawnRotation) as GameObject;
             GameController.instance.objects.Add(obj);
-
-			LoggingManager.instance.RecordEvent(1, obj.name+ "Spawned");
 			yield return new WaitForSeconds (spawnInterval);
 		}
 	}
