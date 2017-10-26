@@ -8,7 +8,7 @@ public class TrashingController : MonoBehaviour {
 		if (Input.GetKeyDown(KeyCode.T))
 		{
 			LoggingManager.instance.RecordEvent(3, "Trashed ingredients with T: " + GameController.instance.player.GetComponent<ObjectCatcher>().getIngredients().ToString());
-			GameController.instance.player.GetComponent<ObjectCatcher>().getIngredients().Undo();
+			GameController.instance.player.GetComponent<ObjectCatcher>().getIngredients().Empty();
 			OrderUI.instance.ResetAfterDeath();
 			OrderUI.instance.CollectionUIUpdate ();
 		}

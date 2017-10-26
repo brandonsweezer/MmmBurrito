@@ -2,11 +2,10 @@
 using System.Collections;
 
 public class Rats : MonoBehaviour
-{
-    public Vector3 spawnPoint;
+{ 
+    private int spawnTimer;
 
-    public int spawnTimer;
-
+    private Vector3 spawnPoint;
     private int currentTimer;
     private float rotationSpeedFactor = 0.2f;
     private GameObject target = null;
@@ -19,7 +18,7 @@ public class Rats : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        currentTimer = spawnTimer;
+        currentTimer = spawnTimer*60;
         chase = true;
     }
 
@@ -108,6 +107,7 @@ public class Rats : MonoBehaviour
             chase = false;
             target = new GameObject();
             target.transform.position = spawnPoint;
+            LoggingManager.instance.RecordEvent(13, "Died to a rat");
         }
         else if(gameObj.tag == "FallingObject")
         {
@@ -116,6 +116,22 @@ public class Rats : MonoBehaviour
             chase = false;
             target = new GameObject();
             target.transform.position = spawnPoint;
+            LoggingManager.instance.RecordEvent(14, "Rat stole a " + gameObj.name);
         }
+    }
+
+    public void setSpawnPoint(Vector3 position)
+    {
+        spawnPoint = position;
+    }
+
+    public void setChaseRange(float distance)
+    {
+        tolerance = distance;
+    }
+
+    public void setSpawnTimer(int time)
+    {
+        spawnTimer = time;
     }
 }

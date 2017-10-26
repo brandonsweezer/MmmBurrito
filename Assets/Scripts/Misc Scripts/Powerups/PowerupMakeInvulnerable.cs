@@ -10,7 +10,8 @@ public class PowerupMakeInvulnerable : MonoBehaviour {
 		GameObject gameObj = collision.gameObject;
 		if (gameObj.tag == "Player") {
 			gameObj.GetComponent<VulnerableToHazards> ().SetInvulnerableDuration (invulnerabilityDuration);
-		}
-	}
+            LoggingManager.instance.RecordEvent(10, "Powerup: Invulnerable");
+        }
+    }
 
 }

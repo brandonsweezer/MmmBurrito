@@ -60,7 +60,7 @@ public class OrderUI : MonoBehaviour {
 	private Dictionary<IngredientSet.Ingredients,Sprite> spriteDict_full;
 	private Dictionary<Sprite,Sprite> spriteDict_GlowtoFull;
 
-    private static int SUBMISSION_TIMER = 300;
+    private static int SUBMISSION_TIMER = 100;
     private int submissionTextTimer = SUBMISSION_TIMER;
 
 
@@ -146,7 +146,16 @@ public class OrderUI : MonoBehaviour {
 		icon.transform.SetParent (container.transform, false); 
 
 		//sets the correct ingredient sprite
-		icon.GetComponent<Image> ().sprite = IngredientSet.ingredientSprites_full [GameController.instance.player.GetComponent<ObjectCatcher> ().ingredientType];
+		icon.GetComponent<Image> ().sprite = IngredientSet.ingredientSprites_full [GameController.instance.player.GetComponent<ObjectCatcher> ().GetIngredientType()];
+
+		int quality = GameController.instance.player.GetComponent<ObjectCatcher> ().GetIngredientQuality();
+		if (quality == 5 || quality == 4) {
+			icon.GetComponent<Image> ().color = new Color (1f, 1f, 1f, 1f);
+		} else if (quality == 3 || quality == 2) {
+			icon.GetComponent<Image> ().color = new Color (.64f, .83f, .0f, 1f);
+		} else {
+			icon.GetComponent<Image> ().color = new Color (.38f, .71f, .28f, 1f);
+		}
 	}
 
 	public void CollectionUIUpdate () {
@@ -157,9 +166,11 @@ public class OrderUI : MonoBehaviour {
 		if (GameController.instance.player.GetComponent<ObjectCatcher> ().GetnewIngredient () == true) {
 			if (gameobjectfields.CollectionHUD.transform.childCount < 5) {
 				CreateCollectedItem ();
+				//CollectionInit ();
 			}
 			else if (gameobjectfields.CollectionHUD.transform.childCount ==5) {
 				CreateCollectedItem ();
+				//CollectionInit ();
 				setSubmissionMessage ("Buritto Full!");
 			}else {
 				setSubmissionMessage ("Cannot Pickup");
@@ -168,6 +179,32 @@ public class OrderUI : MonoBehaviour {
 		}
 
 	}
+
+
+//	public void CollectionInit(){
+//		Debug.Log ("collection Init");
+//		DeleteCollectedIngredients ();
+//
+//		List<IngredientSet.Ingredients> collectionList = GameController.instance.player.GetComponent<ObjectCatcher> ().getIngredients().getIngredientOrderList();
+//
+//		Debug.Log (collectionList.Count);
+//		for (int i = 0; i < collectionList.Count; i++) {
+//				CreateCollectedItem (collectionList[i]);
+//			Debug.Log ("Create");
+//		}
+
+//		IngredientSet collectionSet = GameController.instance.player.GetComponent<ObjectCatcher> ().getIngredients ().ingredientSet;
+//
+//		Debug.Log (collectionSet.ingredients.Length);
+//		for (int i = 0; i < collectionSet.ingredients.Length; i++) {
+//			Debug.Log (collectionSet.ingredients [i]);
+//			for (int ii = 0; ii < collectionSet.ingredients [i]; ii++) {
+//				CreateCollectedItem ((IngredientSet.Ingredients)i);
+//				Debug.Log ("Create");
+//			}
+//		}
+//	}
+
 
 
 	public void TicketUpdate() {
@@ -198,9 +235,8 @@ public class OrderUI : MonoBehaviour {
 
 						//individual ingredient 
 						GameObject ingredient= ticket.transform.GetChild(ii).gameObject;
-						IngredientSet.Ingredients caughtIngredient = GameController.instance.player.GetComponent<ObjectCatcher> ().ingredientType;
 
-						bool match = IngredientSet.ingredientSprites_full [caughtIngredient] == ingredient.GetComponent<Image> ().sprite;
+						bool match = IngredientSet.ingredientSprites_full [GameController.instance.player.GetComponent<ObjectCatcher> ().GetIngredientType()] == ingredient.GetComponent<Image> ().sprite;
 
 						validTicket = ((validTicket || match) && !markedInvalidTicket);
 
@@ -210,7 +246,7 @@ public class OrderUI : MonoBehaviour {
 							//Set filled image in top HUD
 							//Marks ingredient active
 							if (continueLoop) {
-								ingredient.GetComponent<Image> ().sprite = IngredientSet.ingredientSprites_glowing [GameController.instance.player.GetComponent<ObjectCatcher> ().ingredientType];
+								ingredient.GetComponent<Image> ().sprite = IngredientSet.ingredientSprites_glowing [GameController.instance.player.GetComponent<ObjectCatcher> ().GetIngredientType()];
 								ingredient.GetComponent<Image> ().color = Color.white;
 								ingredient.tag = ("MarkedIngredient");
 								validIngredient = true;
@@ -227,6 +263,7 @@ public class OrderUI : MonoBehaviour {
 					if (completedIngredients == ticket.transform.childCount && ticket.tag=="Ticket") {
 						//Mark Complete
 						ticket.GetComponent<Image> ().sprite = gameobjectfields.CompletedTicket;
+						GameController.instance.canSubmit= true; 
 					}
 					if ((!validTicket || !validIngredient) && ticket.tag=="Ticket") {
 						//Mark Invalid
@@ -234,8 +271,8 @@ public class OrderUI : MonoBehaviour {
 					}
 				}
 			}
+			GameController.instance.player.GetComponent<ObjectCatcher> ().SetnewIngredient(false);
 		}
-		GameController.instance.player.GetComponent<ObjectCatcher> ().SetnewIngredient(false);
 	}
 		
 
@@ -259,6 +296,7 @@ public class OrderUI : MonoBehaviour {
 		TicketInit (1);
 		TicketInit (2);
 		DeleteCollectedIngredients ();
+		//CollectionInit ();
 	}
 
 	public void DeleteTickets() {
@@ -290,8 +328,9 @@ public class OrderUI : MonoBehaviour {
 
 	// Use this for initialization
 	public void UpdateUI () {
-		CollectionUIUpdate ();
-		TicketUpdate();
+			CollectionUIUpdate ();
+			TicketUpdate ();
+
 
 
         

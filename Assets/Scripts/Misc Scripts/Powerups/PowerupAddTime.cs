@@ -10,7 +10,8 @@ public class PowerupAddTime : MonoBehaviour {
 		GameObject gameObj = collision.gameObject;
 		if (gameObj.tag == "Player") {
 			GameController.instance.gameObject.GetComponent<Timer> ().AddSeconds (secondsToAdd);
-		}
-	}
+            LoggingManager.instance.RecordEvent(9, "Powerup: Added Time");
+        }
+    }
 
 }

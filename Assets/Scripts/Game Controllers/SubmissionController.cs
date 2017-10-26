@@ -60,10 +60,7 @@ public class SubmissionController : MonoBehaviour {
 
 		SubmitBurrito (burrito);
 
-		if (!GameController.instance.levelComplete) {
-			SpawnController.instance.DestroyAndRespawn ();
-			OrderUI.instance.ResetAfterDeath ();
-		} else {
+		if (GameController.instance.levelComplete) {
 			SpawnController.instance.DestroyBurrito ();
 		}
 	}
@@ -79,7 +76,6 @@ public class SubmissionController : MonoBehaviour {
 		List<IngredientSet> orders = OrderController.instance.orderList;
 		bool matched = false;
 		foreach (IngredientSet order in orders) {
-            Debug.Log("hi");
             if (compareBurrito (order)) {
                 //MATCHES
                 audSrc.PlayOneShot(rightOrder);
@@ -112,7 +108,7 @@ public class SubmissionController : MonoBehaviour {
             audSrc.PlayOneShot(wrongOrder);
 			Debug.Log("Submitted burrito does not match");
 			setTextString ("Invalid Burrito Submission");
-            LoggingManager.instance.RecordEvent(2, "Submitted ingredients: " + GameController.instance.player.GetComponent<ObjectCatcher>().getIngredients().ToString()
+            LoggingManager.instance.RecordEvent(1, "Submitted ingredients: " + GameController.instance.player.GetComponent<ObjectCatcher>().getIngredients().ToString()
             + ". Did not match.");
         }
 
