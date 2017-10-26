@@ -10,9 +10,9 @@ public class RatSpawn : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        rat.setSpawnPoint(transform.position);
-        rat.setSpawnTimer(spawnTimer);
-        rat.setChaseRange(range);
+        rat.spawnPoint = transform.position;
+        rat.spawnTimer = spawnTimer;
+        rat.tolerance = range;
         Instantiate(rat, new Vector3(1000, 0, 1000), Quaternion.identity);
     }
 

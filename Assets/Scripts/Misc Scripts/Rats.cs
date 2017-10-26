@@ -3,13 +3,14 @@ using System.Collections;
 
 public class Rats : MonoBehaviour
 { 
-    private int spawnTimer;
+    public int spawnTimer;
+    public Vector3 spawnPoint;
+    public float tolerance = 5f;
 
-    private Vector3 spawnPoint;
     private int currentTimer;
     private float rotationSpeedFactor = 0.2f;
     private GameObject target = null;
-    private float tolerance = 5f;
+    
     private float tolerance2 = 0.2f;
 
     //if false, return home
@@ -82,7 +83,7 @@ public class Rats : MonoBehaviour
                     rb.velocity = new Vector3();
                     target = null;
                     chase = true;
-                    currentTimer = spawnTimer;
+                    currentTimer = spawnTimer*60;
                 }
             }
         }
@@ -118,20 +119,5 @@ public class Rats : MonoBehaviour
             target.transform.position = spawnPoint;
             LoggingManager.instance.RecordEvent(14, "Rat stole a " + gameObj.name);
         }
-    }
-
-    public void setSpawnPoint(Vector3 position)
-    {
-        spawnPoint = position;
-    }
-
-    public void setChaseRange(float distance)
-    {
-        tolerance = distance;
-    }
-
-    public void setSpawnTimer(int time)
-    {
-        spawnTimer = time;
     }
 }
