@@ -5,9 +5,11 @@ using UnityEngine;
 public class VulnerableToHazards : MonoBehaviour {
 
 	private float invulnerableTimeLeft;
+	ColorFlash flashScript;
 
 	void Start () {
 		invulnerableTimeLeft = 0;
+		flashScript = GetComponent<ColorFlash> ();
 	}
 
 	void Update() {
@@ -15,7 +17,7 @@ public class VulnerableToHazards : MonoBehaviour {
 
 		// Change visual if invulnerable
 		if (invulnerableTimeLeft <= 0) {
-			StopFlashing ();
+			flashScript.SetActive (false);
 		}
 	}
 
@@ -44,26 +46,7 @@ public class VulnerableToHazards : MonoBehaviour {
 	public void SetInvulnerableDuration(float duration) {
 		invulnerableTimeLeft = duration;
 		if (duration > 0) {
-			StartFlashing ();
-		}
-	}
-
-	void StartFlashing() {
-		setToFlashRecursive (transform, true);
-	}
-	void StopFlashing() {
-		setToFlashRecursive (transform, false);
-	}
-
-	void setToFlashRecursive(Transform transf, bool active) {
-		// Change this transform's flash active state
-		ColorFlash flashScript = transf.gameObject.GetComponent<ColorFlash> ();
-		if (flashScript != null) {
-			flashScript.SetActive (active);
-		}
-		// Do the same for each of its children
-		foreach (Transform child in transf) {
-			setToFlashRecursive (child, active);
+			flashScript.SetActive (true);
 		}
 	}
 }

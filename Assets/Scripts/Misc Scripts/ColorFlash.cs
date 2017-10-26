@@ -8,24 +8,38 @@ public class ColorFlash : MonoBehaviour {
 	public Color startColor = Color.red;
 	public Color endColor = Color.green;
 
-	private Renderer renderer;
+	public bool onByDefault = false;
+
 	private bool active;
 
-	void Start () {
-		renderer = GetComponent<Renderer> ();
+	void Start() {
+		active = onByDefault;
 	}
 
 	void Update () {
 		if (active) {
 			float lerp = Mathf.PingPong (Time.time, period) / period;
 			Color flashColor = Color.Lerp (startColor, endColor, lerp);
-			renderer.material.SetColor ("_Color", flashColor);
+			Debug.Log ("Flash activate!");
+			changeColorRecursive (transform, flashColor);
 		} else {
-			renderer.material.SetColor ("_Color", Color.white);
+			changeColorRecursive (transform, Color.white);
 		}
 	}
 
 	public void SetActive(bool active) {
 		this.active = active;
+	}
+
+	void changeColorRecursive(Transform transf, Color color) {
+		// Change this transform's color
+		Renderer renderer = transf.gameObject.GetComponent<Renderer> ();
+		if (renderer != null) {
+			renderer.material.SetColor ("_Color", color);
+		}
+		// Do the same for each of its children
+		foreach (Transform child in transf) {
+			changeColorRecursive (child, color);
+		}
 	}
 }
