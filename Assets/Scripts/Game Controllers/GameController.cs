@@ -24,5 +24,9 @@ public class GameController : MonoBehaviour {
 			Destroy (this);
 		}
 	}
+
+	public void UpdateSubmissionValidity() {
+		canSubmit = OrderController.instance.CanSubmitAnOrder ();
+	}
 		
 }

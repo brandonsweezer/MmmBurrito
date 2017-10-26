@@ -85,10 +85,14 @@ public class LevelLoader : MonoBehaviour {
 
 	// Setup the level variables for the specified level.
 	void SetupLevelVars (int levelNumber) {
+		
 		GameController.instance.levelComplete = false;
 		GameController.instance.score = 0;
 		OrderController.instance.orderList.Clear ();
 		Timer timer = GetComponent<Timer> ();
+		// Updates whether we can submit successfully or not
+		GameController.instance.UpdateSubmissionValidity();
+
 		switch (levelNumber) {
 		// Intro
 		case 1:

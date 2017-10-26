@@ -20,7 +20,6 @@ public class ColorFlash : MonoBehaviour {
 		if (active) {
 			float lerp = Mathf.PingPong (Time.time, period) / period;
 			Color flashColor = Color.Lerp (startColor, endColor, lerp);
-			Debug.Log ("Flash activate!");
 			changeColorRecursive (transform, flashColor);
 		} else {
 			changeColorRecursive (transform, Color.white);

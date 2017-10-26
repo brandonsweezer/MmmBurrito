@@ -307,7 +307,6 @@ public class OrderUI : MonoBehaviour {
 					if (completedIngredients == ticket.transform.childCount && ticket.tag=="Ticket") {
 						//Mark Complete
 						ticket.GetComponent<Image> ().sprite = gameobjectfields.CompletedTicket;
-						GameController.instance.canSubmit= true; 
 					}
 					if ((!validTicket || !validIngredient) && ticket.tag=="Ticket") {
 						//Mark Invalid
