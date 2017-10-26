@@ -33,6 +33,8 @@ public class GameObjectFields
 
 	public Sprite CompletedTicket;
 	public Sprite InvalidTicket;
+
+	public Sprite[] QualitySprites; 
 }
 
 
@@ -62,6 +64,8 @@ public class OrderUI : MonoBehaviour {
 
     private static int SUBMISSION_TIMER = 100;
     private int submissionTextTimer = SUBMISSION_TIMER;
+
+	private int qualitySum; 
 
 
 	// Make this class a singleton
@@ -156,6 +160,35 @@ public class OrderUI : MonoBehaviour {
 		} else {
 			icon.GetComponent<Image> ().color = new Color (.38f, .71f, .28f, 1f);
 		}
+
+		qualitySum += quality; 
+
+	}
+
+
+	public void SetQualityIndiator() {
+		Debug.Log ("Quality");
+		Debug.Log ("child="+gameobjectfields.CollectionHUD.transform.childCount.ToString()  );
+		
+		if (gameobjectfields.CollectionHUD.transform.childCount - 2 > 0) {
+			gameobjectfields.CollectionHUD.transform.GetChild (0).GetChild (0).GetComponent<Image> ().color = new Color (1f, 1f, 1f, 1f);
+			int qualityAverage = qualitySum / (gameobjectfields.CollectionHUD.transform.childCount - 2);
+
+			if (qualityAverage == 5 || qualityAverage == 4) {
+				gameobjectfields.CollectionHUD.transform.GetChild (0).GetChild (0).GetComponent<Image> ().sprite = (Sprite) gameobjectfields.QualitySprites.GetValue (0);
+			} else if (qualityAverage == 3 || qualityAverage == 2) {
+				gameobjectfields.CollectionHUD.transform.GetChild (0).GetChild (0).GetComponent<Image> ().sprite = (Sprite) gameobjectfields.QualitySprites.GetValue (1);
+			} else if (qualityAverage == 1 || qualityAverage == 0) {
+				gameobjectfields.CollectionHUD.transform.GetChild (0).GetChild (0).GetComponent<Image> ().sprite = (Sprite) gameobjectfields.QualitySprites.GetValue (2);
+
+			} 
+		}
+		else {
+			Debug.Log ("TEST");
+			gameobjectfields.CollectionHUD.transform.GetChild (0).GetChild (0).GetComponent<Image> ().color = new Color (1f, 1f, 1f, 0f);
+			//gameobjectfields.CollectionHUD.transform.GetChild (0).GetComponent<Image> ().sprite = gameobjectfields.QualitySprites.GetValue (4);
+
+		}
 	}
 
 	public void CollectionUIUpdate () {
@@ -164,18 +197,19 @@ public class OrderUI : MonoBehaviour {
 		}
 
 		if (GameController.instance.player.GetComponent<ObjectCatcher> ().GetnewIngredient () == true) {
-			if (gameobjectfields.CollectionHUD.transform.childCount < 5) {
+			if (gameobjectfields.CollectionHUD.transform.childCount < 7) {
 				CreateCollectedItem ();
 				//CollectionInit ();
 			}
-			else if (gameobjectfields.CollectionHUD.transform.childCount ==5) {
+			else if (gameobjectfields.CollectionHUD.transform.childCount ==7) {
 				CreateCollectedItem ();
 				//CollectionInit ();
 				setSubmissionMessage ("Buritto Full!");
 			}else {
-				setSubmissionMessage ("Cannot Pickup");
+				setSubmissionMessage ("Cannot catch anymore. Burrito Full");
 				GameController.instance.player.GetComponent<ObjectCatcher> ().SetnewIngredient(false);
 			}
+			SetQualityIndiator ();
 		}
 
 	}
@@ -291,11 +325,15 @@ public class OrderUI : MonoBehaviour {
 	}
 
 	public void ResetAfterDeath() {
+		Debug.Log ("Reset");
 		DeleteTickets();
 		TicketInit (0);
 		TicketInit (1);
 		TicketInit (2);
 		DeleteCollectedIngredients ();
+		qualitySum = 0;
+		gameobjectfields.CollectionHUD.transform.GetChild (0).GetChild (0).GetComponent<Image> ().color = new Color (1f, 1f, 1f, 0f);
+		//SetQualityIndiator();
 		//CollectionInit ();
 	}
 
@@ -313,16 +351,17 @@ public class OrderUI : MonoBehaviour {
 	}
 		
 	public void DeleteCollectedIngredients() {
-		DeleteColelctedContianer (0); DeleteColelctedContianer (1); DeleteColelctedContianer (2);
-		DeleteColelctedContianer (3); DeleteColelctedContianer (4); DeleteColelctedContianer (5);
+		for (int i = 2; i < gameobjectfields.CollectionHUD.transform.childCount; i++) {
+			DeleteColelctedContianer (i);
+		}
+	//	Debug.Log ("Delete");
+		//Debug.Log ("child ="+gameobjectfields.CollectionHUD.transform.childCount.ToString());
 
 	}
 
 
 	public void DeleteColelctedContianer(int index) {
-		if (gameobjectfields.CollectionHUD.transform.childCount > index) {
-			GameObject.DestroyObject (gameobjectfields.CollectionHUD.transform.GetChild (index).gameObject);
-		}
+		GameObject.DestroyObject (gameobjectfields.CollectionHUD.transform.GetChild (index).gameObject);
 	}
 
 

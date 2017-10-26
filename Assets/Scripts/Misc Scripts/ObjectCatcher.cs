@@ -13,6 +13,7 @@ public class ObjectCatcher : MonoBehaviour {
 	private IngredientSet.Ingredients ingredientType;
 	private int ingredientQuality;
 
+
 	void Start () {
 		canCatch = true;
 		caughtIngredients = new CaughtIngredientSet();
@@ -58,10 +59,11 @@ public class ObjectCatcher : MonoBehaviour {
 
 		GameObject gameObj = collision.gameObject;
 		if (gameObj.tag == "FallingObject") {
+			SetnewIngredient (true);
 			// Make sure burrito is not full
 			if (caughtIngredients.ingredientSet.GetFullCount () >= 6) {
 				Debug.Log ("Can't catch, burrito is full!");
-				SetTextString("Cannot catch anymore");
+				SetTextString("Cannot catch anymore. Burrito Full");
 				return;
 			}
 
@@ -84,7 +86,7 @@ public class ObjectCatcher : MonoBehaviour {
 		ingredientType = IngredientSet.StringToIngredient (objectName);
 		ingredientQuality = gameObj.GetComponent<FallDecayDie> ().getQuality ();
 		caughtIngredients.CatchIngredient (ingredientType, ingredientQuality);
-		SetnewIngredient (true);
+
 
 		// Print out
 		Debug.Log (string.Format("Caught a {0}, burrito now contains:\n{1}", objectName, CaughtObjectsToString ()));
