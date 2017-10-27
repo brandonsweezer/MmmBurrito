@@ -93,9 +93,15 @@ public class MovementControllerIsometricNew : MonoBehaviour {
 	
 
 	void Update () {
-        // Detect move input.
-        horizontalMoveInput = 0;
+		horizontalMoveInput = 0;
 		verticalMoveInput = 0;
+
+		// Only read input if we're still playing the level
+		if (GameController.instance.levelComplete) {
+			return;
+		}
+
+        // Detect move input.
 		if (Input.GetKey (KeyCode.RightArrow) || Input.GetKey(KeyCode.D)) {
 			horizontalMoveInput += 1;
 		}
