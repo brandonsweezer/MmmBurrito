@@ -222,9 +222,9 @@ public class OrderUI : MonoBehaviour {
 			else if (gameobjectfields.CollectionHUD.transform.childCount ==7) {
 				CreateCollectedItem ();
 				//CollectionInit ();
-				setGeneralMessage ("Buritto Full!");
+				setGeneralMessage ("Buritto Full! (Press 'T' to make room)");
 			}else {
-				setGeneralMessage ("Cannot catch anymore. Burrito Full");
+				setGeneralMessage ("Burrito too full! Press 'T' to make room!");
 				GameController.instance.player.GetComponent<ObjectCatcher> ().SetnewIngredient(false);
 			}
 			SetQualityIndiator ();
