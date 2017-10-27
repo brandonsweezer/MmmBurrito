@@ -46,11 +46,13 @@ public class FallDecayDie : MonoBehaviour {
 		if (slowFalling) {
 			float fallSpeed = slowFallSpeed;
 			// Increase the fall speed if the burrito is on the indicator and barely moving.
-			Vector3 playerPos = GameController.instance.player.transform.position;
-			Vector3 indicatorPos = GetComponent<IngredientIndicator> ().indicator.transform.position;
-			float playerSpeed = GameController.instance.player.GetComponent<Rigidbody> ().velocity.magnitude;
-			if (Vector3.Distance(playerPos, indicatorPos) <= TiledFloor.tileHeight * 1.414f && playerSpeed <= playerMaxSpeedForFastFall) {
-				fallSpeed = fastFallSpeed;
+			if (GetComponent<IngredientIndicator> () != null && GetComponent<IngredientIndicator> ().indicator != null) {
+				Vector3 playerPos = GameController.instance.player.transform.position;
+				Vector3 indicatorPos = GetComponent<IngredientIndicator> ().indicator.transform.position;
+				float playerSpeed = GameController.instance.player.GetComponent<Rigidbody> ().velocity.magnitude;
+				if (Vector3.Distance (playerPos, indicatorPos) <= TiledFloor.tileHeight * 1.414f && playerSpeed <= playerMaxSpeedForFastFall) {
+					fallSpeed = fastFallSpeed;
+				}
 			}
 
 			rb.velocity = new Vector3 (rb.velocity.x, -fallSpeed, rb.velocity.z);
