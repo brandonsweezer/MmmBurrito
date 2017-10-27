@@ -62,7 +62,7 @@ public class OrderController : MonoBehaviour {
 	}
 
 	public bool BurritoContentsFulfillOrder(IngredientSet orderToCompareTo){
-		if (GameController.instance.player == null) {
+		if (GameController.instance.player == null || GameController.instance.player.GetComponent<ObjectCatcher> ().getIngredients () == null) {
 			return false;
 		}
 		IngredientSet burritoIngredients = GameController.instance.player.GetComponent<ObjectCatcher> ().getIngredients ().ingredientSet;
