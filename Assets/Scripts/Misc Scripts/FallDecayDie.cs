@@ -43,6 +43,7 @@ public class FallDecayDie : MonoBehaviour {
     }
 
 	void FixedUpdate() {
+
 		if (slowFalling) {
 			float fallSpeed = slowFallSpeed;
 			// Increase the fall speed if the burrito is on the indicator and barely moving.
@@ -67,6 +68,12 @@ public class FallDecayDie : MonoBehaviour {
 	// Sets the quality level to a particular value, and enables the corresponding child model
 	public void SetQualityLevel(int newQualityLevel) {
 		qualityLevel = newQualityLevel;
+
+		// tint the texture
+		Renderer rend = transform.GetChild(0).GetComponent<Renderer>();
+		foreach (Material mat in rend.materials) {
+			mat.color = Color.Lerp(mat.color, Color.black, 0.2f);
+		}
 
 		// update displayed model
 		if (qualityLevel <= 0 || transform.childCount == 1) {
