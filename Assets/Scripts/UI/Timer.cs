@@ -60,6 +60,7 @@ public class Timer : MonoBehaviour {
 		if (time < 0) {
 			time = 0.0f;
 			OrderUI.instance.setLoseMessage("You Lose! No time left!\nPress escape to return to the main menu");
+			OrderUI.instance.gameobjectfields.LoseScreen.gameObject.SetActive (true);
 			GameController.instance.levelComplete = true;
 		}
 		bool timeEnding = false;

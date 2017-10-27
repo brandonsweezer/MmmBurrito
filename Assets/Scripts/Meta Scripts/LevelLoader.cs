@@ -43,6 +43,13 @@ public class LevelLoader : MonoBehaviour {
         LoggingManager.instance.RecordLevelEnd();
     }
 
+	public void ReplayLevel()
+	{
+		SceneManager.LoadScene("Level_" + loadingLevelNumber);
+		LoggingManager.instance.RecordLevelStart(loadingLevelNumber, "");
+	}
+
+
 	// http://answers.unity3d.com/questions/1174255/since-onlevelwasloaded-is-deprecated-in-540b15-wha.html
 	void OnEnable()
 	{

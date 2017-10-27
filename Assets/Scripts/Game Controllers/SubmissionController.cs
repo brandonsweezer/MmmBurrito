@@ -86,6 +86,7 @@ public class SubmissionController : MonoBehaviour {
 				int score = burritoCaughtIngredients.getSumOfQualities ()*50;
 				GameController.instance.score += score;
                 Debug.Log("You just got "+score+" score!");
+				OrderUI.instance.setScore (score.ToString ());
                 LoggingManager.instance.RecordEvent(2, "Submitted ingredients: " + GameController.instance.player.GetComponent<ObjectCatcher>().getIngredients().ToString()
                     + ". Gained score: " + score);
                 OrderController.instance.orderList.RemoveAt (OrderController.instance.orderList.FindIndex(i => i.Equivalent(order)));
@@ -95,8 +96,8 @@ public class SubmissionController : MonoBehaviour {
 
                 if (OrderController.instance.orderList.Count == 0){
                     Debug.Log("All orders completed");
+					OrderUI.instance.gameobjectfields.WinScreen.gameObject.SetActive (true);
 					OrderUI.instance.setWinMessage("You Win! Score: "+GameController.instance.score+"\n(Press escape to return to menu)\n(Press enter to go to next level)");
-							//setWinString ("You Win! Score: "+GameController.instance.score+"\n(Press escape to return to menu)\n(Press enter to go to next level)");
                     LoggingManager.instance.RecordEvent(8, "Won level, timer at " + GameController.instance.gameTime);
                     GameController.instance.levelComplete = true;
 

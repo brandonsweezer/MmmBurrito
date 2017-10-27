@@ -18,6 +18,8 @@ public class TextFields
 
 	public Text winMessage;
 	public Text loseMessage;
+
+	public Text Score;
 }
 
 [System.Serializable]
@@ -38,6 +40,11 @@ public class GameObjectFields
 	public Sprite InvalidTicket;
 
 	public Sprite[] QualitySprites; 
+
+	public Image WinScreen;
+	public Image LoseScreen;
+
+
 }
 
 
@@ -345,6 +352,10 @@ public class OrderUI : MonoBehaviour {
 		qualitySum = 0;
 		gameobjectfields.CollectionHUD.transform.GetChild (0).GetChild (0).GetComponent<Image> ().color = new Color (1f, 1f, 1f, 0f);
 
+		gameobjectfields.WinScreen.gameObject.SetActive (false);
+		gameobjectfields.LoseScreen.gameObject.SetActive (false);
+
+
 	}
 
 	public void ResetAfterDeath() {
@@ -441,6 +452,10 @@ public class OrderUI : MonoBehaviour {
 
 	public void setOrderCount(string msg) {
 		textfields.orderTotalDisplay.text = msg;
+	}
+
+	public void setScore(string msg) {
+		textfields.Score.text = msg;
 	}
 
 
