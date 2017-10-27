@@ -37,10 +37,10 @@ GameObject:
   m_Component:
   - component: {fileID: 4193650876594884}
   - component: {fileID: 54168527067355566}
-  - component: {fileID: 135659320980202014}
   - component: {fileID: 114513265346575630}
   - component: {fileID: 114925415814370852}
   - component: {fileID: 114857951815979600}
+  - component: {fileID: 135139977086805242}
   m_Layer: 0
   m_Name: Rice
   m_TagString: FallingObject
@@ -101,8 +101,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1831076653306232}
   m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071067}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 3.0999997, y: 3.1170743, z: 3.809523}
+  m_LocalPosition: {x: -0.00045423, y: 0.414, z: -0.0032679}
+  m_LocalScale: {x: 1.4097015, y: 1.4174664, z: 1.7323523}
   m_Children:
   - {fileID: 4589607659667666}
   - {fileID: 4994740335362792}
@@ -268,15 +268,15 @@ MonoBehaviour:
     type: 2}
   image: {fileID: 2800000, guid: 36b3a145efd444745863c79028511c3a, type: 3}
   indicator: {fileID: 0}
---- !u!135 &135659320980202014
+--- !u!135 &135139977086805242
 SphereCollider:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1276072598772892}
-  m_Material: {fileID: 13400000, guid: 6a484f54c9d7f4247b208e13169b3d2f, type: 2}
+  m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.45
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Radius: 0.6
+  m_Center: {x: 0, y: 0.6, z: 0}

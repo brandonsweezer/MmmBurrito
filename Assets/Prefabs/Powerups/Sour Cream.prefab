@@ -37,11 +37,11 @@ GameObject:
   m_Component:
   - component: {fileID: 4246134284177140}
   - component: {fileID: 54192516370276502}
-  - component: {fileID: 135018753452022346}
   - component: {fileID: 114690447180406270}
   - component: {fileID: 114789038998784960}
   - component: {fileID: 114224324352996716}
   - component: {fileID: 114704023775638010}
+  - component: {fileID: 65577706303922044}
   m_Layer: 0
   m_Name: Sour Cream
   m_TagString: Untagged
@@ -56,7 +56,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1825839562899858}
   m_LocalRotation: {x: 0.000000081460335, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.325, z: 0}
+  m_LocalPosition: {x: 0, y: 0.699, z: 0}
   m_LocalScale: {x: 37, y: 37, z: 37}
   m_Children: []
   m_Father: {fileID: 4246134284177140}
@@ -131,6 +131,18 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!65 &65577706303922044
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1852093874150844}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0.5, z: 0}
 --- !u!114 &114224324352996716
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -182,15 +194,4 @@ MonoBehaviour:
   indicatorPrefab: {fileID: 1488541010008626, guid: cd7a43ab8658aa946b00dc3c05429d2f,
     type: 2}
   image: {fileID: 2800000, guid: bc89691b1171adb428afd71c04c4b7f6, type: 3}
---- !u!135 &135018753452022346
-SphereCollider:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1852093874150844}
-  m_Material: {fileID: 13400000, guid: 6a484f54c9d7f4247b208e13169b3d2f, type: 2}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.45
-  m_Center: {x: 0, y: 0, z: 0}
+  indicator: {fileID: 0}

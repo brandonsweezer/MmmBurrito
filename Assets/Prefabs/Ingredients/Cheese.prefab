@@ -21,10 +21,9 @@ GameObject:
   - component: {fileID: 4302838028815432}
   - component: {fileID: 54863043858535432}
   - component: {fileID: 114793750701899426}
-  - component: {fileID: 65519179826970880}
   - component: {fileID: 114421908461745536}
-  - component: {fileID: 136729067471462270}
   - component: {fileID: 114167379136228040}
+  - component: {fileID: 65210333019250872}
   m_Layer: 0
   m_Name: Cheese
   m_TagString: FallingObject
@@ -70,8 +69,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1874453173129290}
   m_LocalRotation: {x: -0.5, y: -0.5, z: -0.5, w: 0.5}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 10, y: 11.222393, z: 12}
+  m_LocalPosition: {x: 0.000016044, y: 0.329, z: -0.1315}
+  m_LocalScale: {x: 5.5266595, y: 6.202234, z: 6.631991}
   m_Children: []
   m_Father: {fileID: 4302838028815432}
   m_RootOrder: 0
@@ -130,18 +129,18 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!65 &65519179826970880
+--- !u!65 &65210333019250872
 BoxCollider:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1008423336532690}
-  m_Material: {fileID: 13400000, guid: 6a484f54c9d7f4247b208e13169b3d2f, type: 2}
+  m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.2, y: 0.5, z: 1}
-  m_Center: {x: 0.15, y: 0.03, z: 0}
+  m_Size: {x: 1.3, y: 0.7, z: 1.4}
+  m_Center: {x: 0, y: 0.35, z: 0.05}
 --- !u!114 &114167379136228040
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -181,16 +180,3 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startingQualityLevel: 3
   decayRate: 1.5
---- !u!136 &136729067471462270
-CapsuleCollider:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1008423336532690}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 0.44
-  m_Height: 1.28
-  m_Direction: 0
-  m_Center: {x: 0.112, y: 0.2, z: 0}

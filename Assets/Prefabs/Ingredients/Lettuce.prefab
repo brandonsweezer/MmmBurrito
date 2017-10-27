@@ -20,10 +20,10 @@ GameObject:
   m_Component:
   - component: {fileID: 4413443405484022}
   - component: {fileID: 54481435934504508}
-  - component: {fileID: 135408511487019036}
   - component: {fileID: 114683492293231646}
   - component: {fileID: 114853590373757100}
   - component: {fileID: 114952363753991120}
+  - component: {fileID: 135085979067959162}
   m_Layer: 0
   m_Name: Lettuce
   m_TagString: FallingObject
@@ -55,7 +55,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1699427756972874}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -8.363434, y: 2.7140117, z: 10.125332}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4968838561461604}
@@ -68,13 +68,13 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1709498857988276}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 200, y: 200, z: 200}
+  m_LocalRotation: {x: -0.23991607, y: -0.19550414, z: -0.10424302, w: 0.9451729}
+  m_LocalPosition: {x: -0.0000004417758, y: 0.611, z: 0.00000063793664}
+  m_LocalScale: {x: 299.72235, y: 299.72238, z: 299.72238}
   m_Children: []
   m_Father: {fileID: 4413443405484022}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -29.623001, y: -21.567001, z: -6.821}
 --- !u!23 &23125345900013124
 MeshRenderer:
   m_ObjectHideFlags: 1
@@ -168,15 +168,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a77441f45214fc0428ee3b224de1076f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!135 &135408511487019036
+--- !u!135 &135085979067959162
 SphereCollider:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1699427756972874}
-  m_Material: {fileID: 13400000, guid: 6a484f54c9d7f4247b208e13169b3d2f, type: 2}
+  m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.45
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Radius: 0.6
+  m_Center: {x: 0, y: 0.6, z: 0}
