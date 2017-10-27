@@ -16,14 +16,14 @@ public class VulnerableToHazards : MonoBehaviour {
 		invulnerableTimeLeft -= Time.deltaTime;
 
 		// Change visual if invulnerable
-		if (invulnerableTimeLeft <= 0) {
+		if (!IsInvulnerable()) {
 			flashScript.SetActive (false);
 		}
 	}
 
 	/** Handle collisions with deadly hazards */
 	void OnCollisionEnter (Collision collision) {
-		if (invulnerableTimeLeft > 0) {
+		if (IsInvulnerable()) {
 			return;
 		}
 
@@ -48,5 +48,9 @@ public class VulnerableToHazards : MonoBehaviour {
 		if (duration > 0) {
 			flashScript.SetActive (true);
 		}
+	}
+
+	public bool IsInvulnerable() {
+		return invulnerableTimeLeft > 0;
 	}
 }

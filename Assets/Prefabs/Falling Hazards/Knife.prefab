@@ -58,6 +58,7 @@ GameObject:
   - component: {fileID: 54695322293938318}
   - component: {fileID: 65199662740698284}
   - component: {fileID: 114005528061802410}
+  - component: {fileID: 114970493968626408}
   m_Layer: 0
   m_Name: Knife
   m_TagString: DeadlyHazard
@@ -236,6 +237,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startingQualityLevel: 1
   decayRate: 5
+--- !u!114 &114970493968626408
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1307991631258302}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 87f8a9e00a27273428ff2cbe17d5d783, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  requireInvulnerablePlayer: 1
 --- !u!136 &136208850970919982
 CapsuleCollider:
   m_ObjectHideFlags: 1
