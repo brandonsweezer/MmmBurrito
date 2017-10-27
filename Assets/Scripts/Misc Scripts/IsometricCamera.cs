@@ -7,8 +7,8 @@ public class IsometricCamera : MonoBehaviour {
 	// Note: could make these two variables public, but for the sake of consistency we won't
 	// [Tooltip("[0..1]")]
 	private float looseness = 0.8f;
-	// [Tooltip("[0..1]")]
-	private  float biasForDefaultPosition = 0.7f;
+	[Tooltip("[0..1]")]
+	public  float biasForDefaultPosition = 0.7f;
 
 	private GameObject target;
 	private Vector3 defaultPosition;

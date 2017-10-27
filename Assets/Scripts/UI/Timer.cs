@@ -10,12 +10,13 @@ public class Timer : MonoBehaviour {
 
 
 	private float time;
-	private float tick;
 	private float maxT;
 
+	private float totalSeconds;
+
 	private string timeDisplay;
-	public Text textInstance;
-	public Text losetext; 
+	public Text timeDisplayText;
+
 
 	private bool running;
 
@@ -47,11 +48,10 @@ public class Timer : MonoBehaviour {
 
 		time = maxTime;
 		maxT = maxTime;
-		tick = .0001f;
 	}
 
 	public void startTimer () {
-		textInstance.color = Color.black;
+		timeDisplayText.color = Color.black;
 		running = true;
         audSrc.clip = regular;
         audSrc.loop = true;
@@ -69,11 +69,11 @@ public class Timer : MonoBehaviour {
 		circle.fillAmount = time/maxT;
 		if (time < 0) {
 			time = 0.0f;
-			losetext.text = "You Lose! No time left!\nPress escape to return to the main menu";
+			OrderUI.instance.setLoseMessage("You Lose! No time left!\nPress escape to return to the main menu");
 			GameController.instance.levelComplete = true;
 		}
 		bool timeEnding = false;
-		float totalSeconds = Mathf.Ceil (time);
+		totalSeconds = Mathf.Ceil (time);
 		int minutes = (int) totalSeconds / 60;
         int seconds = (int)totalSeconds % 60;
 
@@ -107,13 +107,13 @@ public class Timer : MonoBehaviour {
 
 		timeDisplay = minutes.ToString() +":" +secondsDisplay;
 		if (timeEnding) {
-			textInstance.color = Color.red;
+			timeDisplayText.color = Color.red;
 		}
 
         GameController.instance.gameTime = (int)time;
 
 
-        textInstance.text = timeDisplay;
+        timeDisplayText.text = timeDisplay;
 	
 
 	}
@@ -127,5 +127,9 @@ public class Timer : MonoBehaviour {
 
 	public void AddSeconds(float seconds) {
 		time += seconds;
+	}
+
+	public float getTime() {
+		return totalSeconds;
 	}
 }

@@ -60,4 +60,25 @@ public class OrderController : MonoBehaviour {
 		orderString.Trim ();
 		return orderString.Substring (0, orderString.Length - 2);
 	}
+
+	public bool BurritoContentsFulfillOrder(IngredientSet orderToCompareTo){
+		if (GameController.instance.player == null) {
+			return false;
+		}
+		IngredientSet burritoIngredients = GameController.instance.player.GetComponent<ObjectCatcher> ().getIngredients ().ingredientSet;
+		return burritoIngredients.Equivalent(orderToCompareTo);
+	}
+
+	// Returns true if our burrito contents fulfill any of the current orders
+	public bool CanSubmitAnOrder() {
+		if (orderList.Count == 0) {
+			return false;
+		}
+		foreach (IngredientSet order in orderList) {
+			if (BurritoContentsFulfillOrder (order)) {
+				return true;
+			}
+		}
+		return false;
+	}
 }

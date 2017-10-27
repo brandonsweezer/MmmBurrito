@@ -4,34 +4,26 @@ using UnityEngine;
 
 public class VulnerableToHazards : MonoBehaviour {
 
-	private static float invulnerableColorPeriod = 0.3f;
-	private static Color invulnerableStartColor = Color.red;
-	private static Color invulnerableEndColor = Color.green;
-
 	private float invulnerableTimeLeft;
-	private Renderer burritoRenderer;
+	ColorFlash flashScript;
 
 	void Start () {
 		invulnerableTimeLeft = 0;
-		burritoRenderer = gameObject.transform.GetChild (0).GetComponent<Renderer> ();
+		flashScript = GetComponent<ColorFlash> ();
 	}
 
 	void Update() {
 		invulnerableTimeLeft -= Time.deltaTime;
 
 		// Change visual if invulnerable
-		if (invulnerableTimeLeft > 0) {
-			float lerp = Mathf.PingPong (Time.time, invulnerableColorPeriod) / invulnerableColorPeriod;
-			Color invulnerableColor = Color.Lerp (invulnerableStartColor, invulnerableEndColor, lerp);
-			burritoRenderer.material.SetColor ("_Color", invulnerableColor);
-		} else {
-			burritoRenderer.material.SetColor ("_Color", Color.white);
+		if (!IsInvulnerable()) {
+			flashScript.SetActive (false);
 		}
 	}
 
 	/** Handle collisions with deadly hazards */
 	void OnCollisionEnter (Collision collision) {
-		if (invulnerableTimeLeft > 0) {
+		if (IsInvulnerable()) {
 			return;
 		}
 
@@ -53,5 +45,12 @@ public class VulnerableToHazards : MonoBehaviour {
 	/** Makes this object invulnerable for the specified number of seconds */
 	public void SetInvulnerableDuration(float duration) {
 		invulnerableTimeLeft = duration;
+		if (duration > 0) {
+			flashScript.SetActive (true);
+		}
+	}
+
+	public bool IsInvulnerable() {
+		return invulnerableTimeLeft > 0;
 	}
 }

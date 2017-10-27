@@ -31,6 +31,8 @@ public class CaughtIngredientSet {
 		for (int i = 0; i < ingredientQualities.Length; i++) {
 			ingredientQualities [i].Clear();
 		}
+		// Updates whether we can submit successfully or not
+		GameController.instance.UpdateSubmissionValidity();
 	}
 
 	public void Undo() {
@@ -38,17 +40,11 @@ public class CaughtIngredientSet {
 			Debug.Log ("Empty burrito, can't undo anything.");
 			return;
 		}
-		Debug.Log ("Was: "+ToString());
 
 		IngredientSet.Ingredients ingredientType = ingredientCatchOrder [ingredientCatchOrder.Count - 1];
 		ingredientCatchOrder.RemoveAt (ingredientCatchOrder.Count - 1);
 		ingredientSet.AddToCount (ingredientType, -1);
-
-		Debug.Log ("subtracted from " + ingredientType);
-
-
 		ingredientQualities [(int)ingredientType].RemoveAt (ingredientQualities [(int)ingredientType].Count - 1);
-		Debug.Log ("After undo became: "+ToString());
 	}
 
 	public bool IsEmpty() {

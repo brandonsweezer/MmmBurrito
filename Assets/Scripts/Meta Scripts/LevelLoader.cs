@@ -81,14 +81,20 @@ public class LevelLoader : MonoBehaviour {
 		OrderUI.instance.ResetUI();
 
 		GetComponent<Timer> ().startTimer ();
+
+		MovementControllerIsometricNew.UpdateViewpointRotation ();
 	}
 
 	// Setup the level variables for the specified level.
 	void SetupLevelVars (int levelNumber) {
+		
 		GameController.instance.levelComplete = false;
 		GameController.instance.score = 0;
 		OrderController.instance.orderList.Clear ();
 		Timer timer = GetComponent<Timer> ();
+		// Updates whether we can submit successfully or not
+		GameController.instance.UpdateSubmissionValidity();
+
 		switch (levelNumber) {
 		// Intro
 		case 1:
@@ -148,15 +154,36 @@ public class LevelLoader : MonoBehaviour {
 			);
 			break;
 		case 6:
-			timer.TimerInit (100);
-			for (int i = 0; i < 6; i++) {
-				OrderController.instance.AddOrder (
-					IngredientSet.Ingredients.Tomato, 1,
-					IngredientSet.Ingredients.Cheese, 1,
-					IngredientSet.Ingredients.Meatball, 1
-				);
-			}
+			timer.TimerInit (90);
+			OrderController.instance.AddOrder (
+				IngredientSet.Ingredients.Tomato, 1,
+				IngredientSet.Ingredients.Cheese, 1,
+				IngredientSet.Ingredients.Meatball, 1
+			);
 			break;
+        case 7:
+            timer.TimerInit(20);
+            OrderController.instance.AddOrder(
+                IngredientSet.Ingredients.Rice, 2
+                );
+            OrderController.instance.AddOrder(
+                IngredientSet.Ingredients.Beans, 1,
+                IngredientSet.Ingredients.Cheese, 1
+                );
+            break;
+        case 8:
+            timer.TimerInit(60);
+            OrderController.instance.AddOrder(
+                IngredientSet.Ingredients.Cheese, 1,
+                IngredientSet.Ingredients.Tomato, 1
+                );
+            OrderController.instance.AddOrder(
+                IngredientSet.Ingredients.Tomato, 1
+                );
+            OrderController.instance.AddOrder(
+                IngredientSet.Ingredients.Cheese, 1
+                );
+            break;
         case 9:
 			timer.TimerInit (60);
 			OrderController.instance.AddOrder (
@@ -195,10 +222,21 @@ public class LevelLoader : MonoBehaviour {
         case 11:
 			timer.TimerInit (20);
 			OrderController.instance.AddOrder (
-				IngredientSet.Ingredients.Lettuce
+				IngredientSet.Ingredients.Lettuce, 1
 			);
 			break;
-		}
+        case 12:
+            timer.TimerInit(60);
+            OrderController.instance.AddOrder(
+                IngredientSet.Ingredients.Cheese, 2
+            );
+            OrderController.instance.AddOrder(
+                IngredientSet.Ingredients.Lettuce, 1,
+                IngredientSet.Ingredients.Meatball, 1,
+                IngredientSet.Ingredients.Cheese, 1
+            );
+            break;
+        }
 
 		Debug.Log (OrderController.instance.OrderListToString ());
 	}
