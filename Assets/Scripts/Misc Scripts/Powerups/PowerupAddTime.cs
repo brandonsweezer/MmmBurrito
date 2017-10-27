@@ -11,6 +11,7 @@ public class PowerupAddTime : MonoBehaviour {
 		if (gameObj.tag == "Player") {
 			GameController.instance.gameObject.GetComponent<Timer> ().AddSeconds (secondsToAdd);
             LoggingManager.instance.RecordEvent(9, "Powerup: Added Time");
+			GetComponent<MoveToScreen> ().StartMovingToScreenTopRight (true);
         }
     }
 
