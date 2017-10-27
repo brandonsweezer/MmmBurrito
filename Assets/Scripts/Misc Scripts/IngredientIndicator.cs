@@ -11,7 +11,7 @@ public class IngredientIndicator : MonoBehaviour {
 	private static Vector3 endingScale = new Vector3 (1f, 1f, 1f);
 	private float originalDistanceFromIndicator;
 
-	private GameObject indicator;
+	public GameObject indicator;
 
 	// Need this in awake for the same reason we need it in awake in the FallDecayDie script
 	void Awake () {
@@ -27,6 +27,7 @@ public class IngredientIndicator : MonoBehaviour {
 
 	void Update() {
 		if (indicator != null) {
+			// Change the indicator's scale.
 			indicator.transform.localScale = Vector3.Lerp (endingScale, startingScale, CalculateDistanceToIndicator () / originalDistanceFromIndicator);
 		}
 	}
@@ -38,4 +39,5 @@ public class IngredientIndicator : MonoBehaviour {
 	float CalculateDistanceToIndicator() {
 		return Vector3.Distance (transform.position, indicator.transform.position);
 	}
+
 }
