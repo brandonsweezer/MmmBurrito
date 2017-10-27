@@ -72,13 +72,13 @@ public class MovementControllerIsometricNew : MonoBehaviour {
 	// Start decaying after hitting something
 	void OnCollisionStay(Collision col) {
 		Vector3 floorNormal = col.contacts [0].normal;
-		if (col.gameObject.tag == "Terrain" && Vector3.Angle(floorNormal, Vector3.up) <= maxFloorAngleForGrounding) {
+		if ((col.gameObject.tag == "Terrain" || col.gameObject.tag == "SpawnArea") && Vector3.Angle(floorNormal, Vector3.up) <= maxFloorAngleForGrounding) {
 			SetGrounded (true);
 		}
 	}
 
 	void OnCollisionExit(Collision col) {
-		if (col.gameObject.tag == "Terrain") {
+		if (col.gameObject.tag == "Terrain" || col.gameObject.tag == "SpawnArea") {
 			SetGrounded (false);
 		}
 	}
