@@ -46,9 +46,9 @@ public class SubmissionController : MonoBehaviour {
 //	}
 
 
-	void OnCollisionEnter (Collision collision) {
+	void OnTriggerEnter (Collider other) {
 		// Disregard any collisions that aren't with the burrito
-		GameObject burrito = collision.gameObject;
+		GameObject burrito = other.gameObject;
 		if (burrito.tag != "Player") {
 			return;
 		}
