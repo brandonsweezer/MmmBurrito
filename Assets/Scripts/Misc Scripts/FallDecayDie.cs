@@ -6,7 +6,7 @@ public class FallDecayDie : MonoBehaviour {
 
 	private bool decaying;
 
-	public int startingQualityLevel;
+	public int startingQualityLevel = 3;
 
 	// Number of seconds it takes to decrease one quality level
 	public float decayRate;
@@ -49,9 +49,7 @@ public class FallDecayDie : MonoBehaviour {
 		if (!decaying) {
 			decaying = true;
 			StartCoroutine (Decay ());
-			if (GetComponent<IngredientIndicator> () != null) {
-				GetComponent<IngredientIndicator> ().DestroyIndicator ();
-			}
+			RemoveIngredientIndicator ();
 		}
 
 		// re-enable gravity
@@ -60,7 +58,7 @@ public class FallDecayDie : MonoBehaviour {
 	}
 
 	// Sets the quality level to a particular value, and enables the corresponding child model
-	void SetQualityLevel(int newQualityLevel) {
+	public void SetQualityLevel(int newQualityLevel) {
 		qualityLevel = newQualityLevel;
 
 		// update displayed model
@@ -83,5 +81,15 @@ public class FallDecayDie : MonoBehaviour {
 		}
         GameController.instance.objects.RemoveAt(0);
 		Destroy (gameObject);
+	}
+
+	public void DisableSlowFall() {
+		slowFalling = false;
+	}
+
+	public void RemoveIngredientIndicator() {
+		if (GetComponent<IngredientIndicator> () != null) {
+			GetComponent<IngredientIndicator> ().DestroyIndicator ();
+		}
 	}
 }
