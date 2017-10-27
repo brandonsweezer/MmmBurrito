@@ -14,7 +14,7 @@ public class FollowPlayer : MonoBehaviour {
 	private Vector3 defaultPosition;
 
 	void Start () {
-		defaultPosition = transform.position;
+		defaultPosition = target.transform.position;
 		offset = Vector3.zero;
 	}
 
