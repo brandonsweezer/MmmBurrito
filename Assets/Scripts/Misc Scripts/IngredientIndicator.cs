@@ -9,8 +9,8 @@ public class IngredientIndicator : MonoBehaviour {
 
 	private GameObject indicator;
 
-	// Use this for initialization
-	void Start () {
+	// Need this in awake for the same reason we need it in awake in the FallDecayDie script
+	void Awake () {
 		RaycastHit hit;
 		bool raycast = ObjectSpawn.RaycastUntilTerrain(transform.position, Vector3.down, out hit);
 		if (raycast) {

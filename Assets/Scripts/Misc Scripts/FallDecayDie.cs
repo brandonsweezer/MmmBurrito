@@ -18,8 +18,10 @@ public class FallDecayDie : MonoBehaviour {
 	private bool slowFalling;
 	private Rigidbody rb;
 
-	// Use this for initialization
-	void Start () {
+	// Must be Awake, not Start, since we'll be instantiating prefabs with this script on them that
+	// will have subsequent calls that we don't want to override with this function's code (ex: 
+	// instantiating an ingredient of a particular quality level)
+	void Awake () {
 		decaying = false;
 		qualityLevel = startingQualityLevel;
 
@@ -46,15 +48,7 @@ public class FallDecayDie : MonoBehaviour {
 
 	// Start decaying after hitting something
 	void OnCollisionEnter(Collision col) {
-		if (!decaying) {
-			decaying = true;
-			StartCoroutine (Decay ());
-			RemoveIngredientIndicator ();
-		}
-
-		// re-enable gravity
-		GetComponent<Rigidbody>().useGravity = true;
-		slowFalling = false;
+		DisableSlowFall ();
 	}
 
 	// Sets the quality level to a particular value, and enables the corresponding child model
@@ -85,6 +79,15 @@ public class FallDecayDie : MonoBehaviour {
 
 	public void DisableSlowFall() {
 		slowFalling = false;
+
+		if (!decaying) {
+			decaying = true;
+			StartCoroutine (Decay ());
+			RemoveIngredientIndicator ();
+		}
+
+		// re-enable gravity
+		GetComponent<Rigidbody>().useGravity = true;
 	}
 
 	public void RemoveIngredientIndicator() {
