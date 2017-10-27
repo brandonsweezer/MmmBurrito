@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class TrashingController : MonoBehaviour {
 
-	private static Vector3 ingredientSpawnOffset = new Vector3 (0, 0, 1.5f);
+	private static Vector3 ingredientSpawnOffset = new Vector3 (0, 0, 2.15f);
 	private static Vector3 ingredientSpawnVelocity = new Vector3(0, 6, 2);
 
 	void Update () {
