@@ -105,31 +105,31 @@ public class LevelLoader : MonoBehaviour {
 		switch (levelNumber) {
 		// Intro
 		case 1:
-			timer.TimerInit (120);
+			timer.TimerInit (60);
 			OrderController.instance.AddOrder (
 				IngredientSet.Ingredients.Tomato, 1
 			);
 			break;
 		// 2 ingredients
 		case 2:
-			timer.TimerInit (60);
+			timer.TimerInit (30);
 			OrderController.instance.AddOrder (
 				IngredientSet.Ingredients.Tomato, 1,
 				IngredientSet.Ingredients.Cheese, 1
 			);
 			break;
-		// 3 ingredients
+		// 3 ingredients + dash
 		case 3:
-			timer.TimerInit (70);
+			timer.TimerInit (60);
 			OrderController.instance.AddOrder (
 				IngredientSet.Ingredients.Tomato, 2,
 				IngredientSet.Ingredients.Cheese, 1,
 				IngredientSet.Ingredients.Meatball, 1
 			);
 			break;
-		// 4 ingredients + multiple orders
+		// 4 ingredients + multiple orders + MMM
 		case 4:
-			timer.TimerInit (80);
+			timer.TimerInit (90);
 			OrderController.instance.AddOrder (
 				IngredientSet.Ingredients.Tomato, 1,
 				IngredientSet.Ingredients.Cheese, 1
@@ -151,7 +151,7 @@ public class LevelLoader : MonoBehaviour {
 				IngredientSet.Ingredients.Meatball, 1
 			);
 			OrderController.instance.AddOrder (
-				IngredientSet.Ingredients.Lettuce, 1,
+				IngredientSet.Ingredients.Lettuce, 2,
 				IngredientSet.Ingredients.Cheese, 1,
 				IngredientSet.Ingredients.Meatball, 1
 			);
