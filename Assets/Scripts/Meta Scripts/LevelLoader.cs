@@ -95,72 +95,73 @@ public class LevelLoader : MonoBehaviour {
 		// Updates whether we can submit successfully or not
 		GameController.instance.UpdateSubmissionValidity();
 
-		switch (levelNumber) {
-		// Intro
-		case 1:
-			timer.TimerInit (60);
-			OrderController.instance.AddOrder (
-				IngredientSet.Ingredients.Tomato, 1
-			);
-			break;
-		// 2 ingredients
-		case 2:
-			timer.TimerInit (30);
-			OrderController.instance.AddOrder (
-				IngredientSet.Ingredients.Tomato, 1,
-				IngredientSet.Ingredients.Cheese, 1
-			);
-			break;
-		// 3 ingredients + dash
-		case 3:
-			timer.TimerInit (60);
-			OrderController.instance.AddOrder (
-				IngredientSet.Ingredients.Tomato, 2,
-				IngredientSet.Ingredients.Cheese, 1,
-				IngredientSet.Ingredients.Meatball, 1
-			);
-			break;
-		// 4 ingredients + multiple orders + MMM
-		case 4:
-			timer.TimerInit (90);
-			OrderController.instance.AddOrder (
-				IngredientSet.Ingredients.Tomato, 1,
-				IngredientSet.Ingredients.Cheese, 1
-			);
-			OrderController.instance.AddOrder (
-				IngredientSet.Ingredients.Tomato, 1,
-				IngredientSet.Ingredients.Meatball, 1
-			);
-			OrderController.instance.AddOrder (
-				IngredientSet.Ingredients.Meatball, 1,
-				IngredientSet.Ingredients.Lettuce, 1
-			);
-			break;
-		case 5:
-			timer.TimerInit (90);
-			OrderController.instance.AddOrder (
-				IngredientSet.Ingredients.Tomato, 1,
-				IngredientSet.Ingredients.Cheese, 1,
-				IngredientSet.Ingredients.Meatball, 1
-			);
-			OrderController.instance.AddOrder (
-				IngredientSet.Ingredients.Lettuce, 2,
-				IngredientSet.Ingredients.Cheese, 1,
-				IngredientSet.Ingredients.Meatball, 1
-			);
-			OrderController.instance.AddOrder (
-				IngredientSet.Ingredients.Tomato, 1,
-				IngredientSet.Ingredients.Meatball, 1
-			);
-			break;
-		case 6:
-			timer.TimerInit (90);
-			OrderController.instance.AddOrder (
-				IngredientSet.Ingredients.Tomato, 1,
-				IngredientSet.Ingredients.Cheese, 1,
-				IngredientSet.Ingredients.Meatball, 1
-			);
-			break;
+        switch (levelNumber)
+        {
+        // Intro
+        case 1:
+            timer.TimerInit(60);
+            OrderController.instance.AddOrder(
+                IngredientSet.Ingredients.Tomato, 1
+            );
+            break;
+        // 2 ingredients
+        case 2:
+            timer.TimerInit(30);
+            OrderController.instance.AddOrder(
+                IngredientSet.Ingredients.Tomato, 1,
+                IngredientSet.Ingredients.Cheese, 1
+            );
+            break;
+        // 3 ingredients + dash
+        case 3:
+            timer.TimerInit(60);
+            OrderController.instance.AddOrder(
+                IngredientSet.Ingredients.Tomato, 2,
+                IngredientSet.Ingredients.Cheese, 1,
+                IngredientSet.Ingredients.Meatball, 1
+            );
+            break;
+        // 4 ingredients + multiple orders + MMM
+        case 4:
+            timer.TimerInit(90);
+            OrderController.instance.AddOrder(
+                IngredientSet.Ingredients.Tomato, 1,
+                IngredientSet.Ingredients.Cheese, 1
+            );
+            OrderController.instance.AddOrder(
+                IngredientSet.Ingredients.Tomato, 1,
+                IngredientSet.Ingredients.Meatball, 1
+            );
+            OrderController.instance.AddOrder(
+                IngredientSet.Ingredients.Meatball, 1,
+                IngredientSet.Ingredients.Lettuce, 1
+            );
+            break;
+        case 5:
+            timer.TimerInit(90);
+            OrderController.instance.AddOrder(
+                IngredientSet.Ingredients.Tomato, 1,
+                IngredientSet.Ingredients.Cheese, 1,
+                IngredientSet.Ingredients.Meatball, 1
+            );
+            OrderController.instance.AddOrder(
+                IngredientSet.Ingredients.Lettuce, 2,
+                IngredientSet.Ingredients.Cheese, 1,
+                IngredientSet.Ingredients.Meatball, 1
+            );
+            OrderController.instance.AddOrder(
+                IngredientSet.Ingredients.Tomato, 1,
+                IngredientSet.Ingredients.Meatball, 1
+            );
+            break;
+        case 6:
+            timer.TimerInit(90);
+            OrderController.instance.AddOrder(
+                IngredientSet.Ingredients.Tomato, 1,
+                IngredientSet.Ingredients.Cheese, 1,
+                IngredientSet.Ingredients.Meatball, 1
+            );
+            break;
         case 7:
             timer.TimerInit(20);
             OrderController.instance.AddOrder(
@@ -172,7 +173,7 @@ public class LevelLoader : MonoBehaviour {
                 );
             break;
         case 8:
-            timer.TimerInit(60);
+            timer.TimerInit(45);
             OrderController.instance.AddOrder(
                 IngredientSet.Ingredients.Cheese, 1,
                 IngredientSet.Ingredients.Tomato, 1
@@ -185,47 +186,6 @@ public class LevelLoader : MonoBehaviour {
                 );
             break;
         case 9:
-			timer.TimerInit (60);
-			OrderController.instance.AddOrder (
-				IngredientSet.Ingredients.Lettuce, 1,
-				IngredientSet.Ingredients.Cheese, 1,
-				IngredientSet.Ingredients.Meatball, 1
-			);
-			OrderController.instance.AddOrder (
-				IngredientSet.Ingredients.Lettuce, 1,
-				IngredientSet.Ingredients.Meatball, 1
-			);
-			OrderController.instance.AddOrder (
-				IngredientSet.Ingredients.Cheese, 1,
-				IngredientSet.Ingredients.Meatball, 1
-			);
-			break;
-        case 10:
-			timer.TimerInit (90);
-			OrderController.instance.AddOrder (
-				IngredientSet.Ingredients.Tomato, 1
-			);
-            OrderController.instance.AddOrder (
-				IngredientSet.Ingredients.Tomato, 1
-			);
-            OrderController.instance.AddOrder(
-                IngredientSet.Ingredients.Meatball, 1,
-                IngredientSet.Ingredients.Cheese, 1,
-                IngredientSet.Ingredients.Tomato, 1
-            );
-            OrderController.instance.AddOrder(
-                IngredientSet.Ingredients.Meatball, 1,
-                IngredientSet.Ingredients.Beans, 1,
-                IngredientSet.Ingredients.Tomato, 1
-            );
-                break;
-        case 11:
-			timer.TimerInit (20);
-			OrderController.instance.AddOrder (
-				IngredientSet.Ingredients.Lettuce, 1
-			);
-			break;
-        case 12:
             timer.TimerInit(60);
             OrderController.instance.AddOrder(
                 IngredientSet.Ingredients.Cheese, 2
@@ -236,9 +196,50 @@ public class LevelLoader : MonoBehaviour {
                 IngredientSet.Ingredients.Cheese, 1
             );
             break;
+        case 10:
+            timer.TimerInit(20);
+            OrderController.instance.AddOrder(
+                IngredientSet.Ingredients.Lettuce, 1
+            );
+            break;
+        case 11:
+            timer.TimerInit(120);
+            OrderController.instance.AddOrder(
+                IngredientSet.Ingredients.Lettuce, 1,
+                IngredientSet.Ingredients.Cheese, 1,
+                IngredientSet.Ingredients.Meatball, 1
+            );
+            OrderController.instance.AddOrder(
+                IngredientSet.Ingredients.Lettuce, 1,
+                IngredientSet.Ingredients.Meatball, 1
+            );
+            OrderController.instance.AddOrder(
+                IngredientSet.Ingredients.Cheese, 1,
+                IngredientSet.Ingredients.Meatball, 1
+            );
+            break;
+        case 12:
+            timer.TimerInit(90);
+            OrderController.instance.AddOrder(
+                IngredientSet.Ingredients.Tomato, 1
+            );
+            OrderController.instance.AddOrder(
+                IngredientSet.Ingredients.Tomato, 1
+            );
+            OrderController.instance.AddOrder(
+                IngredientSet.Ingredients.Meatball, 1,
+                IngredientSet.Ingredients.Cheese, 1,
+                IngredientSet.Ingredients.Tomato, 1
+            );
+            OrderController.instance.AddOrder(
+                IngredientSet.Ingredients.Meatball, 1,
+                IngredientSet.Ingredients.Beans, 1,
+                IngredientSet.Ingredients.Tomato, 1
+            );
+            break;
         }
 
-		Debug.Log (OrderController.instance.OrderListToString ());
+        Debug.Log (OrderController.instance.OrderListToString ());
 	}
 
 	void Update () {
