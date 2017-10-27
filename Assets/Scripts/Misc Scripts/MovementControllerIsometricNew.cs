@@ -21,7 +21,7 @@ public class MovementControllerIsometricNew : MonoBehaviour {
 	private static float velocityFractionInRampDirectionForSnap = .75f;
 
 	// Dashing boost on ramps vars
-	private static float dashSpeedOnRamp = 28f;
+	private static float dashSpeedOnRamp = 25f;
 	private static float dashDuration = 0.2f; // in seconds
 	private static float rampDetectionDistance = 1.5f;
 	private static float rampBiasAngle = 10; // After what angle from a flat ground are we considering the ground to be a ramp.
