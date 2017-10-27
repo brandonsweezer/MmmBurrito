@@ -24,6 +24,9 @@ public class Timer : MonoBehaviour {
     private AudioSource audSrc;
     private AudioClip tickReg;
     private AudioClip tickUrgent;
+    private AudioClip urgent;
+    private AudioClip veryUrgent;
+    private AudioClip regular;
 
     bool thirty;
     bool ten;
@@ -33,7 +36,10 @@ public class Timer : MonoBehaviour {
 
         audSrc = gameObject.AddComponent<AudioSource>();
         tickReg = Resources.Load<AudioClip>("Sound/30 secs");
-        tickUrgent = Resources.Load<AudioClip>("Sound/10 secs+");
+        tickUrgent = Resources.Load<AudioClip>("Sound/10 secs");
+        urgent = Resources.Load<AudioClip>("Sound/musicUrgent");
+        veryUrgent = Resources.Load<AudioClip>("Sound/musicExtraUrgent");
+        regular = Resources.Load<AudioClip>("Sound/music");
         thirty = false;
         ten = false;
     }
@@ -47,6 +53,10 @@ public class Timer : MonoBehaviour {
 	public void startTimer () {
 		timeDisplayText.color = Color.black;
 		running = true;
+        audSrc.clip = regular;
+        audSrc.loop = true;
+        audSrc.Play();
+        audSrc.volume = .6f;
 	}
 
 	public void TimerUpdate () {
@@ -72,12 +82,18 @@ public class Timer : MonoBehaviour {
         if (totalSeconds == 30 && thirty == false) //TICKING
         {
             thirty = true;
+            audSrc.Stop();
             audSrc.PlayOneShot(tickReg);
+            audSrc.clip = urgent;
+            audSrc.Play();
+
         }
         if (totalSeconds == 10 && ten == false) //URGENT TICKING
         {
             ten = true;
+            audSrc.Stop();
             audSrc.PlayOneShot(tickUrgent);
+            audSrc.PlayOneShot(veryUrgent);
         }
 
 		if (seconds < 10) {
