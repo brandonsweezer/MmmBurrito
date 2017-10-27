@@ -193,11 +193,11 @@ public class OrderUI : MonoBehaviour {
 			gameobjectfields.CollectionHUD.transform.GetChild (0).GetChild (0).GetComponent<Image> ().color = new Color (1f, 1f, 1f, 1f);
 			int qualityAverage = qualitySum / (gameobjectfields.CollectionHUD.transform.childCount - 2);
 
-			if (qualityAverage == 5 || qualityAverage == 4) {
+			if (qualityAverage >= 2.4f) {
 				gameobjectfields.CollectionHUD.transform.GetChild (0).GetChild (0).GetComponent<Image> ().sprite = (Sprite) gameobjectfields.QualitySprites.GetValue (0);
-			} else if (qualityAverage == 3 || qualityAverage == 2) {
+			} else if (qualityAverage >= 1.4f) {
 				gameobjectfields.CollectionHUD.transform.GetChild (0).GetChild (0).GetComponent<Image> ().sprite = (Sprite) gameobjectfields.QualitySprites.GetValue (1);
-			} else if (qualityAverage == 1 || qualityAverage == 0) {
+			} else {
 				gameobjectfields.CollectionHUD.transform.GetChild (0).GetChild (0).GetComponent<Image> ().sprite = (Sprite) gameobjectfields.QualitySprites.GetValue (2);
 			} 
 		}
