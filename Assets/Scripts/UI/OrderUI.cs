@@ -169,10 +169,10 @@ public class OrderUI : MonoBehaviour {
 		icon.GetComponent<Image> ().sprite = IngredientSet.ingredientSprites_full [GameController.instance.player.GetComponent<ObjectCatcher> ().GetIngredientType()];
 
 		int quality = GameController.instance.player.GetComponent<ObjectCatcher> ().GetIngredientQuality();
-		if (quality == 5 || quality == 4) {
+		if (quality == 3) {
 			icon.GetComponent<Image> ().color = new Color (1f, 1f, 1f, 1f);
 			setQualityMessage ("Mmm!!!");
-		} else if (quality == 3 || quality == 2) {
+		} else if (quality == 2) {
 			icon.GetComponent<Image> ().color = new Color (.64f, .83f, .0f, 1f);
 			setQualityMessage ("Okay");
 		} else {
