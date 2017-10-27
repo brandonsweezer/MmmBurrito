@@ -171,6 +171,19 @@ public class LevelLoader : MonoBehaviour {
                 IngredientSet.Ingredients.Cheese, 1
                 );
             break;
+        case 8:
+            timer.TimerInit(60);
+            OrderController.instance.AddOrder(
+                IngredientSet.Ingredients.Cheese, 1,
+                IngredientSet.Ingredients.Tomato, 1
+                );
+            OrderController.instance.AddOrder(
+                IngredientSet.Ingredients.Tomato, 1
+                );
+            OrderController.instance.AddOrder(
+                IngredientSet.Ingredients.Cheese, 1
+                );
+            break;
         case 9:
 			timer.TimerInit (60);
 			OrderController.instance.AddOrder (
@@ -209,10 +222,21 @@ public class LevelLoader : MonoBehaviour {
         case 11:
 			timer.TimerInit (20);
 			OrderController.instance.AddOrder (
-				IngredientSet.Ingredients.Lettuce
+				IngredientSet.Ingredients.Lettuce, 1
 			);
 			break;
-		}
+        case 12:
+            timer.TimerInit(60);
+            OrderController.instance.AddOrder(
+                IngredientSet.Ingredients.Cheese, 2
+            );
+            OrderController.instance.AddOrder(
+                IngredientSet.Ingredients.Lettuce, 1,
+                IngredientSet.Ingredients.Meatball, 1,
+                IngredientSet.Ingredients.Cheese, 1
+            );
+            break;
+        }
 
 		Debug.Log (OrderController.instance.OrderListToString ());
 	}
