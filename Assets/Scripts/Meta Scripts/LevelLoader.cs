@@ -67,8 +67,8 @@ public class LevelLoader : MonoBehaviour {
 	{	
 		if (scene.name.Contains ("Level_")) {
 			// Loaded a level.
-			InitializeLevel (loadingLevelNumber);
 			SetActiveCanvas ();
+			InitializeLevel (loadingLevelNumber);
 		} else {
 			// Loaded a menu.
 			SetActiveCanvas ();
