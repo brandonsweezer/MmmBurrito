@@ -31,6 +31,7 @@ public class CaughtIngredientSet {
 		for (int i = 0; i < ingredientQualities.Length; i++) {
 			ingredientQualities [i].Clear();
 		}
+		ingredientCatchOrder.Clear ();
 		// Updates whether we can submit successfully or not
 		GameController.instance.UpdateSubmissionValidity();
 	}
@@ -76,6 +77,31 @@ public class CaughtIngredientSet {
 			}
 			result += "] ";
 		}
+		result += "; and catch order: ";
+		foreach (IngredientSet.Ingredients type in ingredientCatchOrder) {
+			result += type + "-";
+		}
 		return result;
+	}
+
+	public bool GetNthIngredient(int n, out IngredientSet.Ingredients ingredientType, out int quality) {
+		if (n > ingredientCatchOrder.Count) {
+			ingredientType = IngredientSet.Ingredients.Beans;
+			quality = -1;
+			Debug.Log ("Tried to extract the "+n+"th (0-based) ingredient of a CaughtIngredientSet but there aren't that many ingredients in it");
+			return false;
+		}
+
+		ingredientType = ingredientCatchOrder[n];
+
+		// Find the quality
+		int numOfSameIngredientCaughtBeforehand = 0;
+		for (int i = 0; i < n; i++) {
+			if (ingredientCatchOrder [i] == ingredientType) {
+				numOfSameIngredientCaughtBeforehand++;
+			}
+		}
+		quality = ingredientQualities[(int)ingredientType][numOfSameIngredientCaughtBeforehand];
+		return true;
 	}
 }

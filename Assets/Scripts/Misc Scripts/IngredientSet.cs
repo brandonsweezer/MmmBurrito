@@ -18,7 +18,10 @@ public class IngredientSet : MonoBehaviour {
  
 	public static Dictionary<IngredientSet.Ingredients,Sprite> ingredientSprites_full; 
 	public static Dictionary<IngredientSet.Ingredients,Sprite> ingredientSprites_glowing; 
-	public static Dictionary<Sprite,Sprite> ingredientSprites_GlowtoFull; 
+	public static Dictionary<Sprite,Sprite> ingredientSprites_GlowtoFull;
+
+	public GameObject[] IngredientPrefabsAlphabetical;
+	public static GameObject[] IngredientPrefabsAlphabeticalStatic;
 
 
 
@@ -55,6 +58,7 @@ public class IngredientSet : MonoBehaviour {
 		CreateDictFull ();
 		CreateDictGlow ();
 		CreateDictGlowtoFull ();
+		IngredientPrefabsAlphabeticalStatic = IngredientPrefabsAlphabetical;
 	}
 
 
@@ -177,5 +181,9 @@ public class IngredientSet : MonoBehaviour {
         }
 		bool ingredientsAllMatch = Enumerable.SequenceEqual(this.ingredients, other.ingredients);
 		return ingredientsAllMatch;
+	}
+
+	public static GameObject GetPrefab(Ingredients ingredientType) {
+		return IngredientPrefabsAlphabeticalStatic[(int)ingredientType];
 	}
 }
