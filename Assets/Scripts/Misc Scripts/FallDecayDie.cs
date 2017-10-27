@@ -76,7 +76,8 @@ public class FallDecayDie : MonoBehaviour {
 	}
 
 	IEnumerator Decay () {
-		while (qualityLevel > 0) {
+        GameController.instance.objects.Add(gameObject);
+        while (qualityLevel > 0) {
 			yield return new WaitForSeconds (decayRate);
 			SetQualityLevel(qualityLevel-1);
 		}

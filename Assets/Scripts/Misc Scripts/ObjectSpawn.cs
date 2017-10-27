@@ -44,7 +44,6 @@ public class ObjectSpawn : MonoBehaviour {
 			GameObject objectToSpawn = fallingObjectList[Random.Range(0, fallingObjectList.Length)];
 			Quaternion spawnRotation = Quaternion.identity;
 			GameObject obj = Instantiate (objectToSpawn, spawnPosition, spawnRotation) as GameObject;
-            GameController.instance.objects.Add(obj);
 			yield return new WaitForSeconds (spawnInterval);
 		}
 	}
