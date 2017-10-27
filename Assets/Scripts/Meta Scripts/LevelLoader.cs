@@ -152,14 +152,12 @@ public class LevelLoader : MonoBehaviour {
 			);
 			break;
 		case 6:
-			timer.TimerInit (100);
-			for (int i = 0; i < 6; i++) {
-				OrderController.instance.AddOrder (
-					IngredientSet.Ingredients.Tomato, 1,
-					IngredientSet.Ingredients.Cheese, 1,
-					IngredientSet.Ingredients.Meatball, 1
-				);
-			}
+			timer.TimerInit (90);
+			OrderController.instance.AddOrder (
+				IngredientSet.Ingredients.Tomato, 1,
+				IngredientSet.Ingredients.Cheese, 1,
+				IngredientSet.Ingredients.Meatball, 1
+			);
 			break;
         case 9:
 			timer.TimerInit (60);
