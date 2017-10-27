@@ -12,14 +12,27 @@ public class MovementControllerIsometricNew : MonoBehaviour {
 	private static float dashSlowDownFactor = 0.1f;
 
 	// Control responsiveness vars
-	private static float velocityChangeRate = 0.2f;
+	private static float velocityChangeRate;
+	private static float velocityChangeRateInAir = 0.03f;
+	private static float velocityChangeRateOnGround = 0.2f;
 	private static float additionalTurnRateLerp = 0.2f;
+	// How closely going straight up the ramp we must be to snap to ramp and get the speed boost.
+	// Going 45 degrees up the ramp is about 0.707.
+	private static float velocityFractionInRampDirectionForSnap = .75f;
+
+	// Dashing boost on ramps vars
+	private static float dashSpeedOnRamp = 30f;
+	private static float dashDuration = 0.2f; // in seconds
+	private static float rampDetectionDistance = 1.5f;
+	private static float rampBiasAngle = 10; // After what angle from a flat ground are we considering the ground to be a ramp
+	private static float speedUpRampIncreaseFactor = 0.3f;
 
 	// Rotation of 45 degrees for isommetric view
 	private static Quaternion viewpointRotation = Quaternion.AngleAxis (-45, Vector3.up);
 
 	// Misc. vars
 	Rigidbody rb;
+	private bool grounded;
 	private float horizontalMoveInput;
 	private float verticalMoveInput;
 	private bool dashInput;
@@ -37,6 +50,8 @@ public class MovementControllerIsometricNew : MonoBehaviour {
 
     void Awake () {
 		rb = GetComponent<Rigidbody> ();
+		timeOfLastDash = 0f;
+		velocityChangeRate = velocityChangeRateOnGround;
 
         audSrc = GetComponent<AudioSource>();
         dashSound = (AudioClip)Resources.Load("Sound/dash");
@@ -47,6 +62,28 @@ public class MovementControllerIsometricNew : MonoBehaviour {
 	// (i.e. pressing the "up" arrow key moves the burrito up on the screen).
 	public static void UpdateViewpointRotation() {
 		viewpointRotation = Quaternion.FromToRotation (Vector3.forward, Vector3.ProjectOnPlane(Camera.main.transform.up, Vector3.up));
+	}
+
+	// Start decaying after hitting something
+	void OnCollisionStay(Collision col) {
+		if (col.gameObject.tag == "Terrain") {
+			SetGrounded (true);
+		}
+	}
+
+	void OnCollisionExit(Collision col) {
+		if (col.gameObject.tag == "Terrain") {
+			SetGrounded (false);
+		}
+	}
+
+	void SetGrounded(bool grounded) {
+		this.grounded = grounded;
+		if (grounded) {
+			velocityChangeRate = velocityChangeRateOnGround;
+		} else {
+			velocityChangeRate = velocityChangeRateInAir;
+		}
 	}
 	
 
@@ -76,6 +113,8 @@ public class MovementControllerIsometricNew : MonoBehaviour {
 
 	void FixedUpdate () {
 		rb.angularVelocity = Vector3.zero;
+
+		float currentXZSpeed = Vector3.ProjectOnPlane(rb.velocity, Vector3.up).magnitude;
 		if (getMovement()) {
 			// Move manually using the input and no friction
 			ToggleFriction(false);
@@ -84,6 +123,14 @@ public class MovementControllerIsometricNew : MonoBehaviour {
 			// Let friction slow us down
 			ToggleFriction(true);
 		}
+
+		// If in the air, we don't want to slow down
+		if (!grounded) {
+			Vector3 newXZVelocity = new Vector3 (rb.velocity.x, 0, rb.velocity.z).normalized * currentXZSpeed;
+			rb.velocity = new Vector3 (newXZVelocity.x, rb.velocity.y, newXZVelocity.z);
+		}
+
+		IncreaseSpeedDashingUpRamp ();
 	}
 
 	// Turns friction on or off
@@ -102,39 +149,40 @@ public class MovementControllerIsometricNew : MonoBehaviour {
 		Vector3 targetDirection = ((horizontalMoveInput * Vector3.right) + (verticalMoveInput * Vector3.forward)).normalized;
 		targetDirection = viewpointRotation * targetDirection;
 
-		// Set velocity
-		if (dashInput && (Time.time - timeOfLastDash) > dashCooldown) {
+		// Simple dash
+		if (dashInput && CanDash()) {
 			Dash(targetDirection);
-		} else {
-			float currentSpeed = rb.velocity.magnitude;
-			if (currentSpeed > maxSpeed) {
-				// if going over the max speed, we decrease the speed slower than we turn
-				Vector3 newDirection = Vector3.Lerp (rb.velocity.normalized, targetDirection, velocityChangeRate);
-				float newSpeed = Mathf.Lerp (currentSpeed, maxSpeed, dashSlowDownFactor);
-				rb.velocity = newDirection * newSpeed;
-			} else {
-				// else we can just take care of it all in one
-				rb.velocity = Vector3.Lerp (rb.velocity, targetDirection * maxSpeed, velocityChangeRate);
-			}
+			return;
+		}
 
-			// Set the rotation based on the velocity
-			if (rb.velocity != Vector3.zero) {
-				Vector3 targetFacing = rb.velocity;
-				// Always pick the fastest way to turn
-				// (ex: moving backwards vs forwards in quick succession should do no rotation)
-				if (Vector3.Angle (transform.forward, rb.velocity) > 90f) {
-					targetFacing = -targetFacing;
-				}
-				// Lerp angles (on top of using the lerped velocity)
-				transform.forward = Vector3.Lerp (transform.forward, targetFacing, additionalTurnRateLerp);
+		// Else set velocity using some calculations
+		float currentXZSpeed = Vector3.ProjectOnPlane(rb.velocity, Vector3.up).magnitude;
+		if (currentXZSpeed > maxSpeed) {
+			// if going over the max speed, we decrease the speed slower than we turn
+			Vector3 newDirection = Vector3.Lerp (rb.velocity.normalized, targetDirection, velocityChangeRate);
+			float newSpeed = Mathf.Lerp (currentXZSpeed, maxSpeed, dashSlowDownFactor);
+			rb.velocity = newDirection * newSpeed;
+		} else {
+			// else we can just take care of it all in one
+			rb.velocity = Vector3.Lerp (rb.velocity, targetDirection * maxSpeed, velocityChangeRate);
+		}
+
+		// Set the rotation based on the velocity
+		if (rb.velocity != Vector3.zero) {
+			Vector3 targetFacing = rb.velocity;
+			// Always pick the fastest way to turn
+			// (ex: moving backwards vs forwards in quick succession should do no rotation)
+			if (Vector3.Angle (transform.forward, rb.velocity) > 90f) {
+				targetFacing = -targetFacing;
 			}
+			// Lerp angles (on top of using the lerped velocity)
+			transform.forward = Vector3.Lerp (transform.forward, targetFacing, additionalTurnRateLerp);
 		}
 	}
 
 	// Dashes by boosting the burrito forward a bit and giving it a big velocity.
 	void Dash (Vector3 targetDirection) {
-
-        audSrc.PlayOneShot(dashSound);
+		audSrc.PlayOneShot(dashSound);
 
 		rb.velocity = targetDirection * dashSpeed;
 		transform.position = transform.position + targetDirection * dashBoostDistance;
@@ -147,9 +195,39 @@ public class MovementControllerIsometricNew : MonoBehaviour {
 		Instantiate (dashParticleSystem, transform.position + dashParticleSpawnOffset, transform.rotation);
 	}
 
+	// Increases the speed up the ramp and snap to the ramp's direction if playing is trying to dash up ramp.
+	void IncreaseSpeedDashingUpRamp() {
+		RaycastHit hit;
+		if (IsDashing() && Physics.Raycast (transform.position, Vector3.down, out hit, rampDetectionDistance)) {
+			if (Vector3.Angle (hit.normal, Vector3.up) >= rampBiasAngle) {
+				// Dashing on a ramp, check if we need to snap to and boost up the ramp
+				GameObject ramp = hit.collider.gameObject;
+				Vector3 rampDirection = ramp.transform.forward;
+				Vector3 currentXZVelocity = Vector3.ProjectOnPlane (rb.velocity, Vector3.up);
+				float speedInRampDirection = Vector3.Dot(rampDirection, currentXZVelocity);
+				float velocityFractionInRampDirection = speedInRampDirection / currentXZVelocity.magnitude;
+				if (velocityFractionInRampDirection >= velocityFractionInRampDirectionForSnap) {
+					// Snap and boost up the ramp.
+					Vector3 boostDirection = Vector3.Cross(ramp.transform.right, hit.normal);
+					rb.velocity = boostDirection * dashSpeedOnRamp;
+					transform.forward = rampDirection;
+					timeOfLastDash = Time.time;
+				}
+			}
+		}
+	}
+
 	// Returns true if we're trying to move with the input
 	public bool getMovement() {
 		return horizontalMoveInput != 0 || verticalMoveInput != 0;
+	}
+
+	bool CanDash() {
+		return grounded && (Time.time - timeOfLastDash) > dashCooldown;
+	}
+
+	bool IsDashing() {
+		return (Time.time - timeOfLastDash < dashDuration);
 	}
 
 }
