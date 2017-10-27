@@ -11,8 +11,10 @@ public class FallDecayDie : MonoBehaviour {
 	// Number of seconds it takes to decrease one quality level
 	public float decayRate;
 
-	// Fall speed
+	// Fall speed vars
 	private static float slowFallSpeed = 7f;
+	private static float fastFallSpeed = 25f;
+	private static float playerMaxSpeedForFastFall = 3f;
 
 	private int qualityLevel;
 	private bool slowFalling;
@@ -42,7 +44,16 @@ public class FallDecayDie : MonoBehaviour {
 
 	void FixedUpdate() {
 		if (slowFalling) {
-			rb.velocity = new Vector3 (rb.velocity.x, -slowFallSpeed, rb.velocity.z);
+			float fallSpeed = slowFallSpeed;
+			// Increase the fall speed if the burrito is on the indicator and barely moving.
+			Vector3 playerPos = GameController.instance.player.transform.position;
+			Vector3 indicatorPos = GetComponent<IngredientIndicator> ().indicator.transform.position;
+			float playerSpeed = GameController.instance.player.GetComponent<Rigidbody> ().velocity.magnitude;
+			if (Vector3.Distance(playerPos, indicatorPos) <= TiledFloor.tileHeight * 1.414f && playerSpeed <= playerMaxSpeedForFastFall) {
+				fallSpeed = fastFallSpeed;
+			}
+
+			rb.velocity = new Vector3 (rb.velocity.x, -fallSpeed, rb.velocity.z);
 		}
 	}
 
