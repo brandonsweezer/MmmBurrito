@@ -81,6 +81,8 @@ public class LevelLoader : MonoBehaviour {
 		OrderUI.instance.ResetUI();
 
 		GetComponent<Timer> ().startTimer ();
+
+		MovementControllerIsometricNew.UpdateViewpointRotation ();
 	}
 
 	// Setup the level variables for the specified level.

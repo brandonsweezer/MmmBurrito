@@ -15,6 +15,9 @@ public class MovementControllerIsometricNew : MonoBehaviour {
 	private static float velocityChangeRate = 0.2f;
 	private static float additionalTurnRateLerp = 0.2f;
 
+	// Rotation of 45 degrees for isommetric view
+	private static Quaternion viewpointRotation = Quaternion.AngleAxis (-45, Vector3.up);
+
 	// Misc. vars
 	Rigidbody rb;
 	private float horizontalMoveInput;
@@ -39,6 +42,12 @@ public class MovementControllerIsometricNew : MonoBehaviour {
         dashSound = (AudioClip)Resources.Load("Sound/dash");
         dashSoundAlt = (AudioClip)Resources.Load("Sound/dash2");
     }
+
+	// Update the rotation of our movement input to match our camera angle
+	// (i.e. pressing the "up" arrow key moves the burrito up on the screen).
+	public static void UpdateViewpointRotation() {
+		viewpointRotation = Quaternion.FromToRotation (Vector3.forward, Vector3.ProjectOnPlane(Camera.main.transform.up, Vector3.up));
+	}
 	
 
 	void Update () {
@@ -91,6 +100,7 @@ public class MovementControllerIsometricNew : MonoBehaviour {
 	// Set the velocity and facing based on the input alone, with no consideration for friction and forces
 	void ManualMove() {
 		Vector3 targetDirection = ((horizontalMoveInput * Vector3.right) + (verticalMoveInput * Vector3.forward)).normalized;
+		targetDirection = viewpointRotation * targetDirection;
 
 		// Set velocity
 		if (dashInput && (Time.time - timeOfLastDash) > dashCooldown) {
