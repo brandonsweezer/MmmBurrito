@@ -15,6 +15,7 @@ public class TextFields
 	public Text generalMessage;
 	public Text qualityMessage;
 	public Text orderTotalDisplay;
+	public Text orderTotalText;
 
 	public Text winMessage;
 	public Text loseMessage;
@@ -78,7 +79,7 @@ public class OrderUI : MonoBehaviour {
 //	private float submissionTextTimer2 = SUBMISSION_TIMER2;
 
 
-	private static int QUALITY_TIMER = 100;
+	private static int QUALITY_TIMER = 150;
 	private int qualityTextTimer = QUALITY_TIMER;
 
 	private int qualitySum; 
@@ -410,6 +411,12 @@ public class OrderUI : MonoBehaviour {
 		orders = OrderController.instance.orderList;
 		textfields.levelOrderList.text = OrderController.instance.OrderListToString();
 		setOrderCount(orders.Count.ToString());
+		if (orders.Count == 1) {
+			setOrderCountText ("Order Left");
+		} else {
+			setOrderCountText ("Orders Left");
+		}
+
 //		if (GameController.instance.player != null) {
 //			textfields.currentBurrito.text = GameController.instance.player.GetComponent<ObjectCatcher> ().GetTextString ();
 //		}
@@ -452,6 +459,10 @@ public class OrderUI : MonoBehaviour {
 
 	public void setOrderCount(string msg) {
 		textfields.orderTotalDisplay.text = msg;
+	}
+
+	public void setOrderCountText(string msg) {
+		textfields.orderTotalText.text = msg;
 	}
 
 	public void setScore(string msg) {

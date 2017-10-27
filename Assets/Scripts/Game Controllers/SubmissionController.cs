@@ -81,15 +81,20 @@ public class SubmissionController : MonoBehaviour {
                 audSrc.PlayOneShot(rightOrder);
 				matched = true;
 				Debug.Log ("Matches one of the orders!");
-				OrderUI.instance.setGeneralMessage("Matches one of the orders!");
+				OrderController.instance.orderList.RemoveAt (OrderController.instance.orderList.FindIndex(i => i.Equivalent(order)));
+				if (OrderController.instance.orderList.Count != 0){
+					OrderUI.instance.setGeneralMessage("Matches one of the orders!");
 							//setTextString ("Matches one of the orders!");
+				}
 				int score = burritoCaughtIngredients.getSumOfQualities ()*50;
-				GameController.instance.score += score;
-                Debug.Log("You just got "+score+" score!");
-				OrderUI.instance.setScore (score.ToString ());
+				OrderUI.instance.setQualityMessage("Mmm!!! Great work, + "+score.ToString());
+				Debug.Log("You just got "+score+" score!");
+
                 LoggingManager.instance.RecordEvent(2, "Submitted ingredients: " + GameController.instance.player.GetComponent<ObjectCatcher>().getIngredients().ToString()
                     + ". Gained score: " + score);
-                OrderController.instance.orderList.RemoveAt (OrderController.instance.orderList.FindIndex(i => i.Equivalent(order)));
+
+				GameController.instance.score += score;
+				Debug.Log("Total Score: "+GameController.instance.score);
 
 				// Updates whether we can submit successfully or not
 				GameController.instance.UpdateSubmissionValidity();
@@ -98,7 +103,8 @@ public class SubmissionController : MonoBehaviour {
                     Debug.Log("All orders completed");
 					OrderUI.instance.gameobjectfields.WinScreen.gameObject.SetActive (true);
 					OrderUI.instance.setWinMessage("You Win! Score: "+GameController.instance.score+"\n(Press escape to return to menu)\n(Press enter to go to next level)");
-                    LoggingManager.instance.RecordEvent(8, "Won level, timer at " + GameController.instance.gameTime);
+					OrderUI.instance.setScore (GameController.instance.score.ToString());
+					LoggingManager.instance.RecordEvent(8, "Won level, timer at " + GameController.instance.gameTime);
                     GameController.instance.levelComplete = true;
 
                     //Create GoToWinScreen instead?
