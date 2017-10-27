@@ -101,8 +101,6 @@ public class CaughtIngredientSet {
 				numOfSameIngredientCaughtBeforehand++;
 			}
 		}
-		Debug.Log ("Trying to extract the " + numOfSameIngredientCaughtBeforehand + "th " + ingredientType);
-		Debug.Log ("caught ingredients are: " + ToString ());
 		quality = ingredientQualities[(int)ingredientType][numOfSameIngredientCaughtBeforehand];
 		return true;
 	}
