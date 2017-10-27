@@ -40,7 +40,7 @@ public class MovementControllerIsometricNew : MonoBehaviour {
 	private float verticalMoveInput;
 	private bool dashInput;
 	private float timeOfLastDash;
-	private Vector3 lastMoveDirection;
+	private Vector3 lastXZMoveDirection;
 
 	// Dash particle system
 	public GameObject dashParticleSystem;
@@ -55,6 +55,9 @@ public class MovementControllerIsometricNew : MonoBehaviour {
     void Awake () {
 		rb = GetComponent<Rigidbody> ();
 		timeOfLastDash = 0f;
+		lastXZMoveDirection = Vector3.forward;
+
+		Debug.Log ("setting lastMoveDirection: " + lastXZMoveDirection);
 		velocityChangeRate = velocityChangeRateOnGround;
 
         audSrc = GetComponent<AudioSource>();
@@ -143,8 +146,9 @@ public class MovementControllerIsometricNew : MonoBehaviour {
 
 		IncreaseSpeedDashingUpRamp ();
 
-		if (rb.velocity != Vector3.zero) {
-			lastMoveDirection = rb.velocity.normalized;
+		Vector3 XZmove = new Vector3 (rb.velocity.x, 0, rb.velocity.z);
+		if (XZmove != Vector3.zero) {
+			lastXZMoveDirection = rb.velocity.normalized;
 		}
 	}
 
@@ -164,7 +168,7 @@ public class MovementControllerIsometricNew : MonoBehaviour {
 		Vector3 targetDirection = ((horizontalMoveInput * Vector3.right) + (verticalMoveInput * Vector3.forward)).normalized;
 		targetDirection = viewpointRotation * targetDirection;
 		if (targetDirection == Vector3.zero) {
-			targetDirection = lastMoveDirection;
+			targetDirection = lastXZMoveDirection;
 		}
 
 		// Simple dash
