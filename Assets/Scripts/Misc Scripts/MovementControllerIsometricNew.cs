@@ -56,8 +56,6 @@ public class MovementControllerIsometricNew : MonoBehaviour {
 		rb = GetComponent<Rigidbody> ();
 		timeOfLastDash = 0f;
 		lastXZMoveDirection = Vector3.forward;
-
-		Debug.Log ("setting lastMoveDirection: " + lastXZMoveDirection);
 		velocityChangeRate = velocityChangeRateOnGround;
 
         audSrc = GetComponent<AudioSource>();
