@@ -50,7 +50,7 @@ public class FallDecayDie : MonoBehaviour {
 				Vector3 playerPos = GameController.instance.player.transform.position;
 				Vector3 indicatorPos = GetComponent<IngredientIndicator> ().indicator.transform.position;
 				float playerSpeed = GameController.instance.player.GetComponent<Rigidbody> ().velocity.magnitude;
-				if (Vector3.Distance (playerPos, indicatorPos) <= TiledFloor.tileHeight * 1.414f && playerSpeed <= playerMaxSpeedForFastFall) {
+				if (Vector3.Distance (playerPos, indicatorPos) <= TiledFloor.tileHeight/2 * 1.414f && playerSpeed <= playerMaxSpeedForFastFall) {
 					fallSpeed = fastFallSpeed;
 				}
 			}
