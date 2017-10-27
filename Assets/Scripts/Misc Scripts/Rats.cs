@@ -26,20 +26,12 @@ public class Rats : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log(currentTimer);
         if (currentTimer < 0)
         {
-            Debug.Log(transform);
-            Debug.Log(GameController.instance.player.transform);
             if (chase)
             {
-                Debug.Log(transform.position.x);
-                Debug.Log(GameController.instance.player.transform.position.x);
-                Debug.Log(transform.position.z);
-                Debug.Log(GameController.instance.player.transform.position.z);
                 if (target == null || !target.Equals(GameController.instance.player))
                 {
-                    Debug.Log("check");
                     //check if player is nearby
                     if (transform.position.x - GameController.instance.player.transform.position.x < tolerance &&
                         transform.position.x - GameController.instance.player.transform.position.x > tolerance * -1 &&
@@ -51,7 +43,6 @@ public class Rats : MonoBehaviour
                 }
                 if (target == null)
                 {
-                    Debug.Log("check2");
                     //check for ingredients
                     foreach (GameObject o in GameController.instance.objects)
                     {
@@ -68,7 +59,6 @@ public class Rats : MonoBehaviour
             }
             if (target != null)
             {
-                Debug.Log("check3");
                 //do pathfinding
                 Vector3 targetDirection = Vector3.Normalize(new Vector3(target.transform.position.x - transform.position.x, 0, target.transform.position.z-transform.position.z));
                 transform.forward = Vector3.Lerp(transform.forward, targetDirection, rotationSpeedFactor);
