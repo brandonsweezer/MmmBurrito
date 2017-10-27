@@ -24,6 +24,8 @@ public class SpawnController : MonoBehaviour {
 	public void DestroyAndRespawn () {
 		DestroyBurrito ();
 		SpawnBurrito ();
+		// Updates whether we can submit successfully or not
+		GameController.instance.UpdateSubmissionValidity();
 	}
 
 	public void DestroyBurrito() {
