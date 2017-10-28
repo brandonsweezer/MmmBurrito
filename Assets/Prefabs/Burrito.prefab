@@ -28,6 +28,8 @@ GameObject:
   - component: {fileID: 82769317954849820}
   - component: {fileID: 114744742572423038}
   - component: {fileID: 114441927737805922}
+  - component: {fileID: 114763404043833904}
+  - component: {fileID: 114921179460262774}
   m_Layer: 0
   m_Name: Burrito
   m_TagString: Player
@@ -275,6 +277,35 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1fca9bb5d5c2bed46807bb244cf20f7c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114763404043833904
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1301576944361112}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c4f454753976ab4ebb8cb70940baaef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &114921179460262774
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1301576944361112}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1234f5457dbe75844948acbc91ad8e1c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minSpeedForParticles: 15
+  speedForMaxEmissionRate: 25
+  maxEmissionRateMultiplier: 4
+  speedDistanceFromParentMultiplier: 0
+  yOffsetFromParent: -0.4
+  smokeTrailPrefab: {fileID: 198788771158660842, guid: f215a60b02d897c45b0ca86f30158ac5,
+    type: 2}
 --- !u!114 &114958931308009058
 MonoBehaviour:
   m_ObjectHideFlags: 1
