@@ -29,7 +29,6 @@ public class SmokeTrail : MonoBehaviour {
 
 	void Update () {
 		smokeTrail.transform.position = gameObject.transform.position + yOffset + (-rb.velocity * speedDistanceFromParentMultiplier);
-		Debug.Log (smokeTrail.transform.position);
 		float currentSpeed = rb.velocity.magnitude;
 		if (currentSpeed > minSpeedForParticles) {
 			float lerp = Mathf.Min (1, (currentSpeed - minSpeedForParticles) / (currentSpeed - maxEmissionRateMultiplier));

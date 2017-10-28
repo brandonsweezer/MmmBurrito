@@ -65,7 +65,7 @@ public class OrderUI : MonoBehaviour {
 
 	private int ingredientTotal;
 
-	private List<IngredientSet> orders;
+	private List<Order> orders;
 	private int orderCount;
 
 	private Dictionary<IngredientSet.Ingredients,Sprite> spriteDict_glowing; 
@@ -101,15 +101,17 @@ public class OrderUI : MonoBehaviour {
 		if (orders.Count >= index+1) {
 
 			//gets the current order
-			IngredientSet currOrder = orders [index];
+			Order currOrder = orders [index];
 			//number of ingredients in the order 
-			ingredientTotal = currOrder.GetFullCount ();
+			ingredientTotal = currOrder.ingredientSet.GetFullCount ();
 
 
 			//creates the ticket prefab container and divider
 			GameObject container = Instantiate (gameobjectfields.TicketPrefab) as GameObject;
 			container.transform.SetParent (gameobjectfields.TicketHUD.transform, false);
 			container.tag=("Ticket");
+			currOrder.uiTicket = container;
+
 			GameObject divider = Instantiate (gameobjectfields.Divider) as GameObject;
 			divider.transform.SetParent (gameobjectfields.TicketHUD.transform, false);
 
@@ -123,7 +125,7 @@ public class OrderUI : MonoBehaviour {
 			int count;
 			foreach (IngredientSet.Ingredients ingredient in Enum.GetValues(typeof(IngredientSet.Ingredients))) {
 				//Debug.Log ("In foreach");
-				count = currOrder.GetCount (ingredient);
+				count = currOrder.ingredientSet.GetCount (ingredient);
 				for (int i = 0; i<count; i++){
 					//Debug.Log ("In for");
 					GameObject icon = Instantiate (gameobjectfields.IngredientPrefab) as GameObject;
@@ -470,11 +472,27 @@ public class OrderUI : MonoBehaviour {
 	}
 
 
-
+	bool change = true;
+	Transform ticket = null;
 	// Update is called once per frame
 	void Update() {
 		if (gameobjectfields.canvasHUD.activeSelf) {
 			UpdateUI ();
+
+			/*if (gameobjectfields.TicketHUD.transform.childCount != 0 && change) {
+				change = false;
+				Transform child = gameobjectfields.TicketHUD.transform.GetChild (0);
+				child.SetParent (gameobjectfields.TicketHUD.transform.parent);
+				RectTransform rectT = child.GetComponent<RectTransform> ();
+				Debug.Log ("Move ui. Position was: " + rectT.anchoredPosition.ToString ("F4"));
+				rectT.anchoredPosition = rectT.anchoredPosition + new Vector2 (0.1f, 0f);
+				ticket = child;
+			}
+			if (ticket != null) {
+				RectTransform rectT = ticket.GetComponent<RectTransform> ();
+				Debug.Log ("Move ui. Position was: " + rectT.anchoredPosition.ToString ("F4"));
+				rectT.anchoredPosition = rectT.anchoredPosition + new Vector2 (0.1f, 0f);
+			}*/
 
 			if (initializeTickets) {
 				//	ingredientprefabs.setList();
