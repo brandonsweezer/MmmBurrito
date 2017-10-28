@@ -36,7 +36,7 @@ public class TiledFloor : MonoBehaviour {
 		tileScale.y = scale3D.z;
 		float yRot = (transform.rotation.eulerAngles.y+360f) % 360f;
 		if (yRot == 0) {
-			tileOffset.y *= -1;
+			//tileOffset.y *= -1;
 		} else if (yRot == 90) {
 			tileOffset = SwapContents (tileOffset);
 			tileOffset.y *= -1;
