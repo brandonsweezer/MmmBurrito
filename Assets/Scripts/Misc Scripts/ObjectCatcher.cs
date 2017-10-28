@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System;
 using UnityEngine;
 
 public class ObjectCatcher : MonoBehaviour {
@@ -80,7 +81,12 @@ public class ObjectCatcher : MonoBehaviour {
 	/** Catches an object by updating the caught values for the [caughtObjects] dictionary */
 	void CatchObject (GameObject gameObj) {
         //remove from GameController
-        GameController.instance.objects.RemoveAt(GameController.instance.objects.IndexOf(gameObj));
+		try {
+        	GameController.instance.objects.RemoveAt(GameController.instance.objects.IndexOf(gameObj));
+		}
+		catch (Exception e) {
+			Debug.LogError ("Tried to remove an object from the global object list, but it failed (talk to Joshua about this, and try to replicate). Error: "+e);
+		}  
         // Catch object
         string objectName = gameObj.name.Replace ("(Clone)", "");
 		ingredientType = IngredientSet.StringToIngredient (objectName);
