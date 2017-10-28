@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class FallDecayDie : MonoBehaviour {
 
@@ -93,7 +94,13 @@ public class FallDecayDie : MonoBehaviour {
 			yield return new WaitForSeconds (decayRate);
 			SetQualityLevel(qualityLevel-1);
 		}
-        GameController.instance.objects.RemoveAt(0);
+		//remove from GameController
+		try {
+			GameController.instance.objects.RemoveAt(0);
+		}
+		catch (Exception e) {
+			Debug.LogError ("Tried to remove an object from the global object list, but it failed (talk to Joshua about this, and try to replicate). Error: "+e);
+		}
 		Destroy (gameObject);
 	}
 

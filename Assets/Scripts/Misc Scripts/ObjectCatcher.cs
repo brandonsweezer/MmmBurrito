@@ -86,7 +86,7 @@ public class ObjectCatcher : MonoBehaviour {
 		}
 		catch (Exception e) {
 			Debug.LogError ("Tried to remove an object from the global object list, but it failed (talk to Joshua about this, and try to replicate). Error: "+e);
-		}  
+		}
         // Catch object
         string objectName = gameObj.name.Replace ("(Clone)", "");
 		ingredientType = IngredientSet.StringToIngredient (objectName);
