@@ -7,7 +7,7 @@ public class MovementControllerIsometricNew : MonoBehaviour {
 	// Speed vars
 	private static float maxSpeed = 13f;
 	private static float dashSpeed = 38f;
-	private static float dashBoostDistance = 0.7f;
+	private static float dashBoostDistance = 0f;
 	private static float dashCooldown = 0.8f; // dash cooldown in seconds.
 	private static float dashSlowDownFactor = 0.1f;
 
