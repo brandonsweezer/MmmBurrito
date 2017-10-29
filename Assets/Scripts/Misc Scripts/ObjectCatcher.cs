@@ -63,8 +63,7 @@ public class ObjectCatcher : MonoBehaviour {
 			SetnewIngredient (true);
 			// Make sure burrito is not full
 			if (caughtIngredients.ingredientSet.GetFullCount () >= 6) {
-				//Debug.Log ("Can't catch, burrito is full!");
-				//SetTextString("Cannot catch anymore. Burrito Full");
+				OrderUI.instance.setGeneralMessage ("Burrito too full! Press 'T' to make room!");
 				return;
 			}
 
@@ -106,7 +105,11 @@ public class ObjectCatcher : MonoBehaviour {
 		return caughtIngredients.ToString ();
 	}
 
-	public CaughtIngredientSet getIngredients(){
+	public CaughtIngredientSet GetIngredients(){
 		return caughtIngredients;
+	}
+
+	public int GetNumCaughtIngredients() {
+		return GetIngredients ().ingredientSet.GetFullCount ();
 	}
 }

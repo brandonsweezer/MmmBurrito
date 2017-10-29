@@ -62,15 +62,26 @@ public class OrderController : MonoBehaviour {
 	}
 
 	public bool BurritoContentsFulfillOrder(IngredientSet orderToCompareTo){
-		if (GameController.instance.player == null || GameController.instance.player.GetComponent<ObjectCatcher> ().getIngredients () == null) {
+		if (GameController.instance.player == null || GameController.instance.player.GetComponent<ObjectCatcher> ().GetIngredients () == null) {
 			return false;
 		}
-		IngredientSet burritoIngredients = GameController.instance.player.GetComponent<ObjectCatcher> ().getIngredients ().ingredientSet;
+		IngredientSet burritoIngredients = GameController.instance.player.GetComponent<ObjectCatcher> ().GetIngredients ().ingredientSet;
 		return burritoIngredients.Equivalent(orderToCompareTo);
 	}
 
 	public bool BurritoContentsFulfillOrder(Order orderToCompareTo){
 		return BurritoContentsFulfillOrder (orderToCompareTo.ingredientSet);
+	}
+
+	public bool BurritoContentsFailOrder(IngredientSet orderToCompareTo){
+		if (GameController.instance.player == null || GameController.instance.player.GetComponent<ObjectCatcher> ().GetIngredients () == null) {
+			return true;
+		}
+		IngredientSet burritoIngredients = GameController.instance.player.GetComponent<ObjectCatcher> ().GetIngredients ().ingredientSet;
+		return burritoIngredients.FailsOrder(orderToCompareTo);
+	}
+	public bool BurritoContentsFailOrder(Order orderToCompareTo){
+		return BurritoContentsFailOrder (orderToCompareTo.ingredientSet);
 	}
 
 	// Returns true if our burrito contents fulfill any of the current orders
@@ -87,13 +98,12 @@ public class OrderController : MonoBehaviour {
 	}
 
 	public void FulfillOrder(Order order) {
-		Debug.Log ("order is: " + order.ToString());
-		Debug.Log ("fulfill the order");
 		if (order.uiTicket != null) {
 			order.uiTicket.GetComponent<TicketAnimations> ().StartRemoveAnimation ();
 		} else {
 			Debug.LogError ("An order did not have any uiTicket attached to it");
 		}
 		orderList.Remove (order);
+		OrderUI.instance.TicketInit (2);
 	}
 }

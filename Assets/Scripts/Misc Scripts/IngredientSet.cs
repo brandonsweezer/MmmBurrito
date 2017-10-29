@@ -186,4 +186,14 @@ public class IngredientSet : MonoBehaviour {
 	public static GameObject GetPrefab(Ingredients ingredientType) {
 		return IngredientPrefabsAlphabeticalStatic[(int)ingredientType];
 	}
+
+	// Returns true if the other Ingredient set contains ingredients not part
+	public bool FailsOrder(IngredientSet order) {
+		foreach (Ingredients ingredientType in Enum.GetValues(typeof(Ingredients))) {
+			if (GetCount (ingredientType) > order.GetCount (ingredientType)) {
+				return true;
+			}
+		}
+		return false;
+	}
 }
