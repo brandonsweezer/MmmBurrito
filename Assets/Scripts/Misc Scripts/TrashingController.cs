@@ -9,8 +9,9 @@ public class TrashingController : MonoBehaviour {
 
 	void Update () {
 		if (Input.GetKeyDown(KeyCode.T)) {
+            LoggingManager.instance.RecordEvent(3, "Trashed ingredients with T: " + GameController.instance.player.GetComponent<ObjectCatcher>().GetIngredients().ToString());
 
-			ThrowOutContents();
+            ThrowOutContents();
 
 			// Updates whether we can submit successfully or not
 			GameController.instance.UpdateSubmissionValidity();
@@ -20,7 +21,6 @@ public class TrashingController : MonoBehaviour {
 			OrderUI.instance.CollectionUIUpdate ();*/
 			OrderUI.instance.setGeneralMessage ("Burrito Trashed");
 
-			LoggingManager.instance.RecordEvent(3, "Trashed ingredients with T: " + GameController.instance.player.GetComponent<ObjectCatcher>().GetIngredients().ToString());
 		}
 	}
 
