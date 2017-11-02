@@ -21,7 +21,10 @@ public class LoggingCalls : MonoBehaviour {
 			lastPositionLog = Time.time;
 			string positionLogMessage = "Coordinates: " + GameController.instance.player.transform.position.x + 
 				", " + GameController.instance.player.transform.position.z;
-			LoggingManager.instance.RecordEvent (0, positionLogMessage);
+            if (!GameController.instance.levelEnd)
+            {
+                LoggingManager.instance.RecordEvent(0, positionLogMessage);
+            }
 		}
 	}
 }
