@@ -15,8 +15,8 @@ public class TrashController : MonoBehaviour {
 		}
 
 		// Destroy burrito and spawn a new one.
-		LoggingManager.instance.RecordEvent(3, "Trashed ingredients with trashcan: " + GameController.instance.player.GetComponent<ObjectCatcher>().getIngredients().ToString());
+		LoggingManager.instance.RecordEvent(3, "Trashed ingredients with trashcan: " + GameController.instance.player.GetComponent<ObjectCatcher>().GetIngredients().ToString());
 		SpawnController.instance.DestroyAndRespawn ();
-		OrderUI.instance.ResetAfterDeath ();
+		//OrderUI.instance.ResetAfterDeath ();
 	}
 }

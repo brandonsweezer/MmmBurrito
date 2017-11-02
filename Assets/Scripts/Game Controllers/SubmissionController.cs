@@ -70,18 +70,18 @@ public class SubmissionController : MonoBehaviour {
 		Debug.Log ("Submitted a burrito with contents: " + burrito.GetComponent<ObjectCatcher> ().CaughtObjectsToString ());
 
 		// Get a reference to the caught ingredients
-		burritoCaughtIngredients = GameController.instance.player.GetComponent<ObjectCatcher> ().getIngredients ();
+		burritoCaughtIngredients = GameController.instance.player.GetComponent<ObjectCatcher> ().GetIngredients ();
 
 		// Logic regarding ordering system.
-		List<IngredientSet> orders = OrderController.instance.orderList;
+		List<Order> orders = OrderController.instance.orderList;
 		bool matched = false;
-		foreach (IngredientSet order in orders) {
+		foreach (Order order in orders) {
             if (OrderController.instance.BurritoContentsFulfillOrder (order)) {
                 //MATCHES
                 audSrc.PlayOneShot(rightOrder);
 				matched = true;
 				Debug.Log ("Matches one of the orders!");
-				OrderController.instance.orderList.RemoveAt (OrderController.instance.orderList.FindIndex(i => i.Equivalent(order)));
+				OrderController.instance.FulfillOrder (order);
 				if (OrderController.instance.orderList.Count != 0){
 					OrderUI.instance.setGeneralMessage("Matches one of the orders!");
 							//setTextString ("Matches one of the orders!");
@@ -90,7 +90,7 @@ public class SubmissionController : MonoBehaviour {
 				OrderUI.instance.setQualityMessage("+"+score.ToString());
 				Debug.Log("You just got "+score+" score!");
 
-                LoggingManager.instance.RecordEvent(2, "Submitted ingredients: " + GameController.instance.player.GetComponent<ObjectCatcher>().getIngredients().ToString()
+                LoggingManager.instance.RecordEvent(2, "Submitted ingredients: " + GameController.instance.player.GetComponent<ObjectCatcher>().GetIngredients().ToString()
                     + ". Gained score: " + score);
 
 				GameController.instance.score += score;
@@ -112,8 +112,8 @@ public class SubmissionController : MonoBehaviour {
 				else {
 					Debug.Log ("Remaining " + OrderController.instance.OrderListToString ()); // print remaining orders
 				}
-				GameController.instance.player.GetComponent<ObjectCatcher> ().getIngredients ().Empty();
-				OrderUI.instance.ResetAfterDeath();
+				GameController.instance.player.GetComponent<ObjectCatcher> ().GetIngredients ().Empty();
+				//OrderUI.instance.ResetAfterDeath();
 				break;
 			}
 		} 
@@ -121,9 +121,9 @@ public class SubmissionController : MonoBehaviour {
             //DOES NOT MATCH
             audSrc.PlayOneShot(wrongOrder);
 			Debug.Log("Submitted burrito does not match");
-			OrderUI.instance.setGeneralMessage ("Invalid Burrito Submission");
+			OrderUI.instance.setGeneralMessage ("Complete an order first! (Press T to empty)");
 					//setTextString ("Invalid Burrito Submission");
-            LoggingManager.instance.RecordEvent(1, "Submitted ingredients: " + GameController.instance.player.GetComponent<ObjectCatcher>().getIngredients().ToString()
+            LoggingManager.instance.RecordEvent(1, "Submitted ingredients: " + GameController.instance.player.GetComponent<ObjectCatcher>().GetIngredients().ToString()
             + ". Did not match.");
         }
 

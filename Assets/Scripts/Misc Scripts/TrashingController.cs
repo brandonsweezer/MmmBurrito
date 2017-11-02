@@ -16,17 +16,17 @@ public class TrashingController : MonoBehaviour {
 			GameController.instance.UpdateSubmissionValidity();
 
 			// Update UI
-			OrderUI.instance.ResetAfterDeath();
-			OrderUI.instance.CollectionUIUpdate ();
+			/*OrderUI.instance.ResetAfterDeath();
+			OrderUI.instance.CollectionUIUpdate ();*/
 			OrderUI.instance.setGeneralMessage ("Burrito Trashed");
 
-			LoggingManager.instance.RecordEvent(3, "Trashed ingredients with T: " + GameController.instance.player.GetComponent<ObjectCatcher>().getIngredients().ToString());
+			LoggingManager.instance.RecordEvent(3, "Trashed ingredients with T: " + GameController.instance.player.GetComponent<ObjectCatcher>().GetIngredients().ToString());
 		}
 	}
 
 	// Spawn the ingredients around the burrito and empty the contents
 	void ThrowOutContents() {
-		CaughtIngredientSet caughtIngredients = GameController.instance.player.GetComponent<ObjectCatcher> ().getIngredients ();
+		CaughtIngredientSet caughtIngredients = GameController.instance.player.GetComponent<ObjectCatcher> ().GetIngredients ();
 		int numIngredients = caughtIngredients.ingredientSet.GetFullCount ();
 		if (numIngredients == 0) {
 			return;
