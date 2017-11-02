@@ -20,12 +20,12 @@ public class LevelLoader : MonoBehaviour {
     public void GoToNextLevel()
     {
         //logging level end
-        LoggingManager.instance.RecordEvent(7, "Level_" + loadingLevelNumber + " quit, timer at " + GameController.instance.gameTime);
         LoggingManager.instance.RecordLevelEnd();
 
         //next level
         loadingLevelNumber++;
         SceneManager.LoadScene("Level_" + loadingLevelNumber);
+        GameController.instance.levelEnd = false;
         LoggingManager.instance.RecordLevelStart(loadingLevelNumber, "");
     }
 
@@ -33,20 +33,26 @@ public class LevelLoader : MonoBehaviour {
 		inMenu = false;
 		loadingLevelNumber = levelNumber;
 		SceneManager.LoadScene ("Level_"+levelNumber);
+        GameController.instance.levelEnd = false;
         LoggingManager.instance.RecordLevelStart(levelNumber, "");
     }
 
 	public void GoToMenu () {
 		inMenu = true;
-        LoggingManager.instance.RecordEvent(7, "Level_" + loadingLevelNumber + " quit, timer at " + GameController.instance.gameTime);
+        if (!GameController.instance.levelEnd)
+        {
+            LoggingManager.instance.RecordEvent(7, "Level quit, timer at " + GameController.instance.gameTime);
+        }
         SceneManager.LoadScene ("LevelSelection");
         LoggingManager.instance.RecordLevelEnd();
     }
 
 	public void ReplayLevel()
 	{
+        LoggingManager.instance.RecordLevelEnd();
 		SceneManager.LoadScene("Level_" + loadingLevelNumber);
-		LoggingManager.instance.RecordLevelStart(loadingLevelNumber, "");
+        GameController.instance.levelEnd = false;
+        LoggingManager.instance.RecordLevelStart(loadingLevelNumber, "");
 	}
 
 

@@ -11,7 +11,9 @@ public class GameController : MonoBehaviour {
 
     public int gameTime;
 
-	public bool canSubmit; 
+	public bool canSubmit;
+
+    public bool levelEnd;
 
     public List<GameObject> objects;
 

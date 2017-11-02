@@ -104,11 +104,10 @@ public class SubmissionController : MonoBehaviour {
 					OrderUI.instance.gameobjectfields.WinScreen.gameObject.SetActive (true);
 					OrderUI.instance.setWinMessage("You Win! Score: "+GameController.instance.score+"\n(Press escape to return to menu)\n(Press enter to go to next level)");
 					OrderUI.instance.setScore (GameController.instance.score.ToString());
-					LoggingManager.instance.RecordEvent(8, "Won level, timer at " + GameController.instance.gameTime);
+                    LoggingManager.instance.RecordEvent(7, "Level quit, timer at " + GameController.instance.gameTime);
+                    LoggingManager.instance.RecordEvent(8, "Won level, timer at " + GameController.instance.gameTime);
+                    GameController.instance.levelEnd = true;
                     GameController.instance.levelComplete = true;
-
-                    //Create GoToWinScreen instead?
-                    // GameController.instance.GetComponent<LevelLoader>().GoToMenu();
                 }
 				else {
 					Debug.Log ("Remaining " + OrderController.instance.OrderListToString ()); // print remaining orders

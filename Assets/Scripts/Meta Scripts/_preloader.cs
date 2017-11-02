@@ -7,7 +7,7 @@ public class _preloader : MonoBehaviour {
 
 	void Awake () {
 		SceneManager.LoadScene ("LevelSelection");
-        LoggingManager.instance.Initialize(094, 2, false);
+        LoggingManager.instance.Initialize(094, 2, true);
         LoggingManager.instance.RecordPageLoad();
 
         /* GAME EVENT IDS
@@ -18,7 +18,7 @@ public class _preloader : MonoBehaviour {
          * 4 Dashing (MovementControllerIsometricNew)
          * 5 NOTHING
          * 6 Catching Ingredients (ObjectCatcher)
-         * 7 Level end + timer (LevelLoader)
+         * 7 Level end + timer (LevelLoader && SubmissionController && Timer)
          * 8 Level win + timer (SubmissionController)
          * 9 Powerup Time (PowerupAddTime)
          * 10 Powerup Invulnerable (PowerupMakeInvulnerable)

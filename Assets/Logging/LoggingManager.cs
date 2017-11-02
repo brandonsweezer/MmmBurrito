@@ -7,7 +7,7 @@ public class LoggingManager : MonoBehaviour
     public static LoggingManager instance;
 
     // Initialize variables
-    private bool isDebugging = false; // A convenience parameter which, when set to TRUE, disables logging. 
+    private bool isDebugging = true; // A convenience parameter which, when set to TRUE, disables logging. 
                                      // Make sure you set this to FALSE before you submit your game online!
     private int gameId = 094; // The game's specific ID number
     private int versionId = 2; // Your game's current version number. You should change this number between releases, 

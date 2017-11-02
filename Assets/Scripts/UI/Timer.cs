@@ -71,7 +71,9 @@ public class Timer : MonoBehaviour {
 			time = 0.0f;
 			OrderUI.instance.setLoseMessage("You Lose! No time left!\nPress escape to return to the main menu");
 			OrderUI.instance.gameobjectfields.LoseScreen.gameObject.SetActive (true);
-			GameController.instance.levelComplete = true;
+            LoggingManager.instance.RecordEvent(7, "Level quit, timer at 0");
+            GameController.instance.levelEnd = true;
+            GameController.instance.levelComplete = true;
 		}
 		bool timeEnding = false;
 		totalSeconds = Mathf.Ceil (time);
