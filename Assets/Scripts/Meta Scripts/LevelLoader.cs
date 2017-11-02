@@ -24,17 +24,17 @@ public class LevelLoader : MonoBehaviour {
 
         //next level
         loadingLevelNumber++;
-        SceneManager.LoadScene("Level_" + loadingLevelNumber);
         GameController.instance.levelEnd = false;
         LoggingManager.instance.RecordLevelStart(loadingLevelNumber, "");
+        SceneManager.LoadScene("Level_" + loadingLevelNumber);
     }
 
 	public void GoToLevel(int levelNumber) {
 		inMenu = false;
 		loadingLevelNumber = levelNumber;
-		SceneManager.LoadScene ("Level_"+levelNumber);
         GameController.instance.levelEnd = false;
         LoggingManager.instance.RecordLevelStart(levelNumber, "");
+        SceneManager.LoadScene("Level_" + levelNumber);
     }
 
 	public void GoToMenu () {
@@ -43,17 +43,17 @@ public class LevelLoader : MonoBehaviour {
         {
             LoggingManager.instance.RecordEvent(7, "Level quit, timer at " + GameController.instance.gameTime);
         }
-        SceneManager.LoadScene ("LevelSelection");
         LoggingManager.instance.RecordLevelEnd();
+        SceneManager.LoadScene("LevelSelection");
     }
 
 	public void ReplayLevel()
 	{
         LoggingManager.instance.RecordLevelEnd();
-		SceneManager.LoadScene("Level_" + loadingLevelNumber);
         GameController.instance.levelEnd = false;
         LoggingManager.instance.RecordLevelStart(loadingLevelNumber, "");
-	}
+        SceneManager.LoadScene("Level_" + loadingLevelNumber);
+    }
 
 
 	// http://answers.unity3d.com/questions/1174255/since-onlevelwasloaded-is-deprecated-in-540b15-wha.html
