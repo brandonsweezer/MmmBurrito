@@ -8,6 +8,10 @@ public class Timer : MonoBehaviour {
 
 	public Image circle;
 
+	public GameObject timeLeftWarningContainer;
+	public GameObject TimerObject;
+	private Text timeLeftWarningText;
+
 
 	private float time;
 	private float maxT;
@@ -28,11 +32,14 @@ public class Timer : MonoBehaviour {
     private AudioClip veryUrgent;
     private AudioClip regular;
 
+	private bool signalingTimeLeft;
+
     bool thirty;
     bool ten;
 
     void Start () {
 		running = false;
+		timeLeftWarningContainer.SetActive (false);
 
         audSrc = gameObject.AddComponent<AudioSource>();
         tickReg = Resources.Load<AudioClip>("Sound/30 secs");
@@ -42,12 +49,15 @@ public class Timer : MonoBehaviour {
         regular = Resources.Load<AudioClip>("Sound/music");
         thirty = false;
         ten = false;
+
+		timeLeftWarningText = timeLeftWarningContainer.transform.GetChild (0).GetComponent<Text> ();
     }
 
 	public void TimerInit (int maxTime) {
-
 		time = maxTime;
 		maxT = maxTime;
+		signalingTimeLeft = false;
+		timeLeftWarningContainer.SetActive (false);
 	}
 
 	public void startTimer () {
@@ -116,9 +126,23 @@ public class Timer : MonoBehaviour {
         GameController.instance.gameTime = (int)time;
 
 
-        timeDisplayText.text = timeDisplay;
+		timeDisplayText.text = timeDisplay;
 	
+		// Time left signaling.
+		if (time-30 < 0.1f && !signalingTimeLeft) {
+			signalingTimeLeft = true;
+			timeLeftWarningContainer.SetActive (true);
+		} else if (time-28 < 0.1f) {
+			timeLeftWarningContainer.GetComponent<UIAnimationManager> ().StartMoveToPosition (TimerObject.transform.position, false);
+		} else if (time-26 < 0.1f) {
+			signalingTimeLeft = false;
+			timeLeftWarningContainer.GetComponent<UIAnimationManager> ().ResetToDefaultPosition ();
+			timeLeftWarningContainer.SetActive (false);
+		}
 
+		if (signalingTimeLeft) {
+			timeLeftWarningText.text = timeDisplay + " left!";
+		}
 	}
 	
 	// Update is called once per frame
