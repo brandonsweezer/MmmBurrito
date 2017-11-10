@@ -6,8 +6,9 @@ public class IngredientIndicator : MonoBehaviour {
 
 	public GameObject indicatorPrefab;
 
-	private static Vector3 startingScale = new Vector3 (0.3f, 0.3f, 0.3f);
+	private static Vector3 startingScale = new Vector3 (0.01f, 0.01f, 0.01f);
 	private static Vector3 endingScale = new Vector3 (1f, 1f, 1f);
+	private static float lerpExponent = 24f;
 	private float originalDistanceFromIndicator;
 
 	public GameObject indicator;
@@ -29,7 +30,7 @@ public class IngredientIndicator : MonoBehaviour {
 	void Update() {
 		if (indicator != null) {
 			// Change the indicator's scale.
-			indicator.transform.localScale = Vector3.Lerp (endingScale, startingScale, CalculateDistanceToIndicator () / originalDistanceFromIndicator);
+			indicator.transform.localScale = Vector3.Lerp (endingScale, startingScale, Mathf.Pow(CalculateDistanceToIndicator () / originalDistanceFromIndicator, lerpExponent));
 		}
 	}
 	
