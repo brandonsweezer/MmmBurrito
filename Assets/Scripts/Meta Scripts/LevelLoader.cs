@@ -87,6 +87,8 @@ public class LevelLoader : MonoBehaviour {
 	}
 
 	void InitializeLevel (int levelNumber) {
+		GameController.instance.currentLevel = levelNumber;
+
 		SetupLevelVars (levelNumber);
 
 		SpawnController.instance.SpawnBurrito ();

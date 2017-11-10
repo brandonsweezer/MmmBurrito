@@ -7,6 +7,7 @@ public class GameController : MonoBehaviour {
 	public GameObject player;
 
 	public bool levelComplete;
+	public int currentLevel;
 	public int score;
 
     public int gameTime;

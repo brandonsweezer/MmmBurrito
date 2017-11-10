@@ -97,14 +97,7 @@ public class SubmissionController : MonoBehaviour {
 				Debug.Log("Total Score: "+GameController.instance.score);
 
                 if (OrderController.instance.orderList.Count == 0){
-                    Debug.Log("All orders completed");
-					OrderUI.instance.gameobjectfields.WinScreen.gameObject.SetActive (true);
-					OrderUI.instance.setWinMessage("You Win! Score: "+GameController.instance.score+"\n(Press escape to return to menu)\n(Press enter to go to next level)");
-					OrderUI.instance.setScore (GameController.instance.score.ToString());
-                    LoggingManager.instance.RecordEvent(7, "Level quit, timer at " + GameController.instance.gameTime);
-                    LoggingManager.instance.RecordEvent(8, "Won level, timer at " + GameController.instance.gameTime);
-                    GameController.instance.levelEnd = true;
-                    GameController.instance.levelComplete = true;
+					ProcessLevelWin ();
                 }
 				else {
 					Debug.Log ("Remaining " + OrderController.instance.OrderListToString ()); // print remaining orders
@@ -127,5 +120,20 @@ public class SubmissionController : MonoBehaviour {
 		// Update UI
 		//OrderUI.instance.setMessageHUDMessage (getTextString());
 		//OrderUI.instance.setWinMessage (getWinString());
+	}
+
+	void ProcessLevelWin() {
+		Debug.Log ("All orders completed");
+		OrderUI.instance.gameobjectfields.WinScreen.gameObject.SetActive (true);
+		OrderUI.instance.setWinMessage ("You Win! Score: " + GameController.instance.score + "\n(Press escape to return to menu)\n(Press enter to go to next level)");
+		OrderUI.instance.setScore (GameController.instance.score.ToString ());
+		LoggingManager.instance.RecordEvent (7, "Level quit, timer at " + GameController.instance.gameTime);
+		LoggingManager.instance.RecordEvent (8, "Won level, timer at " + GameController.instance.gameTime);
+		GameController.instance.levelEnd = true;
+		GameController.instance.levelComplete = true;
+		// save level
+		if (GameController.instance.currentLevel > SaveManager.instance.GetLastLevelCompleted()) {
+			SaveManager.instance.SetLastLevelCompleted (GameController.instance.currentLevel);
+		}
 	}
 }
