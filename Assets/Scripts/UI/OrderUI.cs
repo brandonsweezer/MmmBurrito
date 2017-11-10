@@ -64,7 +64,9 @@ public class OrderUI : MonoBehaviour {
 	private float ticketWidthPerIngredient = 70f;
 	private bool initializeTickets; 
 
-	private ObjectCatcher objectcatcher; 
+	private ObjectCatcher objectcatcher;
+
+	private int lastNumCaughtIngredients;
 
 
 	private int numberOfIngredients;
@@ -142,11 +144,12 @@ public class OrderUI : MonoBehaviour {
 
 
 	public void SetQualityIndicator() {
-		//Debug.Log ("Quality");
+		// Debug.Log ("Quality");
 		//Debug.Log ("child="+gameobjectfields.CollectionHUD.transform.childCount.ToString()  );
-		
-		if (gameobjectfields.caughtIngredientContainer.transform.childCount > 0) {
-			int qualitySum = GameController.instance.player.GetComponent<ObjectCatcher> ().GetIngredients ().getSumOfQualities ();
+
+		ObjectCatcher objectCatcher = GameController.instance.player.GetComponent<ObjectCatcher> ();
+		if (objectCatcher.GetNumCaughtIngredients() != 0) {
+			int qualitySum = objectCatcher.GetIngredients ().getSumOfQualities ();
 
 			gameobjectfields.CollectionHUD.transform.GetChild (0).GetChild (0).GetComponent<Image> ().color = new Color (1f, 1f, 1f, 1f);
 			float qualityAverage = ((float)qualitySum) / (gameobjectfields.CollectionHUD.transform.childCount - 2f);
@@ -356,12 +359,20 @@ public class OrderUI : MonoBehaviour {
 			}
 			UpdateUIOrdersLeft ();
 			UpdateUIMessageTimers ();
-			UpdateUIAfterInventoryChange ();
 
+			// only update UI for caught ingredients/ticket satisfaction if there was a change in inventory
+			if (GameController.instance.player != null) {
+				int newNumCaughtIngredients = GameController.instance.player.GetComponent<ObjectCatcher> ().GetNumCaughtIngredients ();
+				if (newNumCaughtIngredients != lastNumCaughtIngredients) {
+					UpdateUIAfterInventoryChange ();
+					lastNumCaughtIngredients = newNumCaughtIngredients;
+				}
+			}
 		}
 	}
 
 	public void UpdateUIAfterInventoryChange() {
+		GameController.instance.UpdateSubmissionValidity();
 		CollectionUIUpdate ();
 		TicketUpdate ();
 	}

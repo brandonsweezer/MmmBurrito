@@ -106,7 +106,7 @@ public class LevelLoader : MonoBehaviour {
 		OrderController.instance.orderList.Clear ();
 		Timer timer = GetComponent<Timer> ();
 		// Updates whether we can submit successfully or not
-		GameController.instance.UpdateSubmissionValidity();
+		OrderUI.instance.UpdateUIAfterInventoryChange();
 
         switch (levelNumber)
         {

@@ -32,8 +32,6 @@ public class CaughtIngredientSet {
 			ingredientQualities [i].Clear();
 		}
 		ingredientCatchOrder.Clear ();
-		// Updates whether we can submit successfully or not
-		GameController.instance.UpdateSubmissionValidity();
 	}
 
 	public void Undo() {

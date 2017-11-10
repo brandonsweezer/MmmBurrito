@@ -92,9 +92,6 @@ public class ObjectCatcher : MonoBehaviour {
 		ingredientQuality = gameObj.GetComponent<FallDecayDie> ().getQuality ();
 		caughtIngredients.CatchIngredient (ingredientType, ingredientQuality);
 
-		// Updates whether we can submit successfully or not
-		GameController.instance.UpdateSubmissionValidity();
-
 		// Print out
 		Debug.Log (string.Format("Caught a {0}, burrito now contains:\n{1}", objectName, CaughtObjectsToString ()));
 		//SetTextString(string.Format("Burrito contents: {0}", CaughtObjectsToString ()));

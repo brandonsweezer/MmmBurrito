@@ -96,9 +96,6 @@ public class SubmissionController : MonoBehaviour {
 				GameController.instance.score += score;
 				Debug.Log("Total Score: "+GameController.instance.score);
 
-				// Updates whether we can submit successfully or not
-				GameController.instance.UpdateSubmissionValidity();
-
                 if (OrderController.instance.orderList.Count == 0){
                     Debug.Log("All orders completed");
 					OrderUI.instance.gameobjectfields.WinScreen.gameObject.SetActive (true);

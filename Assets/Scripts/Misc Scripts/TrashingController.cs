@@ -17,14 +17,8 @@ public class TrashingController : MonoBehaviour {
 
             ThrowOutContents();
 
-			// Updates whether we can submit successfully or not
-			GameController.instance.UpdateSubmissionValidity();
-
 			// Update UI
-			/*OrderUI.instance.ResetAfterDeath();
-			OrderUI.instance.CollectionUIUpdate ();*/
 			OrderUI.instance.setGeneralMessage ("Burrito Trashed");
-
 		}
 	}
 
