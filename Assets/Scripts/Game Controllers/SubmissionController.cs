@@ -77,33 +77,9 @@ public class SubmissionController : MonoBehaviour {
 		bool matched = false;
 		foreach (Order order in orders) {
             if (OrderController.instance.BurritoContentsFulfillOrder (order)) {
-                //MATCHES
-                audSrc.PlayOneShot(rightOrder);
+				//MATCHES
 				matched = true;
-				Debug.Log ("Matches one of the orders!");
-				OrderController.instance.FulfillOrder (order);
-				if (OrderController.instance.orderList.Count != 0){
-					OrderUI.instance.setGeneralMessage("Matches one of the orders!");
-							//setTextString ("Matches one of the orders!");
-				}
-				int score = burritoCaughtIngredients.getSumOfQualities ()*50;
-				OrderUI.instance.setQualityMessage("+"+score.ToString());
-				Debug.Log("You just got "+score+" score!");
-
-                LoggingManager.instance.RecordEvent(2, "Submitted ingredients: " + GameController.instance.player.GetComponent<ObjectCatcher>().GetIngredients().ToString()
-                    + ". Gained score: " + score);
-
-				GameController.instance.score += score;
-				Debug.Log("Total Score: "+GameController.instance.score);
-
-                if (OrderController.instance.orderList.Count == 0){
-					ProcessLevelWin ();
-                }
-				else {
-					Debug.Log ("Remaining " + OrderController.instance.OrderListToString ()); // print remaining orders
-				}
-				GameController.instance.player.GetComponent<ObjectCatcher> ().GetIngredients ().Empty();
-				//OrderUI.instance.ResetAfterDeath();
+				ProcessSuccessfulOrderSubmission(order);
 				break;
 			}
 		} 
@@ -120,6 +96,35 @@ public class SubmissionController : MonoBehaviour {
 		// Update UI
 		//OrderUI.instance.setMessageHUDMessage (getTextString());
 		//OrderUI.instance.setWinMessage (getWinString());
+	}
+
+	void ProcessSuccessfulOrderSubmission(Order order) {
+		audSrc.PlayOneShot(rightOrder);
+		Debug.Log ("Matches one of the orders!");
+
+		// Add the score
+		int score = burritoCaughtIngredients.getSumOfQualities ()*50;
+		OrderUI.instance.setQualityMessage("+"+score.ToString());
+		Debug.Log("You just got "+score+" score!");
+
+		GameController.instance.score += score;
+		Debug.Log("Total Score: "+GameController.instance.score);
+
+		// Log the successful submission
+		LoggingManager.instance.RecordEvent(2, "Submitted ingredients: " + GameController.instance.player.GetComponent<ObjectCatcher>().GetIngredients().ToString()
+			+ ". Gained score: " + score);
+
+		// Fulfill the order and empty burrito
+		OrderController.instance.FulfillOrder (order);
+		GameController.instance.player.GetComponent<ObjectCatcher> ().GetIngredients ().Empty();
+
+		// Determine if we won the level
+		if (OrderController.instance.orderList.Count != 0){
+			OrderUI.instance.setGeneralMessage("Matches one of the orders!");
+			Debug.Log ("Remaining " + OrderController.instance.OrderListToString ()); // print remaining orders
+		} else {
+			ProcessLevelWin ();
+		}
 	}
 
 	void ProcessLevelWin() {
