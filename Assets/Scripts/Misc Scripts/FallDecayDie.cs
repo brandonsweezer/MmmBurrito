@@ -73,7 +73,7 @@ public class FallDecayDie : MonoBehaviour {
 		// tint the texture
 		Renderer rend = transform.GetChild(0).GetComponent<Renderer>();
 		foreach (Material mat in rend.materials) {
-			mat.color = Color.Lerp(mat.color, Color.black, 0.2f);
+			mat.color = Color.Lerp(mat.color, Color.black, 0.2f * (startingQualityLevel - qualityLevel));
 		}
 
 		// update displayed model
