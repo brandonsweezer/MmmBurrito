@@ -102,8 +102,7 @@ public class Rats : MonoBehaviour
         }
         else if(gameObj.tag == "FallingObject")
         {
-            GameController.instance.objects.RemoveAt(GameController.instance.objects.IndexOf(gameObj));
-            Destroy(gameObj);
+            gameObj.GetComponent<Shrink>().StartShrink();
             chase = false;
             target = new GameObject();
             target.transform.position = spawnPoint;
