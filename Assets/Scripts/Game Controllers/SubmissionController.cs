@@ -132,8 +132,6 @@ public class SubmissionController : MonoBehaviour {
 		GameController.instance.levelEnd = true;
 		GameController.instance.levelComplete = true;
 		// save level
-		if (GameController.instance.currentLevel > SaveManager.instance.GetLastLevelCompleted()) {
-			SaveManager.instance.SetLastLevelCompleted (GameController.instance.currentLevel);
-		}
+		SaveManager.instance.ProcessLevelCompletion(GameController.instance.currentLevel, GameController.instance.score);
 	}
 }
