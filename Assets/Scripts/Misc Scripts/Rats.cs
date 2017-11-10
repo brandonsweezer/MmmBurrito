@@ -16,11 +16,15 @@ public class Rats : MonoBehaviour
     //if false, return home
     private bool chase;
 
+    private GameObject spawn;
+
     // Use this for initialization
     void Start()
     {
         currentTimer = spawnTimer*60;
         chase = true;
+        spawn = new GameObject();
+        spawn.transform.position = spawnPoint;
     }
 
     // Update is called once per frame
@@ -32,6 +36,13 @@ public class Rats : MonoBehaviour
         }
         if (currentTimer < 0)
         {
+            //if outOfRange, go back home
+            if (Mathf.Pow(transform.position.x - spawnPoint.x, 2f) +
+                Mathf.Pow(transform.position.z - spawnPoint.z, 2f) > Mathf.Pow(tolerance*1.5f, 2f))
+            {
+                chase = false;
+                target = spawn;
+            }
             if (chase)
             {
                 if (target == null || !target.Equals(GameController.instance.player))
@@ -100,8 +111,7 @@ public class Rats : MonoBehaviour
         {
             SpawnController.instance.DestroyAndRespawn();
             chase = false;
-            target = new GameObject();
-            target.transform.position = spawnPoint;
+            target = spawn;
             LoggingManager.instance.RecordEvent(13, "Died to a rat");
             //TODO: DEATH SOUND
         }
@@ -109,8 +119,7 @@ public class Rats : MonoBehaviour
         {
             gameObj.GetComponent<Shrink>().StartShrink();
             chase = false;
-            target = new GameObject();
-            target.transform.position = spawnPoint;
+            target = spawn;
             LoggingManager.instance.RecordEvent(14, "Rat stole a " + gameObj.name);
         }
     }
