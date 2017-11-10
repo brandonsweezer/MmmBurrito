@@ -32,7 +32,9 @@ public class Timer : MonoBehaviour {
     private AudioClip veryUrgent;
     private AudioClip regular;
 
+	// showing time left
 	private bool signalingTimeLeft;
+	private float[] timeLeftSignals = {30f, 10f, 0f};
 
     bool thirty;
     bool ten;
@@ -128,19 +130,26 @@ public class Timer : MonoBehaviour {
 
 		timeDisplayText.text = timeDisplay;
 	
-		// Time left signaling.
-		if (Mathf.Abs (time - 30) < 0.1f) {
-			if (!signalingTimeLeft) {
-				signalingTimeLeft = true;
-				UIAnimationManager animManager = TimerObject.GetComponent<UIAnimationManager> ();
-				Vector2 targetPos = new Vector2 (-Screen.width / 2, -Screen.height / 2);
-				animManager.MoveToPosAndBack (targetPos, 2f, 1f, 1f);
-				Vector3 targetScale = new Vector3(1.7f, 1.7f, 1f);
-				animManager.ScaleToValueAndBack (targetScale, 2f, 1f, 1f);
+		// Signal the time left (clock animation).
+		foreach (float timeTarget in timeLeftSignals) {
+			if (Mathf.Abs (time - timeTarget) < 0.25f) {
+				if (!signalingTimeLeft) {
+					SignalTimeLeft ();
+				}
+				break;
 			}
-		} else {
 			signalingTimeLeft = false;
 		}
+	}
+
+	// Animates the clock to the middle of the screen, and then back to its default position.
+	private void SignalTimeLeft() {
+		signalingTimeLeft = true;
+		UIAnimationManager animManager = TimerObject.GetComponent<UIAnimationManager> ();
+		Vector2 targetPos = new Vector2 (-Screen.width / 2, -Screen.height / 2);
+		Vector3 targetScale = new Vector3(1.7f, 1.7f, 1f);
+		animManager.MoveToPosAndBack    (targetPos,   1.75f, 0.75f, 0.5f);
+		animManager.ScaleToValueAndBack (targetScale, 1.75f, 0.75f, 0.5f);
 	}
 	
 	// Update is called once per frame
