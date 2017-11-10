@@ -4,8 +4,12 @@ using UnityEngine;
 
 public class TrashingController : MonoBehaviour {
 
-	private static Vector3 ingredientSpawnOffset = new Vector3 (0, 0, 2.15f);
-	private static Vector3 ingredientSpawnVelocity = new Vector3(0, 6, 2);
+	// (0, 0, 1) is the direction (before rotation) in which the ingredient is spawning.
+	private static Vector3 ingredientSpawnAdditionalOffset = new Vector3(0, 0.8f, 0);
+	private static float ingredientSpawnZOffset = 1f;
+	private static Vector3 ingredientSpawnAdditionalVelocity = new Vector3(0, 10f, 0);
+	private static float ingredientSpawnZVelocity = 3f;
+	private static float angleSpread = 200f;
 
 	void Update () {
 		if (Input.GetKeyDown(KeyCode.T)) {
@@ -34,27 +38,45 @@ public class TrashingController : MonoBehaviour {
 
 
 		// Spawn all the ingredients around the burrito
-		float angleBetweenSpawns = 360 / numIngredients;
+		float angleBetweenSpawns = angleSpread / numIngredients;
 		for (int i = 0; i < numIngredients; i++) {
 			IngredientSet.Ingredients ingredientType;
 			int quality;
 			caughtIngredients.GetNthIngredient (i, out ingredientType, out quality);
 
 			// spawn
-			Quaternion spawnRotation = Quaternion.AngleAxis (angleBetweenSpawns * i, Vector3.up);
-			Vector3 spawnLocation = transform.position + spawnRotation * ingredientSpawnOffset;
+			Vector3 spawnDir = GetSpawnDirPartSpread(i, numIngredients);
+			Vector3 spawnLocation = transform.position + spawnDir * ingredientSpawnZOffset + ingredientSpawnAdditionalOffset;
 			GameObject obj = Instantiate (IngredientSet.GetPrefab(ingredientType), spawnLocation, Quaternion.identity) as GameObject;
 			FallDecayDie fallScript = obj.GetComponent<FallDecayDie> ();
 
 			// give velocity
 			fallScript.DisableSlowFall ();
 			fallScript.RemoveIngredientIndicator();
-			obj.GetComponent<Rigidbody> ().velocity = spawnRotation * ingredientSpawnVelocity;
+			obj.GetComponent<Rigidbody> ().velocity = spawnDir * ingredientSpawnZVelocity + ingredientSpawnAdditionalVelocity;
+
+			// start scaling
+			obj.GetComponent<ScaleOverTime> ().StartScaling(0.01f, 1f, 7f);
 
 			// set quality
 			fallScript.SetQualityLevel (quality);
 		}
 
 		caughtIngredients.Empty();
+	}
+
+	Vector3 GetSpawnDirFullSpread(int ingredientNum, int numIngredients) {
+		float angleBetweenSpawns = 360f / numIngredients;
+		return Quaternion.AngleAxis (angleBetweenSpawns * ingredientNum, Vector3.up) * Vector3.forward;
+	}
+
+	Vector3 GetSpawnDirPartSpread(int ingredientNum, int numIngredients) {
+		Vector3 behindBurrito = -GameController.instance.player.GetComponent<MovementControllerIsometricNew> ().GetXZFacing();
+		Debug.Log ("behind burrito: " + behindBurrito);
+		float angleBetweenSpawns = angleSpread / Mathf.Lerp(numIngredients, 6f, 0.5f);
+		float firstIngredientAngle = -(angleBetweenSpawns * (numIngredients-1) / 2f);
+		float angle = firstIngredientAngle + angleBetweenSpawns * ingredientNum;
+		Debug.Log ("angle: " + angle);
+		return Quaternion.AngleAxis (angle, Vector3.up) * behindBurrito;
 	}
 }

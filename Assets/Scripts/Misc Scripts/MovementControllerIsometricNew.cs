@@ -17,6 +17,7 @@ public class MovementControllerIsometricNew : MonoBehaviour {
 	private static float velocityChangeRateOnGround = 0.2f;
 	private static float additionalTurnRateLerp = 0.2f;
 	// How closely going straight up the ramp we must be to snap to ramp and get the speed boost.
+	// Higher value means we need to go closer to straight up the ramp.
 	// Going 45 degrees up the ramp is about 0.707.
 	private static float velocityFractionInRampDirectionForSnap = .75f;
 
@@ -40,7 +41,7 @@ public class MovementControllerIsometricNew : MonoBehaviour {
 	private float verticalMoveInput;
 	private bool dashInput;
 	private float timeOfLastDash;
-	private Vector3 lastXZMoveDirection;
+	private Vector3 xzFacing;
 
 	// Dash particle system
 	public GameObject dashParticleSystem;
@@ -55,7 +56,7 @@ public class MovementControllerIsometricNew : MonoBehaviour {
     void Awake () {
 		rb = GetComponent<Rigidbody> ();
 		timeOfLastDash = 0f;
-		lastXZMoveDirection = Vector3.forward;
+		xzFacing = Vector3.forward;
 		velocityChangeRate = velocityChangeRateOnGround;
 
         audSrc = GetComponent<AudioSource>();
@@ -129,6 +130,8 @@ public class MovementControllerIsometricNew : MonoBehaviour {
 	}
 
 	void FixedUpdate () {
+		UpdateXZFacing ();
+
 		rb.angularVelocity = Vector3.zero;
 
 		float currentXZSpeed = Vector3.ProjectOnPlane(rb.velocity, Vector3.up).magnitude;
@@ -149,10 +152,15 @@ public class MovementControllerIsometricNew : MonoBehaviour {
 		}
 
 		IncreaseSpeedDashingUpRamp ();
+	}
 
+	void UpdateXZFacing() {
 		Vector3 XZmove = new Vector3 (rb.velocity.x, 0, rb.velocity.z);
-		if (XZmove != Vector3.zero) {
-			lastXZMoveDirection = rb.velocity.normalized;
+		if (XZmove.magnitude > 0.05f) {
+			xzFacing = transform.forward;
+			if (Vector3.Dot (xzFacing, XZmove) < 0) {
+				xzFacing *= -1;
+			}
 		}
 	}
 
@@ -172,7 +180,7 @@ public class MovementControllerIsometricNew : MonoBehaviour {
 		Vector3 targetDirection = ((horizontalMoveInput * Vector3.right) + (verticalMoveInput * Vector3.forward)).normalized;
 		targetDirection = viewpointRotation * targetDirection;
 		if (targetDirection == Vector3.zero) {
-			targetDirection = lastXZMoveDirection;
+			targetDirection = xzFacing;
 		}
 
 		// Simple dash
@@ -259,6 +267,10 @@ public class MovementControllerIsometricNew : MonoBehaviour {
 
 	bool IsDashing() {
 		return (Time.time - timeOfLastDash < dashDuration);
+	}
+
+	public Vector3 GetXZFacing() {
+		return xzFacing;
 	}
 
 }
