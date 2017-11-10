@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using DigitalRuby.Tween;
 
 
 public class SubmissionController : MonoBehaviour {
 
-	public GameObject burritoPrefab;
+	public GameObject scorePopupPrefab;
 
 	private string submissionText; 
 	private string winText; 
@@ -19,6 +20,11 @@ public class SubmissionController : MonoBehaviour {
     private AudioClip rightOrder;
     private AudioClip wrongOrder;
 
+	private Camera mainCam;
+
+	void Awake() {
+		mainCam = Camera.main;
+	}
 
 	void Start () {
 		//setTextString ("");
@@ -104,10 +110,9 @@ public class SubmissionController : MonoBehaviour {
 
 		// Add the score
 		int score = burritoCaughtIngredients.getSumOfQualities ()*50;
-		OrderUI.instance.setQualityMessage("+"+score.ToString());
-		Debug.Log("You just got "+score+" score!");
-
 		GameController.instance.score += score;
+		CreateScorePopup (score);
+		Debug.Log("You just got "+score+" score!");
 		Debug.Log("Total Score: "+GameController.instance.score);
 
 		// Log the successful submission
@@ -138,5 +143,38 @@ public class SubmissionController : MonoBehaviour {
 		GameController.instance.levelComplete = true;
 		// save level
 		SaveManager.instance.ProcessLevelCompletion(GameController.instance.currentLevel, GameController.instance.score);
+	}
+
+	void CreateScorePopup(int score) {
+		GameObject scorePopup = Instantiate (scorePopupPrefab, transform) as GameObject;
+		scorePopup.GetComponent<TextMesh> ().text = "+" + score;
+		scorePopup.transform.rotation = mainCam.transform.rotation;
+		// Tween to pop up, then fade out
+		string tweenKey = "scorePopup_"+Time.time+"_"+name;
+		Vector3 initialPos = scorePopup.transform.position + mainCam.transform.up * 0.8f;
+		Vector3 endPos = initialPos + mainCam.transform.up * 1.6f;
+
+		scorePopup.Tween (tweenKey + "scale", 0f, 1f, .5f, TweenScaleFunctions.QuinticEaseOut, (t) => {
+			// fade in
+			scorePopup.GetComponent<TextMesh> ().color = new Color (0, 1, 0, t.CurrentValue);
+		});
+
+		scorePopup.Tween (tweenKey, initialPos, endPos, .5f, TweenScaleFunctions.QuinticEaseOut, (t) => 
+			{
+				// pop up
+				scorePopup.transform.position = t.CurrentValue;
+			}, (t) => 
+			{
+				scorePopup.Tween (tweenKey, 1f, 0f, 1.1f, TweenScaleFunctions.QuinticEaseIn, (t2) => 
+					{
+						// fade out
+						scorePopup.GetComponent<TextMesh>().color = new Color(0, 1, 0, t2.CurrentValue);
+					}, (t2) =>
+					{
+						// remove at the end
+						Destroy(scorePopup);
+					});
+			}
+		);
 	}
 }
