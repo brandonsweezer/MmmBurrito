@@ -72,11 +72,9 @@ public class TrashingController : MonoBehaviour {
 
 	Vector3 GetSpawnDirPartSpread(int ingredientNum, int numIngredients) {
 		Vector3 behindBurrito = -GameController.instance.player.GetComponent<MovementControllerIsometricNew> ().GetXZFacing();
-		Debug.Log ("behind burrito: " + behindBurrito);
 		float angleBetweenSpawns = angleSpread / Mathf.Lerp(numIngredients, 6f, 0.5f);
 		float firstIngredientAngle = -(angleBetweenSpawns * (numIngredients-1) / 2f);
 		float angle = firstIngredientAngle + angleBetweenSpawns * ingredientNum;
-		Debug.Log ("angle: " + angle);
 		return Quaternion.AngleAxis (angle, Vector3.up) * behindBurrito;
 	}
 }
