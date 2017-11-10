@@ -9,6 +9,9 @@ public class FallDecayDie : MonoBehaviour {
 
 	public int startingQualityLevel = 3;
 
+	public GameObject fliesSystemPrefab;
+	private GameObject fliesSystem;
+
 	// Number of seconds it takes to decrease one quality level
 	public float decayRate;
 
@@ -61,6 +64,12 @@ public class FallDecayDie : MonoBehaviour {
 		}
 	}
 
+	void Update() {
+		if (qualityLevel == 1 && fliesSystem == null && transform.localScale == Vector3.one) {
+			fliesSystem = Instantiate (fliesSystemPrefab, transform) as GameObject;
+		}
+	}
+
 	// Start decaying after hitting something
 	void OnCollisionEnter(Collision col) {
 		DisableSlowFall ();
@@ -77,6 +86,7 @@ public class FallDecayDie : MonoBehaviour {
 		}
 
 		// update displayed model
+		/*TODO: update the following code to account for the extra child that is the fly system
 		if (qualityLevel <= 0 || transform.childCount == 1) {
 			return;
 		}
@@ -85,7 +95,7 @@ public class FallDecayDie : MonoBehaviour {
 		}
 		int newChildIndex = (int)Mathf.Min (transform.childCount-1, startingQualityLevel - qualityLevel);
 		Transform childToActivate = transform.GetChild(newChildIndex);
-		childToActivate.gameObject.SetActive (true);
+		childToActivate.gameObject.SetActive (true);*/
 	}
 
 	IEnumerator Decay () {

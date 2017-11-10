@@ -12,10 +12,11 @@ public class ScaleOverTime : MonoBehaviour {
 	void Update () {
 		// Change scale if active.
 		if (active) {
-			Vector3 newScale = Vector3.Lerp(gameObject.transform.localScale, targetScale, scaleSpeedFactor * Time.deltaTime);
-			gameObject.transform.localScale = newScale;
-			if (targetScale.x - gameObject.transform.localScale.x < 0.1f) {
+			Vector3 newScale = Vector3.Lerp(transform.localScale, targetScale, scaleSpeedFactor * Time.deltaTime);
+			transform.localScale = newScale;
+			if (targetScale.x - transform.localScale.x < 0.1f) {
 				active = false;
+				transform.localScale = targetScale;
 			}
 		}
 	}
@@ -31,7 +32,7 @@ public class ScaleOverTime : MonoBehaviour {
 	// - All scales are in local scale.
 	// - scaleSpeedFactor should be positive, but can be greater than 1. A smaller scaleSpeedFactor is a slower change.
 	public void StartScaling(float startingScale, float targetScale, float scaleSpeedFactor) {
-		gameObject.transform.localScale = new Vector3 (startingScale, startingScale, startingScale);
+		transform.localScale = new Vector3 (startingScale, startingScale, startingScale);
 		StartScaling (targetScale, scaleSpeedFactor);
 	}
 }
