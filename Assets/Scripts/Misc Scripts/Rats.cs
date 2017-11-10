@@ -16,7 +16,7 @@ public class Rats : MonoBehaviour
     //if false, return home
     private bool chase;
 
-    private GameObject spawn;
+    private GameObject spawn = null;
 
     // Use this for initialization
     void Start()
