@@ -101,6 +101,12 @@ public class MovementControllerIsometricNew : MonoBehaviour {
 		if (GameController.instance.levelComplete) {
 			return;
 		}
+        if (GameController.instance.dead)
+        {
+            //TODO: Put in death animation
+            GameController.instance.dead = false;
+            return;
+        }
 
         // Detect move input.
 		if (Input.GetKey (KeyCode.RightArrow) || Input.GetKey(KeyCode.D)) {

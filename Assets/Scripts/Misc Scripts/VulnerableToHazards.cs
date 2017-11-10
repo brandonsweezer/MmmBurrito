@@ -28,18 +28,23 @@ public class VulnerableToHazards : MonoBehaviour {
 		}
 
 		GameObject gameObj = collision.gameObject;
-		if (gameObj.tag == "DeadlyHazard" || gameObj.tag == "Chef") {
+		if (gameObj.tag == "DeadlyHazard" || gameObj.tag == "Chef" || gameObj.tag == "Rat") {
 			SpawnController.instance.DestroyAndRespawn ();
             /*OrderUI.instance.ResetAfterDeath();
             OrderUI.instance.CollectionUIUpdate();*/
 			OrderUI.instance.setGeneralMessage ("You have died!");
+            GameController.instance.dead = true;
             if (gameObj.tag == "DeadlyHazard")
             {
                 LoggingManager.instance.RecordEvent(12, "Died to a " + gameObj.tag);
             }
-            else
+            else if(gameObj.tag == "Chef")
             {
                 LoggingManager.instance.RecordEvent(11, "Died to a " + gameObj.tag);
+            }
+            else
+            {
+                LoggingManager.instance.RecordEvent(13, "Died to a " + gameObj.tag);
             }
             //TODO: DEATH SOUND
         }

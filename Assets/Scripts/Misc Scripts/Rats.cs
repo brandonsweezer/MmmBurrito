@@ -109,11 +109,8 @@ public class Rats : MonoBehaviour
         GameObject gameObj = collision.gameObject;
         if(gameObj.tag == "Player")
         {
-            SpawnController.instance.DestroyAndRespawn();
             chase = false;
             target = spawn;
-            LoggingManager.instance.RecordEvent(13, "Died to a rat");
-            //TODO: DEATH SOUND
         }
         else if(gameObj.tag == "FallingObject")
         {
