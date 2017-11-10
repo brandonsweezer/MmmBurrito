@@ -5,7 +5,6 @@ using UnityEngine;
 public class IngredientIndicator : MonoBehaviour {
 
 	public GameObject indicatorPrefab;
-	public Texture2D image;
 
 	private static Vector3 startingScale = new Vector3 (0.3f, 0.3f, 0.3f);
 	private static Vector3 endingScale = new Vector3 (1f, 1f, 1f);
@@ -19,7 +18,9 @@ public class IngredientIndicator : MonoBehaviour {
 		bool raycast = ObjectSpawn.RaycastUntilTerrain(transform.position, Vector3.down, out hit);
 		if (raycast) {
 			indicator = Instantiate (indicatorPrefab, hit.point, Quaternion.identity) as GameObject;
-			indicator.transform.GetChild(0).GetComponent<Renderer> ().material.mainTexture = image;
+			Color color = IngredientSet.GetColorForIngredient (name);
+			indicator.GetComponent<ColorSetter> ().SetColor (color);
+			// set scale and calculate distance
 			indicator.transform.localScale = startingScale;
 			originalDistanceFromIndicator = CalculateDistanceToIndicator ();
 		}

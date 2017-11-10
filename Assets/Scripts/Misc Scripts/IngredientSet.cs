@@ -22,6 +22,14 @@ public class IngredientSet : MonoBehaviour {
 
 	public GameObject[] IngredientPrefabsAlphabetical;
 	public static GameObject[] IngredientPrefabsAlphabeticalStatic;
+	private static Color[] INGREDIENT_COLORS = {
+		new Color(103, 42, 5, 255)/255f,
+		new Color(254, 224, 59, 255)/255f,
+		new Color(128, 205, 66, 255)/255f,
+		new Color(130, 85, 41, 255)/255f,
+		new Color(210, 247, 247, 255)/255f,
+		new Color(239, 5, 6, 255)/255f
+	};
 
 
 
@@ -41,7 +49,27 @@ public class IngredientSet : MonoBehaviour {
 	// Converts an input like "Tomato" to Ingredients.Tomato
 	// (Note that the string should match the ingredient name.)
 	public static Ingredients StringToIngredient(string ingredientString) {
-		return (Ingredients) Enum.Parse(typeof(Ingredients), ingredientString);
+		//return (Ingredients) Enum.Parse(typeof(Ingredients), ingredientString);
+		switch (Char.ToUpper (ingredientString [0])) {
+		case 'B':
+			return Ingredients.Beans;
+		case 'C':
+			return Ingredients.Cheese;
+		case 'L':
+			return Ingredients.Lettuce;
+		case 'M':
+			return Ingredients.Meatball;
+		case 'R':
+			return Ingredients.Rice;
+		case 'T':
+			return Ingredients.Tomato;
+		default:
+			return Ingredients.Rice;
+		}
+	}
+
+	public static Color GetColorForIngredient(string ingredientString) {
+		return INGREDIENT_COLORS[(int)StringToIngredient (ingredientString)];
 	}
 
 	// The count of each of the different ingredient types (from the Ingredients enum defined above)
