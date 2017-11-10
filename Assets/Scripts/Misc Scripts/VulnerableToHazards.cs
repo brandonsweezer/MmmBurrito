@@ -41,8 +41,9 @@ public class VulnerableToHazards : MonoBehaviour {
             {
                 LoggingManager.instance.RecordEvent(11, "Died to a " + gameObj.tag);
             }
+            //TODO: DEATH SOUND
         }
-	}
+    }
 
 	/** Makes this object invulnerable for the specified number of seconds */
 	public void SetInvulnerableDuration(float duration) {

@@ -103,6 +103,7 @@ public class Rats : MonoBehaviour
             target = new GameObject();
             target.transform.position = spawnPoint;
             LoggingManager.instance.RecordEvent(13, "Died to a rat");
+            //TODO: DEATH SOUND
         }
         else if(gameObj.tag == "FallingObject")
         {
