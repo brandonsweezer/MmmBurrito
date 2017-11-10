@@ -1,50 +1,67 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DigitalRuby.Tween;
+using System;
 
 public class UIAnimationManager : MonoBehaviour {
-	
-	private float positionMoveFactor = 0.02f;
-	private RectTransform rect;
-	private IEnumerator moveCoroutine;
 
+	private string moveKey;
+	private string scaleKey;
+
+	private RectTransform rect;
 	private Vector2 defaultPos;
 
 	void Awake() {
 		rect = GetComponent<RectTransform> ();
 		defaultPos = rect.anchoredPosition;
-		moveCoroutine = null;
+		moveKey = "Move_" + name;
+		scaleKey = "Scale_" + name;
 	}
 
-	public void ResetToDefaultPosition() {
-		StopCoroutine (moveCoroutine);
-		rect.anchoredPosition = defaultPos;
+	// MOVE FUNCTIONS
+	public void Move(Vector2 targetPos, float duration = 1f, Action callback = null) {
+		gameObject.Tween (moveKey, rect.anchoredPosition, targetPos, duration, TweenScaleFunctions.QuadraticEaseInOut, (t) => 
+			{
+				rect.anchoredPosition = t.CurrentValue;
+			}, (t) => { if (callback != null) { callback(); } }
+		);
+	}
+	public void MoveToPosAndBack(Vector2 targetPos, float delay, float tweenDuration1, float tweenDuration2) {
+		Vector2 startPos = rect.anchoredPosition;
+		Action callback = () => {
+			ExecuteAfterDelay (delay, () => { 
+				Move (startPos, tweenDuration2); 
+			});
+		};
+		Move(targetPos, tweenDuration1, callback);
 	}
 
-	public void StartMoveToPosition(Vector2 targetPos, bool allowOverride = true) {
-		if (moveCoroutine != null) {
-			if (allowOverride) {
-				StopCoroutine (moveCoroutine);
-			} else {
-				return;
-			}
-		}
-		moveCoroutine = MoveToPosition(targetPos);
-		StartCoroutine (moveCoroutine);
+	// SCALE FUNCTIONS
+	public void Scale(Vector3 targetScale, float duration = 1f, Action callback = null) {
+		gameObject.Tween (scaleKey, rect.localScale, targetScale, duration, TweenScaleFunctions.QuadraticEaseInOut, (t) => 
+			{
+				rect.localScale = t.CurrentValue;
+			}, (t) => { if (callback != null) { callback(); } }
+		);
+	}
+	public void ScaleToValueAndBack(Vector3 targetScale, float delay, float tweenDuration1, float tweenDuration2) {
+		Vector3 startScale = rect.localScale;
+		Action callback = () => {
+			ExecuteAfterDelay (delay, () => { 
+				Scale (startScale, tweenDuration2); 
+			});
+		};
+		Scale(targetScale, tweenDuration1, callback);
 	}
 
-	public void StartMoveToPosition(float targetX, float targetY, bool allowOverride = true) {
-		StartMoveToPosition (new Vector2 (targetX, targetY), allowOverride);
+	public void ExecuteAfterDelay(float delay, Action callback) {
+		IEnumerator coroutine = ExecuteAfterDelayRoutine(delay, callback);
+		StartCoroutine(coroutine);
 	}
 
-	IEnumerator MoveToPosition(Vector2 targetPos) {
-		while (true) {
-			rect.anchoredPosition = Vector2.Lerp(rect.anchoredPosition, targetPos, positionMoveFactor);
-			if (Vector2.Distance(rect.anchoredPosition, targetPos) < 0.1f) {
-				rect.anchoredPosition = targetPos;
-				StopCoroutine (moveCoroutine);
-			}
-			yield return new WaitForEndOfFrame();
-		}
+	IEnumerator ExecuteAfterDelayRoutine(float delay, Action callback) {
+		yield return new WaitForSeconds(delay);
+		callback();
 	}
 }

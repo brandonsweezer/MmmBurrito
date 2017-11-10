@@ -129,19 +129,17 @@ public class Timer : MonoBehaviour {
 		timeDisplayText.text = timeDisplay;
 	
 		// Time left signaling.
-		if (time-30 < 0.1f && !signalingTimeLeft) {
-			signalingTimeLeft = true;
-			timeLeftWarningContainer.SetActive (true);
-		} else if (time-28 < 0.1f) {
-			timeLeftWarningContainer.GetComponent<UIAnimationManager> ().StartMoveToPosition (TimerObject.transform.position, false);
-		} else if (time-26 < 0.1f) {
+		if (Mathf.Abs (time - 30) < 0.1f) {
+			if (!signalingTimeLeft) {
+				signalingTimeLeft = true;
+				UIAnimationManager animManager = TimerObject.GetComponent<UIAnimationManager> ();
+				Vector2 targetPos = new Vector2 (-Screen.width / 2, -Screen.height / 2);
+				animManager.MoveToPosAndBack (targetPos, 2f, 1f, 1f);
+				Vector3 targetScale = new Vector3(1.7f, 1.7f, 1f);
+				animManager.ScaleToValueAndBack (targetScale, 2f, 1f, 1f);
+			}
+		} else {
 			signalingTimeLeft = false;
-			timeLeftWarningContainer.GetComponent<UIAnimationManager> ().ResetToDefaultPosition ();
-			timeLeftWarningContainer.SetActive (false);
-		}
-
-		if (signalingTimeLeft) {
-			timeLeftWarningText.text = timeDisplay + " left!";
 		}
 	}
 	
