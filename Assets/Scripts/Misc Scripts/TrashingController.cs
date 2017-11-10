@@ -12,6 +12,10 @@ public class TrashingController : MonoBehaviour {
 	private static float angleSpread = 200f;
 
 	void Update () {
+		if (GameController.instance.levelComplete) {
+			return;
+		}
+
 		if (Input.GetKeyDown(KeyCode.T)) {
             LoggingManager.instance.RecordEvent(3, "Trashed ingredients with T: " + GameController.instance.player.GetComponent<ObjectCatcher>().GetIngredients().ToString());
 
