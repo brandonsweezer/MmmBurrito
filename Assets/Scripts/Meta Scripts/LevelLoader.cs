@@ -6,15 +6,19 @@ using UnityEngine.SceneManagement;
 public class LevelLoader : MonoBehaviour {
 
 	public GameObject canvasHUD;
-	public GameObject canvasMenu;
+	public GameObject canvasHome;
+	public GameObject canvasLevelSelect;
 
     private int maxLevelNumber = 6;
 	private int loadingLevelNumber;
-	private bool inMenu;
+	private bool inMenuHome;
+	private bool inMenuLevelSelect;
+	private bool play;
+
 
 	void Awake () {
 		loadingLevelNumber = -1;
-		inMenu = true;
+		SetHomeCanvas();
 	}
 
     public void GoToNextLevel()
@@ -30,15 +34,15 @@ public class LevelLoader : MonoBehaviour {
     }
 
 	public void GoToLevel(int levelNumber) {
-		inMenu = false;
+		//SetPlayCanvas ();
 		loadingLevelNumber = levelNumber;
         GameController.instance.levelEnd = false;
         LoggingManager.instance.RecordLevelStart(levelNumber, "");
         SceneManager.LoadScene("Level_" + levelNumber);
     }
 
-	public void GoToMenu () {
-		inMenu = true;
+	public void GoToMenuLevelSelect () {
+		SetLevelSelectCanvas();
         if (!GameController.instance.levelEnd)
         {
             LoggingManager.instance.RecordEvent(7, "Level quit, timer at " + GameController.instance.gameTime);
@@ -74,17 +78,33 @@ public class LevelLoader : MonoBehaviour {
 		if (scene.name.Contains ("Level_")) {
 			// Loaded a level.
 			InitializeLevel (loadingLevelNumber);
-			SetActiveCanvas ();
-		} else {
-			// Loaded a menu.
-			SetActiveCanvas ();
+			SetPlayCanvas ();
 		}
+//		} else {
+//			// Loaded a menu.
+//			SetHomeCanvas ();
+//		}
 	}
 
-	void SetActiveCanvas () {
-		canvasHUD.SetActive(!inMenu);
-		canvasMenu.SetActive(inMenu);
+	void SetHomeCanvas () {
+		canvasHUD.SetActive (false);
+		canvasLevelSelect.SetActive (false);
+		canvasHome.SetActive (true);
 	}
+
+	void SetLevelSelectCanvas () {
+		canvasHUD.SetActive (false);
+		canvasHome.SetActive (false);
+		canvasLevelSelect.SetActive (true);
+	}
+
+	void SetPlayCanvas () {
+		canvasHome.SetActive (false);
+		canvasLevelSelect.SetActive (false);
+		canvasHUD.SetActive (true);
+	}
+
+
 
 	void InitializeLevel (int levelNumber) {
 		GameController.instance.currentLevel = levelNumber;
@@ -258,10 +278,10 @@ public class LevelLoader : MonoBehaviour {
 	}
 
 	void Update () {
-        if (Input.GetKeyDown(KeyCode.Escape) && !inMenu) {
-            GoToMenu();
+        if (Input.GetKeyDown(KeyCode.Escape) && !inMenuHome) {
+            GoToMenuLevelSelect();
         }
-        else if (Input.GetKeyDown(KeyCode.Return) && !inMenu && GameController.instance.levelComplete)
+        else if (Input.GetKeyDown(KeyCode.Return) && !inMenuHome && GameController.instance.levelComplete)
         {
             if (loadingLevelNumber != maxLevelNumber)
             {
