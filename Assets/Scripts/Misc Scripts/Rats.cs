@@ -26,6 +26,10 @@ public class Rats : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (GameController.instance.levelComplete)
+        {
+            return;
+        }
         if (currentTimer < 0)
         {
             if (chase)
