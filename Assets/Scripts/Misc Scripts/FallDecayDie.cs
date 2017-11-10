@@ -65,7 +65,7 @@ public class FallDecayDie : MonoBehaviour {
 	}
 
 	void Update() {
-		if (qualityLevel == 1 && fliesSystem == null && transform.localScale == Vector3.one) {
+		if (qualityLevel == 1 && fliesSystem == null && transform.localScale == Vector3.one && tag == "FallingObject") {
 			fliesSystem = Instantiate (fliesSystemPrefab, transform) as GameObject;
 		}
 	}
@@ -79,23 +79,29 @@ public class FallDecayDie : MonoBehaviour {
 	public void SetQualityLevel(int newQualityLevel) {
 		qualityLevel = newQualityLevel;
 
+		if (tag == "FallingObject") {
+			UpdateQualityVisuals ();
+		}
+	}
+
+	void UpdateQualityVisuals() {
 		// tint the texture
-		Renderer rend = transform.GetChild(0).GetComponent<Renderer>();
+		Renderer rend = transform.GetChild (0).GetComponent<Renderer> ();
 		foreach (Material mat in rend.materials) {
-			mat.color = Color.Lerp(mat.color, Color.black, 0.2f * (startingQualityLevel - qualityLevel));
+			mat.color = Color.Lerp (mat.color, Color.black, 0.2f * (startingQualityLevel - qualityLevel));
 		}
 
 		// update displayed model
 		/*TODO: update the following code to account for the extra child that is the fly system
-		if (qualityLevel <= 0 || transform.childCount == 1) {
-			return;
-		}
-		foreach (Transform child in transform) {
-			child.gameObject.SetActive (false);
-		}
-		int newChildIndex = (int)Mathf.Min (transform.childCount-1, startingQualityLevel - qualityLevel);
-		Transform childToActivate = transform.GetChild(newChildIndex);
-		childToActivate.gameObject.SetActive (true);*/
+			if (qualityLevel <= 0 || transform.childCount == 1) {
+				return;
+			}
+			foreach (Transform child in transform) {
+				child.gameObject.SetActive (false);
+			}
+			int newChildIndex = (int)Mathf.Min (transform.childCount-1, startingQualityLevel - qualityLevel);
+			Transform childToActivate = transform.GetChild(newChildIndex);
+			childToActivate.gameObject.SetActive (true);*/
 	}
 
 	IEnumerator Decay () {
