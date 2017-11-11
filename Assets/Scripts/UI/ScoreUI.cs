@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using DigitalRuby.Tween;
+using System;
 
 public class ScoreUI : MonoBehaviour {
 
@@ -17,7 +19,14 @@ public class ScoreUI : MonoBehaviour {
 		}
 	}
 
-	public void SetScore() {
-		scoreText.text = ""+GameController.instance.score;
+	public void SetScoreDisplay(int value) {
+		scoreText.text = ""+value;
+	}
+
+	public void AnimateScore(int newScore) {
+		int prevScore = Int32.Parse(scoreText.text);
+		scoreText.gameObject.Tween ("scoreTween"+Time.time, prevScore, newScore, .3f, TweenScaleFunctions.QuinticEaseOut, (t) => {
+			SetScoreDisplay((int)t.CurrentValue);
+		});
 	}
 }

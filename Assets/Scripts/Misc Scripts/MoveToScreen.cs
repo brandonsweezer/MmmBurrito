@@ -45,6 +45,11 @@ public class MoveToScreen : MonoBehaviour {
 		StartMovingToScreen (destroyWhenComplete, moveType, screenPos);
 	}
 
+	public void StartMovingToScreenBottomRight(bool destroyWhenComplete, MoveType moveType = MoveType.Linear) {
+		Vector3 screenPos = new Vector3 (mainCam.pixelWidth, 0, 3);
+		StartMovingToScreen (destroyWhenComplete, moveType, screenPos);
+	}
+
 	public void StartMovingToScreen(bool destroyWhenComplete, MoveType moveType = MoveType.Smoothed, Vector3 targetScreenPoint = new Vector3()) {
 		this.moveType = moveType;
 		this.destroyWhenComplete = destroyWhenComplete;
@@ -58,8 +63,6 @@ public class MoveToScreen : MonoBehaviour {
 		rb.useGravity = false;
 		rb.isKinematic = false;
 	}
-
-	// WE'RE USING PIXELS INSTEAD OF WORLD UNITS WHEN SPECIFYING SCREEN POS!!!!
 
 
 	void FixedUpdate() {

@@ -35,8 +35,12 @@ public class GameController : MonoBehaviour {
 	}
 
 	public void SetScore(int score) {
+		// Update score display.
+		if (score == 0) {
+			ScoreUI.instance.SetScoreDisplay (0);
+		}
+		// Update actual score.
 		this.score = score;
-		ScoreUI.instance.SetScore();
 	}
 		
 }
