@@ -152,11 +152,11 @@ public class OrderUI : MonoBehaviour {
 			int qualitySum = objectCatcher.GetIngredients ().getSumOfQualities ();
 
 			gameobjectfields.CollectionHUD.transform.GetChild (0).GetChild (0).GetComponent<Image> ().color = new Color (1f, 1f, 1f, 1f);
-			float qualityAverage = ((float)qualitySum) / (gameobjectfields.CollectionHUD.transform.childCount - 2f);
+			float qualityAverage = ((float)qualitySum) / (objectCatcher.GetNumCaughtIngredients());
 
-			if (qualityAverage >= 2.4f) {
+			if (qualityAverage > 1+2/3f) {
 				gameobjectfields.CollectionHUD.transform.GetChild (0).GetChild (0).GetComponent<Image> ().sprite = (Sprite) gameobjectfields.QualitySprites.GetValue (0);
-			} else if (qualityAverage >= 1.4f) {
+			} else if (qualityAverage >= 1+1/3f) {
 				gameobjectfields.CollectionHUD.transform.GetChild (0).GetChild (0).GetComponent<Image> ().sprite = (Sprite) gameobjectfields.QualitySprites.GetValue (1);
 			} else {
 				gameobjectfields.CollectionHUD.transform.GetChild (0).GetChild (0).GetComponent<Image> ().sprite = (Sprite) gameobjectfields.QualitySprites.GetValue (2);
@@ -197,12 +197,9 @@ public class OrderUI : MonoBehaviour {
 			objectCatcherScript.GetIngredients().GetNthIngredient(i, out ingredientType, out quality);
 			icon.GetComponent<Image> ().sprite = IngredientSet.ingredientSprites_full [ingredientType];
 			// set quality tint
-			if (quality == 3) {
+			if (quality == 2) {
 				icon.GetComponent<Image> ().color = new Color (1f, 1f, 1f, 1f);
 				setQualityMessage ("Mmm!!!");
-			} else if (quality == 2) {
-				icon.GetComponent<Image> ().color = new Color (.64f, .83f, .0f, 1f);
-				setQualityMessage ("Ehh");
 			} else {
 				icon.GetComponent<Image> ().color = new Color (.38f, .71f, .28f, 1f);
 				setQualityMessage ("Bleh!!");
