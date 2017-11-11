@@ -33,5 +33,10 @@ public class GameController : MonoBehaviour {
 	public void UpdateSubmissionValidity() {
 		canSubmit = OrderController.instance.CanSubmitAnOrder ();
 	}
+
+	public void SetScore(int score) {
+		this.score = score;
+		ScoreUI.instance.SetScore();
+	}
 		
 }
