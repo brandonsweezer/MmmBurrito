@@ -43,13 +43,22 @@ public class LevelLoader : MonoBehaviour {
 
 	public void GoToMenuLevelSelect () {
 		SetLevelSelectCanvas();
-        if (!GameController.instance.levelEnd)
-        {
-            LoggingManager.instance.RecordEvent(7, "Level quit, timer at " + GameController.instance.gameTime);
-        }
-        LoggingManager.instance.RecordLevelEnd();
-        SceneManager.LoadScene("LevelSelection");
+		GoToMenu ();
     }
+
+	public void GoToMenuMain () {
+		SetHomeCanvas();
+		GoToMenu ();
+	}
+
+	private void GoToMenu() {
+		if (!GameController.instance.levelEnd)
+		{
+			LoggingManager.instance.RecordEvent(7, "Level quit, timer at " + GameController.instance.gameTime);
+		}
+		LoggingManager.instance.RecordLevelEnd();
+		SceneManager.LoadScene("Menu");
+	}
 
 	public void ReplayLevel()
 	{
