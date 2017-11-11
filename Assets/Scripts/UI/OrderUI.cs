@@ -317,10 +317,10 @@ public class OrderUI : MonoBehaviour {
 	}
 
 
-//	void Trash () {
-//		TrashingController.instance.
-//	}
-//
+	public void Trash () {
+		TrashingController.instance.Trash ();
+	}
+
 
 
 	public void setWinMessage(string msg) {

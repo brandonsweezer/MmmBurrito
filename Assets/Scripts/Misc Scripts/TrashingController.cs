@@ -11,15 +11,15 @@ public class TrashingController : MonoBehaviour {
 	private static float ingredientSpawnZVelocity = 3f;
 	private static float angleSpread = 200f;
 
-//	public static TrashingController instance = null;
-//	void Awake () {
-//		if (instance == null) {
-//			instance = this;
-//		} else if (instance != this) {
-//			Destroy (this);
-//		}
-//	}
-//
+	public static TrashingController instance = null;
+	void Awake () {
+		if (instance == null) {
+			instance = this;
+		} else if (instance != this) {
+			Destroy (this);
+		}
+	}
+
 
 	void Update () {
 		if (GameController.instance.levelComplete) {
@@ -27,18 +27,23 @@ public class TrashingController : MonoBehaviour {
 		}
 
 		if (Input.GetKeyDown(KeyCode.T)) {
-            LoggingManager.instance.RecordEvent(3, "Trashed ingredients with T: " + GameController.instance.player.GetComponent<ObjectCatcher>().GetIngredients().ToString());
-
-            ThrowOutContents();
-
-			// Update UI
-			OrderUI.instance.setGeneralMessage ("Burrito Trashed");
+			Trash();
 		}
 	}
 
+	public void Trash() {
+		LoggingManager.instance.RecordEvent(3, "Trashed ingredients with T: " + GameController.instance.player.GetComponent<ObjectCatcher>().GetIngredients().ToString());
+
+		ThrowOutContents();
+
+		// Update UI
+		OrderUI.instance.setGeneralMessage ("Burrito Trashed");
+	}
+
 	// Spawn the ingredients around the burrito and empty the contents
-	public void ThrowOutContents() {
-		CaughtIngredientSet caughtIngredients = GameController.instance.player.GetComponent<ObjectCatcher> ().GetIngredients ();
+	void ThrowOutContents() {
+		GameObject player = GameController.instance.player;
+		CaughtIngredientSet caughtIngredients = player.GetComponent<ObjectCatcher> ().GetIngredients ();
 		int numIngredients = caughtIngredients.ingredientSet.GetFullCount ();
 		if (numIngredients == 0) {
 			return;
@@ -54,7 +59,7 @@ public class TrashingController : MonoBehaviour {
 
 			// spawn
 			Vector3 spawnDir = GetSpawnDirPartSpread(i, numIngredients);
-			Vector3 spawnLocation = transform.position + spawnDir * ingredientSpawnZOffset + ingredientSpawnAdditionalOffset;
+			Vector3 spawnLocation = player.transform.position + spawnDir * ingredientSpawnZOffset + ingredientSpawnAdditionalOffset;
 			GameObject obj = Instantiate (IngredientSet.GetPrefab(ingredientType), spawnLocation, Quaternion.identity) as GameObject;
 			FallDecayDie fallScript = obj.GetComponent<FallDecayDie> ();
 
