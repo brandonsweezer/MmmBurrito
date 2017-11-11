@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 public class _preloader : MonoBehaviour {
 
 	void Awake () {
-        LoggingManager.instance.Initialize(094, 2, true);
+        LoggingManager.instance.Initialize(094, 3, true);
         LoggingManager.instance.RecordPageLoad();
         SceneManager.LoadScene ("Menu");
 
