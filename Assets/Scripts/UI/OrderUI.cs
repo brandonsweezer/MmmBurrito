@@ -317,6 +317,11 @@ public class OrderUI : MonoBehaviour {
 	}
 
 
+//	void Trash () {
+//		TrashingController.instance.
+//	}
+//
+
 
 	public void setWinMessage(string msg) {
 		textfields.winMessage.text = msg;

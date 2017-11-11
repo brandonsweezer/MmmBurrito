@@ -11,6 +11,16 @@ public class TrashingController : MonoBehaviour {
 	private static float ingredientSpawnZVelocity = 3f;
 	private static float angleSpread = 200f;
 
+//	public static TrashingController instance = null;
+//	void Awake () {
+//		if (instance == null) {
+//			instance = this;
+//		} else if (instance != this) {
+//			Destroy (this);
+//		}
+//	}
+//
+
 	void Update () {
 		if (GameController.instance.levelComplete) {
 			return;
@@ -27,7 +37,7 @@ public class TrashingController : MonoBehaviour {
 	}
 
 	// Spawn the ingredients around the burrito and empty the contents
-	void ThrowOutContents() {
+	public void ThrowOutContents() {
 		CaughtIngredientSet caughtIngredients = GameController.instance.player.GetComponent<ObjectCatcher> ().GetIngredients ();
 		int numIngredients = caughtIngredients.ingredientSet.GetFullCount ();
 		if (numIngredients == 0) {
