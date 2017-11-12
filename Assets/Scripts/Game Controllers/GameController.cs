@@ -22,8 +22,14 @@ public class GameController : MonoBehaviour {
 
     public int ABValue;
 
-	// Make this class a singleton
-	public static GameController instance = null;
+    //score needed for certain amount of stars
+    public List<int> starScore;
+
+    //number of total stars needed to unlock a level
+    public List<int> starUnlock;
+
+    // Make this class a singleton
+    public static GameController instance = null;
 	void Awake () {
 		if (instance == null) {
 			instance = this;
