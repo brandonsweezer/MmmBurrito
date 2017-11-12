@@ -20,6 +20,8 @@ public class GameController : MonoBehaviour {
 
     public bool dead;
 
+    public int ABValue;
+
 	// Make this class a singleton
 	public static GameController instance = null;
 	void Awake () {

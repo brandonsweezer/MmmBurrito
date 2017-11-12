@@ -7,10 +7,10 @@ public class LoggingManager : MonoBehaviour
     public static LoggingManager instance;
 
     // Initialize variables
-    private bool isDebugging = true; // A convenience parameter which, when set to TRUE, disables logging. 
-                                     // Make sure you set this to FALSE before you submit your game online!
-    private int gameId = 094; // The game's specific ID number
-    private int versionId = 3; // Your game's current version number. You should change this number between releases, 
+    private bool isDebugging = false; // A convenience parameter which, when set to TRUE, disables logging. 
+                                      // Make sure you set this to FALSE before you submit your game online!
+    private int gameId = 99999; // The game's specific ID number
+    private int versionId = 0; // Your game's current version number. You should change this number between releases, 
                                // and after very large changes to your logging methods.
 
     private bool isLevelStarted = false; // Semaphore for assertion
@@ -26,6 +26,10 @@ public class LoggingManager : MonoBehaviour
     private int sessionSeqId = 1;
 
     private int QuestSeqId = 1;
+
+    private int abstoredValue = -1;
+
+    private bool abValueSet = false;
 
     /**
      * Two internal classes for JSON deserialsation
@@ -47,7 +51,7 @@ public class LoggingManager : MonoBehaviour
 
     private string pageHost = "http";
 
-    private string phpPath = "://gdiac.cs.cornell.edu/cs4154/fall2017/";
+    private string phpPath = "://gdiac.cis.cornell.edu/cs4154/fall2017/";
 
     private string pageLoadPath = "page_load.php";
 
@@ -56,6 +60,9 @@ public class LoggingManager : MonoBehaviour
     private string playerQuestPath = "player_quest.php";
 
     private string playerQuestEndPath = "player_quest_end.php";
+
+    private string playerABTestPath = "record_abtest.php";
+
 
     public void Initialize(int gameId, int versionId, bool isDebugging)
     {
@@ -196,6 +203,12 @@ public class LoggingManager : MonoBehaviour
         string requestData = "?game_id=" + gameId + "&version_id=" + versionId + "&client_timestamp=" + nowMilliSec
             + "&user_info=" + userInfo;
 
+        if(PlayerPrefs.HasKey("user_id"))
+        {
+            userId = PlayerPrefs.GetString("user_id");
+            requestData += "&user_id=" + userId;
+        }
+
         UnityWebRequest www = UnityWebRequest.Get(pageHost + phpPath + pageLoadPath + requestData);
         yield return www.Send();
 
@@ -209,10 +222,64 @@ public class LoggingManager : MonoBehaviour
             PageLoadData pageLoadData = JsonUtility.FromJson<PageLoadData>(logReturnedString);
             userId = pageLoadData.user_id;
             sessionId = pageLoadData.session_id;
-            Debug.Log(userId);
-            Debug.Log(sessionId);
+            PlayerPrefs.SetString("user_id", userId);
+            Debug.Log("userID: " + userId);
+            Debug.Log("sessionID: " + sessionId);
         }
 
+    }
+
+    public int assignABTestValue(int candidate)
+    {
+        if (!isDebugging)
+        {
+            if (PlayerPrefs.HasKey("ab_test_value"))
+            {
+                abstoredValue = PlayerPrefs.GetInt("ab_test_value");
+            }
+            else
+            {
+                abstoredValue = candidate;
+                PlayerPrefs.SetInt("ab_test_value", abstoredValue);
+            }
+
+            abValueSet = true;  //true if this method is called;
+            return abstoredValue;
+        }
+        else
+        {
+            return candidate;
+        }
+    }
+
+    public void RecordABTestValue()
+    {
+        if (isDebugging)
+        {
+            return;
+        }
+
+        TestInitialization();
+        Debug.Assert(abValueSet, "recordABTestValue: You must call assignABTestValue before recording the A/B test value.");
+        StartCoroutine(GetABTestRecordRequest());
+    }
+
+    private IEnumerator GetABTestRecordRequest()
+    {
+        string requestData = "?game_id=" + gameId + "&user_id=" + userId + "&abvalue=" + abstoredValue;
+
+        UnityWebRequest www = UnityWebRequest.Get(pageHost + phpPath + playerABTestPath + requestData);
+        yield return www.Send();
+
+        if (www.isNetworkError)
+        {
+            Debug.Log(www.error);
+        }
+        else
+        {
+            string logReturnedString = www.downloadHandler.text;
+            Debug.Log(logReturnedString);
+        }
     }
 
     private void TestInitialization()
