@@ -35,9 +35,16 @@ public class Timer : MonoBehaviour {
 	// showing time left
 	private bool signalingTimeLeft;
 	private float[] timeLeftSignals = {30f, 10f, 0f};
+	private UIAnimationManager animManager;
+	Vector2 signalingPos = new Vector2 (-Screen.width / 2, -Screen.height * 0.27f);
+	Vector3 signalingScale = new Vector3(1.5f, 1.5f, 1.5f);
 
     bool thirty;
     bool ten;
+
+	void Awake() {
+		animManager = TimerObject.GetComponent<UIAnimationManager> ();
+	}
 
     void Start () {
 		running = false;
@@ -58,7 +65,6 @@ public class Timer : MonoBehaviour {
 	public void TimerInit (int maxTime) {
 		time = maxTime;
 		maxT = maxTime;
-		signalingTimeLeft = false;
 		timeLeftWarningContainer.SetActive (false);
 	}
 
@@ -68,7 +74,12 @@ public class Timer : MonoBehaviour {
         audSrc.clip = regular;
         audSrc.loop = true;
         audSrc.Play();
-        audSrc.volume = .6f;
+		audSrc.volume = .6f;
+
+		// Reset animations.
+		animManager.StopAllAnimations ();
+		animManager.ResetToInitialValues();
+		signalingTimeLeft = false;
 	}
 
 	public void TimerUpdate () {
@@ -136,25 +147,37 @@ public class Timer : MonoBehaviour {
 		timeDisplayText.text = timeDisplay;
 	
 		// Signal the time left (clock animation).
+		bool tryToSignal = false;
+		// check if at one of the schedules signals
 		foreach (float timeTarget in timeLeftSignals) {
 			if (Mathf.Abs (time - timeTarget) < 0.25f) {
-				if (!signalingTimeLeft) {
-					SignalTimeLeft ();
-				}
+				tryToSignal = true;
 				break;
 			}
-			signalingTimeLeft = false;
+		}
+		// check if at level start
+		if (LevelJustStarted()) {
+			tryToSignal = true;
+		}
+		// signal if appropriate
+		if (tryToSignal && !signalingTimeLeft) {
+			if (LevelJustStarted ()) {
+				SignalTimeLeft (1.5f, 0f);
+			} else {
+				SignalTimeLeft ();
+			}
 		}
 	}
 
+	private void signalingTimeEnd() {
+		signalingTimeLeft = false;
+	}
+
 	// Animates the clock to the middle of the screen, and then back to its default position.
-	private void SignalTimeLeft() {
+	private void SignalTimeLeft(float duration = 1.75f, float tween1 = 0.75f, float tween2 = 0.5f) {
 		signalingTimeLeft = true;
-		UIAnimationManager animManager = TimerObject.GetComponent<UIAnimationManager> ();
-		Vector2 targetPos = new Vector2 (-Screen.width / 2, -Screen.height / 2);
-		Vector3 targetScale = new Vector3(1.7f, 1.7f, 1f);
-		animManager.MoveToPosAndBack    (targetPos,   1.75f, 0.75f, 0.5f);
-		animManager.ScaleToValueAndBack (targetScale, 1.75f, 0.75f, 0.5f);
+		animManager.MoveToPosAndBack    (signalingPos,   duration, tween1, tween2, signalingTimeEnd);
+		animManager.ScaleToValueAndBack (signalingScale, duration, tween1, tween2);
 	}
 	
 	// Update is called once per frame
@@ -170,5 +193,9 @@ public class Timer : MonoBehaviour {
 
 	public float getTime() {
 		return totalSeconds;
+	}
+
+	private bool LevelJustStarted() {
+		return time >= (maxT - 1);
 	}
 }
