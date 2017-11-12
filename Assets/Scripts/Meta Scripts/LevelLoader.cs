@@ -302,7 +302,14 @@ public class LevelLoader : MonoBehaviour {
             GameController.instance.starScore.Add(300);
             break;
         case 7:
-            timer.TimerInit(20);
+            if (GameController.instance.ABValue == 2)
+            {
+                timer.TimerInit(10); //FILLER CODE (EXAMPLE)
+            }
+            else
+            {
+                timer.TimerInit(20);
+            }
             OrderController.instance.AddOrder(
                 IngredientSet.Ingredients.Rice, 2
                 );
