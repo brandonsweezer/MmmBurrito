@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System;
+using DigitalRuby.Tween;
+
 
 
 
@@ -81,16 +83,19 @@ public class OrderUI : MonoBehaviour {
 	private Dictionary<Sprite,Sprite> spriteDict_GlowtoFull;
 
 	private const float SUBMISSION_TIMER = 2f;
-    private float submissionTextTimer = SUBMISSION_TIMER;
-//	private static float SUBMISSION_TIMER2 = 3f;
-//	private float start; 
-//	private float submissionTextTimer2 = SUBMISSION_TIMER2;
+	private float submissionTextTimer = SUBMISSION_TIMER;
+	//    private static float SUBMISSION_TIMER2 = 3f;
+	//    private float start; 
+	//    private float submissionTextTimer2 = SUBMISSION_TIMER2;
 
 
 	private const float QUALITY_TIMER = 2f;
 	private float qualityTextTimer = QUALITY_TIMER;
 
-	private int qualitySum; 
+	private int qualitySum;
+
+	// for animations
+	private Vector3 viewportToScreenOffset = new Vector3 (-Screen.width / 2, -Screen.height / 2, 0);
 
 
 	// Make this class a singleton
@@ -128,7 +133,7 @@ public class OrderUI : MonoBehaviour {
 
 			// Position the ticket prefab.
 			ticketRectangle.anchoredPosition = new Vector2(GetTargetXPosForTicket(index), 0);
-	
+
 			// Initialize the ticket
 			ticket.GetComponent<TicketManager> ().TicketInit(currOrder);
 			ticket.GetComponent<TicketAnimations> ().StartSpawnAnimation ();
@@ -187,7 +192,7 @@ public class OrderUI : MonoBehaviour {
 		for (int i = 0; i < numCaughtIngredients; i++) {
 			//create the collection container prefab 
 			GameObject container = Instantiate (gameobjectfields.CollectionContainerPrefab) as GameObject;
-			container.transform.SetParent (gameobjectfields.caughtIngredientContainer.transform, false);	
+			container.transform.SetParent (gameobjectfields.caughtIngredientContainer.transform, false);    
 
 			//create collected item prefab
 			GameObject icon = Instantiate (gameobjectfields.CollectedIngredientPrefab) as GameObject;
@@ -227,7 +232,7 @@ public class OrderUI : MonoBehaviour {
 	public void ResetScore () {
 		setScore ("0");
 	}
-		
+
 
 
 	public void ResetUI () {
@@ -283,7 +288,7 @@ public class OrderUI : MonoBehaviour {
 			GameObject.DestroyObject (gameobjectfields.TicketHUD.transform.GetChild (index).gameObject);
 		}
 	}
-		
+
 	public void DeleteCollectedIngredients() {
 		foreach (Transform child in gameobjectfields.caughtIngredientContainer.transform) {
 			GameObject.Destroy(child.gameObject);
@@ -370,7 +375,7 @@ public class OrderUI : MonoBehaviour {
 	void Update() {
 		if (gameobjectfields.canvasHUD.activeSelf) {
 			if (initializeTickets) {
-				//	ingredientprefabs.setList();
+				//    ingredientprefabs.setList();
 				TicketInit (0);
 				TicketInit (1);
 				TicketInit (2);
@@ -395,4 +400,39 @@ public class OrderUI : MonoBehaviour {
 		CollectionUIUpdate ();
 		TicketUpdate ();
 	}
-}
+
+	public void AnimateCaughtObject(GameObject obj) {
+		GameObject icon = Instantiate (gameobjectfields.CollectedIngredientPrefab) as GameObject;
+		icon.transform.SetParent (gameobjectfields.canvasHUD.transform, false); 
+
+		// Set the correct ingredient sprite.
+		IngredientSet.Ingredients ingredientType = IngredientSet.StringToIngredient(obj.name);
+		int quality = obj.GetComponent<FallDecayDie>().getQuality();
+		icon.GetComponent<Image> ().sprite = IngredientSet.ingredientSprites_full [ingredientType];
+		if (quality == 2) {
+			icon.GetComponent<Image> ().color = new Color (1f, 1f, 1f, 1f);
+		} else {
+			icon.GetComponent<Image> ().color = new Color (.38f, .71f, .28f, 1f);
+		}
+
+		RectTransform rect = icon.GetComponent<RectTransform> ();
+		rect.anchoredPosition = Camera.main.WorldToScreenPoint (obj.transform.position) + viewportToScreenOffset;
+		Vector3 startingPos = rect.anchoredPosition;
+		float targetX = 65 + 55 * GameController.instance.player.GetComponent<ObjectCatcher> ().GetNumCaughtIngredients ();
+		Vector3 endingPos = new Vector3(targetX + viewportToScreenOffset.x, -275, viewportToScreenOffset.z);
+		icon.Tween("caughtingredient_"+obj.name+Time.time, startingPos, endingPos, 1f, TweenScaleFunctions.QuadraticEaseIn, (t) => 
+			{
+				rect.anchoredPosition = t.CurrentValue;
+			}, (t) =>
+			{
+				Destroy(icon);
+			}
+		);
+		icon.Tween("caughtingredient_sacle_"+obj.name+Time.time, new Vector3(0.1f, 0.1f, 0.1f), Vector3.one, 1f, TweenScaleFunctions.QuinticEaseOut, (t) => 
+			{
+				rect.localScale = t.CurrentValue;
+			}
+		);
+	}
+} 
+

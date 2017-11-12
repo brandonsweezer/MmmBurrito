@@ -21,13 +21,13 @@ public class ObjectCatcher : MonoBehaviour {
 		//SetTextString("");
 	}
 
-//	public void SetTextString (string text) {
-//		currentBurritoText = text;
-//	}
-//
-//	public string GetTextString () {
-//		return currentBurritoText;
-//	}
+	//    public void SetTextString (string text) {
+	//        currentBurritoText = text;
+	//    }
+	//
+	//    public string GetTextString () {
+	//        return currentBurritoText;
+	//    }
 
 	public void SetnewIngredient(bool boolean) {
 		newIngredient = boolean;
@@ -53,10 +53,10 @@ public class ObjectCatcher : MonoBehaviour {
 
 	/** Handle collisions with falling objects */
 	void OnCollisionEnter (Collision collision) {
-        if (!canCatch)
-        {
-            // return; // disabled until we can visually show the burrito's wrap-state
-        }
+		if (!canCatch)
+		{
+			// return; // disabled until we can visually show the burrito's wrap-state
+		}
 
 		GameObject gameObj = collision.gameObject;
 		if (gameObj.tag == "FallingObject") {
@@ -70,8 +70,7 @@ public class ObjectCatcher : MonoBehaviour {
 			CatchObject (gameObj);
 			LoggingManager.instance.RecordEvent (6, "Caught ingredient - " + gameObj.name);
 			if (gameObj.GetComponent<MoveToScreen> () != null) {
-				gameObj.GetComponent<MoveToScreen> ().StartMovingToScreenBottom (true);
-			} else {
+				OrderUI.instance.AnimateCaughtObject (gameObj);
 				Destroy (gameObj);
 			}
 		}
@@ -79,20 +78,20 @@ public class ObjectCatcher : MonoBehaviour {
 
 	/** Catches an object by updating the caught values for the [caughtObjects] dictionary */
 	void CatchObject (GameObject gameObj) {
-        //remove from GameController
+		//remove from GameController
 		try {
-        	GameController.instance.objects.RemoveAt(GameController.instance.objects.IndexOf(gameObj));
+			GameController.instance.objects.RemoveAt(GameController.instance.objects.IndexOf(gameObj));
 		}
 		catch (Exception e) {
 			Debug.LogError ("Tried to remove an object from the global object list, but it failed (talk to Joshua about this, and try to replicate). Error: "+e);
 		}
-        // Catch object
-        string objectName = gameObj.name.Replace ("(Clone)", "");
+		// Catch object
+		string objectName = gameObj.name.Replace ("(Clone)", "");
 		ingredientType = IngredientSet.StringToIngredient (objectName);
 		ingredientQuality = gameObj.GetComponent<FallDecayDie> ().getQuality ();
 		caughtIngredients.CatchIngredient (ingredientType, ingredientQuality);
 
-        SoundController.instance.audSrc.PlayOneShot(SoundController.instance.pickup, SoundController.instance.SoundEffectVolume);
+		SoundController.instance.audSrc.PlayOneShot(SoundController.instance.pickup, SoundController.instance.SoundEffectVolume);
 
 		// Print out
 		Debug.Log (string.Format("Caught a {0}, burrito now contains:\n{1}", objectName, CaughtObjectsToString ()));
@@ -112,3 +111,4 @@ public class ObjectCatcher : MonoBehaviour {
 		return GetIngredients ().ingredientSet.GetFullCount ();
 	}
 }
+
