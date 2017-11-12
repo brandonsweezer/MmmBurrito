@@ -352,7 +352,7 @@ public class LevelLoader : MonoBehaviour {
             OrderController.instance.starScore.Add(200);
             OrderController.instance.starScore.Add(300);
             break;
-        }
+    }
 
         Debug.Log (OrderController.instance.OrderListToString ());
 	}
