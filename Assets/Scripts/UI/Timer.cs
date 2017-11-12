@@ -77,9 +77,7 @@ public class Timer : MonoBehaviour {
 		circle.fillAmount = time/maxT;
 		if (time < 0) {
 			time = 0.0f;
-			OrderUI.instance.setLoseMessage("You Lose! No time left!\nPress escape to return to the main menu");
-			OrderUI.instance.setScore (GameController.instance.score.ToString ());
-			OrderUI.instance.gameobjectfields.LoseScreen.gameObject.SetActive (true);
+			StartCoroutine (DisplayLoseScreen ());
             LoggingManager.instance.RecordEvent(7, "Level quit, timer at 0");
             GameController.instance.levelEnd = true;
             GameController.instance.levelComplete = true;
@@ -154,6 +152,13 @@ public class Timer : MonoBehaviour {
 				SignalTimeLeft ();
 			}
 		}
+	}
+
+	IEnumerator DisplayLoseScreen() {
+		yield return new WaitForSeconds (1);
+		OrderUI.instance.setLoseMessage("You Lose! No time left!\nPress escape to return to the main menu");
+		OrderUI.instance.setScore (GameController.instance.score.ToString ());
+		OrderUI.instance.gameobjectfields.LoseScreen.gameObject.SetActive (true);
 	}
 
 	private void signalingTimeEnd() {
