@@ -292,18 +292,9 @@ public class LevelLoader : MonoBehaviour {
             break;
         // 4 ingredients + multiple orders + MMM
         case 4:
-            timer.TimerInit(90);
+            timer.TimerInit(5);
             OrderController.instance.AddOrder(
-                IngredientSet.Ingredients.Tomato, 1,
-                IngredientSet.Ingredients.Cheese, 1
-            );
-            OrderController.instance.AddOrder(
-                IngredientSet.Ingredients.Tomato, 1,
-                IngredientSet.Ingredients.Meatball, 1
-            );
-            OrderController.instance.AddOrder(
-                IngredientSet.Ingredients.Meatball, 1,
-                IngredientSet.Ingredients.Lettuce, 1
+				IngredientSet.Ingredients.Meatball, 1
             );
             GameController.instance.starScore.Clear();
             GameController.instance.starScore.Add(100);
