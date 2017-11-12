@@ -335,6 +335,7 @@ public class OrderUI : MonoBehaviour {
 	}
 
 	public void setGeneralMessage(string msg) {
+		submissionTextTimer = SUBMISSION_TIMER;
 		textfields.generalMessage.text = msg;
 	}
 	public void clearGeneralMessage() {
