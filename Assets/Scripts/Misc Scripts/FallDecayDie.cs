@@ -14,6 +14,7 @@ public class FallDecayDie : MonoBehaviour {
 
 	// Number of seconds it takes to decrease one quality level
 	public float decayRate;
+	private float timeTillDecay;
 
 	// Fall speed vars
 	private static float slowFallSpeed = 7f;
@@ -40,48 +41,34 @@ public class FallDecayDie : MonoBehaviour {
 		rb = GetComponent<Rigidbody>();
 		rb.useGravity = false;
 		slowFalling = true;
+		timeTillDecay = decayRate;
 	}
 
     public int getQuality(){
         return qualityLevel;
     }
 
-	void FixedUpdate() {
-
-		if (slowFalling) {
-			float fallSpeed = slowFallSpeed;
-			// Increase the fall speed if the burrito is on the indicator and barely moving.
-			if (GetComponent<IngredientIndicator> () != null && GetComponent<IngredientIndicator> ().indicator != null && GameController.instance.player != null) {
-				Vector3 playerPos = GameController.instance.player.transform.position;
-				Vector3 indicatorPos = GetComponent<IngredientIndicator> ().indicator.transform.position;
-				float playerSpeed = GameController.instance.player.GetComponent<Rigidbody> ().velocity.magnitude;
-				if (Vector3.Distance (playerPos, indicatorPos) <= TiledFloor.tileHeight/2 * 1.414f && playerSpeed <= playerMaxSpeedForFastFall) {
-					fallSpeed = fastFallSpeed;
-				}
-			}
-
-			rb.velocity = new Vector3 (rb.velocity.x, -fallSpeed, rb.velocity.z);
-		}
-	}
-
-	void Update() {
-		if (qualityLevel == 1 && fliesSystem == null && transform.localScale == Vector3.one && tag == "FallingObject") {
-			fliesSystem = Instantiate (fliesSystemPrefab, transform) as GameObject;
-		}
-	}
-
 	// Start decaying after hitting something
 	void OnCollisionEnter(Collision col) {
-		DisableSlowFall ();
+		if (slowFalling) {
+			DisableSlowFall ();
+		}
+	}
+
+	void OnCollisionStay(Collision col) {
+		if (col.gameObject.GetComponent<PreventDecay> () != null) {
+			decaying = false;
+		}
 	}
 
 	// Sets the quality level to a particular value, and enables the corresponding child model
 	public void SetQualityLevel(int newQualityLevel) {
 		qualityLevel = newQualityLevel;
-
 		if (tag == "FallingObject") {
 			UpdateQualityVisuals ();
 		}
+
+		timeTillDecay = decayRate;
 	}
 
 	void UpdateQualityVisuals() {
@@ -104,20 +91,53 @@ public class FallDecayDie : MonoBehaviour {
 			childToActivate.gameObject.SetActive (true);*/
 	}
 
-	IEnumerator Decay () {
-        GameController.instance.objects.Add(gameObject);
-        while (qualityLevel > 0) {
-			yield return new WaitForSeconds (decayRate);
-			SetQualityLevel(qualityLevel-1);
+
+
+	void FixedUpdate() {
+
+		if (slowFalling) {
+			float fallSpeed = slowFallSpeed;
+			// Increase the fall speed if the burrito is on the indicator and barely moving.
+			if (GetComponent<IngredientIndicator> () != null && GetComponent<IngredientIndicator> ().indicator != null && GameController.instance.player != null) {
+				Vector3 playerPos = GameController.instance.player.transform.position;
+				Vector3 indicatorPos = GetComponent<IngredientIndicator> ().indicator.transform.position;
+				float playerSpeed = GameController.instance.player.GetComponent<Rigidbody> ().velocity.magnitude;
+				if (Vector3.Distance (playerPos, indicatorPos) <= TiledFloor.tileHeight/2 * 1.414f && playerSpeed <= playerMaxSpeedForFastFall) {
+					fallSpeed = fastFallSpeed;
+				}
+			}
+
+			rb.velocity = new Vector3 (rb.velocity.x, -fallSpeed, rb.velocity.z);
 		}
-		//remove from GameController
-		try {
-			GameController.instance.objects.RemoveAt(0);
+	}
+
+	void Update() {
+		// decay
+		if (decaying) {
+			Decay ();
 		}
-		catch (Exception e) {
-			Debug.LogError ("Tried to remove an object from the global object list, but it failed (talk to Joshua about this, and try to replicate). Error: "+e);
+
+		// add flies
+		if (qualityLevel == 1 && fliesSystem == null && transform.localScale == Vector3.one && tag == "FallingObject") {
+			fliesSystem = Instantiate (fliesSystemPrefab, transform) as GameObject;
 		}
-		Destroy (gameObject);
+	}
+
+	private void Decay () {
+		if (qualityLevel > 0) {
+			timeTillDecay -= Time.deltaTime;
+			if (timeTillDecay <= 0) {
+				SetQualityLevel (qualityLevel - 1);
+			}
+		} else {
+			// if quality is 0, remove object
+			try {
+				GameController.instance.objects.RemoveAt (0);
+			} catch (Exception e) {
+				Debug.LogError ("Tried to remove an object from the global object list, but it failed (talk to Joshua about this, and try to replicate). Error: " + e);
+			}
+			Destroy (gameObject);
+		}
 	}
 
 	public void DisableSlowFall() {
@@ -125,7 +145,7 @@ public class FallDecayDie : MonoBehaviour {
 
 		if (!decaying) {
 			decaying = true;
-			StartCoroutine (Decay ());
+			GameController.instance.objects.Add(gameObject);
 			RemoveIngredientIndicator ();
 		}
 
