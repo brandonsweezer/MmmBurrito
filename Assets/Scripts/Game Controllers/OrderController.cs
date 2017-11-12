@@ -6,6 +6,8 @@ public class OrderController : MonoBehaviour {
 	
 	public List<Order> orderList;
 
+    public List<int> starScore;
+
 	// Make this class a singleton
 	public static OrderController instance = null;
 	void Awake () {
