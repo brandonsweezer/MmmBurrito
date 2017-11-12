@@ -15,6 +15,10 @@ public class ObjectSpawn : MonoBehaviour {
 	private float[] spawnRangeZ;
 
 	void Start () {
+		if (fallingObjectList.Length == 0) {
+			return;
+		}
+
 		float xScale = transform.localScale.x;
 		float zScale = transform.localScale.z;
 		spawnRangeX = new float[2]{transform.position.x - xScale/2, transform.position.x + xScale/2};
