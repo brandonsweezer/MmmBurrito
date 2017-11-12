@@ -38,11 +38,10 @@ public class VulnerableToHazards : MonoBehaviour {
 		if (gameObj.tag == "DeadlyHazard" || gameObj.tag == "Chef" || gameObj.tag == "Rat") {
             //TODO: DEATH SOUND
             audSrc.PlayOneShot(death, 1);
-            SpawnController.instance.DestroyAndRespawn ();
+            GameController.instance.dead = true;
             /*OrderUI.instance.ResetAfterDeath();
             OrderUI.instance.CollectionUIUpdate();*/
 			OrderUI.instance.setGeneralMessage ("You have died!");
-            GameController.instance.dead = true;
             if (gameObj.tag == "DeadlyHazard")
             {
                 LoggingManager.instance.RecordEvent(12, "Died to a " + gameObj.tag);

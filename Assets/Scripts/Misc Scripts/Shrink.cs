@@ -17,7 +17,7 @@ public class Shrink : MonoBehaviour
     {
         if (shrinking)
         {
-            if (!gone)
+            if (!gone && gameObject != GameController.instance.player)
             {
                 GameController.instance.objects.RemoveAt(GameController.instance.objects.IndexOf(gameObject));
                 gone = true;

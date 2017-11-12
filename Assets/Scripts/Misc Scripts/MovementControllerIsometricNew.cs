@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class MovementControllerIsometricNew : MonoBehaviour {
 
+    private int deathTimer = 0;
 	// Speed vars
 	private static float maxSpeed = 13f;
 	private static float dashSpeed = 28f;
@@ -91,8 +92,7 @@ public class MovementControllerIsometricNew : MonoBehaviour {
 		} else {
 			velocityChangeRate = velocityChangeRateInAir;
 		}
-	}
-	
+	}	
 
 	void Update () {
 		horizontalMoveInput = 0;
@@ -105,7 +105,15 @@ public class MovementControllerIsometricNew : MonoBehaviour {
         if (GameController.instance.dead)
         {
             //TODO: Put in death animation
-            GameController.instance.dead = false;
+            deathTimer++;
+            transform.Rotate(new Vector3(0, 5f, 0));
+            //transform.localScale -= Vector3.one * 0.07f;
+            if (deathTimer >= 120)
+            {
+                deathTimer = 0;
+                GameController.instance.dead = false;
+                SpawnController.instance.DestroyAndRespawn();
+            }
             return;
         }
 
