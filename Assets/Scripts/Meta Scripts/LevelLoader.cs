@@ -11,7 +11,7 @@ public class LevelLoader : MonoBehaviour {
 	public GameObject endHUD;
 	public GameObject privacy;
 
-    private int maxLevelNumber = 12;
+    private int maxLevelNumber = 22;
 	private int loadingLevelNumber;
 	private bool inMenuHome;
 	private bool inMenuLevelSelect;
@@ -46,6 +46,26 @@ public class LevelLoader : MonoBehaviour {
         GameController.instance.starUnlock.Add(0);
         //Level 12
         GameController.instance.starUnlock.Add(0);
+        //Level 13
+        GameController.instance.starUnlock.Add(0);
+        //Level 14
+        GameController.instance.starUnlock.Add(0);
+        //Level 15
+        GameController.instance.starUnlock.Add(0);
+        //Level 16
+        GameController.instance.starUnlock.Add(0);
+        //Level 17
+        GameController.instance.starUnlock.Add(0);
+        //Level 18
+        GameController.instance.starUnlock.Add(0);
+        //Level 19
+        GameController.instance.starUnlock.Add(0);
+        //Level 20
+        GameController.instance.starUnlock.Add(0);
+        //Level 21
+        GameController.instance.starUnlock.Add(0);
+        //Level 22
+        GameController.instance.starUnlock.Add(0);
     }
 
     public void GoToNextLevel()
@@ -56,6 +76,7 @@ public class LevelLoader : MonoBehaviour {
         //next level
         loadingLevelNumber++;
         GameController.instance.levelEnd = false;
+        //TODOX3: ADD LEVELS FOR AB TESTING HERE
         if (GameController.instance.ABValue == 2 && loadingLevelNumber == 0)
         {
             LoggingManager.instance.RecordLevelStart(loadingLevelNumber+100, "With Powerups");
@@ -72,6 +93,7 @@ public class LevelLoader : MonoBehaviour {
 		//SetPlayCanvas ();
 		loadingLevelNumber = levelNumber;
         GameController.instance.levelEnd = false;
+        //TODO
         if (GameController.instance.ABValue == 2 && loadingLevelNumber == 0)
         {
             LoggingManager.instance.RecordLevelStart(loadingLevelNumber+100, "With Powerups");
@@ -112,6 +134,7 @@ public class LevelLoader : MonoBehaviour {
 	{
         LoggingManager.instance.RecordLevelEnd();
         GameController.instance.levelEnd = false;
+        //TODO
         if (GameController.instance.ABValue == 2 && loadingLevelNumber == 0)
         {
             LoggingManager.instance.RecordLevelStart(loadingLevelNumber+100, "With Powerups");
