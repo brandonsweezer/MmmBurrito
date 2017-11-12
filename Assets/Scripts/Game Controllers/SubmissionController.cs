@@ -19,8 +19,11 @@ public class SubmissionController : MonoBehaviour {
     private AudioSource audSrc;
     private AudioClip rightOrder;
     private AudioClip wrongOrder;
+    private AudioClip mmmHi;
+    private AudioClip mmmLo;
+    private AudioClip mmmMed;
 
-	private Camera mainCam;
+    private Camera mainCam;
 
 	void Awake() {
 		mainCam = Camera.main;
@@ -33,6 +36,9 @@ public class SubmissionController : MonoBehaviour {
         audSrc = gameObject.GetComponent<AudioSource>();
         rightOrder = Resources.Load<AudioClip>("Sound/submit(right)");
         wrongOrder = Resources.Load<AudioClip>("Sound/submit(wrong)");
+        mmmHi = Resources.Load<AudioClip>("Sound/mmm_hi");
+        mmmLo = Resources.Load<AudioClip>("Sound/mmm_lo");
+        mmmMed = Resources.Load<AudioClip>("Sound/mmm_med");
     }
 
 //	public void setTextString (string text) {
@@ -114,6 +120,23 @@ public class SubmissionController : MonoBehaviour {
 		CreateScorePopup (score);
 		Debug.Log("You just got "+score+" score!");
 		Debug.Log("Total Score: "+GameController.instance.score);
+
+        if (score >= 100)
+        {
+            if (Random.value < .33)
+            {
+                audSrc.PlayOneShot(mmmHi);
+            }
+            else if (Random.value >= .33 && Random.value < .66)
+            {
+                audSrc.PlayOneShot(mmmMed);
+            }
+            else if (Random.value >= .66)
+            {
+                audSrc.PlayOneShot(mmmLo);
+            }
+
+        }
 
 		// Log the successful submission
 		LoggingManager.instance.RecordEvent(2, "Submitted ingredients: " + GameController.instance.player.GetComponent<ObjectCatcher>().GetIngredients().ToString()

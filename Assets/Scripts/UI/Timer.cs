@@ -125,6 +125,11 @@ public class Timer : MonoBehaviour {
 			timeDisplayText.color = Color.red;
 		}
 
+        if (time == 0)
+        {
+            audSrc.Stop();
+        }
+
         GameController.instance.gameTime = (int)time;
 
 

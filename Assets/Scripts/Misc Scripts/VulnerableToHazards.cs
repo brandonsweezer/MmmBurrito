@@ -7,8 +7,15 @@ public class VulnerableToHazards : MonoBehaviour {
 	private float invulnerableTimeLeft;
 	ColorFlash flashScript;
 
-	void Start () {
-		invulnerableTimeLeft = 0;
+    AudioClip death;
+    AudioSource audSrc;
+
+    void Start () {
+        death = Resources.Load<AudioClip>("Sound/death");
+
+        audSrc = gameObject.GetComponent<AudioSource>();
+
+        invulnerableTimeLeft = 0;
 		flashScript = GetComponent<ColorFlash> ();
 	}
 
@@ -29,7 +36,9 @@ public class VulnerableToHazards : MonoBehaviour {
 
 		GameObject gameObj = collision.gameObject;
 		if (gameObj.tag == "DeadlyHazard" || gameObj.tag == "Chef" || gameObj.tag == "Rat") {
-			SpawnController.instance.DestroyAndRespawn ();
+            //TODO: DEATH SOUND
+            audSrc.PlayOneShot(death, 1);
+            SpawnController.instance.DestroyAndRespawn ();
             /*OrderUI.instance.ResetAfterDeath();
             OrderUI.instance.CollectionUIUpdate();*/
 			OrderUI.instance.setGeneralMessage ("You have died!");
@@ -46,7 +55,7 @@ public class VulnerableToHazards : MonoBehaviour {
             {
                 LoggingManager.instance.RecordEvent(13, "Died to a " + gameObj.tag);
             }
-            //TODO: DEATH SOUND
+            
         }
     }
 

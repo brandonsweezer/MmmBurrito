@@ -34,7 +34,7 @@ public class SoundController : MonoBehaviour {
         string colTag = collision.gameObject.tag;
         if (colTag == "Terrain")
         {
-            audSrc.PlayOneShot(bump,.3f);
+            
 
         }
         if (colTag == "Trash")
