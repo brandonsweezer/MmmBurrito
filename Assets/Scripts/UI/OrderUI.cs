@@ -79,14 +79,14 @@ public class OrderUI : MonoBehaviour {
 	private Dictionary<IngredientSet.Ingredients,Sprite> spriteDict_full;
 	private Dictionary<Sprite,Sprite> spriteDict_GlowtoFull;
 
-	private const float SUBMISSION_TIMER = 1.5f;
+	private const float SUBMISSION_TIMER = 2f;
     private float submissionTextTimer = SUBMISSION_TIMER;
 //	private static float SUBMISSION_TIMER2 = 3f;
 //	private float start; 
 //	private float submissionTextTimer2 = SUBMISSION_TIMER2;
 
 
-	private const float QUALITY_TIMER = 1.5f;
+	private const float QUALITY_TIMER = 2f;
 	private float qualityTextTimer = QUALITY_TIMER;
 
 	private int qualitySum; 
@@ -237,8 +237,8 @@ public class OrderUI : MonoBehaviour {
 		textfields.levelOrderList.text = "";
 		textfields.currentBurrito.text = "";
 
-		setGeneralMessage("");
-		setQualityMessage ("");
+		clearGeneralMessage ();
+		clearQualityMessage ();
 		setLoseMessage ("");
 		setWinMessage ("");
 
@@ -303,8 +303,7 @@ public class OrderUI : MonoBehaviour {
 	void UpdateUIMessageTimers () {
 		// display submission text for SUBMISSION_TIMER ms
 		if (submissionTextTimer <= 0) {
-			setGeneralMessage ("");
-			submissionTextTimer = SUBMISSION_TIMER;
+			clearGeneralMessage ();
 		}
 		else {
 			submissionTextTimer-= Time.deltaTime;
@@ -312,8 +311,7 @@ public class OrderUI : MonoBehaviour {
 
 		// display quality text for QUALITY_TIMER ms
 		if (qualityTextTimer <= 0) {
-			setQualityMessage ("");
-			qualityTextTimer = QUALITY_TIMER;
+			clearQualityMessage ();
 		}
 		else {
 			qualityTextTimer-= Time.deltaTime;
@@ -338,10 +336,18 @@ public class OrderUI : MonoBehaviour {
 	public void setGeneralMessage(string msg) {
 		textfields.generalMessage.text = msg;
 	}
-
+	public void clearGeneralMessage() {
+		submissionTextTimer = 0;
+		textfields.generalMessage.text = "";
+	}
 
 	public void setQualityMessage(string msg) {
+		qualityTextTimer = QUALITY_TIMER;
 		textfields.qualityMessage.text = msg;
+	}
+	public void clearQualityMessage() {
+		qualityTextTimer = 0;
+		textfields.qualityMessage.text = "";
 	}
 
 	public void setOrderCount(string msg) {

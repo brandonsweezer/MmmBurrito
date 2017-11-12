@@ -15,8 +15,27 @@ public class UIAnimationManager : MonoBehaviour {
 	void Awake() {
 		rect = GetComponent<RectTransform> ();
 		defaultPos = rect.anchoredPosition;
-		moveKey = "Move_" + name;
-		scaleKey = "Scale_" + name;
+		GetNewKeys ();
+	}
+
+	public void GetNewKeys() {
+		moveKey = "Move_" + name + Time.time;
+		scaleKey = "Scale_" + name + Time.time;
+	}
+
+	public void ResetToInitialValues() {
+		rect.anchoredPosition = defaultPos;
+		rect.localScale = Vector3.one;
+	}
+
+	public void SetValues(Vector2 targetPos, Vector3 scale) {
+		rect.anchoredPosition = targetPos;
+		rect.localScale = scale;
+	}
+
+	public void TweenToInitialValues(float duration = 1f, Action callback = null) {
+		Move (defaultPos, duration, callback);
+		Scale (defaultPos, duration, null);
 	}
 
 	// MOVE FUNCTIONS
@@ -27,11 +46,11 @@ public class UIAnimationManager : MonoBehaviour {
 			}, (t) => { if (callback != null) { callback(); } }
 		);
 	}
-	public void MoveToPosAndBack(Vector2 targetPos, float delay, float tweenDuration1, float tweenDuration2) {
+	public void MoveToPosAndBack(Vector2 targetPos, float delay, float tweenDuration1, float tweenDuration2, Action finalCallback = null) {
 		Vector2 startPos = rect.anchoredPosition;
 		Action callback = () => {
 			ExecuteAfterDelay (delay, () => { 
-				Move (startPos, tweenDuration2); 
+				Move (startPos, tweenDuration2, finalCallback); 
 			});
 		};
 		Move(targetPos, tweenDuration1, callback);
@@ -45,11 +64,11 @@ public class UIAnimationManager : MonoBehaviour {
 			}, (t) => { if (callback != null) { callback(); } }
 		);
 	}
-	public void ScaleToValueAndBack(Vector3 targetScale, float delay, float tweenDuration1, float tweenDuration2) {
+	public void ScaleToValueAndBack(Vector3 targetScale, float delay, float tweenDuration1, float tweenDuration2, Action finalCallback = null) {
 		Vector3 startScale = rect.localScale;
 		Action callback = () => {
 			ExecuteAfterDelay (delay, () => { 
-				Scale (startScale, tweenDuration2); 
+				Scale (startScale, tweenDuration2, finalCallback); 
 			});
 		};
 		Scale(targetScale, tweenDuration1, callback);
@@ -63,5 +82,10 @@ public class UIAnimationManager : MonoBehaviour {
 	IEnumerator ExecuteAfterDelayRoutine(float delay, Action callback) {
 		yield return new WaitForSeconds(delay);
 		callback();
+	}
+
+	public void StopAllAnimations() {
+		DigitalRuby.Tween.TweenFactory.RemoveTweenKey(scaleKey, DigitalRuby.Tween.TweenStopBehavior.DoNotModify);
+		DigitalRuby.Tween.TweenFactory.RemoveTweenKey(moveKey, DigitalRuby.Tween.TweenStopBehavior.DoNotModify);
 	}
 }

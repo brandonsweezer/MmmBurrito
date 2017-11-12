@@ -7,14 +7,23 @@ public class Conveyor : MonoBehaviour {
     Vector3 direction;
     public float speed;
 	private float defaultSpeed = 0.2f;
+    private Renderer rend;
 
     // Use this for initialization
     void Start () {
-        direction = transform.forward;
+        direction = transform.forward.normalized;
 		if (speed == 0) {
 			speed = defaultSpeed;
 		}
+        rend = GetComponent<Renderer>();
+        
 	}
+
+    private void Update() 
+    {
+        float offset = Time.time * speed * 5.0f;
+        rend.material.mainTextureOffset = new Vector2(0, offset); 
+    }
 
     /** Handle collisions with player objects */
     void OnCollisionStay(Collision collision)
