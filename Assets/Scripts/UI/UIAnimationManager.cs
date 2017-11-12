@@ -19,6 +19,11 @@ public class UIAnimationManager : MonoBehaviour {
 		scaleKey = "Scale_" + name;
 	}
 
+	public void ResetToInitialValues() {
+		rect.anchoredPosition = defaultPos;
+		rect.localScale = Vector3.one;
+	}
+
 	// MOVE FUNCTIONS
 	public void Move(Vector2 targetPos, float duration = 1f, Action callback = null) {
 		gameObject.Tween (moveKey, rect.anchoredPosition, targetPos, duration, TweenScaleFunctions.QuadraticEaseInOut, (t) => 
@@ -63,5 +68,10 @@ public class UIAnimationManager : MonoBehaviour {
 	IEnumerator ExecuteAfterDelayRoutine(float delay, Action callback) {
 		yield return new WaitForSeconds(delay);
 		callback();
+	}
+
+	public void StopAllAnimations() {
+		DigitalRuby.Tween.TweenFactory.RemoveTweenKey(scaleKey, DigitalRuby.Tween.TweenStopBehavior.Complete);
+		DigitalRuby.Tween.TweenFactory.RemoveTweenKey(moveKey, DigitalRuby.Tween.TweenStopBehavior.Complete);
 	}
 }

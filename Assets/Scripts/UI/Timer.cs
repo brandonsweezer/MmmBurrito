@@ -21,6 +21,8 @@ public class Timer : MonoBehaviour {
 	private string timeDisplay;
 	public Text timeDisplayText;
 
+	private UIAnimationManager animManager;
+
 
 	private bool running;
 
@@ -38,6 +40,10 @@ public class Timer : MonoBehaviour {
 
     bool thirty;
     bool ten;
+
+	void Awake() {
+		animManager = TimerObject.GetComponent<UIAnimationManager> ();
+	}
 
     void Start () {
 		running = false;
@@ -60,6 +66,8 @@ public class Timer : MonoBehaviour {
 		maxT = maxTime;
 		signalingTimeLeft = false;
 		timeLeftWarningContainer.SetActive (false);
+		animManager.StopAllAnimations ();
+		animManager.ResetToInitialValues ();
 	}
 
 	public void startTimer () {
@@ -145,7 +153,6 @@ public class Timer : MonoBehaviour {
 	// Animates the clock to the middle of the screen, and then back to its default position.
 	private void SignalTimeLeft() {
 		signalingTimeLeft = true;
-		UIAnimationManager animManager = TimerObject.GetComponent<UIAnimationManager> ();
 		Vector2 targetPos = new Vector2 (-Screen.width / 2, -Screen.height * 0.27f);
 		Vector3 targetScale = new Vector3(1.5f, 1.5f, 1.5f);
 		animManager.MoveToPosAndBack    (targetPos,   1.75f, 0.75f, 0.5f);
