@@ -20,7 +20,8 @@ public class TextFields
 	public Text winMessage;
 	public Text loseMessage;
 
-	public Text Score;
+	public Text WinScore;
+	public Text LoseScore;
 	public Text GameScore;
 }
 
@@ -359,8 +360,9 @@ public class OrderUI : MonoBehaviour {
 	}
 
 	public void setScore(string msg) {
-		textfields.Score.text = msg;
+		textfields.WinScore.text = msg;
 		textfields.GameScore.text = msg;
+		textfields.LoseScore.text = msg;
 	}
 
 	// Update is called once per frame
