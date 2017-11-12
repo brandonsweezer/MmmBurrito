@@ -29,6 +29,8 @@ public class MovementControllerIsometricNew : MonoBehaviour {
 	private static float rampBiasAngle = 10; // After what angle from a flat ground are we considering the ground to be a ramp.
 	private static float speedUpRampIncreaseFactor = 0.3f;
 
+	private Vector3 lastVelocity = new Vector3();
+
 	// Rotation of 45 degrees for isommetric view
 	private static Quaternion viewpointRotation = Quaternion.AngleAxis (-45, Vector3.up);
 
@@ -95,7 +97,10 @@ public class MovementControllerIsometricNew : MonoBehaviour {
 		verticalMoveInput = 0;
 
 		// Only read input if we're still playing the level
-		if (GameController.instance.levelComplete) {
+//		if (GameController.instance.levelComplete) {
+//			return;
+//		}
+		if (GameController.instance.gamestate!=GameController.GameState.Play) {
 			return;
 		}
         if (GameController.instance.dead)
@@ -136,7 +141,26 @@ public class MovementControllerIsometricNew : MonoBehaviour {
 
 	void FixedUpdate () {
 		// Only do anything if we're still playing the level
-		if (GameController.instance.levelComplete) {
+//		if (GameController.instance.levelComplete) {
+//			return;
+//		}
+//		if (GameController.instance.gamestate!=GameController.GameState.Play) {
+//			return;
+//		}
+
+		if (GameController.instance.gamestate != GameController.GameState.Play) {
+			if (!rb.IsSleeping ()) {
+				if (lastVelocity == Vector3.zero) {
+					lastVelocity = rb.velocity;
+				}
+				rb.Sleep ();
+			}
+			return;
+		}
+		if (rb.IsSleeping()) {
+			rb.WakeUp ();
+			rb.velocity = lastVelocity;
+			lastVelocity = Vector3.zero;
 			return;
 		}
 

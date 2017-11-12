@@ -33,10 +33,27 @@ public class ObjectSpawn : MonoBehaviour {
 
 	IEnumerator SpawnFallingObjects () {
 		while (true) {
-			while (GameController.instance.levelComplete) {
+//			while (GameController.instance.levelComplete) {
+//				yield return null;
+//			}
+			while (GameController.instance.gamestate!=GameController.GameState.Play) {
 				yield return null;
 			}
+				
 
+			// Determine Position
+			Vector3 spawnPosition = new Vector3 (Random.Range (spawnRangeX[0], spawnRangeX[1]), maxSpawnHeight, Random.Range (spawnRangeZ[0], spawnRangeZ[1]));
+			// Snap to tiled position
+			spawnPosition.x = Mathf.Round(spawnPosition.x / TiledFloor.tileWidth) * TiledFloor.tileWidth;
+			spawnPosition.z = Mathf.Round(spawnPosition.z / TiledFloor.tileHeight) * TiledFloor.tileHeight;
+			// Offset position a certain distance above ground below that position
+			RaycastHit hit;
+			bool raycast = RaycastUntilTerrain(spawnPosition, Vector3.down, out hit, maxSpawnHeight);
+			if (!raycast) {
+				// Debug.LogError ("Oops! An object spawn region is hovering over the void! Spawning object at height "+maxSpawnHeight);
+			} else {
+				spawnPosition.y = hit.point.y + spawnYOffset;
+			}
 			SpawnObject ();
 
 			yield return new WaitForSeconds (spawnInterval);

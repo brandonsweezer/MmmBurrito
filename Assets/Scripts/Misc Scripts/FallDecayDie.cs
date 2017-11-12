@@ -47,9 +47,11 @@ public class FallDecayDie : MonoBehaviour {
     public int getQuality(){
         return qualityLevel;
     }
+		
 
 	// Start decaying after hitting something
 	void OnCollisionEnter(Collision col) {
+
 		if (slowFalling) {
 			DisableSlowFall ();
 		}
@@ -94,6 +96,12 @@ public class FallDecayDie : MonoBehaviour {
 
 
 	void FixedUpdate() {
+
+		if (GameController.instance.gamestate != GameController.GameState.Play) {
+			rb.Sleep ();
+			return;
+		}
+		rb.WakeUp ();
 
 		if (slowFalling) {
 			float fallSpeed = slowFallSpeed;

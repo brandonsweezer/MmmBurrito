@@ -30,10 +30,12 @@ public class Rats : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (GameController.instance.levelComplete)
-        {
-            return;
-        }
+//        if (GameController.instance.levelComplete){
+//            return;
+//        }
+		if (GameController.instance.gamestate!=GameController.GameState.Play) {
+			return;
+		}
         if (currentTimer < 0)
         {
             //if outOfRange, go back home
@@ -120,4 +122,17 @@ public class Rats : MonoBehaviour
             LoggingManager.instance.RecordEvent(14, "Rat stole a " + gameObj.name);
         }
     }
+
+	void FixedUpdate() {
+		Rigidbody rb = transform.GetComponent<Rigidbody>();
+		if (GameController.instance.gamestate != GameController.GameState.Play) {
+			if (!rb.IsSleeping ()) {
+				rb.Sleep ();
+			}
+			return;
+		}
+		if (rb.IsSleeping()) {
+			rb.WakeUp ();
+		}
+	}
 }

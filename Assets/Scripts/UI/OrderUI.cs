@@ -23,6 +23,7 @@ public class TextFields
 	public Text loseMessage;
 
 	public Text WinScore;
+	public Text WinTime;
 	public Text LoseScore;
 	public Text GameScore;
 
@@ -109,6 +110,8 @@ public class OrderUI : MonoBehaviour {
 			Destroy (this);
 		}
 	}
+
+
 	void Start() {
 		initializeTickets = false;
 		ticketHeight = gameobjectfields.TicketHUD.GetComponent<RectTransform> ().rect.height;
@@ -365,6 +368,10 @@ public class OrderUI : MonoBehaviour {
 
 	public void setOrderCountText(string msg) {
 		textfields.orderTotalText.text = msg;
+	}
+
+	public void setWinTime(string msg) {
+		textfields.WinTime.text = msg;
 	}
 
 	public void setScore(string msg) {
