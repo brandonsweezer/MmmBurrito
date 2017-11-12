@@ -20,10 +20,12 @@ public class WalkingChef : MonoBehaviour{
     // Update is called once per frame
     void Update()
     {
-        if (GameController.instance.levelComplete)
-        {
-            return;
-        }
+//        if (GameController.instance.levelComplete){
+//            return;
+//        }
+		if (GameController.instance.gamestate!=GameController.GameState.Play) {
+			return;
+		}
         if (waitTime <= 0)
         {
             if (waitTime == 0)
@@ -56,4 +58,17 @@ public class WalkingChef : MonoBehaviour{
             waitTime--;
         }
     }
+
+	void FixedUpdate() {
+		Rigidbody rb = transform.GetComponent<Rigidbody>();
+		if (GameController.instance.gamestate != GameController.GameState.Play) {
+			if (!rb.IsSleeping ()) {
+				rb.Sleep ();
+			}
+			return;
+		}
+		if (rb.IsSleeping()) {
+			rb.WakeUp ();
+		}
+	}
 }

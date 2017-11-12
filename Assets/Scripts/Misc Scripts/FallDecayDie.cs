@@ -47,7 +47,11 @@ public class FallDecayDie : MonoBehaviour {
     }
 
 	void FixedUpdate() {
-
+		if (GameController.instance.gamestate != GameController.GameState.Play) {
+			rb.Sleep ();
+			return;
+		}
+		rb.WakeUp ();
 		if (slowFalling) {
 			float fallSpeed = slowFallSpeed;
 			// Increase the fall speed if the burrito is on the indicator and barely moving.

@@ -7,6 +7,15 @@ public class GameController : MonoBehaviour {
 	public GameObject player;
 
 	public bool levelComplete;
+
+	public enum GameState {
+		Menu,
+		Play,
+		Win,
+		Lose,
+		Pause
+	};
+
 	public int currentLevel;
 	public int score;
 
@@ -27,6 +36,8 @@ public class GameController : MonoBehaviour {
 
     //number of total stars needed to unlock a level
     public List<int> starUnlock;
+
+	public GameState gamestate = GameState.Menu; 
 
     // Make this class a singleton
     public static GameController instance = null;

@@ -22,7 +22,10 @@ public class TrashingController : MonoBehaviour {
 
 
 	void Update () {
-		if (GameController.instance.levelComplete) {
+//		if (GameController.instance.levelComplete) {
+//			return;
+//		}
+		if (GameController.instance.gamestate !=GameController.GameState.Play) {
 			return;
 		}
 

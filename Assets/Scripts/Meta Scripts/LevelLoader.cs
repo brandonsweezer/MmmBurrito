@@ -135,10 +135,12 @@ public class LevelLoader : MonoBehaviour {
 	public void GoToPause () {
 		SetPauseCanvas();
 		OrderUI.instance.textfields.currentLevel.text = "Level "+GameController.instance.currentLevel;
+		GameController.instance.gamestate = GameController.GameState.Pause;
 	}
 
 	public void Resume() {
 		SetResumeCanvas();
+		GameController.instance.gamestate = GameController.GameState.Play;
 	}
 
 	public void ReplayLevel()
@@ -177,12 +179,14 @@ public class LevelLoader : MonoBehaviour {
 		if (scene.name.Contains ("Level_")) {
 			// Loaded a level.
 			SetPlayCanvas ();
+			GameController.instance.gamestate = GameController.GameState.Play;
 			InitializeLevel (loadingLevelNumber);
 		}
-//		} else {
-//			// Loaded a menu.
-//			SetHomeCanvas ();
-//		}
+		else {
+			// Loaded a menu.
+			//SetHomeCanvas ();
+			GameController.instance.gamestate = GameController.GameState.Menu;
+		}
 	}
 
 	void SetHomeCanvas () {
@@ -248,7 +252,9 @@ public class LevelLoader : MonoBehaviour {
 	// Setup the level variables for the specified level.
 	void SetupLevelVars (int levelNumber) {
 		
-		GameController.instance.levelComplete = false;
+		//GameController.instance.levelComplete = false;
+		GameController.instance.gamestate = GameController.GameState.Play;
+
 		GameController.instance.SetScore(0);
 		OrderController.instance.orderList.Clear ();
 		Timer timer = GetComponent<Timer> ();
@@ -458,16 +464,38 @@ public class LevelLoader : MonoBehaviour {
 	}
 
 	void Update () {
-        if (Input.GetKeyDown(KeyCode.Escape) && !inMenuHome) {
+//        if (Input.GetKeyDown(KeyCode.Escape) && !inMenuHome) {
+//			GoToPause();
+//        }
+//        else if (Input.GetKeyDown(KeyCode.Return) && !inMenuHome && GameController.instance.levelComplete)
+//        {
+//            if (loadingLevelNumber != maxLevelNumber)
+//            {
+//                GoToNextLevel();
+//            }
+//        }
+		if (Input.GetKeyDown(KeyCode.P) && GameController.instance.gamestate==GameController.GameState.Play) {
 			GoToPause();
-        }
-        else if (Input.GetKeyDown(KeyCode.Return) && !inMenuHome && GameController.instance.levelComplete)
-        {
-            if (loadingLevelNumber != maxLevelNumber)
-            {
-                GoToNextLevel();
-            }
-        }
+		}
+		else if (Input.GetKeyDown(KeyCode.P) && GameController.instance.gamestate==GameController.GameState.Pause) {
+			Resume ();
+		}
+		else if (Input.GetKeyDown(KeyCode.Escape) && 
+			(GameController.instance.gamestate==GameController.GameState.Win || GameController.instance.gamestate==GameController.GameState.Lose)) {
+			GoToMenuLevelSelect (); 
+		}
+		else if (Input.GetKeyDown(KeyCode.R) && 
+			(GameController.instance.gamestate!=GameController.GameState.Menu || GameController.instance.gamestate!=GameController.GameState.Pause)) {
+			ReplayLevel ();
+		}
+		else if (Input.GetKeyDown(KeyCode.Return) && GameController.instance.gamestate==GameController.GameState.Win)
+		{
+			if (loadingLevelNumber != maxLevelNumber)
+			{
+				GoToNextLevel();
+			}
+		}
+
 	}
 
 

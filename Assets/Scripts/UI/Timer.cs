@@ -24,6 +24,18 @@ public class Timer : MonoBehaviour {
 
 	private bool running;
 
+
+	// Make this class a singleton
+	public static Timer instance = null;
+	void Awake () {
+		if (instance == null) {
+			instance = this;
+		} else if (instance != this) {
+			Destroy (this);
+		}
+		animManager = TimerObject.GetComponent<UIAnimationManager> ();
+	}
+
 	// showing time left
 	private bool signalingTimeLeft;
 	private float[] timeLeftSignals = {30f, 10f, 0f};
@@ -34,9 +46,9 @@ public class Timer : MonoBehaviour {
     bool thirty;
     bool ten;
 
-	void Awake() {
-		animManager = TimerObject.GetComponent<UIAnimationManager> ();
-	}
+//	void Awake() {
+//		animManager = TimerObject.GetComponent<UIAnimationManager> ();
+//	}
 
     void Start () {
 		running = false;
@@ -69,7 +81,10 @@ public class Timer : MonoBehaviour {
 
 	public void TimerUpdate () {
 		// only update timer if level is in progress
-		if (GameController.instance.levelComplete) {
+//		if (GameController.instance.levelComplete) {
+//			return;
+//		}
+		if (GameController.instance.gamestate!=GameController.GameState.Play) {
 			return;
 		}
 
@@ -79,8 +94,12 @@ public class Timer : MonoBehaviour {
 			time = 0.0f;
 			StartCoroutine (DisplayLoseScreen ());
             LoggingManager.instance.RecordEvent(7, "Level quit, timer at 0");
-            GameController.instance.levelEnd = true;
-            GameController.instance.levelComplete = true;
+
+			GameController.instance.gamestate = GameController.GameState.Lose;
+//            GameController.instance.levelEnd = true;
+//            GameController.instance.levelComplete = true;
+
+
 		}
 		bool timeEnding = false;
 		totalSeconds = Mathf.Ceil (time);
@@ -185,6 +204,10 @@ public class Timer : MonoBehaviour {
 
 	public float getTime() {
 		return totalSeconds;
+	}
+
+	public string getDisplayTime() {
+		return timeDisplay;
 	}
 
 	private bool LevelJustStarted() {

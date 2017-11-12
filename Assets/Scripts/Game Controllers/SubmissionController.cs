@@ -72,7 +72,11 @@ public class SubmissionController : MonoBehaviour {
 
 		SubmitBurrito (burrito);
 
-		if (GameController.instance.levelComplete) {
+//		if (GameController.instance.levelComplete) {
+//			SpawnController.instance.DestroyBurrito ();
+//		}
+
+		if (GameController.instance.gamestate != GameController.GameState.Play) {
 			SpawnController.instance.DestroyBurrito ();
 		}
 	}
@@ -161,8 +165,14 @@ public class SubmissionController : MonoBehaviour {
 		OrderUI.instance.setScore (GameController.instance.score.ToString ());
 		LoggingManager.instance.RecordEvent (7, "Level quit, timer at " + GameController.instance.gameTime);
 		LoggingManager.instance.RecordEvent (8, "Won level, timer at " + GameController.instance.gameTime);
-		GameController.instance.levelEnd = true;
-		GameController.instance.levelComplete = true;
+
+		GameController.instance.gamestate = GameController.GameState.Win;
+		OrderUI.instance.setWinTime(Timer.instance.getDisplayTime ());
+//		GameController.instance.levelEnd = true;
+//		GameController.instance.levelComplete = true;
+
+
+
 		// save level
 		SaveManager.instance.ProcessLevelCompletion(GameController.instance.currentLevel, GameController.instance.score);
 	}
