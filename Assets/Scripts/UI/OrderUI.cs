@@ -25,6 +25,8 @@ public class TextFields
 	public Text WinScore;
 	public Text LoseScore;
 	public Text GameScore;
+
+	public Text currentLevel;
 }
 
 [System.Serializable]

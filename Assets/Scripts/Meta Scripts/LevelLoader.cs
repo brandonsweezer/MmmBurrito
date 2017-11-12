@@ -10,6 +10,8 @@ public class LevelLoader : MonoBehaviour {
 	public GameObject canvasLevelSelect;
 	public GameObject endHUD;
 	public GameObject privacy;
+	public GameObject pause;
+
 
     private int maxLevelNumber = 12;
 	private int loadingLevelNumber;
@@ -68,6 +70,15 @@ public class LevelLoader : MonoBehaviour {
 		SceneManager.LoadScene("Menu");
 	}
 
+	public void GoToPause () {
+		SetPauseCanvas();
+		OrderUI.instance.textfields.currentLevel.text = "Level "+GameController.instance.currentLevel;
+	}
+
+	public void Resume() {
+		SetResumeCanvas();
+	}
+
 	public void ReplayLevel()
 	{
         LoggingManager.instance.RecordLevelEnd();
@@ -108,6 +119,7 @@ public class LevelLoader : MonoBehaviour {
 		canvasLevelSelect.SetActive (false);
 		endHUD.SetActive (false);
 		privacy.SetActive (false);
+		pause.SetActive (false);
 		canvasHome.SetActive (true);
 	}
 
@@ -116,6 +128,7 @@ public class LevelLoader : MonoBehaviour {
 		canvasHome.SetActive (false);
 		privacy.SetActive (false);
 		endHUD.SetActive (false);
+		pause.SetActive (false);
 		canvasLevelSelect.SetActive (true);
 	}
 
@@ -123,6 +136,7 @@ public class LevelLoader : MonoBehaviour {
 		canvasHome.SetActive (false);
 		canvasLevelSelect.SetActive (false);
 		privacy.SetActive (false);
+		pause.SetActive (false);
 		endHUD.SetActive (true);
 		canvasHUD.SetActive (true);
 	}
@@ -132,9 +146,17 @@ public class LevelLoader : MonoBehaviour {
 		canvasLevelSelect.SetActive (false);
 		endHUD.SetActive (false);
 		canvasHUD.SetActive (false);
+		pause.SetActive (false);
 		privacy.SetActive (true);
 	}
 
+	void SetPauseCanvas () {
+		pause.SetActive (true);
+	}
+
+	void SetResumeCanvas () {
+		pause.SetActive (false);
+	}
 
 
 	void InitializeLevel (int levelNumber) {
@@ -359,7 +381,7 @@ public class LevelLoader : MonoBehaviour {
 
 	void Update () {
         if (Input.GetKeyDown(KeyCode.Escape) && !inMenuHome) {
-            GoToMenuLevelSelect();
+			GoToPause();
         }
         else if (Input.GetKeyDown(KeyCode.Return) && !inMenuHome && GameController.instance.levelComplete)
         {
