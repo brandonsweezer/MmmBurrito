@@ -78,15 +78,15 @@ public class OrderUI : MonoBehaviour {
 	private Dictionary<IngredientSet.Ingredients,Sprite> spriteDict_full;
 	private Dictionary<Sprite,Sprite> spriteDict_GlowtoFull;
 
-    private static int SUBMISSION_TIMER = 150;
-    private int submissionTextTimer = SUBMISSION_TIMER;
+	private const float SUBMISSION_TIMER = 1.5f;
+    private float submissionTextTimer = SUBMISSION_TIMER;
 //	private static float SUBMISSION_TIMER2 = 3f;
 //	private float start; 
 //	private float submissionTextTimer2 = SUBMISSION_TIMER2;
 
 
-	private static int QUALITY_TIMER = 150;
-	private int qualityTextTimer = QUALITY_TIMER;
+	private const float QUALITY_TIMER = 1.5f;
+	private float qualityTextTimer = QUALITY_TIMER;
 
 	private int qualitySum; 
 
@@ -152,11 +152,11 @@ public class OrderUI : MonoBehaviour {
 			int qualitySum = objectCatcher.GetIngredients ().getSumOfQualities ();
 
 			gameobjectfields.CollectionHUD.transform.GetChild (0).GetChild (0).GetComponent<Image> ().color = new Color (1f, 1f, 1f, 1f);
-			float qualityAverage = ((float)qualitySum) / (gameobjectfields.CollectionHUD.transform.childCount - 2f);
+			float qualityAverage = ((float)qualitySum) / (objectCatcher.GetNumCaughtIngredients());
 
-			if (qualityAverage >= 2.4f) {
+			if (qualityAverage > 1+2/3f) {
 				gameobjectfields.CollectionHUD.transform.GetChild (0).GetChild (0).GetComponent<Image> ().sprite = (Sprite) gameobjectfields.QualitySprites.GetValue (0);
-			} else if (qualityAverage >= 1.4f) {
+			} else if (qualityAverage >= 1+1/3f) {
 				gameobjectfields.CollectionHUD.transform.GetChild (0).GetChild (0).GetComponent<Image> ().sprite = (Sprite) gameobjectfields.QualitySprites.GetValue (1);
 			} else {
 				gameobjectfields.CollectionHUD.transform.GetChild (0).GetChild (0).GetComponent<Image> ().sprite = (Sprite) gameobjectfields.QualitySprites.GetValue (2);
@@ -197,12 +197,9 @@ public class OrderUI : MonoBehaviour {
 			objectCatcherScript.GetIngredients().GetNthIngredient(i, out ingredientType, out quality);
 			icon.GetComponent<Image> ().sprite = IngredientSet.ingredientSprites_full [ingredientType];
 			// set quality tint
-			if (quality == 3) {
+			if (quality == 2) {
 				icon.GetComponent<Image> ().color = new Color (1f, 1f, 1f, 1f);
 				setQualityMessage ("Mmm!!!");
-			} else if (quality == 2) {
-				icon.GetComponent<Image> ().color = new Color (.64f, .83f, .0f, 1f);
-				setQualityMessage ("Okay");
 			} else {
 				icon.GetComponent<Image> ().color = new Color (.38f, .71f, .28f, 1f);
 				setQualityMessage ("Bleh!!");
@@ -298,29 +295,29 @@ public class OrderUI : MonoBehaviour {
 
 	void UpdateUIMessageTimers () {
 		// display submission text for SUBMISSION_TIMER ms
-		if (submissionTextTimer == 0) {
+		if (submissionTextTimer <= 0) {
 			setGeneralMessage ("");
 			submissionTextTimer = SUBMISSION_TIMER;
 		}
 		else {
-			submissionTextTimer--;
+			submissionTextTimer-= Time.deltaTime;
 		}
 
 		// display quality text for QUALITY_TIMER ms
-		if (qualityTextTimer == 0) {
+		if (qualityTextTimer <= 0) {
 			setQualityMessage ("");
 			qualityTextTimer = QUALITY_TIMER;
 		}
 		else {
-			qualityTextTimer--;
+			qualityTextTimer-= Time.deltaTime;
 		}
 	}
 
 
-//	void Trash () {
-//		TrashingController.instance.
-//	}
-//
+	public void Trash () {
+		TrashingController.instance.Trash ();
+	}
+
 
 
 	public void setWinMessage(string msg) {

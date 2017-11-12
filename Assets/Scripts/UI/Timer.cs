@@ -146,8 +146,8 @@ public class Timer : MonoBehaviour {
 	private void SignalTimeLeft() {
 		signalingTimeLeft = true;
 		UIAnimationManager animManager = TimerObject.GetComponent<UIAnimationManager> ();
-		Vector2 targetPos = new Vector2 (-Screen.width / 2, -Screen.height / 2);
-		Vector3 targetScale = new Vector3(1.7f, 1.7f, 1f);
+		Vector2 targetPos = new Vector2 (-Screen.width / 2, -Screen.height * 0.27f);
+		Vector3 targetScale = new Vector3(1.5f, 1.5f, 1.5f);
 		animManager.MoveToPosAndBack    (targetPos,   1.75f, 0.75f, 0.5f);
 		animManager.ScaleToValueAndBack (targetScale, 1.75f, 0.75f, 0.5f);
 	}

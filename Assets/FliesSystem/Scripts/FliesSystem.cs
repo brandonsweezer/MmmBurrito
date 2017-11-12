@@ -35,8 +35,8 @@ public class FliesSystem : MonoBehaviour
 
 	public ORIENTATION 	orientation	= ORIENTATION.UpDown;
 
-	[MinMaxSliderAttribute(1f,10f)] public Vector2 randomForward = new Vector2(1f,2f);
-	[MinMaxSliderAttribute(1f,10f)] public Vector2 randomAngular = new Vector2(1f,2f);
+	public Vector2 randomForward = new Vector2(1f,2f);
+	public Vector2 randomAngular = new Vector2(1f,2f);
 
 	private List<Fly> 	list;
 	private Transform 	thisTransform;
