@@ -11,7 +11,7 @@ public class LevelLoader : MonoBehaviour {
 	public GameObject endHUD;
 	public GameObject privacy;
 
-    private int maxLevelNumber = 6;
+    private int maxLevelNumber = 12;
 	private int loadingLevelNumber;
 	private bool inMenuHome;
 	private bool inMenuLevelSelect;
@@ -170,6 +170,10 @@ public class LevelLoader : MonoBehaviour {
             OrderController.instance.AddOrder(
                 IngredientSet.Ingredients.Tomato, 1
             );
+            OrderController.instance.starScore.Clear();
+            OrderController.instance.starScore.Add(100);
+            OrderController.instance.starScore.Add(200);
+            OrderController.instance.starScore.Add(300);
             break;
         // 2 ingredients
         case 2:
@@ -178,6 +182,10 @@ public class LevelLoader : MonoBehaviour {
                 IngredientSet.Ingredients.Tomato, 1,
                 IngredientSet.Ingredients.Cheese, 1
             );
+            OrderController.instance.starScore.Clear();
+            OrderController.instance.starScore.Add(100);
+            OrderController.instance.starScore.Add(200);
+            OrderController.instance.starScore.Add(300);
             break;
         // 3 ingredients + dash
         case 3:
@@ -187,6 +195,10 @@ public class LevelLoader : MonoBehaviour {
                 IngredientSet.Ingredients.Cheese, 1,
                 IngredientSet.Ingredients.Meatball, 1
             );
+            OrderController.instance.starScore.Clear();
+            OrderController.instance.starScore.Add(100);
+            OrderController.instance.starScore.Add(200);
+            OrderController.instance.starScore.Add(300);
             break;
         // 4 ingredients + multiple orders + MMM
         case 4:
@@ -203,6 +215,10 @@ public class LevelLoader : MonoBehaviour {
                 IngredientSet.Ingredients.Meatball, 1,
                 IngredientSet.Ingredients.Lettuce, 1
             );
+            OrderController.instance.starScore.Clear();
+            OrderController.instance.starScore.Add(100);
+            OrderController.instance.starScore.Add(200);
+            OrderController.instance.starScore.Add(300);
             break;
         case 5:
             timer.TimerInit(90);
@@ -220,6 +236,10 @@ public class LevelLoader : MonoBehaviour {
                 IngredientSet.Ingredients.Tomato, 1,
                 IngredientSet.Ingredients.Meatball, 1
             );
+            OrderController.instance.starScore.Clear();
+            OrderController.instance.starScore.Add(100);
+            OrderController.instance.starScore.Add(200);
+            OrderController.instance.starScore.Add(300);
             break;
         case 6:
             timer.TimerInit(90);
@@ -228,6 +248,10 @@ public class LevelLoader : MonoBehaviour {
                 IngredientSet.Ingredients.Cheese, 1,
                 IngredientSet.Ingredients.Meatball, 1
             );
+            OrderController.instance.starScore.Clear();
+            OrderController.instance.starScore.Add(100);
+            OrderController.instance.starScore.Add(200);
+            OrderController.instance.starScore.Add(300);
             break;
         case 7:
             timer.TimerInit(20);
@@ -238,6 +262,10 @@ public class LevelLoader : MonoBehaviour {
                 IngredientSet.Ingredients.Beans, 1,
                 IngredientSet.Ingredients.Cheese, 1
                 );
+            OrderController.instance.starScore.Clear();
+            OrderController.instance.starScore.Add(100);
+            OrderController.instance.starScore.Add(200);
+            OrderController.instance.starScore.Add(300);
             break;
         case 8:
             timer.TimerInit(45);
@@ -251,6 +279,10 @@ public class LevelLoader : MonoBehaviour {
             OrderController.instance.AddOrder(
                 IngredientSet.Ingredients.Cheese, 1
                 );
+            OrderController.instance.starScore.Clear();
+            OrderController.instance.starScore.Add(100);
+            OrderController.instance.starScore.Add(200);
+            OrderController.instance.starScore.Add(300);
             break;
         case 9:
             timer.TimerInit(60);
@@ -262,12 +294,20 @@ public class LevelLoader : MonoBehaviour {
                 IngredientSet.Ingredients.Meatball, 1,
                 IngredientSet.Ingredients.Cheese, 1
             );
+            OrderController.instance.starScore.Clear();
+            OrderController.instance.starScore.Add(100);
+            OrderController.instance.starScore.Add(200);
+            OrderController.instance.starScore.Add(300);
             break;
         case 10:
             timer.TimerInit(20);
             OrderController.instance.AddOrder(
                 IngredientSet.Ingredients.Lettuce, 1
             );
+            OrderController.instance.starScore.Clear();
+            OrderController.instance.starScore.Add(100);
+            OrderController.instance.starScore.Add(200);
+            OrderController.instance.starScore.Add(300);
             break;
         case 11:
             timer.TimerInit(120);
@@ -284,6 +324,10 @@ public class LevelLoader : MonoBehaviour {
                 IngredientSet.Ingredients.Cheese, 1,
                 IngredientSet.Ingredients.Meatball, 1
             );
+            OrderController.instance.starScore.Clear();
+            OrderController.instance.starScore.Add(100);
+            OrderController.instance.starScore.Add(200);
+            OrderController.instance.starScore.Add(300);
             break;
         case 12:
             timer.TimerInit(90);
@@ -303,8 +347,12 @@ public class LevelLoader : MonoBehaviour {
                 IngredientSet.Ingredients.Beans, 1,
                 IngredientSet.Ingredients.Tomato, 1
             );
+            OrderController.instance.starScore.Clear();
+            OrderController.instance.starScore.Add(100);
+            OrderController.instance.starScore.Add(200);
+            OrderController.instance.starScore.Add(300);
             break;
-        }
+    }
 
         Debug.Log (OrderController.instance.OrderListToString ());
 	}
