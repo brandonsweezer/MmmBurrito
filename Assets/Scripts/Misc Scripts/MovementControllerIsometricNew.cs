@@ -126,6 +126,11 @@ public class MovementControllerIsometricNew : MonoBehaviour {
 	}
 
 	void FixedUpdate () {
+		// Only do anything if we're still playing the level
+		if (GameController.instance.levelComplete) {
+			return;
+		}
+
 		UpdateXZFacing ();
 
 		rb.angularVelocity = Vector3.zero;
