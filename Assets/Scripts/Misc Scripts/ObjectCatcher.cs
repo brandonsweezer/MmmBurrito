@@ -92,6 +92,8 @@ public class ObjectCatcher : MonoBehaviour {
 		ingredientQuality = gameObj.GetComponent<FallDecayDie> ().getQuality ();
 		caughtIngredients.CatchIngredient (ingredientType, ingredientQuality);
 
+        SoundController.instance.audSrc.PlayOneShot(SoundController.instance.pickup, SoundController.instance.SoundEffectVolume);
+
 		// Print out
 		Debug.Log (string.Format("Caught a {0}, burrito now contains:\n{1}", objectName, CaughtObjectsToString ()));
 		//SetTextString(string.Format("Burrito contents: {0}", CaughtObjectsToString ()));
