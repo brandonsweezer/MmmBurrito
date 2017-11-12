@@ -7,7 +7,9 @@ public class _preloader : MonoBehaviour {
 
 	void Awake () {
         LoggingManager.instance.Initialize(094, 3, true);
+        GameController.instance.ABValue = LoggingManager.instance.assignABTestValue(Random.Range(1, 3));
         LoggingManager.instance.RecordPageLoad();
+        LoggingManager.instance.RecordABTestValue();
         SceneManager.LoadScene ("Menu");
 
         /* GAME EVENT IDS
@@ -23,7 +25,7 @@ public class _preloader : MonoBehaviour {
          * 9 Powerup Time (PowerupAddTime)
          * 10 Powerup Invulnerable (PowerupMakeInvulnerable)
          * 11 Death to Chef(VulnerableToHazards)
-         * 12 Death to DeadlyHazard (VulnerableToHazards)
+         * 12 Death to DeadlyHazard (VulnerableToHazards) //USELESS
          * 13 Death to Rat (Rats)
          * 14 Rat steal object (Rats)
          */
