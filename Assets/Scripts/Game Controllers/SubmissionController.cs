@@ -17,11 +17,6 @@ public class SubmissionController : MonoBehaviour {
     private Quaternion spawnRotation = Quaternion.FromToRotation(Vector3.up, new Vector3(1, 0, 1));
 
     private AudioSource audSrc;
-    private AudioClip rightOrder;
-    private AudioClip wrongOrder;
-    private AudioClip mmmHi;
-    private AudioClip mmmLo;
-    private AudioClip mmmMed;
 
     private Camera mainCam;
 
@@ -30,15 +25,11 @@ public class SubmissionController : MonoBehaviour {
 	}
 
 	void Start () {
-		//setTextString ("");
-		//setWinString ("");
+        //setTextString ("");
+        //setWinString ("");
 
-        audSrc = gameObject.GetComponent<AudioSource>();
-        rightOrder = Resources.Load<AudioClip>("Sound/submit(right)");
-        wrongOrder = Resources.Load<AudioClip>("Sound/submit(wrong)");
-        mmmHi = Resources.Load<AudioClip>("Sound/mmm_hi");
-        mmmLo = Resources.Load<AudioClip>("Sound/mmm_lo");
-        mmmMed = Resources.Load<AudioClip>("Sound/mmm_med");
+        audSrc = SoundController.instance.audSrc;
+
     }
 
 //	public void setTextString (string text) {
@@ -57,8 +48,7 @@ public class SubmissionController : MonoBehaviour {
 //		return winText;
 //	}
 
-
-	void OnTriggerEnter (Collider other) {
+	void OnCollisionEnter (Collision other) {
 		// Disregard any collisions that aren't with the burrito
 		GameObject burrito = other.gameObject;
 		if (burrito.tag != "Player") {
@@ -101,7 +91,7 @@ public class SubmissionController : MonoBehaviour {
 		} 
 		if (!matched) {
             //DOES NOT MATCH
-            audSrc.PlayOneShot(wrongOrder);
+            audSrc.PlayOneShot(SoundController.instance.wrongSubmission);
 			Debug.Log("Submitted burrito does not match");
 			OrderUI.instance.setGeneralMessage ("Complete an order first! (Press T to empty)");
 					//setTextString ("Invalid Burrito Submission");
@@ -115,7 +105,7 @@ public class SubmissionController : MonoBehaviour {
 	}
 
 	void ProcessSuccessfulOrderSubmission(Order order) {
-		audSrc.PlayOneShot(rightOrder);
+		audSrc.PlayOneShot(SoundController.instance.dingding);
 		Debug.Log ("Matches one of the orders!");
 
 		// Add the score
@@ -125,19 +115,21 @@ public class SubmissionController : MonoBehaviour {
 		Debug.Log("You just got "+score+" score!");
 		Debug.Log("Total Score: "+GameController.instance.score);
 
+        float rnd = Random.value;
+
         if (score >= 100)
         {
-            if (Random.value < .33)
+            if (rnd < .33)
             {
-                audSrc.PlayOneShot(mmmHi);
+                audSrc.PlayOneShot(SoundController.instance.mmmHi);
             }
-            else if (Random.value >= .33 && Random.value < .66)
+            else if (rnd >= .33 && rnd < .66)
             {
-                audSrc.PlayOneShot(mmmMed);
+                audSrc.PlayOneShot(SoundController.instance.mmmMed);
             }
-            else if (Random.value >= .66)
+            else if (rnd >= .66)
             {
-                audSrc.PlayOneShot(mmmLo);
+                audSrc.PlayOneShot(SoundController.instance.mmmLo);
             }
 
         }
