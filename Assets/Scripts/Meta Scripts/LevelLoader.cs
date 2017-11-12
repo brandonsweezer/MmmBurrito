@@ -32,16 +32,32 @@ public class LevelLoader : MonoBehaviour {
         //next level
         loadingLevelNumber++;
         GameController.instance.levelEnd = false;
-        LoggingManager.instance.RecordLevelStart(loadingLevelNumber, "");
-        SceneManager.LoadScene("Level_" + loadingLevelNumber);
+        if (GameController.instance.ABValue == 2 && loadingLevelNumber == 0)
+        {
+            LoggingManager.instance.RecordLevelStart(loadingLevelNumber, "With Powerups");
+            SceneManager.LoadScene("Level_A" + loadingLevelNumber);
+        }
+        else
+        {
+            LoggingManager.instance.RecordLevelStart(loadingLevelNumber, "No Powerups");
+            SceneManager.LoadScene("Level_" + loadingLevelNumber);
+        }
     }
 
 	public void GoToLevel(int levelNumber) {
 		//SetPlayCanvas ();
 		loadingLevelNumber = levelNumber;
         GameController.instance.levelEnd = false;
-        LoggingManager.instance.RecordLevelStart(levelNumber, "");
-        SceneManager.LoadScene("Level_" + levelNumber);
+        if (GameController.instance.ABValue == 2 && loadingLevelNumber == 0)
+        {
+            LoggingManager.instance.RecordLevelStart(loadingLevelNumber, "With Powerups");
+            SceneManager.LoadScene("Level_A" + loadingLevelNumber);
+        }
+        else
+        {
+            LoggingManager.instance.RecordLevelStart(loadingLevelNumber, "No Powerups");
+            SceneManager.LoadScene("Level_" + loadingLevelNumber);
+        }
     }
 
 	public void GoToMenuLevelSelect () {
@@ -72,8 +88,16 @@ public class LevelLoader : MonoBehaviour {
 	{
         LoggingManager.instance.RecordLevelEnd();
         GameController.instance.levelEnd = false;
-        LoggingManager.instance.RecordLevelStart(loadingLevelNumber, "");
-        SceneManager.LoadScene("Level_" + loadingLevelNumber);
+        if (GameController.instance.ABValue == 2 && loadingLevelNumber == 0)
+        {
+            LoggingManager.instance.RecordLevelStart(loadingLevelNumber, "With Powerups");
+            SceneManager.LoadScene("Level_A" + loadingLevelNumber);
+        }
+        else
+        {
+            LoggingManager.instance.RecordLevelStart(loadingLevelNumber, "No Powerups");
+            SceneManager.LoadScene("Level_" + loadingLevelNumber);
+        }
     }
 
 
