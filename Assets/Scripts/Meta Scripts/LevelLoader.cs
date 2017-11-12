@@ -304,18 +304,7 @@ public class LevelLoader : MonoBehaviour {
         case 5:
             timer.TimerInit(90);
             OrderController.instance.AddOrder(
-                IngredientSet.Ingredients.Tomato, 1,
-                IngredientSet.Ingredients.Cheese, 1,
-                IngredientSet.Ingredients.Meatball, 1
-            );
-            OrderController.instance.AddOrder(
-                IngredientSet.Ingredients.Lettuce, 2,
-                IngredientSet.Ingredients.Cheese, 1,
-                IngredientSet.Ingredients.Meatball, 1
-            );
-            OrderController.instance.AddOrder(
-                IngredientSet.Ingredients.Tomato, 1,
-                IngredientSet.Ingredients.Meatball, 1
+                IngredientSet.Ingredients.Tomato, 1
             );
             GameController.instance.starScore.Clear();
             GameController.instance.starScore.Add(100);
