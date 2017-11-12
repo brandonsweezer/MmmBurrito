@@ -61,7 +61,7 @@ public class Rats : MonoBehaviour
                     //check for ingredients
                     foreach (GameObject o in GameController.instance.objects)
                     {
-                        if (transform.position.x - o.transform.position.x < tolerance &&
+                        if (o !=null && transform.position.x - o.transform.position.x < tolerance &&
                         transform.position.x - o.transform.position.x > tolerance * -1 &&
                         (transform.position.z - o.transform.position.z < tolerance &&
                         transform.position.z - o.transform.position.z > tolerance * -1))
