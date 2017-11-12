@@ -21,6 +21,7 @@ public class TextFields
 	public Text loseMessage;
 
 	public Text Score;
+	public Text GameScore;
 }
 
 [System.Serializable]
@@ -104,6 +105,7 @@ public class OrderUI : MonoBehaviour {
 		initializeTickets = false;
 		ticketHeight = gameobjectfields.TicketHUD.GetComponent<RectTransform> ().rect.height;
 		orders = OrderController.instance.orderList;
+
 	}
 
 	public void TicketInit (int index){
@@ -220,6 +222,10 @@ public class OrderUI : MonoBehaviour {
 			orders[i].uiTicket.GetComponent<TicketAnimations> ().StartMoveToXPosition(GetTargetXPosForTicket(i));
 		}
 	}
+
+	public void ResetScore () {
+		setScore ("0");
+	}
 		
 
 
@@ -235,6 +241,7 @@ public class OrderUI : MonoBehaviour {
 		setQualityMessage ("");
 		setLoseMessage ("");
 		setWinMessage ("");
+
 
 		//textfields.winMessage.text = "";
 		//textfields.loseMessage.text = "";
@@ -347,6 +354,7 @@ public class OrderUI : MonoBehaviour {
 
 	public void setScore(string msg) {
 		textfields.Score.text = msg;
+		textfields.GameScore.text = msg;
 	}
 
 	// Update is called once per frame

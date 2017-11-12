@@ -8,12 +8,15 @@ public class LevelLoader : MonoBehaviour {
 	public GameObject canvasHUD;
 	public GameObject canvasHome;
 	public GameObject canvasLevelSelect;
+	public GameObject endHUD;
+	public GameObject privacy;
 
     private int maxLevelNumber = 6;
 	private int loadingLevelNumber;
 	private bool inMenuHome;
 	private bool inMenuLevelSelect;
 	private bool play;
+
 
 
 	void Awake () {
@@ -48,6 +51,11 @@ public class LevelLoader : MonoBehaviour {
 
 	public void GoToMenuMain () {
 		SetHomeCanvas();
+		GoToMenu ();
+	}
+
+	public void GoToMenuPrivacy () {
+		SetPrivacyCanvas();
 		GoToMenu ();
 	}
 
@@ -98,19 +106,33 @@ public class LevelLoader : MonoBehaviour {
 	void SetHomeCanvas () {
 		canvasHUD.SetActive (false);
 		canvasLevelSelect.SetActive (false);
+		endHUD.SetActive (false);
+		privacy.SetActive (false);
 		canvasHome.SetActive (true);
 	}
 
 	void SetLevelSelectCanvas () {
 		canvasHUD.SetActive (false);
 		canvasHome.SetActive (false);
+		privacy.SetActive (false);
+		endHUD.SetActive (false);
 		canvasLevelSelect.SetActive (true);
 	}
 
 	void SetPlayCanvas () {
 		canvasHome.SetActive (false);
 		canvasLevelSelect.SetActive (false);
+		privacy.SetActive (false);
+		endHUD.SetActive (true);
 		canvasHUD.SetActive (true);
+	}
+
+	void SetPrivacyCanvas () {
+		canvasHome.SetActive (false);
+		canvasLevelSelect.SetActive (false);
+		endHUD.SetActive (false);
+		canvasHUD.SetActive (false);
+		privacy.SetActive (true);
 	}
 
 
@@ -123,6 +145,7 @@ public class LevelLoader : MonoBehaviour {
 		SpawnController.instance.SpawnBurrito ();
 
 		OrderUI.instance.ResetUI();
+		OrderUI.instance.ResetScore ();
 
 		GetComponent<Timer> ().startTimer ();
 
