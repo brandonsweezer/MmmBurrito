@@ -157,8 +157,7 @@ public class SubmissionController : MonoBehaviour {
 
 	void ProcessLevelWin() {
 		Debug.Log ("All orders completed");
-		OrderUI.instance.gameobjectfields.WinScreen.gameObject.SetActive (true);
-		OrderUI.instance.setWinMessage ("You Win! Score: " + GameController.instance.score + "\n(Press escape to return to menu)\n(Press enter to go to next level)");
+		StartCoroutine (DisplayWinScreen());
 		OrderUI.instance.setScore (GameController.instance.score.ToString ());
 		LoggingManager.instance.RecordEvent (7, "Level quit, timer at " + GameController.instance.gameTime);
 		LoggingManager.instance.RecordEvent (8, "Won level, timer at " + GameController.instance.gameTime);
@@ -166,6 +165,12 @@ public class SubmissionController : MonoBehaviour {
 		GameController.instance.levelComplete = true;
 		// save level
 		SaveManager.instance.ProcessLevelCompletion(GameController.instance.currentLevel, GameController.instance.score);
+	}
+
+	IEnumerator DisplayWinScreen() {
+		yield return new WaitForSeconds (1);
+		OrderUI.instance.gameobjectfields.WinScreen.gameObject.SetActive (true);
+		OrderUI.instance.setWinMessage ("You Win! Score: " + GameController.instance.score + "\n(Press escape to return to menu)\n(Press enter to go to next level)");
 	}
 
 	void CreateScorePopup(int score) {

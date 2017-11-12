@@ -24,14 +24,6 @@ public class Timer : MonoBehaviour {
 
 	private bool running;
 
-    //Audio vars
-    private AudioSource audSrc;
-    private AudioClip tickReg;
-    private AudioClip tickUrgent;
-    private AudioClip urgent;
-    private AudioClip veryUrgent;
-    private AudioClip regular;
-
 	// showing time left
 	private bool signalingTimeLeft;
 	private float[] timeLeftSignals = {30f, 10f, 0f};
@@ -49,13 +41,6 @@ public class Timer : MonoBehaviour {
     void Start () {
 		running = false;
 		timeLeftWarningContainer.SetActive (false);
-
-        audSrc = gameObject.AddComponent<AudioSource>();
-        tickReg = Resources.Load<AudioClip>("Sound/30 secs");
-        tickUrgent = Resources.Load<AudioClip>("Sound/10 secs");
-        urgent = Resources.Load<AudioClip>("Sound/musicUrgent");
-        veryUrgent = Resources.Load<AudioClip>("Sound/musicExtraUrgent");
-        regular = Resources.Load<AudioClip>("Sound/music");
         thirty = false;
         ten = false;
 
@@ -71,10 +56,10 @@ public class Timer : MonoBehaviour {
 	public void startTimer () {
 		timeDisplayText.color = Color.black;
 		running = true;
-        audSrc.clip = regular;
-        audSrc.loop = true;
-        audSrc.Play();
-		audSrc.volume = .6f;
+        SoundController.instance.audSrc.clip = SoundController.instance.music;
+        SoundController.instance.audSrc.loop = true;
+        SoundController.instance.audSrc.Play();
+        SoundController.instance.audSrc.volume = SoundController.instance.MasterVolume;
 
 		// Reset animations.
 		animManager.StopAllAnimations ();
@@ -92,8 +77,7 @@ public class Timer : MonoBehaviour {
 		circle.fillAmount = time/maxT;
 		if (time < 0) {
 			time = 0.0f;
-			OrderUI.instance.setLoseMessage("You Lose! No time left!\nPress escape to return to the main menu");
-			OrderUI.instance.gameobjectfields.LoseScreen.gameObject.SetActive (true);
+			StartCoroutine (DisplayLoseScreen ());
             LoggingManager.instance.RecordEvent(7, "Level quit, timer at 0");
             GameController.instance.levelEnd = true;
             GameController.instance.levelComplete = true;
@@ -107,18 +91,19 @@ public class Timer : MonoBehaviour {
         if (totalSeconds == 30 && thirty == false) //TICKING
         {
             thirty = true;
-            audSrc.Stop();
-            audSrc.PlayOneShot(tickReg);
-            audSrc.clip = urgent;
-            audSrc.Play();
+            SoundController.instance.audSrc.Stop();
+            SoundController.instance.audSrc.PlayOneShot(SoundController.instance.ticking);
+            SoundController.instance.audSrc.clip = SoundController.instance.musicUrgent;
+            SoundController.instance.audSrc.Play();
 
         }
         if (totalSeconds == 10 && ten == false) //URGENT TICKING
         {
             ten = true;
-            audSrc.Stop();
-            audSrc.PlayOneShot(tickUrgent);
-            audSrc.PlayOneShot(veryUrgent);
+            SoundController.instance.audSrc.Stop();
+            SoundController.instance.audSrc.PlayOneShot(SoundController.instance.urgentTicking);
+            SoundController.instance.audSrc.clip = SoundController.instance.musicExtraUrgent;
+            SoundController.instance.audSrc.Play();
         }
 
 		if (seconds < 10) {
@@ -138,7 +123,7 @@ public class Timer : MonoBehaviour {
 
         if (time == 0)
         {
-            audSrc.Stop();
+            SoundController.instance.audSrc.Stop();
         }
 
         GameController.instance.gameTime = (int)time;
@@ -167,6 +152,13 @@ public class Timer : MonoBehaviour {
 				SignalTimeLeft ();
 			}
 		}
+	}
+
+	IEnumerator DisplayLoseScreen() {
+		yield return new WaitForSeconds (2.2f);
+		OrderUI.instance.setLoseMessage("You Lose! No time left!\nPress escape to return to the main menu");
+		OrderUI.instance.setScore (GameController.instance.score.ToString ());
+		OrderUI.instance.gameobjectfields.LoseScreen.gameObject.SetActive (true);
 	}
 
 	private void signalingTimeEnd() {

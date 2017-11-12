@@ -50,8 +50,6 @@ public class MovementControllerIsometricNew : MonoBehaviour {
 
     //Audio vars
     AudioSource audSrc;
-    AudioClip dashSound;
-    AudioClip dashSoundAlt;
 
 
     void Awake () {
@@ -60,9 +58,7 @@ public class MovementControllerIsometricNew : MonoBehaviour {
 		xzFacing = Vector3.forward;
 		velocityChangeRate = velocityChangeRateOnGround;
 
-        audSrc = GetComponent<AudioSource>();
-        dashSound = (AudioClip)Resources.Load("Sound/dash");
-        dashSoundAlt = (AudioClip)Resources.Load("Sound/dash2");
+        audSrc = SoundController.instance.audSrc;
     }
 
 	// Update the rotation of our movement input to match our camera angle
@@ -138,6 +134,11 @@ public class MovementControllerIsometricNew : MonoBehaviour {
 	}
 
 	void FixedUpdate () {
+		// Only do anything if we're still playing the level
+		if (GameController.instance.levelComplete) {
+			return;
+		}
+
 		UpdateXZFacing ();
 
 		rb.angularVelocity = Vector3.zero;
@@ -229,7 +230,7 @@ public class MovementControllerIsometricNew : MonoBehaviour {
 
 	// Dashes by boosting the burrito forward a bit and giving it a big velocity.
 	void Dash (Vector3 targetDirection) {
-		audSrc.PlayOneShot(dashSound);
+		audSrc.PlayOneShot(SoundController.instance.dash,SoundController.instance.SoundEffectVolume);
 
 		rb.velocity = targetDirection * dashSpeed;
 		transform.position = transform.position + targetDirection * dashBoostDistance;
