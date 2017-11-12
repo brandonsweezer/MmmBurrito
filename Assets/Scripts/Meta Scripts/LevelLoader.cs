@@ -358,7 +358,7 @@ public class LevelLoader : MonoBehaviour {
 	}
 
 	void Update () {
-        if (Input.GetKeyDown(KeyCode.Escape) && !inMenuHome) {
+        if (Input.GetKeyDown(KeyCode.Escape) && !inMenuHome && !GameController.instance.dead) {
             GoToMenuLevelSelect();
         }
         else if (Input.GetKeyDown(KeyCode.Return) && !inMenuHome && GameController.instance.levelComplete)

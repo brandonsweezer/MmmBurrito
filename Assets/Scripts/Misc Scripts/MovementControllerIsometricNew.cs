@@ -100,11 +100,12 @@ public class MovementControllerIsometricNew : MonoBehaviour {
 		}
         if (GameController.instance.dead)
         {
-            //TODO: Put in death animation
             deathTimer++;
-            transform.Rotate(new Vector3(0, 5f, 0));
-            //transform.localScale -= Vector3.one * 0.07f;
-            if (deathTimer >= 120)
+            transform.Rotate(new Vector3(0, 20f, 0));
+            transform.localScale -= Vector3.one * 0.003f *deathTimer;
+            gameObject.GetComponent<Rigidbody>().Sleep();
+            gameObject.GetComponent<Rigidbody>().detectCollisions = false;
+            if (deathTimer >= 60)
             {
                 deathTimer = 0;
                 GameController.instance.dead = false;
