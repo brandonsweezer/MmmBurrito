@@ -31,7 +31,7 @@ public class SubmissionController : MonoBehaviour {
     }
 		
 
-	void OnCollisionEnter (Collision other) {
+	void OnTriggerEnter (Collider other) {
 		// Disregard any collisions that aren't with the burrito
 		GameObject burrito = other.gameObject;
 		if (burrito.tag != "Player") {
@@ -138,6 +138,7 @@ public class SubmissionController : MonoBehaviour {
 
 		GameController.instance.gamestate = GameController.GameState.Win;
 		OrderUI.instance.setWinTime(Timer.instance.getDisplayTime ());
+		OrderUI.instance.textfields.currentLevelWin.text = "Level "+GameController.instance.currentLevel;
 
 		int curLevel = GameController.instance.currentLevel;
 		int curScore = GameController.instance.score;

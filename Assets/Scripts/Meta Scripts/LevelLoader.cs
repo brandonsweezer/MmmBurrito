@@ -108,6 +108,7 @@ public class LevelLoader : MonoBehaviour {
 	}
 
 	public void GoToMenuLevelSelect () {
+		SaveManager.instance.printStars ();
 		SetLevelSelectCanvas();
 		GoToMenu ();
 		FillStars ();
@@ -158,8 +159,17 @@ public class LevelLoader : MonoBehaviour {
     }
 
 	public void FillStars () {
+
 		for (int i=0; i<maxLevelNumber; i ++) {
+			canvasLevelSelect.transform.GetChild (3 + i).GetChild(1).GetChild(1).GetComponent<Image> ().sprite = OrderUI.instance.gameobjectfields.EmptyStar;
+			canvasLevelSelect.transform.GetChild (3 + i).GetChild(1).GetChild (1).GetComponent<Image> ().color = Color.black;
+			canvasLevelSelect.transform.GetChild (3 + i).GetChild(1).GetChild(0).GetComponent<Image> ().sprite = OrderUI.instance.gameobjectfields.EmptyStar;
+			canvasLevelSelect.transform.GetChild (3 + i).GetChild(1).GetChild (0).GetComponent<Image> ().color = Color.black;
+			canvasLevelSelect.transform.GetChild (3 + i).GetChild(1).GetChild(2).GetComponent<Image> ().sprite = OrderUI.instance.gameobjectfields.EmptyStar;
+			canvasLevelSelect.transform.GetChild (3 + i).GetChild(1).GetChild (2).GetComponent<Image> ().color = Color.black;
+
 			int stars=SaveManager.instance.GetLevelStars (i);
+
 			if (stars >= 1) {
 				canvasLevelSelect.transform.GetChild (2 + i).GetChild(1).GetChild(1).GetComponent<Image> ().sprite = OrderUI.instance.gameobjectfields.FilledStar;
 				canvasLevelSelect.transform.GetChild (2 + i).GetChild(1).GetChild (1).GetComponent<Image> ().color = Color.white;
@@ -276,7 +286,12 @@ public class LevelLoader : MonoBehaviour {
 		SpawnController.instance.SpawnBurrito ();
 
 		OrderUI.instance.ResetUI();
-		OrderUI.instance.ResetScore ();
+		OrderUI.instance.ResetScore();
+
+		// reset final scoring screen stars
+		OrderUI.instance.gameobjectfields.WinScreen.transform.GetChild (0).GetComponent<Image> ().sprite = OrderUI.instance.gameobjectfields.EmptyStar;
+		OrderUI.instance.gameobjectfields.WinScreen.transform.GetChild (1).GetComponent<Image> ().sprite = OrderUI.instance.gameobjectfields.EmptyStar;
+		OrderUI.instance.gameobjectfields.WinScreen.transform.GetChild (2).GetComponent<Image> ().sprite = OrderUI.instance.gameobjectfields.EmptyStar;
 
 		GetComponent<Timer> ().startTimer ();
 

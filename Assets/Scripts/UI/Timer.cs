@@ -83,6 +83,7 @@ public class Timer : MonoBehaviour {
 		animManager.ResetToInitialValues();
 		signalingTimeLeft = false;
 		alreadySignaledLevelStart = false;
+		lastSignalTime = -SIGNAL_COOLDOWN * 2f;
 	}
 
 	public void TimerUpdate () {
@@ -169,7 +170,10 @@ public class Timer : MonoBehaviour {
 			tryToSignal = true;
 		}
 		// signal if appropriate
-		if (tryToSignal && !signalingTimeLeft && IsSignalCooldownOver()) {
+		if (tryToSignal && !signalingTimeLeft) {
+			if (!IsSignalCooldownOver () && Mathf.Abs (time - 0) > 0.25f) {
+				return;
+			}
 			if (LevelJustStarted () && !alreadySignaledLevelStart) {
 				alreadySignaledLevelStart = true;
 				SignalTimeLeft (1.5f, 0f);
@@ -183,6 +187,7 @@ public class Timer : MonoBehaviour {
 		yield return new WaitForSeconds (2.2f);
 		//OrderUI.instance.setLoseMessage("You Lose! No time left!\nPress escape to return to the main menu");
 		OrderUI.instance.setScore (GameController.instance.score.ToString ());
+		OrderUI.instance.textfields.currentLevelLose.text = "Level "+GameController.instance.currentLevel;
 		LevelLoader.instance.SetEndCanvas (); 
 		OrderUI.instance.gameobjectfields.LoseScreen.gameObject.SetActive (true);
 	}

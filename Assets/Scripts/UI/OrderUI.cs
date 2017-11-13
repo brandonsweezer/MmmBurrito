@@ -28,6 +28,8 @@ public class TextFields
 	public Text GameScore;
 
 	public Text currentLevel;
+	public Text currentLevelWin;
+	public Text currentLevelLose;
 }
 
 [System.Serializable]
@@ -54,6 +56,7 @@ public class GameObjectFields
 	public Image LoseScreen;
 
 	public Sprite FilledStar;
+	public Sprite EmptyStar;
 
 
 }
