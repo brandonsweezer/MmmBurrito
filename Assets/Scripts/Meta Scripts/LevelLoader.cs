@@ -293,6 +293,8 @@ public class LevelLoader : MonoBehaviour {
 		OrderUI.instance.gameobjectfields.WinScreen.transform.GetChild (1).GetComponent<Image> ().sprite = OrderUI.instance.gameobjectfields.EmptyStar;
 		OrderUI.instance.gameobjectfields.WinScreen.transform.GetChild (2).GetComponent<Image> ().sprite = OrderUI.instance.gameobjectfields.EmptyStar;
 
+		OrderUI.instance.DeleteTweeningObjects ();
+
 		// disable timer for levels that don't use it
 		if (levelNumber >= 4) {
 			Timer.instance.TimerObject.SetActive (true);

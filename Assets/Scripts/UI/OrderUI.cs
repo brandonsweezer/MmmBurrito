@@ -46,6 +46,7 @@ public class GameObjectFields
 	public GameObject caughtIngredientContainer;
 	public GameObject CollectionContainerPrefab;
 	public GameObject CollectedIngredientPrefab;
+	public GameObject CaughtIngredientTweens;
 
 	public Sprite CompletedTicket;
 	public Sprite InvalidTicket;
@@ -418,7 +419,7 @@ public class OrderUI : MonoBehaviour {
 
 	public void AnimateCaughtObject(GameObject obj) {
 		GameObject icon = Instantiate (gameobjectfields.CollectedIngredientPrefab) as GameObject;
-		icon.transform.SetParent (gameobjectfields.canvasHUD.transform, false); 
+		icon.transform.SetParent (gameobjectfields.CaughtIngredientTweens.transform, false);
 
 		// Set the correct ingredient sprite.
 		IngredientSet.Ingredients ingredientType = IngredientSet.StringToIngredient(obj.name);
@@ -436,7 +437,7 @@ public class OrderUI : MonoBehaviour {
 		float targetX = 65 + 55 * GameController.instance.player.GetComponent<ObjectCatcher> ().GetNumCaughtIngredients ();
 		Vector3 endingPos = new Vector3(targetX + viewportToScreenOffset.x, -275, viewportToScreenOffset.z);
 		float distance = Vector3.Distance (startingPos, endingPos);
-		icon.Tween("caughtingredient_"+obj.name+obj.GetHashCode()+Time.time, startingPos, endingPos, distance/500f, TweenScaleFunctions.QuadraticEaseIn, (t) => 
+		icon.Tween(obj.GetHashCode(), startingPos, endingPos, distance/500f, TweenScaleFunctions.QuadraticEaseIn, (t) => 
 			{
 				rect.anchoredPosition = t.CurrentValue;
 			}, (t) =>
@@ -445,6 +446,13 @@ public class OrderUI : MonoBehaviour {
 				UpdateUIAfterInventoryChange ();
 			}
 		);
+	}
+
+	public void DeleteTweeningObjects() {
+		foreach (Transform child in gameobjectfields.CaughtIngredientTweens.transform) {
+			DigitalRuby.Tween.TweenFactory.RemoveTweenKey(child.GetHashCode(), DigitalRuby.Tween.TweenStopBehavior.DoNotModify);
+			GameObject.DestroyObject (child.gameObject);
+		}
 	}
 } 
 

@@ -798,7 +798,7 @@ RectTransform:
   - {fileID: 1577413197}
   - {fileID: 1552545135}
   m_Father: {fileID: 880886658}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0}
@@ -7149,7 +7149,7 @@ RectTransform:
   - {fileID: 765451549}
   - {fileID: 1710121745}
   m_Father: {fileID: 880886658}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -9627,11 +9627,11 @@ MonoBehaviour:
     lineCount: 6
     pageCount: 1
     materialCount: 1
-  m_havePropertiesChanged: 0
+  m_havePropertiesChanged: 1
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_spriteAnimator: {fileID: 0}
-  m_isInputParsingRequired: 0
+  m_isInputParsingRequired: 1
   m_inputSource: 0
   m_hasFontAssetChanged: 0
   m_subTextObjects:
@@ -9736,6 +9736,7 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_Children:
+  - {fileID: 1647663777}
   - {fileID: 1830773918}
   - {fileID: 39445360}
   - {fileID: 579925474}
@@ -10773,7 +10774,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &957899473
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14773,6 +14774,7 @@ MonoBehaviour:
       type: 2}
     CollectedIngredientPrefab: {fileID: 1914133123204290, guid: 52636a8784c2e40cbae0e21cd9547691,
       type: 2}
+    CaughtIngredientTweens: {fileID: 1647663776}
     CompletedTicket: {fileID: 21300000, guid: c1ab54851ec2b42e0b1ba6e7d38105be, type: 3}
     InvalidTicket: {fileID: 21300000, guid: 1edd1130cab7d4c3d9c1f0380bacd369, type: 3}
     QualitySprites:
@@ -15114,7 +15116,7 @@ Transform:
   - {fileID: 2048479414}
   - {fileID: 1761150192}
   m_Father: {fileID: 880886658}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1233724940
 GameObject:
@@ -18867,6 +18869,34 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1639656277}
+--- !u!1 &1647663776
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 1647663777}
+  m_Layer: 0
+  m_Name: CaughtIngredientTweens
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1647663777
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1647663776}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 880886658}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1648241354
 GameObject:
   m_ObjectHideFlags: 0
@@ -20553,7 +20583,7 @@ RectTransform:
   - {fileID: 1663520886}
   - {fileID: 1675841100}
   m_Father: {fileID: 880886658}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
