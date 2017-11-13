@@ -61,5 +61,9 @@ public class GameController : MonoBehaviour {
 		// Update actual score.
 		this.score = score;
 	}
+
+	public int GetScore() {
+		return score;
+	}
 		
 }

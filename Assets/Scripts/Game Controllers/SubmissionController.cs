@@ -88,7 +88,7 @@ public class SubmissionController : MonoBehaviour {
 
 		// Add the score
 		int score = burritoCaughtIngredients.getSumOfQualities ()*50;
-		GameController.instance.SetScore(score);
+		GameController.instance.SetScore(score + GameController.instance.GetScore());
 		CreateScorePopup (score);
 		Debug.Log("You just got "+score+" score!");
 		Debug.Log("Total Score: "+GameController.instance.score);

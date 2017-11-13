@@ -30,6 +30,7 @@ public class TextFields
 	public Text currentLevel;
 	public Text currentLevelWin;
 	public Text currentLevelLose;
+	public Text timeRemaining;
 }
 
 [System.Serializable]
