@@ -54,18 +54,31 @@ public class SaveManager : MonoBehaviour {
 	}
 
 	public void SetLevelHighscore(int levelNumber, int highscore) {
+		PadLevelArrays (levelNumber);
 		save.levelScores[levelNumber] = highscore;
 	}
 	public int GetLevelHighscore(int levelNumber) {
+		PadLevelArrays (levelNumber);
 		return save.levelScores[levelNumber];
 	}
 
 
 	public void SetLevelStars(int levelNumber, int stars) {
+		PadLevelArrays (levelNumber);
 		save.levelStars[levelNumber] = stars;
 	}
 	public int GetLevelStars(int levelNumber) {
+		PadLevelArrays (levelNumber);
 		return save.levelStars[levelNumber];
+	}
+
+	private void PadLevelArrays(int levelNumber) {
+		while (save.levelScores.Count < levelNumber+1) {
+			save.levelScores.Add (-1);
+		}
+		while (save.levelStars.Count < levelNumber+1) {
+			save.levelStars.Add (-1);
+		}
 	}
 
 	public void ProcessLevelCompletion(int levelNumber, int score, int numStars) {
@@ -77,12 +90,7 @@ public class SaveManager : MonoBehaviour {
 			Debug.Log ("Completed a new level!");
 		}
 
-		while (save.levelScores.Count < levelNumber+1) {
-			save.levelScores.Add (-1);
-		}
-		while (save.levelStars.Count < levelNumber+1) {
-			save.levelStars.Add (-1);
-		}
+		PadLevelArrays (levelNumber);
 
 		if (score > GetLevelHighscore (levelNumber)) {
 			SetLevelHighscore (levelNumber, score);
