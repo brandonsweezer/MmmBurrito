@@ -24,6 +24,10 @@ public class Timer : MonoBehaviour {
 
 	private bool running;
 
+	private const float SIGNAL_COOLDOWN = 9f;
+	private float lastSignalTime = -SIGNAL_COOLDOWN*2f;
+	private bool alreadySignaledLevelStart;
+
 
 	// Make this class a singleton
 	public static Timer instance = null;
@@ -78,6 +82,7 @@ public class Timer : MonoBehaviour {
 		animManager.StopAllAnimations ();
 		animManager.ResetToInitialValues();
 		signalingTimeLeft = false;
+		alreadySignaledLevelStart = false;
 	}
 
 	public void TimerUpdate () {
@@ -160,12 +165,13 @@ public class Timer : MonoBehaviour {
 			}
 		}
 		// check if at level start
-		if (LevelJustStarted()) {
+		if (LevelJustStarted() && !alreadySignaledLevelStart) {
 			tryToSignal = true;
 		}
 		// signal if appropriate
-		if (tryToSignal && !signalingTimeLeft) {
-			if (LevelJustStarted ()) {
+		if (tryToSignal && !signalingTimeLeft && IsSignalCooldownOver()) {
+			if (LevelJustStarted () && !alreadySignaledLevelStart) {
+				alreadySignaledLevelStart = true;
 				SignalTimeLeft (1.5f, 0f);
 			} else {
 				SignalTimeLeft ();
@@ -187,6 +193,7 @@ public class Timer : MonoBehaviour {
 
 	// Animates the clock to the middle of the screen, and then back to its default position.
 	private void SignalTimeLeft(float duration = 1.75f, float tween1 = 0.75f, float tween2 = 0.5f) {
+		lastSignalTime = Time.time;
 		signalingTimeLeft = true;
 		animManager.MoveToPosAndBack    (signalingPos,   duration, tween1, tween2, signalingTimeEnd);
 		animManager.ScaleToValueAndBack (signalingScale, duration, tween1, tween2);
@@ -214,5 +221,9 @@ public class Timer : MonoBehaviour {
 
 	private bool LevelJustStarted() {
 		return time >= (maxT - 1);
+	}
+
+	private bool IsSignalCooldownOver() {
+		return (lastSignalTime + SIGNAL_COOLDOWN) <= Time.time;
 	}
 }

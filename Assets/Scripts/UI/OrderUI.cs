@@ -397,7 +397,10 @@ public class OrderUI : MonoBehaviour {
 			if (GameController.instance.player != null) {
 				int newNumCaughtIngredients = GameController.instance.player.GetComponent<ObjectCatcher> ().GetNumCaughtIngredients ();
 				if (newNumCaughtIngredients != lastNumCaughtIngredients) {
-					UpdateUIAfterInventoryChange ();
+					// Only update if lost ingredients. If caught some ingredients, we'll just update after the animation.
+					if (newNumCaughtIngredients < lastNumCaughtIngredients) {
+						UpdateUIAfterInventoryChange ();
+					}
 					lastNumCaughtIngredients = newNumCaughtIngredients;
 				}
 			}
@@ -436,6 +439,7 @@ public class OrderUI : MonoBehaviour {
 			}, (t) =>
 			{
 				Destroy(icon);
+				UpdateUIAfterInventoryChange ();
 			}
 		);
 	}

@@ -88,34 +88,16 @@ public class LevelLoader : MonoBehaviour {
         //next level
         loadingLevelNumber++;
         GameController.instance.levelEnd = false;
-        //TODOX3: ADD LEVELS FOR AB TESTING HERE
-        if (GameController.instance.ABValue == 2 && loadingLevelNumber == 0)
-        {
-            LoggingManager.instance.RecordLevelStart(loadingLevelNumber+100, "With Powerups");
-            SceneManager.LoadScene("Level_A" + loadingLevelNumber);
-        }
-        else
-        {
-            LoggingManager.instance.RecordLevelStart(loadingLevelNumber, "No Powerups");
-            SceneManager.LoadScene("Level_" + loadingLevelNumber);
-        }
+        LoggingManager.instance.RecordLevelStart(loadingLevelNumber, "");
+        SceneManager.LoadScene("Level_" + loadingLevelNumber);
     }
 
 	public void GoToLevel(int levelNumber) {
 		//SetPlayCanvas ();
 		loadingLevelNumber = levelNumber;
         GameController.instance.levelEnd = false;
-        //TODO
-        if (GameController.instance.ABValue == 2 && loadingLevelNumber == 0)
-        {
-            LoggingManager.instance.RecordLevelStart(loadingLevelNumber+100, "With Powerups");
-            SceneManager.LoadScene("Level_A" + loadingLevelNumber);
-        }
-        else
-        {
-            LoggingManager.instance.RecordLevelStart(loadingLevelNumber, "No Powerups");
-            SceneManager.LoadScene("Level_" + loadingLevelNumber);
-        }
+        LoggingManager.instance.RecordLevelStart(loadingLevelNumber, "");
+        SceneManager.LoadScene("Level_" + loadingLevelNumber);
     }
 
 
@@ -171,17 +153,8 @@ public class LevelLoader : MonoBehaviour {
 	{
         LoggingManager.instance.RecordLevelEnd();
         GameController.instance.levelEnd = false;
-        //TODO
-        if (GameController.instance.ABValue == 2 && loadingLevelNumber == 0)
-        {
-            LoggingManager.instance.RecordLevelStart(loadingLevelNumber+100, "With Powerups");
-            SceneManager.LoadScene("Level_A" + loadingLevelNumber);
-        }
-        else
-        {
-            LoggingManager.instance.RecordLevelStart(loadingLevelNumber, "No Powerups");
-            SceneManager.LoadScene("Level_" + loadingLevelNumber);
-        }
+        LoggingManager.instance.RecordLevelStart(loadingLevelNumber, "");
+        SceneManager.LoadScene("Level_" + loadingLevelNumber);
     }
 
 	public void FillStars () {
@@ -331,9 +304,9 @@ public class LevelLoader : MonoBehaviour {
                 IngredientSet.Ingredients.Tomato, 1
             );
             GameController.instance.starScore.Clear();
+            GameController.instance.starScore.Add(25);
+            GameController.instance.starScore.Add(75);
             GameController.instance.starScore.Add(100);
-            GameController.instance.starScore.Add(200);
-            GameController.instance.starScore.Add(300);
             break;
         // 2 ingredients
         case 2:
@@ -342,9 +315,9 @@ public class LevelLoader : MonoBehaviour {
                 IngredientSet.Ingredients.Tomato, 1
             );
             GameController.instance.starScore.Clear();
+            GameController.instance.starScore.Add(25);
+            GameController.instance.starScore.Add(75);
             GameController.instance.starScore.Add(100);
-            GameController.instance.starScore.Add(200);
-            GameController.instance.starScore.Add(300);
             break;
         // 3 ingredients + dash
         case 3:
@@ -353,9 +326,9 @@ public class LevelLoader : MonoBehaviour {
                 IngredientSet.Ingredients.Cheese, 1
             );
             GameController.instance.starScore.Clear();
+            GameController.instance.starScore.Add(25);
+            GameController.instance.starScore.Add(75);
             GameController.instance.starScore.Add(100);
-            GameController.instance.starScore.Add(200);
-            GameController.instance.starScore.Add(300);
             break;
         // 4 ingredients + multiple orders + MMM
         case 4:
@@ -364,9 +337,9 @@ public class LevelLoader : MonoBehaviour {
 				IngredientSet.Ingredients.Meatball, 1
             );
             GameController.instance.starScore.Clear();
+            GameController.instance.starScore.Add(25);
+            GameController.instance.starScore.Add(75);
             GameController.instance.starScore.Add(100);
-            GameController.instance.starScore.Add(200);
-            GameController.instance.starScore.Add(300);
             break;
         case 5:
             timer.TimerInit(90);
@@ -374,9 +347,9 @@ public class LevelLoader : MonoBehaviour {
                 IngredientSet.Ingredients.Tomato, 1
             );
             GameController.instance.starScore.Clear();
+            GameController.instance.starScore.Add(25);
+            GameController.instance.starScore.Add(75);
             GameController.instance.starScore.Add(100);
-            GameController.instance.starScore.Add(200);
-            GameController.instance.starScore.Add(300);
             break;
 		case 6:
 			timer.TimerInit(90);
@@ -384,9 +357,9 @@ public class LevelLoader : MonoBehaviour {
 				IngredientSet.Ingredients.Lettuce, 1
 			);
 			GameController.instance.starScore.Clear();
+			GameController.instance.starScore.Add(25);
+			GameController.instance.starScore.Add(75);
 			GameController.instance.starScore.Add(100);
-			GameController.instance.starScore.Add(200);
-			GameController.instance.starScore.Add(300);
 			break;
         case 7:
                 timer.TimerInit(10);
@@ -394,9 +367,9 @@ public class LevelLoader : MonoBehaviour {
                 IngredientSet.Ingredients.Cheese, 1
             );
             GameController.instance.starScore.Clear();
+            GameController.instance.starScore.Add(25);
+            GameController.instance.starScore.Add(75);
             GameController.instance.starScore.Add(100);
-            GameController.instance.starScore.Add(200);
-            GameController.instance.starScore.Add(300);
             break;
         case 8:
             timer.TimerInit(45);
@@ -408,24 +381,23 @@ public class LevelLoader : MonoBehaviour {
             );
             GameController.instance.starScore.Clear();
             GameController.instance.starScore.Add(100);
+            GameController.instance.starScore.Add(150);
             GameController.instance.starScore.Add(200);
-            GameController.instance.starScore.Add(300);
             break;
+
         case 9:
             timer.TimerInit(60);
             OrderController.instance.AddOrder(
-                IngredientSet.Ingredients.Cheese, 2
-            );
-            OrderController.instance.AddOrder(
                 IngredientSet.Ingredients.Lettuce, 1,
-                IngredientSet.Ingredients.Meatball, 1,
-                IngredientSet.Ingredients.Cheese, 1
+                IngredientSet.Ingredients.Cheese, 1,
+                IngredientSet.Ingredients.Tomato, 1
             );
             GameController.instance.starScore.Clear();
-            GameController.instance.starScore.Add(100);
-            GameController.instance.starScore.Add(200);
+            GameController.instance.starScore.Add(150);
+            GameController.instance.starScore.Add(250);
             GameController.instance.starScore.Add(300);
             break;
+
         case 10:
 			timer.TimerInit(60);
 			OrderController.instance.AddOrder(
@@ -437,9 +409,9 @@ public class LevelLoader : MonoBehaviour {
 				IngredientSet.Ingredients.Tomato, 1
             );
             GameController.instance.starScore.Clear();
-            GameController.instance.starScore.Add(100);
             GameController.instance.starScore.Add(200);
             GameController.instance.starScore.Add(300);
+            GameController.instance.starScore.Add(400);
             break;
         case 11:
             timer.TimerInit(120);
@@ -451,9 +423,9 @@ public class LevelLoader : MonoBehaviour {
                 IngredientSet.Ingredients.Tomato, 2
             );
             GameController.instance.starScore.Clear();
-            GameController.instance.starScore.Add(100);
             GameController.instance.starScore.Add(200);
             GameController.instance.starScore.Add(300);
+            GameController.instance.starScore.Add(400);
             break;
         case 12:
             timer.TimerInit(90);
@@ -500,6 +472,19 @@ public class LevelLoader : MonoBehaviour {
             GameController.instance.starScore.Add(600);
             break;
 
+		case 14:
+			timer.TimerInit(12);
+			OrderController.instance.AddOrder(
+				IngredientSet.Ingredients.Tomato, 2,
+				IngredientSet.Ingredients.Cheese, 1,
+				IngredientSet.Ingredients.Lettuce, 1
+			);
+			GameController.instance.starScore.Clear();
+			GameController.instance.starScore.Add(200);
+			GameController.instance.starScore.Add(300);
+			GameController.instance.starScore.Add(400);
+			break;
+
             case 16:
             timer.TimerInit(90);
             OrderController.instance.AddOrder(
@@ -517,9 +502,9 @@ public class LevelLoader : MonoBehaviour {
                 IngredientSet.Ingredients.Tomato, 1
             );
                 GameController.instance.starScore.Clear();
-            GameController.instance.starScore.Add(500);
-            GameController.instance.starScore.Add(750);
-            GameController.instance.starScore.Add(1000);
+            GameController.instance.starScore.Add(400);
+            GameController.instance.starScore.Add(550);
+            GameController.instance.starScore.Add(700);
             break;
 
             case 17:
@@ -540,7 +525,7 @@ public class LevelLoader : MonoBehaviour {
                 );
                 GameController.instance.starScore.Clear();
                 GameController.instance.starScore.Add(200);
-                GameController.instance.starScore.Add(450);
+                GameController.instance.starScore.Add(500);
                 GameController.instance.starScore.Add(700);
                 break;
         case 18:
@@ -564,9 +549,9 @@ public class LevelLoader : MonoBehaviour {
                 IngredientSet.Ingredients.Meatball, 1
             );
             GameController.instance.starScore.Clear();
-            GameController.instance.starScore.Add(100);
-            GameController.instance.starScore.Add(200);
-            GameController.instance.starScore.Add(300);
+            GameController.instance.starScore.Add(500);
+            GameController.instance.starScore.Add(700);
+            GameController.instance.starScore.Add(900);
             break;
         }
 
@@ -595,7 +580,7 @@ public class LevelLoader : MonoBehaviour {
 			GoToMenuLevelSelect (); 
 		}
 		else if (Input.GetKeyDown(KeyCode.R) && 
-			(GameController.instance.gamestate!=GameController.GameState.Menu || GameController.instance.gamestate!=GameController.GameState.Pause)) {
+			(GameController.instance.gamestate==GameController.GameState.Pause)) {
 			ReplayLevel ();
 		}
 		else if (Input.GetKeyDown(KeyCode.Return) && GameController.instance.gamestate==GameController.GameState.Win)
