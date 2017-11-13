@@ -430,7 +430,7 @@ public class OrderUI : MonoBehaviour {
 		float targetX = 65 + 55 * GameController.instance.player.GetComponent<ObjectCatcher> ().GetNumCaughtIngredients ();
 		Vector3 endingPos = new Vector3(targetX + viewportToScreenOffset.x, -275, viewportToScreenOffset.z);
 		float distance = Vector3.Distance (startingPos, endingPos);
-		icon.Tween("caughtingredient_"+obj.name+Time.time, startingPos, endingPos, distance/500f, TweenScaleFunctions.QuadraticEaseIn, (t) => 
+		icon.Tween("caughtingredient_"+obj.name+obj.GetHashCode()+Time.time, startingPos, endingPos, distance/500f, TweenScaleFunctions.QuadraticEaseIn, (t) => 
 			{
 				rect.anchoredPosition = t.CurrentValue;
 			}, (t) =>
