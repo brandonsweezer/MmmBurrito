@@ -21,6 +21,9 @@ public class Conveyor : MonoBehaviour {
 
     private void Update() 
     {
+		if (GameController.instance.gamestate!=GameController.GameState.Play) {
+			return;
+		}
         float offset = Time.time * speed * 5.0f;
         rend.material.mainTextureOffset = new Vector2(0, offset); 
     }

@@ -20,9 +20,6 @@ public class WalkingChef : MonoBehaviour{
     // Update is called once per frame
     void Update()
     {
-//        if (GameController.instance.levelComplete){
-//            return;
-//        }
 		if (GameController.instance.gamestate!=GameController.GameState.Play) {
 			return;
 		}

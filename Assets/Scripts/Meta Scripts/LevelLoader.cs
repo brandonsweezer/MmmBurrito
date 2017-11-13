@@ -192,7 +192,6 @@ public class LevelLoader : MonoBehaviour {
 		}
 		else {
 			// Loaded a menu.
-			//SetHomeCanvas ();
 			GameController.instance.gamestate = GameController.GameState.Menu;
 		}
 	}
@@ -499,10 +498,10 @@ public class LevelLoader : MonoBehaviour {
 //                GoToNextLevel();
 //            }
 //        }
-		if (Input.GetKeyDown(KeyCode.P) && GameController.instance.gamestate==GameController.GameState.Play) {
+		if ((Input.GetKeyDown(KeyCode.P)||Input.GetKeyDown(KeyCode.Escape)) && GameController.instance.gamestate==GameController.GameState.Play) {
 			GoToPause();
 		}
-		else if (Input.GetKeyDown(KeyCode.P) && GameController.instance.gamestate==GameController.GameState.Pause) {
+		else if (Input.GetKeyDown(KeyCode.P)||Input.GetKeyDown(KeyCode.Escape) && GameController.instance.gamestate==GameController.GameState.Pause) {
 			Resume ();
 		}
 		else if (Input.GetKeyDown(KeyCode.Escape) && 

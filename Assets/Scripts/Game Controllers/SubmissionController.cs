@@ -25,28 +25,10 @@ public class SubmissionController : MonoBehaviour {
 	}
 
 	void Start () {
-        //setTextString ("");
-        //setWinString ("");
-
         audSrc = SoundController.instance.audSrc;
 
     }
-
-//	public void setTextString (string text) {
-//		submissionText = text;
-//	}
-//
-//	public string getTextString () {
-//		return submissionText;
-//	}
-//
-//	public void setWinString (string text) {
-//		winText = text;
-//	}
-//
-//	public string getWinString () {
-//		return winText;
-//	}
+		
 
 	void OnCollisionEnter (Collision other) {
 		// Disregard any collisions that aren't with the burrito
@@ -62,9 +44,6 @@ public class SubmissionController : MonoBehaviour {
 
 		SubmitBurrito (burrito);
 
-//		if (GameController.instance.levelComplete) {
-//			SpawnController.instance.DestroyBurrito ();
-//		}
 
 		if (GameController.instance.gamestate != GameController.GameState.Play) {
 			SpawnController.instance.DestroyBurrito ();
@@ -100,8 +79,6 @@ public class SubmissionController : MonoBehaviour {
         }
 
 		// Update UI
-		//OrderUI.instance.setMessageHUDMessage (getTextString());
-		//OrderUI.instance.setWinMessage (getWinString());
 	}
 
 	void ProcessSuccessfulOrderSubmission(Order order) {
@@ -160,8 +137,6 @@ public class SubmissionController : MonoBehaviour {
 
 		GameController.instance.gamestate = GameController.GameState.Win;
 		OrderUI.instance.setWinTime(Timer.instance.getDisplayTime ());
-//		GameController.instance.levelEnd = true;
-//		GameController.instance.levelComplete = true;
 
 
 

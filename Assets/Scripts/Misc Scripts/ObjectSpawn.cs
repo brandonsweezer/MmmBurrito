@@ -33,9 +33,6 @@ public class ObjectSpawn : MonoBehaviour {
 
 	IEnumerator SpawnFallingObjects () {
 		while (true) {
-//			while (GameController.instance.levelComplete) {
-//				yield return null;
-//			}
 			while (GameController.instance.gamestate!=GameController.GameState.Play) {
 				yield return null;
 			}

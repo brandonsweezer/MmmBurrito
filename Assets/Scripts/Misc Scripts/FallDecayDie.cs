@@ -121,6 +121,9 @@ public class FallDecayDie : MonoBehaviour {
 
 	void Update() {
 		// decay
+		if (GameController.instance.gamestate!=GameController.GameState.Play) {
+			return;
+		}
 		if (decaying) {
 			Decay ();
 		}
