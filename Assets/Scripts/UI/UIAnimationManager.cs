@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using DigitalRuby.Tween;
 using System;
 
@@ -8,12 +9,17 @@ public class UIAnimationManager : MonoBehaviour {
 
 	private string moveKey;
 	private string scaleKey;
+	private string tintKey;
 
 	private RectTransform rect;
 	private Vector2 defaultPos;
 
+	private Image image;
+
 	void Awake() {
 		rect = GetComponent<RectTransform> ();
+		image = gameObject.GetComponent<Image> ();
+
 		defaultPos = rect.anchoredPosition;
 		GetNewKeys ();
 	}
@@ -21,6 +27,7 @@ public class UIAnimationManager : MonoBehaviour {
 	public void GetNewKeys() {
 		moveKey = "Move_" + name + Time.time;
 		scaleKey = "Scale_" + name + Time.time;
+		tintKey = "Tint_" + name + Time.time;
 	}
 
 	public void ResetToInitialValues() {
@@ -72,6 +79,25 @@ public class UIAnimationManager : MonoBehaviour {
 			});
 		};
 		Scale(targetScale, tweenDuration1, callback);
+	}
+
+
+	// COLOR FUNCTIONS
+	public void Tint(Color targetColor, float duration = 1f, Action callback = null) {
+		gameObject.Tween (tintKey, image.color, targetColor, duration, TweenScaleFunctions.QuadraticEaseInOut, (t) => 
+			{
+				image.color = t.CurrentValue;
+			}, (t) => { if (callback != null) { callback(); } }
+		);
+	}
+	public void TintToColorAndBack(Color targetColor, float delay, float tweenDuration1, float tweenDuration2, Action finalCallback = null) {
+		Vector2 startPos = rect.anchoredPosition;
+		Action callback = () => {
+			ExecuteAfterDelay (delay, () => { 
+				Tint (Color.white, tweenDuration2, finalCallback); 
+			});
+		};
+		Tint(targetColor, tweenDuration1, callback);
 	}
 
 	public void ExecuteAfterDelay(float delay, Action callback) {
