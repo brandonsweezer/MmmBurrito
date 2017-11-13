@@ -84,12 +84,15 @@ public class ObjectSpawn : MonoBehaviour {
 		if (hits.Length == 0) {
 			return false;
 		}
+		float minDist = float.MaxValue;
+		bool returnValue = false;
 		foreach (RaycastHit hit in hits) {
-			if (hit.transform.gameObject.tag == "Terrain") {
+			if (hit.transform.gameObject.tag == "Terrain" && hit.distance < minDist) {
 				outHit = hit;
-				return true;
+				minDist = hit.distance;
+				returnValue = true;
 			}
 		}
-		return false;
+		return returnValue;
 	}
 }
