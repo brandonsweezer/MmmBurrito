@@ -255,7 +255,7 @@ public class MovementControllerIsometricNew : MonoBehaviour {
 
 	// Dashes by boosting the burrito forward a bit and giving it a big velocity.
 	void Dash (Vector3 targetDirection) {
-		audSrc.PlayOneShot(SoundController.instance.dash,SoundController.instance.SoundEffectVolume);
+		audSrc.PlayOneShot(SoundController.instance.dash,SoundController.instance.SoundEffectVolume.value);
 
 		rb.velocity = targetDirection * dashSpeed;
 		transform.position = transform.position + targetDirection * dashBoostDistance;

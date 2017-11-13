@@ -38,7 +38,7 @@ public class TrashingController : MonoBehaviour {
 		LoggingManager.instance.RecordEvent(3, "Trashed ingredients with T: " + GameController.instance.player.GetComponent<ObjectCatcher>().GetIngredients().ToString());
 
 		ThrowOutContents();
-		SoundController.instance.audSrc.PlayOneShot(SoundController.instance.trash, SoundController.instance.SoundEffectVolume);
+		SoundController.instance.audSrc.PlayOneShot(SoundController.instance.trash, SoundController.instance.SoundEffectVolume.value);
 
         // Update UI
         OrderUI.instance.setGeneralMessage ("Burrito Trashed");
