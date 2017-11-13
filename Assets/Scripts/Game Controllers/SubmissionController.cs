@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using DigitalRuby.Tween;
+using UnityEngine.UI;
 
 
 public class SubmissionController : MonoBehaviour {
@@ -138,6 +139,17 @@ public class SubmissionController : MonoBehaviour {
 		GameController.instance.gamestate = GameController.GameState.Win;
 		OrderUI.instance.setWinTime(Timer.instance.getDisplayTime ());
 
+		int curLevel = GameController.instance.currentLevel;
+		int curScore = GameController.instance.score;
+		if (curScore >= GameController.instance.starScore[(curLevel-1)*3]){
+			OrderUI.instance.gameobjectfields.WinScreen.transform.GetChild (0).GetComponent<Image> ().sprite = OrderUI.instance.gameobjectfields.FilledStar;   
+		}
+		if (curScore >= GameController.instance.starScore[((curLevel-1)*3)+1]){
+			OrderUI.instance.gameobjectfields.WinScreen.transform.GetChild (1).GetComponent<Image> ().sprite = OrderUI.instance.gameobjectfields.FilledStar;   
+		}
+		if (curScore >= GameController.instance.starScore[((curLevel-1)*3)+2]){
+			OrderUI.instance.gameobjectfields.WinScreen.transform.GetChild (2).GetComponent<Image> ().sprite = OrderUI.instance.gameobjectfields.FilledStar;   
+		}
 
 
 		// save level

@@ -53,6 +53,8 @@ public class GameObjectFields
 	public Image WinScreen;
 	public Image LoseScreen;
 
+	public Sprite FilledStar;
+
 
 }
 

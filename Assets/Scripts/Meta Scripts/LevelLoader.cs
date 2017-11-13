@@ -116,6 +116,11 @@ public class LevelLoader : MonoBehaviour {
         }
     }
 
+
+	public void GoToLastLevelCompleted  () {
+		GoToLevel (SaveManager.instance.GetLastLevelCompleted());
+	}
+
 	public void GoToMenuLevelSelect () {
 		SetLevelSelectCanvas();
 		GoToMenu ();
