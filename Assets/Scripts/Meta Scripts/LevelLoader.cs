@@ -8,9 +8,9 @@ public class LevelLoader : MonoBehaviour {
 	public GameObject canvasHUD;
 	public GameObject canvasHome;
 	public GameObject canvasLevelSelect;
-	public GameObject endHUD;
-	public GameObject privacy;
-	public GameObject pause;
+	public GameObject canvasLevelEnd;
+	public GameObject canvasPrivacy;
+	public GameObject canvasPause;
 
 
     private int maxLevelNumber = 22;
@@ -20,6 +20,8 @@ public class LevelLoader : MonoBehaviour {
 	private bool play;
 
 
+	// Make this class a singleton
+	public static LevelLoader instance = null;
 
 	void Awake () {
 		loadingLevelNumber = -1;
@@ -68,6 +70,12 @@ public class LevelLoader : MonoBehaviour {
         GameController.instance.starUnlock.Add(0);
         //Level 22
         GameController.instance.starUnlock.Add(0);
+
+		if (instance == null) {
+			instance = this;
+		} else if (instance != this) {
+			Destroy (this);
+		}
     }
 
     public void GoToNextLevel()
@@ -192,46 +200,52 @@ public class LevelLoader : MonoBehaviour {
 	void SetHomeCanvas () {
 		canvasHUD.SetActive (false);
 		canvasLevelSelect.SetActive (false);
-		endHUD.SetActive (false);
-		privacy.SetActive (false);
-		pause.SetActive (false);
+		canvasLevelEnd.SetActive (false);
+		canvasPrivacy.SetActive (false);
+		canvasPause.SetActive (false);
 		canvasHome.SetActive (true);
 	}
 
 	void SetLevelSelectCanvas () {
 		canvasHUD.SetActive (false);
 		canvasHome.SetActive (false);
-		privacy.SetActive (false);
-		endHUD.SetActive (false);
-		pause.SetActive (false);
+		canvasPrivacy.SetActive (false);
+		canvasLevelEnd.SetActive (false);
+		canvasPause.SetActive (false);
 		canvasLevelSelect.SetActive (true);
 	}
 
 	void SetPlayCanvas () {
 		canvasHome.SetActive (false);
 		canvasLevelSelect.SetActive (false);
-		privacy.SetActive (false);
-		pause.SetActive (false);
-		endHUD.SetActive (true);
+		canvasPrivacy.SetActive (false);
+		canvasPause.SetActive (false);
+		canvasLevelEnd.SetActive (true);
 		canvasHUD.SetActive (true);
 	}
 
 	void SetPrivacyCanvas () {
 		canvasHome.SetActive (false);
 		canvasLevelSelect.SetActive (false);
-		endHUD.SetActive (false);
+		canvasLevelEnd.SetActive (false);
 		canvasHUD.SetActive (false);
-		pause.SetActive (false);
-		privacy.SetActive (true);
+		canvasPause.SetActive (false);
+		canvasPrivacy.SetActive (true);
 	}
 
 	void SetPauseCanvas () {
-		pause.SetActive (true);
+		canvasPause.SetActive (true);
 	}
 
 	void SetResumeCanvas () {
-		pause.SetActive (false);
+		canvasPause.SetActive (false);
 	}
+
+	public void SetEndCanvas () {
+		canvasHUD.SetActive (false);
+	}
+
+
 
 
 	void InitializeLevel (int levelNumber) {

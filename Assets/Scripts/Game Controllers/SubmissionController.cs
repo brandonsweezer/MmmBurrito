@@ -171,6 +171,7 @@ public class SubmissionController : MonoBehaviour {
 
 	IEnumerator DisplayWinScreen() {
 		yield return new WaitForSeconds (1);
+		LevelLoader.instance.SetEndCanvas (); 
 		OrderUI.instance.gameobjectfields.WinScreen.gameObject.SetActive (true);
 		OrderUI.instance.setWinMessage ("You Win! Score: " + GameController.instance.score + "\n(Press escape to return to menu)\n(Press enter to go to next level)");
 	}
