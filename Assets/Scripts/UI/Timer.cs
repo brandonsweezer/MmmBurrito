@@ -40,8 +40,9 @@ public class Timer : MonoBehaviour {
 	private bool signalingTimeLeft;
 	private float[] timeLeftSignals = {30f, 10f, 0f};
 	private UIAnimationManager animManager;
-	Vector2 signalingPos = new Vector2 (-Screen.width / 2, -Screen.height * 0.27f);
+	Vector2 signalingPos = new Vector2 (-Screen.width / 2, -Screen.height * 0.5f);
 	Vector3 signalingScale = new Vector3(1.5f, 1.5f, 1.5f);
+	Color signalingTint = new Color(1, 1, 1, 0.7f);
 
     bool thirty;
     bool ten;
@@ -189,6 +190,7 @@ public class Timer : MonoBehaviour {
 		signalingTimeLeft = true;
 		animManager.MoveToPosAndBack    (signalingPos,   duration, tween1, tween2, signalingTimeEnd);
 		animManager.ScaleToValueAndBack (signalingScale, duration, tween1, tween2);
+		// animManager.TintToColorAndBack (signalingTint, duration, tween1, tween2);
 	}
 	
 	// Update is called once per frame
