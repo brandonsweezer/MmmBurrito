@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class LevelLoader : MonoBehaviour {
@@ -109,6 +110,7 @@ public class LevelLoader : MonoBehaviour {
 	public void GoToMenuLevelSelect () {
 		SetLevelSelectCanvas();
 		GoToMenu ();
+		FillStars ();
     }
 
 	public void GoToMenuMain () {
@@ -133,6 +135,7 @@ public class LevelLoader : MonoBehaviour {
 		}
 		LoggingManager.instance.RecordLevelEnd();
 		SceneManager.LoadScene("Menu");
+		SoundController.instance.audSrc.Stop();
 	}
 
 	public void GoToPause () {
@@ -153,6 +156,24 @@ public class LevelLoader : MonoBehaviour {
         LoggingManager.instance.RecordLevelStart(loadingLevelNumber, "");
         SceneManager.LoadScene("Level_" + loadingLevelNumber);
     }
+
+	public void FillStars () {
+		for (int i=0; i<maxLevelNumber; i ++) {
+			int stars=SaveManager.instance.GetLevelStars (i);
+			if (stars >= 1) {
+				canvasLevelSelect.transform.GetChild (2 + i).GetChild(1).GetChild(1).GetComponent<Image> ().sprite = OrderUI.instance.gameobjectfields.FilledStar;
+				canvasLevelSelect.transform.GetChild (2 + i).GetChild(1).GetChild (1).GetComponent<Image> ().color = Color.white;
+			}
+			if (stars >= 2) {
+				canvasLevelSelect.transform.GetChild (2 + i).GetChild(1).GetChild(0).GetComponent<Image> ().sprite = OrderUI.instance.gameobjectfields.FilledStar;
+				canvasLevelSelect.transform.GetChild (2 + i).GetChild(1).GetChild (0).GetComponent<Image> ().color = Color.white;
+			}
+			if (stars >= 3) {
+				canvasLevelSelect.transform.GetChild (2 + i).GetChild(1).GetChild(2).GetComponent<Image> ().sprite = OrderUI.instance.gameobjectfields.FilledStar;
+				canvasLevelSelect.transform.GetChild (2 + i).GetChild(1).GetChild (2).GetComponent<Image> ().color = Color.white;
+			}
+		}
+	}
 
 
 	// http://answers.unity3d.com/questions/1174255/since-onlevelwasloaded-is-deprecated-in-540b15-wha.html
@@ -572,7 +593,7 @@ public class LevelLoader : MonoBehaviour {
 			GoToMenuLevelSelect (); 
 		}
 		else if (Input.GetKeyDown(KeyCode.R) && 
-			(GameController.instance.gamestate!=GameController.GameState.Menu || GameController.instance.gamestate!=GameController.GameState.Pause)) {
+			(GameController.instance.gamestate==GameController.GameState.Pause)) {
 			ReplayLevel ();
 		}
 		else if (Input.GetKeyDown(KeyCode.Return) && GameController.instance.gamestate==GameController.GameState.Win)
