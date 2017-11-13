@@ -187,6 +187,7 @@ public class Timer : MonoBehaviour {
 		yield return new WaitForSeconds (2.2f);
 		//OrderUI.instance.setLoseMessage("You Lose! No time left!\nPress escape to return to the main menu");
 		OrderUI.instance.setScore (GameController.instance.score.ToString ());
+		OrderUI.instance.textfields.currentLevelLose.text = "Level "+GameController.instance.currentLevel;
 		LevelLoader.instance.SetEndCanvas (); 
 		OrderUI.instance.gameobjectfields.LoseScreen.gameObject.SetActive (true);
 	}

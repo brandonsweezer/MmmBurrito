@@ -138,6 +138,7 @@ public class SubmissionController : MonoBehaviour {
 
 		GameController.instance.gamestate = GameController.GameState.Win;
 		OrderUI.instance.setWinTime(Timer.instance.getDisplayTime ());
+		OrderUI.instance.textfields.currentLevelWin.text = "Level "+GameController.instance.currentLevel;
 
 		int curLevel = GameController.instance.currentLevel;
 		int curScore = GameController.instance.score;
