@@ -141,13 +141,13 @@ public class SubmissionController : MonoBehaviour {
 
 		int curLevel = GameController.instance.currentLevel;
 		int curScore = GameController.instance.score;
-		if (curScore >= GameController.instance.starScore[(curLevel-1)*3]){
+		if (curScore >= GameController.instance.starScore[0]){
 			OrderUI.instance.gameobjectfields.WinScreen.transform.GetChild (0).GetComponent<Image> ().sprite = OrderUI.instance.gameobjectfields.FilledStar;   
 		}
-		if (curScore >= GameController.instance.starScore[((curLevel-1)*3)+1]){
+		if (curScore >= GameController.instance.starScore[1]){
 			OrderUI.instance.gameobjectfields.WinScreen.transform.GetChild (1).GetComponent<Image> ().sprite = OrderUI.instance.gameobjectfields.FilledStar;   
 		}
-		if (curScore >= GameController.instance.starScore[((curLevel-1)*3)+2]){
+		if (curScore >= GameController.instance.starScore[2]){
 			OrderUI.instance.gameobjectfields.WinScreen.transform.GetChild (2).GetComponent<Image> ().sprite = OrderUI.instance.gameobjectfields.FilledStar;   
 		}
 
