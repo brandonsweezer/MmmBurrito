@@ -452,7 +452,54 @@ public class LevelLoader : MonoBehaviour {
             GameController.instance.starScore.Add(200);
             GameController.instance.starScore.Add(300);
             break;
-    }
+
+        case 16:
+            timer.TimerInit(90);
+            OrderController.instance.AddOrder(
+                IngredientSet.Ingredients.Meatball, 1,
+                IngredientSet.Ingredients.Cheese, 1,
+                IngredientSet.Ingredients.Tomato, 1
+            );
+                OrderController.instance.AddOrder(
+                IngredientSet.Ingredients.Meatball, 1,
+                IngredientSet.Ingredients.Lettuce, 1,
+                IngredientSet.Ingredients.Rice, 1
+            );
+            OrderController.instance.AddOrder(
+                IngredientSet.Ingredients.Meatball, 1,
+                IngredientSet.Ingredients.Cheese, 1,
+                IngredientSet.Ingredients.Tomato, 1,
+                IngredientSet.Ingredients.Lettuce, 1,
+                IngredientSet.Ingredients.Rice, 1
+            );
+                GameController.instance.starScore.Clear();
+            GameController.instance.starScore.Add(500);
+            GameController.instance.starScore.Add(750);
+            GameController.instance.starScore.Add(1000);
+            break;
+
+            case 17:
+                timer.TimerInit(90);
+                OrderController.instance.AddOrder(
+                    IngredientSet.Ingredients.Meatball, 1,
+                    IngredientSet.Ingredients.Cheese, 1
+                );
+                OrderController.instance.AddOrder(
+                IngredientSet.Ingredients.Meatball, 1,
+                IngredientSet.Ingredients.Lettuce, 1,
+                IngredientSet.Ingredients.Tomato, 1
+            );
+                OrderController.instance.AddOrder(
+                    IngredientSet.Ingredients.Cheese, 1,
+                    IngredientSet.Ingredients.Tomato, 1,
+                    IngredientSet.Ingredients.Lettuce, 1
+                );
+                GameController.instance.starScore.Clear();
+                GameController.instance.starScore.Add(200);
+                GameController.instance.starScore.Add(450);
+                GameController.instance.starScore.Add(700);
+                break;
+        }
 
         Debug.Log (OrderController.instance.OrderListToString ());
 	}
