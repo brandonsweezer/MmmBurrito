@@ -21,7 +21,8 @@ public class IngredientIndicator : MonoBehaviour {
 			indicator = Instantiate (indicatorPrefab, hit.point, Quaternion.identity) as GameObject;
 			Color color = IngredientSet.GetColorForIngredient (name);
 			indicator.GetComponent<ColorSetter> ().SetColor (color);
-			// set scale and calculate distance
+			Texture tex = IngredientSet.GetIndicatorSpriteForIngredient (name).texture;
+			indicator.transform.GetChild (0).GetComponent<Renderer> ().material.SetTexture ("_MainTex", tex);
 			indicator.transform.localScale = startingScale;
 			originalDistanceFromIndicator = CalculateDistanceToIndicator ();
 		}

@@ -15,12 +15,16 @@ public class IngredientSet : MonoBehaviour {
 	public Sprite f_bean, f_cheese, f_lettuce, f_meatball, f_rice, f_tomato;
 	public Sprite g_bean, g_cheese, g_lettuce, g_meatball, g_rice, g_tomato;
 	public Sprite rot_bean, rot_cheese, rot_lettuce, rot_meatball, rot_rice, rot_tomato;
+	public Sprite indicator_shape_bean, indicator_shape_cheese, indicator_shape_lettuce, indicator_shape_meatball, indicator_shape_rice, indicator_shape_tomato;
+	public Sprite indicator_geom_bean, indicator_geom_cheese, indicator_geom_lettuce, indicator_geom_meatball, indicator_geom_rice, indicator_geom_tomato;
 
  
 	public static Dictionary<IngredientSet.Ingredients,Sprite> ingredientSprites_full; 
 	public static Dictionary<IngredientSet.Ingredients,Sprite> ingredientSprites_glowing;  
 	public static Dictionary<Sprite,Sprite> ingredientSprites_GlowtoFull;
 	public static Dictionary<IngredientSet.Ingredients,Sprite> ingredientSprites_rot;
+	public static Dictionary<IngredientSet.Ingredients,Sprite> ingredientSprites_indicator_shape;
+	public static Dictionary<IngredientSet.Ingredients,Sprite> ingredientSprites_indicator_geom;
 
 	public GameObject[] IngredientPrefabsAlphabetical;
 	public static GameObject[] IngredientPrefabsAlphabeticalStatic;
@@ -74,6 +78,18 @@ public class IngredientSet : MonoBehaviour {
 		return INGREDIENT_COLORS[(int)StringToIngredient (ingredientString)];
 	}
 
+	public static Sprite GetIndicatorSpriteForIngredient(string ingredientString) {
+		if (GameController.instance.ABValue == 2)
+		{
+			return ingredientSprites_indicator_shape[StringToIngredient (ingredientString)];
+		}
+		else
+		{
+			return ingredientSprites_indicator_geom[StringToIngredient (ingredientString)];
+		}
+	}
+
+
 	// The count of each of the different ingredient types (from the Ingredients enum defined above)
 	private static int numIngredientTypes = Enum.GetNames(typeof(Ingredients)).Length;
 
@@ -89,6 +105,8 @@ public class IngredientSet : MonoBehaviour {
 		CreateDictGlow ();
 		CreateDictGlowtoFull ();
 		CreateDictRot ();
+		CreateDictIndicatorsShape ();
+		CreateDictIndicatorsGeom ();
 		IngredientPrefabsAlphabeticalStatic = IngredientPrefabsAlphabetical;
 	}
 
@@ -186,6 +204,31 @@ public class IngredientSet : MonoBehaviour {
 		IngredientSet.ingredientSprites_rot.Add  (Ingredients.Meatball, rot_meatball);
 		IngredientSet.ingredientSprites_rot.Add  (Ingredients.Rice, rot_rice);
 		IngredientSet.ingredientSprites_rot.Add  (Ingredients.Tomato, rot_tomato);
+	}
+
+	private void CreateDictIndicatorsShape () {
+		if (IngredientSet.ingredientSprites_indicator_shape != null) {
+			return;
+		}
+		IngredientSet.ingredientSprites_indicator_shape=new Dictionary<IngredientSet.Ingredients,Sprite> ();
+		IngredientSet.ingredientSprites_indicator_shape.Add  (Ingredients.Beans, indicator_shape_bean);
+		IngredientSet.ingredientSprites_indicator_shape.Add  (Ingredients.Cheese, indicator_shape_cheese);
+		IngredientSet.ingredientSprites_indicator_shape.Add  (Ingredients.Lettuce, indicator_shape_lettuce);
+		IngredientSet.ingredientSprites_indicator_shape.Add  (Ingredients.Meatball, indicator_shape_meatball);
+		IngredientSet.ingredientSprites_indicator_shape.Add  (Ingredients.Rice, indicator_shape_rice);
+		IngredientSet.ingredientSprites_indicator_shape.Add  (Ingredients.Tomato, indicator_shape_tomato);
+	}
+	private void CreateDictIndicatorsGeom () {
+		if (IngredientSet.ingredientSprites_indicator_geom != null) {
+			return;
+		}
+		IngredientSet.ingredientSprites_indicator_geom=new Dictionary<IngredientSet.Ingredients,Sprite> ();
+		IngredientSet.ingredientSprites_indicator_geom.Add  (Ingredients.Beans, indicator_geom_bean);
+		IngredientSet.ingredientSprites_indicator_geom.Add  (Ingredients.Cheese, indicator_geom_cheese);
+		IngredientSet.ingredientSprites_indicator_geom.Add  (Ingredients.Lettuce, indicator_geom_lettuce);
+		IngredientSet.ingredientSprites_indicator_geom.Add  (Ingredients.Meatball, indicator_geom_meatball);
+		IngredientSet.ingredientSprites_indicator_geom.Add  (Ingredients.Rice, indicator_geom_rice);
+		IngredientSet.ingredientSprites_indicator_geom.Add  (Ingredients.Tomato, indicator_geom_tomato);
 	}
 
 
