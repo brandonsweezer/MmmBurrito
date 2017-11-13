@@ -72,6 +72,12 @@ public class SaveManager : MonoBehaviour {
 		return save.levelStars[levelNumber];
 	}
 
+	public void printStars() {
+		foreach (int i in save.levelStars) {
+			Debug.Log ("star " + i);
+		}
+	}
+
 	private void PadLevelArrays(int levelNumber) {
 		while (save.levelScores.Count < levelNumber+1) {
 			save.levelScores.Add (-1);
