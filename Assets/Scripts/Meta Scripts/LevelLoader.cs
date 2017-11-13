@@ -276,7 +276,12 @@ public class LevelLoader : MonoBehaviour {
 		SpawnController.instance.SpawnBurrito ();
 
 		OrderUI.instance.ResetUI();
-		OrderUI.instance.ResetScore ();
+		OrderUI.instance.ResetScore();
+
+		// reset final scoring screen stars
+		OrderUI.instance.gameobjectfields.WinScreen.transform.GetChild (0).GetComponent<Image> ().sprite = OrderUI.instance.gameobjectfields.EmptyStar;
+		OrderUI.instance.gameobjectfields.WinScreen.transform.GetChild (1).GetComponent<Image> ().sprite = OrderUI.instance.gameobjectfields.EmptyStar;
+		OrderUI.instance.gameobjectfields.WinScreen.transform.GetChild (2).GetComponent<Image> ().sprite = OrderUI.instance.gameobjectfields.EmptyStar;
 
 		GetComponent<Timer> ().startTimer ();
 

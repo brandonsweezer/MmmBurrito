@@ -54,6 +54,7 @@ public class GameObjectFields
 	public Image LoseScreen;
 
 	public Sprite FilledStar;
+	public Sprite EmptyStar;
 
 
 }
