@@ -397,7 +397,7 @@ public class LevelLoader : MonoBehaviour {
             GameController.instance.starScore.Add(100);
             break;
         case 8:
-            timer.TimerInit(45);
+            timer.TimerInit(40);
             OrderController.instance.AddOrder(
                 IngredientSet.Ingredients.Rice, 1
             );
@@ -411,7 +411,7 @@ public class LevelLoader : MonoBehaviour {
             break;
 
         case 9:
-            timer.TimerInit(60);
+            timer.TimerInit(45);
             OrderController.instance.AddOrder(
                 IngredientSet.Ingredients.Lettuce, 1,
                 IngredientSet.Ingredients.Cheese, 1,
@@ -439,7 +439,7 @@ public class LevelLoader : MonoBehaviour {
             GameController.instance.starScore.Add(400);
             break;
         case 11:
-            timer.TimerInit(120);
+            timer.TimerInit(60);
             OrderController.instance.AddOrder(
                 IngredientSet.Ingredients.Lettuce, 1,
                 IngredientSet.Ingredients.Cheese, 1
@@ -594,7 +594,7 @@ public class LevelLoader : MonoBehaviour {
             GameController.instance.starScore.Add(900);
             break;
         case 19:
-                timer.TimerInit(90);
+                timer.TimerInit(45);
                 OrderController.instance.AddOrder(
                     IngredientSet.Ingredients.Cheese, 1,
                     IngredientSet.Ingredients.Lettuce, 1);
