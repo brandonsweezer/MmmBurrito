@@ -210,13 +210,11 @@ public class OrderUI : MonoBehaviour {
 			int quality;
 			// set sprite
 			objectCatcherScript.GetIngredients().GetNthIngredient(i, out ingredientType, out quality);
-			icon.GetComponent<Image> ().sprite = IngredientSet.ingredientSprites_full [ingredientType];
-			// set quality tint
 			if (quality == 2) {
-				icon.GetComponent<Image> ().color = new Color (1f, 1f, 1f, 1f);
+				icon.GetComponent<Image> ().sprite = IngredientSet.ingredientSprites_full [ingredientType];
 				setQualityMessage ("Mmm!!!");
 			} else {
-				icon.GetComponent<Image> ().color = new Color (.38f, .71f, .28f, 1f);
+				icon.GetComponent<Image> ().sprite = IngredientSet.ingredientSprites_rot [ingredientType];
 				setQualityMessage ("Bleh!!");
 			}
 		}
@@ -421,9 +419,9 @@ public class OrderUI : MonoBehaviour {
 		int quality = obj.GetComponent<FallDecayDie>().getQuality();
 		icon.GetComponent<Image> ().sprite = IngredientSet.ingredientSprites_full [ingredientType];
 		if (quality == 2) {
-			icon.GetComponent<Image> ().color = new Color (1f, 1f, 1f, 1f);
+			icon.GetComponent<Image> ().sprite = IngredientSet.ingredientSprites_full [ingredientType];
 		} else {
-			icon.GetComponent<Image> ().color = new Color (.38f, .71f, .28f, 1f);
+			icon.GetComponent<Image> ().sprite = IngredientSet.ingredientSprites_rot [ingredientType];
 		}
 
 		RectTransform rect = icon.GetComponent<RectTransform> ();

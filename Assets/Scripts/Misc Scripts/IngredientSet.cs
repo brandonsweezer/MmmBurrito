@@ -14,11 +14,13 @@ public class IngredientSet : MonoBehaviour {
  
 	public Sprite f_bean, f_cheese, f_lettuce, f_meatball, f_rice, f_tomato;
 	public Sprite g_bean, g_cheese, g_lettuce, g_meatball, g_rice, g_tomato;
+	public Sprite rot_bean, rot_cheese, rot_lettuce, rot_meatball, rot_rice, rot_tomato;
 
  
 	public static Dictionary<IngredientSet.Ingredients,Sprite> ingredientSprites_full; 
-	public static Dictionary<IngredientSet.Ingredients,Sprite> ingredientSprites_glowing; 
+	public static Dictionary<IngredientSet.Ingredients,Sprite> ingredientSprites_glowing;  
 	public static Dictionary<Sprite,Sprite> ingredientSprites_GlowtoFull;
+	public static Dictionary<IngredientSet.Ingredients,Sprite> ingredientSprites_rot;
 
 	public GameObject[] IngredientPrefabsAlphabetical;
 	public static GameObject[] IngredientPrefabsAlphabeticalStatic;
@@ -86,6 +88,7 @@ public class IngredientSet : MonoBehaviour {
 		CreateDictFull ();
 		CreateDictGlow ();
 		CreateDictGlowtoFull ();
+		CreateDictRot ();
 		IngredientPrefabsAlphabeticalStatic = IngredientPrefabsAlphabetical;
 	}
 
@@ -169,6 +172,20 @@ public class IngredientSet : MonoBehaviour {
 		IngredientSet.ingredientSprites_GlowtoFull.Add  (g_meatball, f_meatball);
 		IngredientSet.ingredientSprites_GlowtoFull.Add  (g_rice, f_rice);
 		IngredientSet.ingredientSprites_GlowtoFull.Add  (g_tomato, f_tomato);
+	}
+
+
+	private void CreateDictRot () {
+		if (IngredientSet.ingredientSprites_rot != null) {
+			return;
+		}
+		IngredientSet.ingredientSprites_rot=new Dictionary<IngredientSet.Ingredients,Sprite> ();
+		IngredientSet.ingredientSprites_rot.Add  (Ingredients.Beans, rot_bean);
+		IngredientSet.ingredientSprites_rot.Add  (Ingredients.Cheese, rot_cheese);
+		IngredientSet.ingredientSprites_rot.Add  (Ingredients.Lettuce, rot_lettuce);
+		IngredientSet.ingredientSprites_rot.Add  (Ingredients.Meatball, rot_meatball);
+		IngredientSet.ingredientSprites_rot.Add  (Ingredients.Rice, rot_rice);
+		IngredientSet.ingredientSprites_rot.Add  (Ingredients.Tomato, rot_tomato);
 	}
 
 
