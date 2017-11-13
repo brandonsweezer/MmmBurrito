@@ -34,8 +34,7 @@ public class SaveManager : MonoBehaviour {
 		}
 		else {
 			Debug.Log("SaveManager: No game saved, creating new save file.");
-			save = new Save();
-			SaveGame ();
+			SaveEmptyData ();
 		}
 	}
 
@@ -84,5 +83,15 @@ public class SaveManager : MonoBehaviour {
 			Debug.Log ("save");
 			SaveGame ();
 		}
+	}
+
+	public void ClearData() {
+		SaveEmptyData ();
+		Debug.Log ("Cleared data!");
+	}
+
+	private void SaveEmptyData() {
+		save = new Save();
+		SaveGame ();
 	}
 }
