@@ -14,7 +14,10 @@ public class LoggingCalls : MonoBehaviour {
 
 	// Logs the player's position if a player exists and enough time has elapsed since the last position logging.
 	void LogPlayerPosition () {
-		if (GameController.instance.player == null || GameController.instance.levelComplete) {
+//		if (GameController.instance.player == null || GameController.instance.levelComplete) {
+//			return;
+//		}
+		if (GameController.instance.player == null || GameController.instance.gamestate!=GameController.GameState.Play) {
 			return;
 		}
 		if (Time.time - lastPositionLog > positionLogCooldown) {

@@ -46,7 +46,10 @@ public class MovementControllerIsometric : MonoBehaviour {
 	void Update ()
     {
 		// Do nothing if level is complete
-		if (GameController.instance.levelComplete) {
+//		if (GameController.instance.levelComplete) {
+//			return;
+//		}
+		if (GameController.instance.gamestate!=GameController.GameState.Play) {
 			return;
 		}
 
