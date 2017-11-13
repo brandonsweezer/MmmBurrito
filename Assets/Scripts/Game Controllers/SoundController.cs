@@ -1,11 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class SoundController : MonoBehaviour {
 
-    public float MasterVolume;
-    public float SoundEffectVolume;
+//    public float MasterVolume;
+//    public float SoundEffectVolume;
+
+	public Slider MasterVolume;
+	public Slider SoundEffectVolume;
 
     public AudioClip pickup;
     public AudioClip fall;
@@ -44,6 +48,8 @@ public class SoundController : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
+		MasterVolume.value = 1f;
+		SoundEffectVolume.value = 1f;
         pickup = (AudioClip) Resources.Load("Sound/pickup");
         fall = (AudioClip) Resources.Load("Sound/fall");
         bump = (AudioClip) Resources.Load("Sound/bump");
@@ -66,6 +72,18 @@ public class SoundController : MonoBehaviour {
         audSrc = gameObject.GetComponent<AudioSource>();
 
     }
+
+	public void ChangeMasterValue(float value)
+	{
+		MasterVolume.value=value;
+		Debug.Log (MasterVolume.value);
+	}
+
+	public void ChangeFXValue(float value)
+	{
+		SoundEffectVolume.value=value;
+	}
+
 	
 	// Update is called once per frame
 	void Update () {

@@ -11,6 +11,7 @@ public class LevelLoader : MonoBehaviour {
 	public GameObject canvasLevelEnd;
 	public GameObject canvasPrivacy;
 	public GameObject canvasPause;
+	public GameObject canvasSetting;
 
 
     private int maxLevelNumber = 22;
@@ -138,6 +139,11 @@ public class LevelLoader : MonoBehaviour {
 		GoToMenu ();
 	}
 
+	public void GoToMenuSetting () {
+		SetSettingCanvas();
+		GoToMenu ();
+	}
+
 	private void GoToMenu() {
 		if (!GameController.instance.levelEnd)
 		{
@@ -209,6 +215,7 @@ public class LevelLoader : MonoBehaviour {
 		canvasLevelEnd.SetActive (false);
 		canvasPrivacy.SetActive (false);
 		canvasPause.SetActive (false);
+		canvasSetting.SetActive (false);
 		canvasHome.SetActive (true);
 	}
 
@@ -218,6 +225,7 @@ public class LevelLoader : MonoBehaviour {
 		canvasPrivacy.SetActive (false);
 		canvasLevelEnd.SetActive (false);
 		canvasPause.SetActive (false);
+		canvasSetting.SetActive (false);
 		canvasLevelSelect.SetActive (true);
 	}
 
@@ -226,6 +234,7 @@ public class LevelLoader : MonoBehaviour {
 		canvasLevelSelect.SetActive (false);
 		canvasPrivacy.SetActive (false);
 		canvasPause.SetActive (false);
+		canvasSetting.SetActive (false);
 		canvasLevelEnd.SetActive (true);
 		canvasHUD.SetActive (true);
 	}
@@ -236,7 +245,18 @@ public class LevelLoader : MonoBehaviour {
 		canvasLevelEnd.SetActive (false);
 		canvasHUD.SetActive (false);
 		canvasPause.SetActive (false);
+		canvasSetting.SetActive (false);
 		canvasPrivacy.SetActive (true);
+	}
+
+	void SetSettingCanvas () {
+		canvasHome.SetActive (false);
+		canvasLevelSelect.SetActive (false);
+		canvasLevelEnd.SetActive (false);
+		canvasHUD.SetActive (false);
+		canvasPause.SetActive (false);
+		canvasPrivacy.SetActive (false);
+		canvasSetting.SetActive (true);
 	}
 
 	void SetPauseCanvas () {

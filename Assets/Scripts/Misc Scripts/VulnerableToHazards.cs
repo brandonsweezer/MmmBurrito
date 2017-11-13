@@ -34,7 +34,7 @@ public class VulnerableToHazards : MonoBehaviour {
 		GameObject gameObj = collision.gameObject;
 		if (gameObj.tag == "DeadlyHazard" || gameObj.tag == "Chef" || gameObj.tag == "Rat") {
             //TODO: DEATH SOUND
-            audSrc.PlayOneShot(SoundController.instance.death, SoundController.instance.SoundEffectVolume);
+			audSrc.PlayOneShot(SoundController.instance.death, SoundController.instance.SoundEffectVolume.value);
             GameController.instance.dead = true;
             /*OrderUI.instance.ResetAfterDeath();
             OrderUI.instance.CollectionUIUpdate();*/

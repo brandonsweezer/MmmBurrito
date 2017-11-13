@@ -72,7 +72,7 @@ public class Timer : MonoBehaviour {
         SoundController.instance.audSrc.clip = SoundController.instance.music;
         SoundController.instance.audSrc.loop = true;
         SoundController.instance.audSrc.Play();
-        SoundController.instance.audSrc.volume = SoundController.instance.MasterVolume;
+		SoundController.instance.audSrc.volume = SoundController.instance.MasterVolume.value;
 
 		// Reset animations.
 		animManager.StopAllAnimations ();
@@ -111,7 +111,7 @@ public class Timer : MonoBehaviour {
         {
             thirty = true;
             SoundController.instance.audSrc.Stop();
-            SoundController.instance.audSrc.PlayOneShot(SoundController.instance.ticking,SoundController.instance.SoundEffectVolume);
+			SoundController.instance.audSrc.PlayOneShot(SoundController.instance.ticking,SoundController.instance.SoundEffectVolume.value);
             SoundController.instance.audSrc.clip = SoundController.instance.musicUrgent;
             SoundController.instance.audSrc.Play();
 
@@ -120,7 +120,7 @@ public class Timer : MonoBehaviour {
         {
             ten = true;
             SoundController.instance.audSrc.Stop();
-            SoundController.instance.audSrc.PlayOneShot(SoundController.instance.urgentTicking, SoundController.instance.SoundEffectVolume);
+			SoundController.instance.audSrc.PlayOneShot(SoundController.instance.urgentTicking, SoundController.instance.SoundEffectVolume.value);
             SoundController.instance.audSrc.clip = SoundController.instance.musicExtraUrgent;
             SoundController.instance.audSrc.Play();
         }
