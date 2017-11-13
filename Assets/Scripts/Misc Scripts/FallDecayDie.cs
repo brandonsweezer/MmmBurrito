@@ -25,6 +25,8 @@ public class FallDecayDie : MonoBehaviour {
 	private bool slowFalling;
 	private Rigidbody rb;
 
+	private int numDecayPreventersInContact = 0;
+
 	// Must be Awake, not Start, since we'll be instantiating prefabs with this script on them that
 	// will have subsequent calls that we don't want to override with this function's code (ex: 
 	// instantiating an ingredient of a particular quality level)
@@ -51,15 +53,21 @@ public class FallDecayDie : MonoBehaviour {
 
 	// Start decaying after hitting something
 	void OnCollisionEnter(Collision col) {
-
 		if (slowFalling) {
 			DisableSlowFall ();
 		}
+		if (col.gameObject.GetComponent<PreventDecay> () != null) {
+			numDecayPreventersInContact++;
+			decaying = false;
+		}
 	}
 
-	void OnCollisionStay(Collision col) {
+	void OnCollisionExit(Collision col) {
 		if (col.gameObject.GetComponent<PreventDecay> () != null) {
-			decaying = false;
+			numDecayPreventersInContact--;
+			if (numDecayPreventersInContact == 0) {
+				decaying = true;
+			}
 		}
 	}
 
