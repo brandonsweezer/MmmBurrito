@@ -293,7 +293,13 @@ public class LevelLoader : MonoBehaviour {
 		OrderUI.instance.gameobjectfields.WinScreen.transform.GetChild (1).GetComponent<Image> ().sprite = OrderUI.instance.gameobjectfields.EmptyStar;
 		OrderUI.instance.gameobjectfields.WinScreen.transform.GetChild (2).GetComponent<Image> ().sprite = OrderUI.instance.gameobjectfields.EmptyStar;
 
-		GetComponent<Timer> ().startTimer ();
+		// disable timer for levels that don't use it
+		if (levelNumber >= 4) {
+			Timer.instance.TimerObject.SetActive (true);
+			GetComponent<Timer> ().startTimer ();
+		} else {
+			Timer.instance.TimerObject.SetActive (false);
+		}
 
 		MovementControllerIsometricNew.UpdateViewpointRotation ();
 	}
