@@ -30,7 +30,7 @@ public class SaveManager : MonoBehaviour {
 			FileStream file = File.Open(Application.persistentDataPath + "/gamesave.save", FileMode.Open);
 			save = (Save)bf.Deserialize(file);
 			file.Close();
-			Debug.Log ("SaveManager: Game loaded. Last level completed: "+save.lastLevelCompleted+" with highscore: "+GetLevelHighscore(save.lastLevelCompleted));
+			Debug.Log ("SaveManager: Game loaded. Last level completed: "+save.lastLevelCompleted+" with highscore: "+GetLevelHighscore(save.lastLevelCompleted)+" and num stars: "+GetLevelStars(save.lastLevelCompleted));
 		}
 		else {
 			Debug.Log("SaveManager: No game saved, creating new save file.");
@@ -60,7 +60,15 @@ public class SaveManager : MonoBehaviour {
 		return save.levelScores[levelNumber];
 	}
 
-	public void ProcessLevelCompletion(int levelNumber, int score) {
+
+	public void SetLevelStars(int levelNumber, int stars) {
+		save.levelStars[levelNumber] = stars;
+	}
+	public int GetLevelStars(int levelNumber) {
+		return save.levelStars[levelNumber];
+	}
+
+	public void ProcessLevelCompletion(int levelNumber, int score, int numStars) {
 		bool shouldSave = false;
 
 		if (levelNumber > GetLastLevelCompleted()) {
@@ -72,11 +80,20 @@ public class SaveManager : MonoBehaviour {
 		while (save.levelScores.Count < levelNumber+1) {
 			save.levelScores.Add (-1);
 		}
+		while (save.levelStars.Count < levelNumber+1) {
+			save.levelStars.Add (-1);
+		}
 
 		if (score > GetLevelHighscore (levelNumber)) {
 			SetLevelHighscore (levelNumber, score);
 			shouldSave = true;
 			Debug.Log ("New Highscore for level "+levelNumber+"!");
+		}
+
+		if (numStars > GetLevelStars (levelNumber)) {
+			SetLevelStars (levelNumber, numStars);
+			shouldSave = true;
+			Debug.Log ("New highest number of stars for level "+levelNumber+"!");
 		}
 
 		if (shouldSave) {

@@ -141,19 +141,23 @@ public class SubmissionController : MonoBehaviour {
 
 		int curLevel = GameController.instance.currentLevel;
 		int curScore = GameController.instance.score;
-		if (curScore >= GameController.instance.starScore[(curLevel-1)*3]){
+		int numStars = 0;
+		if (curScore >= GameController.instance.starScore[0]){
 			OrderUI.instance.gameobjectfields.WinScreen.transform.GetChild (0).GetComponent<Image> ().sprite = OrderUI.instance.gameobjectfields.FilledStar;   
+			numStars++;
 		}
-		if (curScore >= GameController.instance.starScore[((curLevel-1)*3)+1]){
-			OrderUI.instance.gameobjectfields.WinScreen.transform.GetChild (1).GetComponent<Image> ().sprite = OrderUI.instance.gameobjectfields.FilledStar;   
+		if (curScore >= GameController.instance.starScore[1]){
+			OrderUI.instance.gameobjectfields.WinScreen.transform.GetChild (1).GetComponent<Image> ().sprite = OrderUI.instance.gameobjectfields.FilledStar;
+			numStars++;
 		}
-		if (curScore >= GameController.instance.starScore[((curLevel-1)*3)+2]){
-			OrderUI.instance.gameobjectfields.WinScreen.transform.GetChild (2).GetComponent<Image> ().sprite = OrderUI.instance.gameobjectfields.FilledStar;   
+		if (curScore >= GameController.instance.starScore[2]){
+			OrderUI.instance.gameobjectfields.WinScreen.transform.GetChild (2).GetComponent<Image> ().sprite = OrderUI.instance.gameobjectfields.FilledStar;
+			numStars++;
 		}
 
 
 		// save level
-		SaveManager.instance.ProcessLevelCompletion(GameController.instance.currentLevel, GameController.instance.score);
+		SaveManager.instance.ProcessLevelCompletion(GameController.instance.currentLevel, GameController.instance.score, numStars);
 	}
 
 	IEnumerator DisplayWinScreen() {
