@@ -117,8 +117,10 @@ public class LevelLoader : MonoBehaviour {
     }
 
 
-	public void GoToLastLevelCompleted  () {
-		GoToLevel (SaveManager.instance.GetLastLevelCompleted());
+	public void PlayLatestLevel  () {
+		int levelNum = (int)Mathf.Min (maxLevelNumber, SaveManager.instance.GetLastLevelCompleted () + 1);
+		Debug.Log ("next level is " + levelNum);
+		GoToLevel (levelNum);
 	}
 
 	public void GoToMenuLevelSelect () {
