@@ -141,8 +141,8 @@ public class LevelLoader : MonoBehaviour {
 		if (!GameController.instance.levelEnd)
 		{
 			LoggingManager.instance.RecordEvent(7, "Level quit, timer at " + GameController.instance.gameTime);
-		}
-		LoggingManager.instance.RecordLevelEnd();
+            LoggingManager.instance.RecordLevelEnd();
+        }
 		SceneManager.LoadScene("Menu");
 	}
 
