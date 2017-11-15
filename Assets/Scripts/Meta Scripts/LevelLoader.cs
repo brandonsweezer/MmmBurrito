@@ -677,7 +677,7 @@ public class LevelLoader : MonoBehaviour {
 			GoToMenuLevelSelect (); 
 		}
 		else if (Input.GetKeyDown(KeyCode.R) && 
-			(GameController.instance.gamestate==GameController.GameState.Pause)) {
+			((GameController.instance.gamestate==GameController.GameState.Pause) || (GameController.instance.gamestate==GameController.GameState.Win) || (GameController.instance.gamestate==GameController.GameState.Lose))) {
 			ReplayLevel ();
 		}
 		else if (Input.GetKeyDown(KeyCode.Return) && GameController.instance.gamestate==GameController.GameState.Win)
