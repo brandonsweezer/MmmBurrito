@@ -74,7 +74,6 @@ public class SaveManager : MonoBehaviour {
 
 	public void printStars() {
 		foreach (int i in save.levelStars) {
-			Debug.Log ("star " + i);
 		}
 	}
 

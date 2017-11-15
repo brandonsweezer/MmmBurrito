@@ -651,16 +651,6 @@ public class LevelLoader : MonoBehaviour {
 	}
 
 	void Update () {
-//        if (Input.GetKeyDown(KeyCode.Escape) && !inMenuHome) {
-//			GoToPause();
-//        }
-//        else if (Input.GetKeyDown(KeyCode.Return) && !inMenuHome && GameController.instance.levelComplete)
-//        {
-//            if (loadingLevelNumber != maxLevelNumber)
-//            {
-//                GoToNextLevel();
-//            }
-//        }
 		if ((Input.GetKeyDown(KeyCode.P)||Input.GetKeyDown(KeyCode.Escape)) && GameController.instance.gamestate==GameController.GameState.Play) {
 			GoToPause();
 		}
