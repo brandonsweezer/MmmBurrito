@@ -21,7 +21,13 @@ public class WalkingChef : MonoBehaviour{
     void Update()
     {
 		if (GameController.instance.gamestate!=GameController.GameState.Play) {
+			if (gameObject.GetComponent<Animator> () != null) {
+				gameObject.GetComponent<Animator> ().StartPlayback ();
+			}
 			return;
+		}
+		if (gameObject.GetComponent<Animator> () != null) {
+			gameObject.GetComponent<Animator> ().StopPlayback ();
 		}
         if (waitTime <= 0)
         {

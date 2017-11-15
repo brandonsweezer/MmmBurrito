@@ -19,8 +19,8 @@ public class Shrink : MonoBehaviour
         {
             if (!gone && gameObject != GameController.instance.player)
             {
-                GameController.instance.objects.RemoveAt(GameController.instance.objects.IndexOf(gameObject));
-                gone = true;
+				gone = true;
+				GameController.instance.objects.RemoveAt(GameController.instance.objects.IndexOf(gameObject));
             }
             transform.localScale -= Vector3.one * Time.deltaTime*0.7f;
             if(this.transform.localScale.x < 0.3f)
