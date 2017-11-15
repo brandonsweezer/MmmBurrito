@@ -93,8 +93,13 @@ public class LevelLoader : MonoBehaviour {
     }
 
 	public void GoToLevel(int levelNumber) {
-		//SetPlayCanvas ();
-		loadingLevelNumber = levelNumber;
+        //SetPlayCanvas ();
+        SoundController.instance.audSrc.Stop();
+        SoundController.instance.audSrc.clip = SoundController.instance.music;
+        SoundController.instance.audSrc.loop = true;
+        SoundController.instance.audSrc.Play();
+
+        loadingLevelNumber = levelNumber;
         GameController.instance.levelEnd = false;
         LoggingManager.instance.RecordLevelStart(loadingLevelNumber, "");
         SceneManager.LoadScene("Level_" + loadingLevelNumber);
@@ -117,7 +122,11 @@ public class LevelLoader : MonoBehaviour {
 	public void GoToMenuMain () {
 		SetHomeCanvas();
 		GoToMenu ();
-	}
+        SoundController.instance.audSrc.Stop(); 
+        SoundController.instance.audSrc.clip = SoundController.instance.music;
+        SoundController.instance.audSrc.loop = true;
+        SoundController.instance.audSrc.Play();
+    }
 
 	public void GoToMenuPrivacy () {
 		SetPrivacyCanvas();

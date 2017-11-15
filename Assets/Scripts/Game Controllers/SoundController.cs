@@ -71,6 +71,9 @@ public class SoundController : MonoBehaviour {
 
         audSrc = gameObject.GetComponent<AudioSource>();
 
+        audSrc.clip = SoundController.instance.music;
+        audSrc.loop = true;
+        audSrc.Play();
     }
 
 	public void ChangeMasterValue(float value)
