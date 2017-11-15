@@ -110,6 +110,7 @@ public class Timer : MonoBehaviour {
 			StartCoroutine (DisplayLoseScreen ());
 			LoggingManager.instance.RecordEvent(7, "Level quit, timer at 0");
 			GameController.instance.gamestate = GameController.GameState.Lose;
+			SoundController.instance.audSrc.PlayOneShot(SoundController.instance.lose, SoundController.instance.SoundEffectVolume.value);
 			//            GameController.instance.levelEnd = true;
 			//            GameController.instance.levelComplete = true;
 

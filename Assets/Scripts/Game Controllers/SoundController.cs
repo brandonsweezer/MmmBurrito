@@ -21,7 +21,8 @@ public class SoundController : MonoBehaviour {
     public AudioClip mmmHi;
     public AudioClip mmmLo;
     public AudioClip mmmMed;
-    public AudioClip dingding;
+	public AudioClip dingding;
+	public AudioClip lose;
     public AudioClip wrongSubmission;
     public AudioClip music;
     public AudioClip musicUrgent;
@@ -68,8 +69,9 @@ public class SoundController : MonoBehaviour {
         death = (AudioClip)Resources.Load("Sound/death");
         mmmHi = (AudioClip)Resources.Load("Sound/mmm_Hi");
         mmmLo = (AudioClip)Resources.Load("Sound/mmm_Lo");
-        mmmMed = (AudioClip)Resources.Load("Sound/mmm_Med");
-        dingding = (AudioClip)Resources.Load("Sound/submit(right)");
+		mmmMed = (AudioClip)Resources.Load("Sound/mmm_Med");
+		dingding = (AudioClip)Resources.Load("Sound/submit(right)");
+		lose = (AudioClip)Resources.Load("Sound/lose");
         wrongSubmission = (AudioClip)Resources.Load("Sound/submit(wrong)");
         orderUp = (AudioClip)Resources.Load("Sound/orderup");
         music = (AudioClip)Resources.Load("Sound/music");
