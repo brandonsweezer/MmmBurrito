@@ -97,13 +97,8 @@ public class LevelLoader : MonoBehaviour {
     }
 
 	public void GoToLevel(int levelNumber) {
-        //SetPlayCanvas ();
-        SoundController.instance.audSrc.Stop();
-        SoundController.instance.audSrc.clip = SoundController.instance.music;
-        SoundController.instance.audSrc.loop = true;
-        SoundController.instance.audSrc.Play();
-
-        loadingLevelNumber = levelNumber;
+		//SetPlayCanvas ();
+		loadingLevelNumber = levelNumber;
         GameController.instance.levelEnd = false;
         LoggingManager.instance.RecordLevelStart(loadingLevelNumber, "");
         SceneManager.LoadScene("Level_" + loadingLevelNumber);
@@ -130,11 +125,7 @@ public class LevelLoader : MonoBehaviour {
 	public void GoToMenuMain () {
 		SetHomeCanvas();
 		GoToMenu ();
-        SoundController.instance.audSrc.Stop(); 
-        SoundController.instance.audSrc.clip = SoundController.instance.music;
-        SoundController.instance.audSrc.loop = true;
-        SoundController.instance.audSrc.Play();
-    }
+	}
 
 	public void GoToMenuPrivacy () {
 		SetPrivacyCanvas();
@@ -659,6 +650,7 @@ public class LevelLoader : MonoBehaviour {
         	GameController.instance.starScore.Add(300);
         	GameController.instance.starScore.Add(450);
         	GameController.instance.starScore.Add(550);
+            break;
         }
             
 
@@ -666,16 +658,6 @@ public class LevelLoader : MonoBehaviour {
 	}
 
 	void Update () {
-//        if (Input.GetKeyDown(KeyCode.Escape) && !inMenuHome) {
-//			GoToPause();
-//        }
-//        else if (Input.GetKeyDown(KeyCode.Return) && !inMenuHome && GameController.instance.levelComplete)
-//        {
-//            if (loadingLevelNumber != maxLevelNumber)
-//            {
-//                GoToNextLevel();
-//            }
-//        }
 		if ((Input.GetKeyDown(KeyCode.P)||Input.GetKeyDown(KeyCode.Escape)) && GameController.instance.gamestate==GameController.GameState.Play) {
 			GoToPause();
 		}
