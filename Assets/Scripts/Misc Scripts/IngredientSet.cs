@@ -79,7 +79,7 @@ public class IngredientSet : MonoBehaviour {
 	}
 
 	public static Sprite GetIndicatorSpriteForIngredient(string ingredientString) {
-		if (GameController.instance.ABValue == 2)
+		if (GameController.instance.ABValue >= 2)
 		{
 			return ingredientSprites_indicator_shape[StringToIngredient (ingredientString)];
 		}

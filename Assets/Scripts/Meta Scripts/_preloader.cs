@@ -7,8 +7,8 @@ public class _preloader : MonoBehaviour {
 
 	void Awake () {
         LoggingManager.instance.Initialize(094, 3, false);
-        GameController.instance.ABValue = LoggingManager.instance.assignABTestValue(Random.Range(1, 3));
         LoggingManager.instance.RecordPageLoad();
+        GameController.instance.ABValue = LoggingManager.instance.assignABTestValue(Random.Range(1, 3));
         LoggingManager.instance.RecordABTestValue();
         SceneManager.LoadScene ("Menu");
 
