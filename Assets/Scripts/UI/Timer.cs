@@ -73,10 +73,10 @@ public class Timer : MonoBehaviour {
 	public void startTimer () {
 		timeDisplayText.color = Color.black;
 		running = true;
-        SoundController.instance.audSrc.clip = SoundController.instance.music;
-        SoundController.instance.audSrc.loop = true;
-        SoundController.instance.audSrc.Play();
-		SoundController.instance.audSrc.volume = SoundController.instance.MasterVolume.value;
+        //SoundController.instance.audSrc.clip = SoundController.instance.music;
+        //SoundController.instance.audSrc.loop = true;
+        //SoundController.instance.audSrc.Play();
+		//SoundController.instance.audSrc.volume = SoundController.instance.MasterVolume.value;
 
 		// Reset animations.
 		animManager.StopAllAnimations ();
