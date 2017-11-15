@@ -81,12 +81,17 @@ public class LevelLoader : MonoBehaviour {
     }
 
     public void GoToNextLevel()
-    {
+	{
+		if (loadingLevelNumber == maxLevelNumber) {
+			GoToMenuMain ();
+			return;
+		}
+
         //logging level end
         LoggingManager.instance.RecordLevelEnd();
 
         //next level
-        loadingLevelNumber++;
+		loadingLevelNumber = loadingLevelNumber+1;
         GameController.instance.levelEnd = false;
         LoggingManager.instance.RecordLevelStart(loadingLevelNumber, "");
         SceneManager.LoadScene("Level_" + loadingLevelNumber);
@@ -682,10 +687,7 @@ public class LevelLoader : MonoBehaviour {
 		}
 		else if (Input.GetKeyDown(KeyCode.Return) && GameController.instance.gamestate==GameController.GameState.Win)
 		{
-			if (loadingLevelNumber != maxLevelNumber)
-			{
-				GoToNextLevel();
-			}
+			GoToNextLevel ();
 		}
 
 	}
