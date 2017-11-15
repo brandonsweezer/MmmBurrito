@@ -12,7 +12,7 @@ public class SaveManager : MonoBehaviour {
 	// Make this class a singleton
 	public static SaveManager instance = null;
 	void Awake () {
-		if (instance == null) {
+        if (instance == null) {
 			instance = this;
 		} else if (instance != this) {
 			Destroy (this);

@@ -643,6 +643,7 @@ public class LevelLoader : MonoBehaviour {
         	GameController.instance.starScore.Add(300);
         	GameController.instance.starScore.Add(450);
         	GameController.instance.starScore.Add(550);
+            break;
         }
             
 
