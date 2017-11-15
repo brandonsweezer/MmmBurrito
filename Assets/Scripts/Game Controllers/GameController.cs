@@ -37,7 +37,9 @@ public class GameController : MonoBehaviour {
     //number of total stars needed to unlock a level
     public List<int> starUnlock;
 
-	public GameState gamestate = GameState.Menu; 
+	public GameState gamestate = GameState.Menu;
+
+    public bool first = true;
 
     // Make this class a singleton
     public static GameController instance = null;

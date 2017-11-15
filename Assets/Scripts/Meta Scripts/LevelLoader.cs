@@ -658,7 +658,15 @@ public class LevelLoader : MonoBehaviour {
 	}
 
 	void Update () {
-		if ((Input.GetKeyDown(KeyCode.P)||Input.GetKeyDown(KeyCode.Escape)) && GameController.instance.gamestate==GameController.GameState.Play) {
+        if (GameController.instance.first)
+        {
+            GameController.instance.first = false;
+            LoggingManager.instance.Initialize(094, 3, false);
+            LoggingManager.instance.RecordPageLoad();
+            GameController.instance.ABValue = LoggingManager.instance.assignABTestValue(Random.Range(1, 3));
+            LoggingManager.instance.RecordABTestValue();
+        }
+        if ((Input.GetKeyDown(KeyCode.P)||Input.GetKeyDown(KeyCode.Escape)) && GameController.instance.gamestate==GameController.GameState.Play) {
 			GoToPause();
 		}
 		else if (Input.GetKeyDown(KeyCode.P)||Input.GetKeyDown(KeyCode.Escape) && GameController.instance.gamestate==GameController.GameState.Pause) {
