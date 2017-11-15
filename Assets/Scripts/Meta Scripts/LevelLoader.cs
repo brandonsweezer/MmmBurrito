@@ -172,7 +172,7 @@ public class LevelLoader : MonoBehaviour {
 
 	public void FillStars () {
 
-		for (int i=0; i<maxLevelNumber; i ++) {
+		for (int i=0; i<=maxLevelNumber; i ++) {
 			canvasLevelSelect.transform.GetChild (3 + i).GetChild(1).GetChild(1).GetComponent<Image> ().sprite = OrderUI.instance.gameobjectfields.EmptyStar;
 			canvasLevelSelect.transform.GetChild (3 + i).GetChild(1).GetChild (1).GetComponent<Image> ().color = Color.black;
 			canvasLevelSelect.transform.GetChild (3 + i).GetChild(1).GetChild(0).GetComponent<Image> ().sprite = OrderUI.instance.gameobjectfields.EmptyStar;
