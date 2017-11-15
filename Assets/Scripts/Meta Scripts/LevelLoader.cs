@@ -614,6 +614,44 @@ public class LevelLoader : MonoBehaviour {
                 GameController.instance.starScore.Add(250);
                 GameController.instance.starScore.Add(300);
                 break;
+        case 20:
+                timer.TimerInit(90);
+                OrderController.instance.AddOrder(
+                    IngredientSet.Ingredients.Meatball, 1,
+                    IngredientSet.Ingredients.Lettuce, 1,
+                    IngredientSet.Ingredients.Tomato, 1);
+                GameController.instance.starScore.Clear();
+                GameController.instance.starScore.Add(200);
+                GameController.instance.starScore.Add(250);
+                GameController.instance.starScore.Add(300);
+                break;
+        case 21:
+            timer.TimerInit(90);
+            OrderController.instance.AddOrder(
+                IngredientSet.Ingredients.Cheese, 1,
+                IngredientSet.Ingredients.Beans, 1,
+                IngredientSet.Ingredients.Meatball, 1);
+            OrderController.instance.AddOrder(
+                IngredientSet.Ingredients.Tomato, 2,
+                IngredientSet.Ingredients.Meatball, 1);
+            GameController.instance.starScore.Clear();
+            GameController.instance.starScore.Add(350);
+            GameController.instance.starScore.Add(400);
+            GameController.instance.starScore.Add(500);
+            break;
+        case 22:
+        	timer.TimerInit(90);
+        	OrderController.instance.AddOrder(
+        		IngredientSet.Ingredients.Cheese, 1,
+        		IngredientSet.Ingredients.Beans, 1,
+        		IngredientSet.Ingredients.Meatball, 1,
+        		IngredientSet.Ingredients.Tomato, 1,
+        		IngredientSet.Ingredients.Lettuce, 1,
+        		IngredientSet.Ingredients.Rice, 1);
+        	GameController.instance.starScore.Clear();
+        	GameController.instance.starScore.Add(300);
+        	GameController.instance.starScore.Add(450);
+        	GameController.instance.starScore.Add(550);
         }
             
 
