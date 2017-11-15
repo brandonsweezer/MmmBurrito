@@ -16,8 +16,8 @@ public class Timer : MonoBehaviour {
 	private float time;
 	private float maxT;
 
-    private bool isfast;
-    private bool isvfast;
+	private bool isfast;
+	private bool isvfast;
 
 	private float totalSeconds;
 
@@ -51,24 +51,24 @@ public class Timer : MonoBehaviour {
 	Vector3 signalingScale = new Vector3(1.5f, 1.5f, 1.5f);
 	Color signalingTint = new Color(1, 1, 1, 0.7f);
 
-    bool thirty;
-    bool ten;
+	bool thirty;
+	bool ten;
 
-//	void Awake() {
-//		animManager = TimerObject.GetComponent<UIAnimationManager> ();
-//	}
+	//	void Awake() {
+	//		animManager = TimerObject.GetComponent<UIAnimationManager> ();
+	//	}
 
-    void Start () {
+	void Start () {
 		running = false;
 		timeLeftWarningContainer.SetActive (false);
-        thirty = false;
-        ten = false;
+		thirty = false;
+		ten = false;
 
-        isfast = false;
-        isvfast = false;
+		isfast = false;
+		isvfast = false;
 
-        timeLeftWarningText = timeLeftWarningContainer.transform.GetChild (0).GetComponent<Text> ();
-    }
+		timeLeftWarningText = timeLeftWarningContainer.transform.GetChild (0).GetComponent<Text> ();
+	}
 
 	public void TimerInit (int maxTime) {
 		time = maxTime;
@@ -79,11 +79,11 @@ public class Timer : MonoBehaviour {
 	public void startTimer () {
 		timeDisplayText.color = Color.black;
 		running = true;
-        isfast = false;
-        isvfast = false;
-        //SoundController.instance.audSrc.clip = SoundController.instance.music;
-        //SoundController.instance.audSrc.loop = true;
-        //SoundController.instance.audSrc.Play();
+		isfast = false;
+		isvfast = false;
+		//SoundController.instance.audSrc.clip = SoundController.instance.music;
+		//SoundController.instance.audSrc.loop = true;
+		//SoundController.instance.audSrc.Play();
 		//SoundController.instance.audSrc.volume = SoundController.instance.MasterVolume.value;
 
 		// Reset animations.
@@ -96,9 +96,9 @@ public class Timer : MonoBehaviour {
 
 	public void TimerUpdate () {
 		// only update timer if level is in progress
-//		if (GameController.instance.levelComplete) {
-//			return;
-//		}
+		//		if (GameController.instance.levelComplete) {
+		//			return;
+		//		}
 		if (GameController.instance.gamestate!=GameController.GameState.Play) {
 			return;
 		}
@@ -108,81 +108,33 @@ public class Timer : MonoBehaviour {
 		if (time < 0) {
 			time = 0.0f;
 			StartCoroutine (DisplayLoseScreen ());
-            LoggingManager.instance.RecordEvent(7, "Level quit, timer at 0");
+			LoggingManager.instance.RecordEvent(7, "Level quit, timer at 0");
 			GameController.instance.gamestate = GameController.GameState.Lose;
-//            GameController.instance.levelEnd = true;
-//            GameController.instance.levelComplete = true;
+			//            GameController.instance.levelEnd = true;
+			//            GameController.instance.levelComplete = true;
 
 
 		}
-		bool timeEnding = false;
+
 		totalSeconds = Mathf.Ceil (time);
 		int minutes = (int) totalSeconds / 60;
-        int seconds = (int)totalSeconds % 60;
-
+		int seconds = (int)totalSeconds % 60;
 		string secondsDisplay;
-        if (totalSeconds == 30 && thirty == false) //TICKING
-        {
-            thirty = true;
-            SoundController.instance.audSrc.Stop();
-			SoundController.instance.audSrc.PlayOneShot(SoundController.instance.ticking,SoundController.instance.SoundEffectVolume.value);
-            SoundController.instance.audSrc.clip = SoundController.instance.musicUrgent;
-            SoundController.instance.audSrc.Play();
-
-        }
-        if (totalSeconds == 10 && ten == false) //URGENT TICKING
-        {
-            ten = true;
-            isvfast = true;
-            SoundController.instance.audSrc.Stop();
-            SoundController.instance.audSrc.PlayOneShot(SoundController.instance.urgentTicking, SoundController.instance.SoundEffectVolume.value);
-            SoundController.instance.audSrc.clip = SoundController.instance.musicExtraUrgent;
-            SoundController.instance.audSrc.Play();
-        }
-
-        if (seconds < 10) {
-            secondsDisplay = "0" + seconds.ToString();
-            if ( !isvfast)
-            {
-                isvfast = true;
-                SoundController.instance.audSrc.Stop();
-                SoundController.instance.audSrc.PlayOneShot(SoundController.instance.urgentTicking, SoundController.instance.SoundEffectVolume.value);
-                SoundController.instance.audSrc.clip = SoundController.instance.musicExtraUrgent;
-                SoundController.instance.audSrc.Play();
-            }
-            
-        } else {
+		if (seconds < 10) {
+			secondsDisplay = "0" + seconds.ToString();
+		} else {
 			secondsDisplay = seconds.ToString ();
 		}
-		if (seconds <= 30 && minutes == 0) {
-			timeEnding = true;
-            if (!isfast)
-            {
-                isfast = true;
-                SoundController.instance.audSrc.Stop();
-                SoundController.instance.audSrc.PlayOneShot(SoundController.instance.urgentTicking, SoundController.instance.SoundEffectVolume.value);
-                SoundController.instance.audSrc.clip = SoundController.instance.musicExtraUrgent;
-                SoundController.instance.audSrc.Play();
-            }
-        }
-			
-
 		timeDisplay = minutes.ToString() +":" +secondsDisplay;
-		if (timeEnding) {
+		if (seconds <= 30 && minutes == 0) {
 			timeDisplayText.color = Color.red;
 		}
 
-        if (time == 0)
-        {
-            SoundController.instance.audSrc.Stop();
-            SoundController.instance.audSrc.clip = SoundController.instance.music;
-        }
-
-        GameController.instance.gameTime = (int)time;
+		GameController.instance.gameTime = (int)time;
 
 
 		timeDisplayText.text = timeDisplay;
-	
+
 		// Signal the time left (clock animation).
 		bool tryToSignal = false;
 		// check if at one of the schedules signals
@@ -204,11 +156,12 @@ public class Timer : MonoBehaviour {
 			if (LevelJustStarted () && !alreadySignaledLevelStart) {
 				alreadySignaledLevelStart = true;
 				SignalTimeLeft (1.5f, 0f);
-			} else {
+			}  else {
 				SignalTimeLeft ();
 			}
 		}
 	}
+
 
 	IEnumerator DisplayLoseScreen() {
 		yield return new WaitForSeconds (2.2f);
@@ -231,7 +184,7 @@ public class Timer : MonoBehaviour {
 		animManager.ScaleToValueAndBack (signalingScale, duration, tween1, tween2);
 		// animManager.TintToColorAndBack (signalingTint, duration, tween1, tween2);
 	}
-	
+
 	// Update is called once per frame
 	void Update () {
 		if (running) {

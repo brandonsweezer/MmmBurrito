@@ -31,7 +31,16 @@ public class SoundController : MonoBehaviour {
     public AudioClip invincible;
     public AudioClip orderUp;
 
-    public AudioSource audSrc;
+	public AudioSource audSrc;
+	public AudioSource audSrcMusic;
+
+	// for playing music at different volumes
+	public MusicUrgency musicUrgency;
+	public enum MusicUrgency {
+		Regular,
+		Urgent,
+		ExtraUrgent
+	};
 
     public static SoundController instance = null;
     void Awake()
@@ -48,6 +57,7 @@ public class SoundController : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
+		musicUrgency = MusicUrgency.Regular;
 		MasterVolume.value = 1f;
 		SoundEffectVolume.value = 1f;
         pickup = (AudioClip) Resources.Load("Sound/pickup");
@@ -69,28 +79,84 @@ public class SoundController : MonoBehaviour {
         urgentTicking = (AudioClip)Resources.Load("Sound/10 sec");
         invincible = (AudioClip)Resources.Load("Sound/invincible");
 
-        audSrc = gameObject.GetComponent<AudioSource>();
+        //audSrc = gameObject.GetComponent<AudioSource>();
 
-        audSrc.clip = SoundController.instance.music;
-        audSrc.loop = true;
-        audSrc.Play();
+        audSrcMusic.clip = SoundController.instance.music;
+		audSrcMusic.loop = true;
+		audSrcMusic.Play();
     }
 
 	public void ChangeMasterValue(float value)
 	{
 		MasterVolume.value=value;
-		Debug.Log (MasterVolume.value);
+		audSrcMusic.volume = value;
 	}
 
 	public void ChangeFXValue(float value)
 	{
 		SoundEffectVolume.value=value;
+		audSrc.volume = value;
 	}
 
-	
+	public void PlayMusic() {
+		SoundController.instance.audSrcMusic.Stop();
+		UpdateMusicClipUrgency ();
+		SoundController.instance.audSrcMusic.Play();
+	}
+
+	public void SetMusicUrgency(MusicUrgency urgency) {
+		musicUrgency = urgency;
+	}
+
+	private void UpdateMusicClipUrgency() {
+		switch (musicUrgency) {
+		case MusicUrgency.Regular:
+			SoundController.instance.audSrcMusic.clip = SoundController.instance.music;
+			break;
+		case MusicUrgency.Urgent:
+			SoundController.instance.audSrcMusic.clip = SoundController.instance.musicUrgent;
+			break;
+		case MusicUrgency.ExtraUrgent:
+			SoundController.instance.audSrcMusic.clip = SoundController.instance.musicExtraUrgent;
+			break;
+		}
+	}
+
+	public void ChangePlayedMusicUrgencyIfNecessary(MusicUrgency urgency) {
+		if (musicUrgency != urgency) {
+			// play ticking noise
+			if (urgency == MusicUrgency.Urgent) {
+				audSrc.PlayOneShot(ticking,SoundEffectVolume.value);
+			} else if (urgency == MusicUrgency.ExtraUrgent) {
+				audSrc.PlayOneShot(urgentTicking,SoundEffectVolume.value);
+			}
+			// update music
+			SetMusicUrgency (urgency);
+			PlayMusic ();
+		}
+	}
+
+
+
+	private void SetMusicBasedOnTime(float time) {
+		if (GameController.instance.gamestate != GameController.GameState.Play && GameController.instance.gamestate != GameController.GameState.Pause) {
+			SoundController.instance.ChangePlayedMusicUrgencyIfNecessary (SoundController.MusicUrgency.Regular);
+			return;
+		}
+
+		if (time > 30 || time <= 0) {
+			SoundController.instance.ChangePlayedMusicUrgencyIfNecessary (SoundController.MusicUrgency.Regular);
+		} else if (time <= 30 && time > 10) {
+			SoundController.instance.ChangePlayedMusicUrgencyIfNecessary (SoundController.MusicUrgency.Urgent);
+		} else if (time <= 10) {
+			SoundController.instance.ChangePlayedMusicUrgencyIfNecessary (SoundController.MusicUrgency.ExtraUrgent);
+		}
+	}
+
+
 	// Update is called once per frame
 	void Update () {
-		
+		SetMusicBasedOnTime (Timer.instance.getTime());
 	}
 
 }

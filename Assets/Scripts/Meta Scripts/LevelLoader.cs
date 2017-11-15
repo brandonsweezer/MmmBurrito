@@ -91,9 +91,9 @@ public class LevelLoader : MonoBehaviour {
         LoggingManager.instance.RecordLevelStart(loadingLevelNumber, "");
         SceneManager.LoadScene("Level_" + loadingLevelNumber);
 
-        SoundController.instance.audSrc.Stop();
+        /*SoundController.instance.audSrc.Stop();
         SoundController.instance.audSrc.clip = SoundController.instance.music;
-        SoundController.instance.audSrc.Play();
+        SoundController.instance.audSrc.Play();*/
     }
 
 	public void GoToLevel(int levelNumber) {
@@ -103,9 +103,9 @@ public class LevelLoader : MonoBehaviour {
         LoggingManager.instance.RecordLevelStart(loadingLevelNumber, "");
         SceneManager.LoadScene("Level_" + loadingLevelNumber);
 
-        SoundController.instance.audSrc.Stop();
+        /*SoundController.instance.audSrc.Stop();
         SoundController.instance.audSrc.clip = SoundController.instance.music;
-        SoundController.instance.audSrc.Play();
+        SoundController.instance.audSrc.Play();*/
     }
 
 
