@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 public class _preloader : MonoBehaviour {
 
 	void Awake () {
-        LoggingManager.instance.Initialize(094, 3, true);
+        LoggingManager.instance.Initialize(094, 3, false);
         GameController.instance.ABValue = LoggingManager.instance.assignABTestValue(Random.Range(1, 3));
         LoggingManager.instance.RecordPageLoad();
         LoggingManager.instance.RecordABTestValue();
