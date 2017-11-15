@@ -90,6 +90,10 @@ public class LevelLoader : MonoBehaviour {
         GameController.instance.levelEnd = false;
         LoggingManager.instance.RecordLevelStart(loadingLevelNumber, "");
         SceneManager.LoadScene("Level_" + loadingLevelNumber);
+
+        SoundController.instance.audSrc.Stop();
+        SoundController.instance.audSrc.clip = SoundController.instance.music;
+        SoundController.instance.audSrc.Play();
     }
 
 	public void GoToLevel(int levelNumber) {
@@ -103,6 +107,10 @@ public class LevelLoader : MonoBehaviour {
         GameController.instance.levelEnd = false;
         LoggingManager.instance.RecordLevelStart(loadingLevelNumber, "");
         SceneManager.LoadScene("Level_" + loadingLevelNumber);
+
+        SoundController.instance.audSrc.Stop();
+        SoundController.instance.audSrc.clip = SoundController.instance.music;
+        SoundController.instance.audSrc.Play();
     }
 
 
@@ -145,7 +153,6 @@ public class LevelLoader : MonoBehaviour {
 		}
 		LoggingManager.instance.RecordLevelEnd();
 		SceneManager.LoadScene("Menu");
-		SoundController.instance.audSrc.Stop();
 	}
 
 	public void GoToPause () {

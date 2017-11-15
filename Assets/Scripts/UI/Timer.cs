@@ -16,6 +16,9 @@ public class Timer : MonoBehaviour {
 	private float time;
 	private float maxT;
 
+    private bool isfast;
+    private bool isvfast;
+
 	private float totalSeconds;
 
 	private string timeDisplay;
@@ -61,7 +64,10 @@ public class Timer : MonoBehaviour {
         thirty = false;
         ten = false;
 
-		timeLeftWarningText = timeLeftWarningContainer.transform.GetChild (0).GetComponent<Text> ();
+        isfast = false;
+        isvfast = false;
+
+        timeLeftWarningText = timeLeftWarningContainer.transform.GetChild (0).GetComponent<Text> ();
     }
 
 	public void TimerInit (int maxTime) {
@@ -73,6 +79,8 @@ public class Timer : MonoBehaviour {
 	public void startTimer () {
 		timeDisplayText.color = Color.black;
 		running = true;
+        isfast = false;
+        isvfast = false;
         //SoundController.instance.audSrc.clip = SoundController.instance.music;
         //SoundController.instance.audSrc.loop = true;
         //SoundController.instance.audSrc.Play();
@@ -125,20 +133,38 @@ public class Timer : MonoBehaviour {
         if (totalSeconds == 10 && ten == false) //URGENT TICKING
         {
             ten = true;
+            isvfast = true;
             SoundController.instance.audSrc.Stop();
-			SoundController.instance.audSrc.PlayOneShot(SoundController.instance.urgentTicking, SoundController.instance.SoundEffectVolume.value);
+            SoundController.instance.audSrc.PlayOneShot(SoundController.instance.urgentTicking, SoundController.instance.SoundEffectVolume.value);
             SoundController.instance.audSrc.clip = SoundController.instance.musicExtraUrgent;
             SoundController.instance.audSrc.Play();
         }
 
-		if (seconds < 10) {
-			secondsDisplay = "0" + seconds.ToString ();
-		} else {
+        if (seconds < 10) {
+            secondsDisplay = "0" + seconds.ToString();
+            if ( !isvfast)
+            {
+                isvfast = true;
+                SoundController.instance.audSrc.Stop();
+                SoundController.instance.audSrc.PlayOneShot(SoundController.instance.urgentTicking, SoundController.instance.SoundEffectVolume.value);
+                SoundController.instance.audSrc.clip = SoundController.instance.musicExtraUrgent;
+                SoundController.instance.audSrc.Play();
+            }
+            
+        } else {
 			secondsDisplay = seconds.ToString ();
 		}
 		if (seconds <= 30 && minutes == 0) {
 			timeEnding = true;
-		}
+            if (!isfast)
+            {
+                isfast = true;
+                SoundController.instance.audSrc.Stop();
+                SoundController.instance.audSrc.PlayOneShot(SoundController.instance.urgentTicking, SoundController.instance.SoundEffectVolume.value);
+                SoundController.instance.audSrc.clip = SoundController.instance.musicExtraUrgent;
+                SoundController.instance.audSrc.Play();
+            }
+        }
 			
 
 		timeDisplay = minutes.ToString() +":" +secondsDisplay;
@@ -149,6 +175,7 @@ public class Timer : MonoBehaviour {
         if (time == 0)
         {
             SoundController.instance.audSrc.Stop();
+            SoundController.instance.audSrc.clip = SoundController.instance.music;
         }
 
         GameController.instance.gameTime = (int)time;
