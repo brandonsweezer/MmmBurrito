@@ -402,7 +402,8 @@ public class OrderUI : MonoBehaviour {
 			if (GameController.instance.player != null) {
 				int newNumCaughtIngredients = GameController.instance.player.GetComponent<ObjectCatcher> ().GetNumCaughtIngredients ();
 				if (newNumCaughtIngredients != lastNumCaughtIngredients) {
-					// Only update if lost ingredients. If caught some ingredients, we'll just update after the animation.
+					GameController.instance.UpdateSubmissionValidity();
+					// Only update inventory if we lost ingredients. If we caught some ingredients, we'll just update after the animated icon moves to the inventory.
 					if (newNumCaughtIngredients < lastNumCaughtIngredients) {
 						UpdateUIAfterInventoryChange ();
 					}
@@ -413,7 +414,6 @@ public class OrderUI : MonoBehaviour {
 	}
 
 	public void UpdateUIAfterInventoryChange() {
-		GameController.instance.UpdateSubmissionValidity();
 		CollectionUIUpdate ();
 		TicketUpdate ();
 	}
