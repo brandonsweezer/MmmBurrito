@@ -78,7 +78,7 @@ public class ObjectSpawn : MonoBehaviour {
 		GameObject obj = Instantiate (objectToSpawn, spawnPosition, spawnRotation) as GameObject;
 	}
 
-	private GameObject GetObjectToSpawn(int numRetries = 2) {
+	private GameObject GetObjectToSpawn(int numRetries = 1) {
 		GameObject objectToSpawn = fallingObjectList [Random.Range (0, fallingObjectList.Length)];
 
 		// If not retrying (i.e. not cheating to favour needed ingredients), return.
