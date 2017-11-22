@@ -37,11 +37,43 @@ public class TrashingController : MonoBehaviour {
 	public void Trash() {
 		LoggingManager.instance.RecordEvent(3, "Trashed ingredients with T: " + GameController.instance.player.GetComponent<ObjectCatcher>().GetIngredients().ToString());
 
-		ThrowOutContents();
+		//ThrowOutContents();
+		Undo ();
+
 		SoundController.instance.audSrc.PlayOneShot(SoundController.instance.trash, SoundController.instance.SoundEffectVolume.value);
 
         // Update UI
         OrderUI.instance.setGeneralMessage ("Burrito Trashed");
+	}
+
+	void Undo() {
+		GameObject player = GameController.instance.player;
+		CaughtIngredientSet caughtIngredients = player.GetComponent<ObjectCatcher> ().GetIngredients ();
+		int numIngredients = caughtIngredients.ingredientSet.GetFullCount ();
+		if (numIngredients == 0) {
+			return;
+		}
+
+		IngredientSet.Ingredients ingredientType;
+		int quality;
+		caughtIngredients.Undo (out ingredientType, out quality);
+
+		// spawn
+		Vector3 spawnDir = GetSpawnDirRandom(100f);
+		Vector3 spawnLocation = player.transform.position + spawnDir * ingredientSpawnZOffset + ingredientSpawnAdditionalOffset;
+		GameObject obj = Instantiate (IngredientSet.GetPrefab(ingredientType), spawnLocation, Quaternion.identity) as GameObject;
+		FallDecayDie fallScript = obj.GetComponent<FallDecayDie> ();
+
+		// give velocity
+		fallScript.DisableSlowFall ();
+		fallScript.RemoveIngredientIndicator();
+		obj.GetComponent<Rigidbody> ().velocity = spawnDir * ingredientSpawnZVelocity + ingredientSpawnAdditionalVelocity;
+
+		// start scaling
+		obj.GetComponent<ScaleOverTime> ().StartScaling(0.01f, 1f, 7f);
+
+		// set quality
+		fallScript.SetQualityLevel (quality);
 	}
 
 	// Spawn the ingredients around the burrito and empty the contents
@@ -92,6 +124,12 @@ public class TrashingController : MonoBehaviour {
 		float angleBetweenSpawns = angleSpread / Mathf.Lerp(numIngredients, 6f, 0.5f);
 		float firstIngredientAngle = -(angleBetweenSpawns * (numIngredients-1) / 2f);
 		float angle = firstIngredientAngle + angleBetweenSpawns * ingredientNum;
+		return Quaternion.AngleAxis (angle, Vector3.up) * behindBurrito;
+	}
+
+	Vector3 GetSpawnDirRandom(float angleSpread) {
+		Vector3 behindBurrito = -GameController.instance.player.GetComponent<MovementControllerIsometricNew> ().GetXZFacing();
+		float angle = (float) RandomGenerator.RandomNumberBetween(-angleSpread/2, angleSpread/2);
 		return Quaternion.AngleAxis (angle, Vector3.up) * behindBurrito;
 	}
 }

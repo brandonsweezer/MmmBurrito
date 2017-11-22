@@ -105,7 +105,7 @@ public class LoggingManager : MonoBehaviour
         else
         {
             string logReturnedString = www.downloadHandler.text;
-            Debug.Log(logReturnedString);
+            //Debug.Log(logReturnedString);
         }
     }
 

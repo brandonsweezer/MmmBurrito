@@ -34,13 +34,18 @@ public class CaughtIngredientSet {
 		ingredientCatchOrder.Clear ();
 	}
 
-	public void Undo() {
+	public void Undo(out IngredientSet.Ingredients ingredientType, out int quality) {
 		if (ingredientCatchOrder.Count == 0) {
 			Debug.Log ("Empty burrito, can't undo anything.");
+			ingredientType = IngredientSet.Ingredients.Beans;
+			quality = -1;
 			return;
 		}
 
-		IngredientSet.Ingredients ingredientType = ingredientCatchOrder [ingredientCatchOrder.Count - 1];
+		// Set the out vars
+		ingredientType = ingredientCatchOrder [ingredientCatchOrder.Count - 1];
+		quality = ingredientQualities [(int)ingredientType] [ingredientQualities [(int)ingredientType].Count - 1];
+
 		ingredientCatchOrder.RemoveAt (ingredientCatchOrder.Count - 1);
 		ingredientSet.AddToCount (ingredientType, -1);
 		ingredientQualities [(int)ingredientType].RemoveAt (ingredientQualities [(int)ingredientType].Count - 1);
