@@ -87,7 +87,7 @@ public class ObjectSpawn : MonoBehaviour {
 		}
 
 		// We're cheating, so retry for [numRetries] times until we find a needed ingredient.
-		IngredientSet cumulativeIngredientSet = OrderController.instance.GetCumulativeIngredientSet ();
+		IngredientSet cumulativeIngredientSet = OrderController.instance.GetCumulativeActiveIngredientSet ();
 		for (int i = 0; i < numRetries; i++) {
 			IngredientSet.Ingredients ingredientToSpawn = IngredientSet.StringToIngredient(objectToSpawn.name);
 			if (cumulativeIngredientSet.GetCount (ingredientToSpawn) > 0) {

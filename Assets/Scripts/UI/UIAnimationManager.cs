@@ -25,9 +25,9 @@ public class UIAnimationManager : MonoBehaviour {
 	}
 
 	public void GetNewKeys() {
-		moveKey = "Move_" + name + Time.time;
-		scaleKey = "Scale_" + name + Time.time;
-		tintKey = "Tint_" + name + Time.time;
+		moveKey = "Move_" + name + Time.time + gameObject.GetHashCode();
+		scaleKey = "Scale_" + name + Time.time + gameObject.GetHashCode();
+		tintKey = "Tint_" + name + Time.time + gameObject.GetHashCode();
 	}
 
 	public void ResetToInitialValues() {
@@ -38,6 +38,10 @@ public class UIAnimationManager : MonoBehaviour {
 	public void SetValues(Vector2 targetPos, Vector3 scale) {
 		rect.anchoredPosition = targetPos;
 		rect.localScale = scale;
+	}
+
+	public void SetPos(Vector2 targetPos) {
+		rect.anchoredPosition = targetPos;
 	}
 
 	public void TweenToInitialValues(float duration = 1f, Action callback = null) {
