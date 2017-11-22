@@ -284,4 +284,39 @@ public class IngredientSet : MonoBehaviour {
 		}
 		return false;
 	}
+
+	// Combines two ingredient sets
+	public void Combine(IngredientSet otherSet) {
+		for (int i = 0; i < numIngredientTypes; i++) {
+			ingredients [i] += otherSet.ingredients [i];
+		}
+	}
+
+	public IngredientSet Clone() {
+		IngredientSet result = new IngredientSet ();
+		result.Combine (this);
+		return result;
+	}
+
+	public IngredientSet.Ingredients GetNthIngredient(int index) {
+		int walkLeft = index + 1;
+		int curIngredientIndex = 0;
+		IngredientSet.Ingredients ingredientType = (IngredientSet.Ingredients)0;
+		while (walkLeft >= 0) {
+			ingredientType = (IngredientSet.Ingredients)curIngredientIndex;
+			if (GetCount (ingredientType) >= walkLeft) {
+				return ingredientType;
+			} else {
+				curIngredientIndex++;
+				walkLeft -= GetCount (ingredientType);
+			}
+		}
+		return ingredientType;
+	}
+
+	public IngredientSet.Ingredients GetRandomIngredientWeighted() {
+		int count = GetFullCount ();
+		int randomIndex = UnityEngine.Random.Range (0, count);
+		return GetNthIngredient (randomIndex);
+	}
 }

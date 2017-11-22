@@ -106,4 +106,17 @@ public class OrderController : MonoBehaviour {
 		orderList.Remove (order);
 		OrderUI.instance.TicketInit (2);
 	}
+
+	public IngredientSet GetCumulativeIngredientSet() {
+		if (orderList.Count == 0) {
+			return new IngredientSet ();
+		}
+
+		IngredientSet set = orderList [0].ingredientSet.Clone ();
+		for (int i = 1; i < orderList.Count; i++) {
+			set.Combine (orderList [i].ingredientSet);
+		}
+
+		return set;
+	}
 }

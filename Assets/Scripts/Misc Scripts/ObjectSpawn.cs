@@ -73,9 +73,14 @@ public class ObjectSpawn : MonoBehaviour {
 		}
 
 		// Spawn the object
-		GameObject objectToSpawn = fallingObjectList[Random.Range(0, fallingObjectList.Length)];
+		GameObject objectToSpawn = GetObjectToSpawn();
 		Quaternion spawnRotation = Quaternion.identity;
 		GameObject obj = Instantiate (objectToSpawn, spawnPosition, spawnRotation) as GameObject;
+	}
+
+	private GameObject GetObjectToSpawn() {
+		return fallingObjectList[Random.Range(0, fallingObjectList.Length)];
+		// return OrderController.instance.GetCumulativeIngredientSet().GetNthIngredient(0);
 	}
 
 	public static bool RaycastUntilTerrain(Vector3 position, Vector3 direction, out RaycastHit outHit, float maxDistance = Mathf.Infinity) {
