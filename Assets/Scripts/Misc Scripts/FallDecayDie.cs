@@ -7,7 +7,7 @@ public class FallDecayDie : MonoBehaviour {
 
 	private bool decaying;
 
-	public int startingQualityLevel = 3;
+	public int startingQualityLevel = 2;
 
 	public GameObject fliesSystemPrefab;
 	private GameObject fliesSystem;
@@ -82,11 +82,12 @@ public class FallDecayDie : MonoBehaviour {
 	}
 
 	void UpdateQualityVisuals() {
-		// tint the texture
-		Renderer rend = transform.GetChild (0).GetComponent<Renderer> ();
-		foreach (Material mat in rend.materials) {
-			mat.color = Color.Lerp (mat.color, Color.black, 0.2f * (startingQualityLevel - qualityLevel));
+		// tint the ingredient
+		float t = 0f;
+		if (qualityLevel <= 1) {
+			t = 0.35f;
 		}
+		GetComponent<ColorSetter> ().TintColor(Color.black, t);
 
 		// update displayed model
 		/*TODO: update the following code to account for the extra child that is the fly system
