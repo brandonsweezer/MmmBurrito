@@ -137,6 +137,11 @@ public class MovementControllerIsometricNew : MonoBehaviour {
 		if (Input.GetKey (KeyCode.Space) || Input.GetKey (KeyCode.LeftShift) || Input.GetKey (KeyCode.RightShift)) {
 			dashInput = true;
 		}
+
+		// enable/disable dash particles
+		if (!IsDashing ()) {
+			GetComponent<SmokeTrail> ().Disable ();
+		}
 	}
 
 	void FixedUpdate () {
@@ -266,6 +271,7 @@ public class MovementControllerIsometricNew : MonoBehaviour {
 		// dash particles
 		transform.forward = targetDirection;
 		Instantiate (dashParticleSystem, transform.position + dashParticleSpawnOffset, transform.rotation);
+		GetComponent<SmokeTrail> ().Enable ();
 	}
 
 	// Increases the speed up the ramp and snap to the ramp's direction if player is trying to dash up ramp.
