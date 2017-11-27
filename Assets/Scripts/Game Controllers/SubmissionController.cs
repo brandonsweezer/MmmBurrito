@@ -139,21 +139,38 @@ public class SubmissionController : MonoBehaviour {
 		GameController.instance.gamestate = GameController.GameState.Win;
 		OrderUI.instance.setWinTime(Timer.instance.getDisplayTime ());
 		OrderUI.instance.textfields.currentLevelWin.text = "Level "+GameController.instance.currentLevel;
+		OrderUI.instance.textfields.currentLevelGameComplete.text = "Level "+GameController.instance.currentLevel;
 
 		int curLevel = GameController.instance.currentLevel;
 		int curScore = GameController.instance.score;
 		int numStars = 0;
-		if (curScore >= GameController.instance.starScore[0]){
-			OrderUI.instance.gameobjectfields.WinScreen.transform.GetChild (0).GetComponent<Image> ().sprite = OrderUI.instance.gameobjectfields.FilledStar;   
-			numStars++;
-		}
-		if (curScore >= GameController.instance.starScore[1]){
-			OrderUI.instance.gameobjectfields.WinScreen.transform.GetChild (1).GetComponent<Image> ().sprite = OrderUI.instance.gameobjectfields.FilledStar;
-			numStars++;
-		}
-		if (curScore >= GameController.instance.starScore[2]){
-			OrderUI.instance.gameobjectfields.WinScreen.transform.GetChild (2).GetComponent<Image> ().sprite = OrderUI.instance.gameobjectfields.FilledStar;
-			numStars++;
+		if (curLevel == LevelLoader.instance.maxLevelNumber) {
+			if (curScore >= GameController.instance.starScore [0]) {
+				OrderUI.instance.gameobjectfields.GameCompleteScreen.transform.GetChild (0).GetComponent<Image> ().sprite = OrderUI.instance.gameobjectfields.FilledStar;   
+				numStars++;
+			}
+			if (curScore >= GameController.instance.starScore [1]) {
+				OrderUI.instance.gameobjectfields.GameCompleteScreen.transform.GetChild (1).GetComponent<Image> ().sprite = OrderUI.instance.gameobjectfields.FilledStar;
+				numStars++;
+			}
+			if (curScore >= GameController.instance.starScore [2]) {
+				OrderUI.instance.gameobjectfields.GameCompleteScreen.transform.GetChild (2).GetComponent<Image> ().sprite = OrderUI.instance.gameobjectfields.FilledStar;
+				numStars++;
+			}
+		
+		} else {
+			if (curScore >= GameController.instance.starScore [0]) {
+				OrderUI.instance.gameobjectfields.WinScreen.transform.GetChild (0).GetComponent<Image> ().sprite = OrderUI.instance.gameobjectfields.FilledStar;   
+				numStars++;
+			}
+			if (curScore >= GameController.instance.starScore [1]) {
+				OrderUI.instance.gameobjectfields.WinScreen.transform.GetChild (1).GetComponent<Image> ().sprite = OrderUI.instance.gameobjectfields.FilledStar;
+				numStars++;
+			}
+			if (curScore >= GameController.instance.starScore [2]) {
+				OrderUI.instance.gameobjectfields.WinScreen.transform.GetChild (2).GetComponent<Image> ().sprite = OrderUI.instance.gameobjectfields.FilledStar;
+				numStars++;
+			}
 		}
 
 
@@ -164,8 +181,13 @@ public class SubmissionController : MonoBehaviour {
 	IEnumerator DisplayWinScreen() {
 		yield return new WaitForSeconds (1);
 		LevelLoader.instance.SetEndCanvas (); 
-		OrderUI.instance.gameobjectfields.WinScreen.gameObject.SetActive (true);
-		OrderUI.instance.setWinMessage ("You Win! Score: " + GameController.instance.score + "\n(Press escape to return to menu)\n(Press enter to go to next level)");
+		if (GameController.instance.currentLevel == LevelLoader.instance.maxLevelNumber) {
+			OrderUI.instance.gameobjectfields.GameCompleteScreen.gameObject.SetActive (true);
+		}
+		else {
+			OrderUI.instance.gameobjectfields.WinScreen.gameObject.SetActive (true);
+			OrderUI.instance.setWinMessage ("You Win! Score: " + GameController.instance.score + "\n(Press escape to return to menu)\n(Press enter to go to next level)");
+		}
 	}
 
 	void CreateScorePopup(int score) {

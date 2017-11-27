@@ -13,9 +13,11 @@ public class LevelLoader : MonoBehaviour {
 	public GameObject canvasPrivacy;
 	public GameObject canvasPause;
 	public GameObject canvasSetting;
+	public GameObject canvasInstructionsMain;
+	public GameObject canvasInstructionsPause;
 
 
-    private int maxLevelNumber = 22;
+	public int maxLevelNumber = 22;
 	private int loadingLevelNumber;
 	private bool inMenuHome;
 	private bool inMenuLevelSelect;
@@ -117,7 +119,11 @@ public class LevelLoader : MonoBehaviour {
 	public void PlayLatestLevel  () {
 		int levelNum = (int)Mathf.Min (maxLevelNumber, SaveManager.instance.GetLastLevelCompleted () + 1);
 		Debug.Log ("next level is " + levelNum);
-		GoToLevel (levelNum);
+		if (levelNum == 1) {
+			GoToInstructionsMain ();
+		} else {
+			GoToLevel (levelNum);
+		}
 	}
 
 	public void GoToMenuLevelSelect () {
@@ -155,6 +161,14 @@ public class LevelLoader : MonoBehaviour {
 		SetPauseCanvas();
 		OrderUI.instance.textfields.currentLevel.text = "Level "+GameController.instance.currentLevel;
 		GameController.instance.gamestate = GameController.GameState.Pause;
+	}
+
+	public void GoToInstructionsMain () {
+		SetInstructionCanvasMain();
+	}
+
+	public void GoToInstructionsPause () {
+		SetInstructionCanvasPause();
 	}
 
 	public void Resume() {
@@ -225,58 +239,56 @@ public class LevelLoader : MonoBehaviour {
 		}
 	}
 
-	void SetHomeCanvas () {
+	void SetAllToFalse() {
 		canvasHUD.SetActive (false);
 		canvasLevelSelect.SetActive (false);
 		canvasLevelEnd.SetActive (false);
 		canvasPrivacy.SetActive (false);
 		canvasPause.SetActive (false);
 		canvasSetting.SetActive (false);
+		canvasInstructionsMain.SetActive (false);
+		canvasInstructionsPause.SetActive (false);
+		canvasHome.SetActive (false);
+	}
+
+	void SetHomeCanvas () {
+		SetAllToFalse ();
 		canvasHome.SetActive (true);
 	}
 
 	void SetLevelSelectCanvas () {
-		canvasHUD.SetActive (false);
-		canvasHome.SetActive (false);
-		canvasPrivacy.SetActive (false);
-		canvasLevelEnd.SetActive (false);
-		canvasPause.SetActive (false);
-		canvasSetting.SetActive (false);
+		SetAllToFalse ();
 		canvasLevelSelect.SetActive (true);
 	}
 
 	void SetPlayCanvas () {
-		canvasHome.SetActive (false);
-		canvasLevelSelect.SetActive (false);
-		canvasPrivacy.SetActive (false);
-		canvasPause.SetActive (false);
-		canvasSetting.SetActive (false);
+		SetAllToFalse ();
 		canvasLevelEnd.SetActive (true);
 		canvasHUD.SetActive (true);
 	}
 
 	void SetPrivacyCanvas () {
-		canvasHome.SetActive (false);
-		canvasLevelSelect.SetActive (false);
-		canvasLevelEnd.SetActive (false);
-		canvasHUD.SetActive (false);
-		canvasPause.SetActive (false);
-		canvasSetting.SetActive (false);
+		SetAllToFalse ();
 		canvasPrivacy.SetActive (true);
 	}
 
 	void SetSettingCanvas () {
-		canvasHome.SetActive (false);
-		canvasLevelSelect.SetActive (false);
-		canvasLevelEnd.SetActive (false);
-		canvasHUD.SetActive (false);
-		canvasPause.SetActive (false);
-		canvasPrivacy.SetActive (false);
+		SetAllToFalse ();
 		canvasSetting.SetActive (true);
+	}
+
+	void SetInstructionCanvasMain () {
+		SetAllToFalse ();
+		canvasInstructionsMain.SetActive (true);
+	}
+
+	void SetInstructionCanvasPause () {
+		canvasInstructionsPause.SetActive (true);
 	}
 
 	void SetPauseCanvas () {
 		canvasPause.SetActive (true);
+		canvasInstructionsPause.SetActive (false);
 	}
 
 	void SetResumeCanvas () {
@@ -304,6 +316,10 @@ public class LevelLoader : MonoBehaviour {
 		OrderUI.instance.gameobjectfields.WinScreen.transform.GetChild (0).GetComponent<Image> ().sprite = OrderUI.instance.gameobjectfields.EmptyStar;
 		OrderUI.instance.gameobjectfields.WinScreen.transform.GetChild (1).GetComponent<Image> ().sprite = OrderUI.instance.gameobjectfields.EmptyStar;
 		OrderUI.instance.gameobjectfields.WinScreen.transform.GetChild (2).GetComponent<Image> ().sprite = OrderUI.instance.gameobjectfields.EmptyStar;
+
+		OrderUI.instance.gameobjectfields.GameCompleteScreen.transform.GetChild (0).GetComponent<Image> ().sprite = OrderUI.instance.gameobjectfields.EmptyStar;
+		OrderUI.instance.gameobjectfields.GameCompleteScreen.transform.GetChild (1).GetComponent<Image> ().sprite = OrderUI.instance.gameobjectfields.EmptyStar;
+		OrderUI.instance.gameobjectfields.GameCompleteScreen.transform.GetChild (2).GetComponent<Image> ().sprite = OrderUI.instance.gameobjectfields.EmptyStar;
 
 		OrderUI.instance.DeleteTweeningObjects ();
 
@@ -675,7 +691,12 @@ public class LevelLoader : MonoBehaviour {
 			GoToPause();
 		}
 		else if (Input.GetKeyDown(KeyCode.P)||Input.GetKeyDown(KeyCode.Escape) && GameController.instance.gamestate==GameController.GameState.Pause) {
-			Resume ();
+			if (canvasInstructionsPause.activeSelf == true) {
+				GoToPause ();
+			}
+			else {
+				Resume ();
+			}
 		}
 		else if (Input.GetKeyDown(KeyCode.Escape) && 
 			(GameController.instance.gamestate==GameController.GameState.Win || GameController.instance.gamestate==GameController.GameState.Lose)) {

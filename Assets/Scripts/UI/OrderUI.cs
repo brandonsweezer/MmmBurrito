@@ -24,12 +24,15 @@ public class TextFields
 
 	public Text WinScore;
 	public Text WinTime;
+	public Text GameCompleteTime;
 	public Text LoseScore;
 	public Text GameScore;
+	public Text GameCompleteScore;
 
 	public Text currentLevel;
 	public Text currentLevelWin;
 	public Text currentLevelLose;
+	public Text currentLevelGameComplete;
 	public Text timeRemaining;
 }
 
@@ -56,6 +59,7 @@ public class GameObjectFields
 
 	public Image WinScreen;
 	public Image LoseScreen;
+	public Image GameCompleteScreen;
 
 	public Sprite FilledStar;
 	public Sprite EmptyStar;
@@ -268,6 +272,7 @@ public class OrderUI : MonoBehaviour {
 		gameobjectfields.CollectionHUD.transform.GetChild (0).GetChild (0).GetComponent<Image> ().color = new Color (1f, 1f, 1f, 0f);
 
 		gameobjectfields.WinScreen.gameObject.SetActive (false);
+		gameobjectfields.GameCompleteScreen.gameObject.SetActive (false);
 		gameobjectfields.LoseScreen.gameObject.SetActive (false);
 	}
 
@@ -377,12 +382,14 @@ public class OrderUI : MonoBehaviour {
 
 	public void setWinTime(string msg) {
 		textfields.WinTime.text = msg;
+		textfields.GameCompleteTime.text = msg;
 	}
 
 	public void setScore(string msg) {
 		textfields.WinScore.text = msg;
 		textfields.GameScore.text = msg;
 		textfields.LoseScore.text = msg;
+		textfields.GameCompleteScore.text = msg;
 	}
 
 	// Update is called once per frame
