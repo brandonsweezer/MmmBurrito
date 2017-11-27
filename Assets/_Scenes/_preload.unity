@@ -11604,7 +11604,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &880886655
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14634,7 +14634,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1043066068
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16129,7 +16129,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 2.4000025, y: 17.4}
+  m_AnchoredPosition: {x: 2.4000025, y: 17.64}
   m_SizeDelta: {x: 64.99, y: 39.11}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1162333288
@@ -16153,7 +16153,7 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
     m_Font: {fileID: 12800000, guid: 03b76510e2cee4899a1afcff6bf36663, type: 3}
-    m_FontSize: 15
+    m_FontSize: 14
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 1
@@ -17337,15 +17337,18 @@ MonoBehaviour:
     loseMessage: {fileID: 2048479417}
     WinScore: {fileID: 338417064}
     WinTime: {fileID: 934235700}
+    GameCompleteTime: {fileID: 2077645952}
     LoseScore: {fileID: 1520456681}
     GameScore: {fileID: 898411459}
+    GameCompleteScore: {fileID: 209911009}
     currentLevel: {fileID: 543032667}
     currentLevelWin: {fileID: 95037595}
     currentLevelLose: {fileID: 1624613466}
+    currentLevelGameComplete: {fileID: 1915177993}
     timeRemaining: {fileID: 1657165055}
   gameobjectfields:
     canvasHUD: {fileID: 880886654}
-    TicketPrefab: {fileID: 1471694330095370, guid: 02fafcce745974481801b307f5cd2a39,
+    TicketPrefab: {fileID: 1471694330095370, guid: 3335e29daf6ad4f65a186128744ea5dd,
       type: 2}
     IngredientPrefab: {fileID: 1088770427595590, guid: 4b7a5ad717c6a40b299cceb797f43e88,
       type: 2}
@@ -17358,8 +17361,8 @@ MonoBehaviour:
     CollectedIngredientPrefab: {fileID: 1914133123204290, guid: 52636a8784c2e40cbae0e21cd9547691,
       type: 2}
     CaughtIngredientTweens: {fileID: 1647663776}
-    CompletedTicket: {fileID: 21300000, guid: c1ab54851ec2b42e0b1ba6e7d38105be, type: 3}
-    InvalidTicket: {fileID: 21300000, guid: 1edd1130cab7d4c3d9c1f0380bacd369, type: 3}
+    CompletedTicket: {fileID: 21300000, guid: 760478e6a9f4d40b8b0fa32703b48976, type: 3}
+    InvalidTicket: {fileID: 21300000, guid: 24afb5cbd9dc94fa98c681733c06acb2, type: 3}
     QualitySprites:
     - {fileID: 21300000, guid: 5d33e52febd354973970a3398de7c9fd, type: 3}
     - {fileID: 21300000, guid: 5004b349b258f4a2cade7fe2e87ad53f, type: 3}
@@ -17367,6 +17370,7 @@ MonoBehaviour:
     - {fileID: 0}
     WinScreen: {fileID: 967775911}
     LoseScreen: {fileID: 1976565845}
+    GameCompleteScreen: {fileID: 1710428022}
     FilledStar: {fileID: 21300000, guid: efa84bfd516b44238810b4b337802b56, type: 3}
     EmptyStar: {fileID: 21300000, guid: 4be00f6e12ac54fbc96c35f279118f50, type: 3}
 --- !u!114 &1219484857
@@ -22137,9 +22141,9 @@ RectTransform:
   m_Father: {fileID: 174879820}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 245, y: -25}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 360, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1587302536
@@ -24145,9 +24149,9 @@ RectTransform:
   m_Father: {fileID: 174879820}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 62.5, y: -25}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 5, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1733830494
@@ -28767,9 +28771,9 @@ RectTransform:
   m_Father: {fileID: 174879820}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 30, y: -25}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 60, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2138814556
