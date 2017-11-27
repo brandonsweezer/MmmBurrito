@@ -7,6 +7,7 @@ using UnityEngine.UI;
 public class TicketManager : MonoBehaviour {
 
 	private static Color grayedOutTint = new Color (.7f, .7f, .7f, .5f);
+	private static float ticketYPos = 0;
 
 	public GameObject ingredientIconPrefab;
 	public Sprite regularTicketImage;
@@ -17,11 +18,20 @@ public class TicketManager : MonoBehaviour {
 	private Image ticketImage;
 	private bool ticketIsInvalid;
 
+	private RectTransform rect;
+	private UIAnimationManager animManager;
+
+	void Awake() {
+		rect = GetComponent<RectTransform> ();
+		animManager = GetComponent<UIAnimationManager> ();
+	}
+
 	public void TicketInit(Order order) {
 		this.order = order;
 		CreateIcons ();
 		ticketImage = GetComponent<Image> ();
 		ticketIsInvalid = false;
+		AnimateTicketSpawn ();
 	}
 
 	void CreateIcons() {
@@ -101,5 +111,30 @@ public class TicketManager : MonoBehaviour {
 
 			lastIndex += ingredientsOfTypeInOrder;
 		}
+	}
+
+	void AnimateTicketSpawn() {
+		float targetX = OrderUI.instance.GetTargetXPosForTicket (order);
+		float targetY = ticketYPos;
+		Vector2 endPos = new Vector2 (targetX, targetY);
+		Vector2 spawnPos = new Vector2 (targetX, targetY + rect.sizeDelta.y);
+		animManager.SetPos (spawnPos);
+		animManager.Move (endPos, 0.5f);
+	}
+
+	public void SubmitTicket() {
+		AnimateTicketSubmission ();
+	}
+
+	void AnimateTicketSubmission() {
+		Vector2 endPos = new Vector2 (rect.anchoredPosition.x, rect.anchoredPosition.y + rect.sizeDelta.y);
+		Action callback = () => Destroy (gameObject);
+		animManager.Move (endPos, 0.5f, callback);
+	}
+
+	public void MoveToCorrectXPos() {
+		float targetX = OrderUI.instance.GetTargetXPosForTicket (order);
+		Vector2 endPos = new Vector2 (targetX, rect.anchoredPosition.y);
+		animManager.Move (endPos, 0.5f);
 	}
 }

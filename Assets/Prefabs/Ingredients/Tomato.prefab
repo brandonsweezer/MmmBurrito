@@ -43,6 +43,7 @@ GameObject:
   - component: {fileID: 135608137385380284}
   - component: {fileID: 114399947491229028}
   - component: {fileID: 114989686084611320}
+  - component: {fileID: 114673557263253860}
   m_Layer: 0
   m_Name: Tomato
   m_TagString: FallingObject
@@ -146,7 +147,7 @@ MonoBehaviour:
   startingQualityLevel: 2
   fliesSystemPrefab: {fileID: 1100259634212458, guid: 795f70be6c63a59438c987c2e71f9b3d,
     type: 2}
-  decayRate: 1.5
+  decayRate: 2.5
 --- !u!114 &114399947491229028
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -167,6 +168,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a77441f45214fc0428ee3b224de1076f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &114673557263253860
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1805473012813944}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd92c1b0a180af04d9f9b35ee8de8fb5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &114682541883917762

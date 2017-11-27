@@ -26,6 +26,7 @@ GameObject:
   - component: {fileID: 65210333019250872}
   - component: {fileID: 114999452390569972}
   - component: {fileID: 114119679135843914}
+  - component: {fileID: 114475807003332614}
   m_Layer: 0
   m_Name: Cheese
   m_TagString: FallingObject
@@ -179,6 +180,17 @@ MonoBehaviour:
   indicatorPrefab: {fileID: 1488541010008626, guid: cd7a43ab8658aa946b00dc3c05429d2f,
     type: 2}
   indicator: {fileID: 0}
+--- !u!114 &114475807003332614
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1008423336532690}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd92c1b0a180af04d9f9b35ee8de8fb5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114793750701899426
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -193,7 +205,7 @@ MonoBehaviour:
   startingQualityLevel: 2
   fliesSystemPrefab: {fileID: 1100259634212458, guid: 795f70be6c63a59438c987c2e71f9b3d,
     type: 2}
-  decayRate: 1.5
+  decayRate: 2.5
 --- !u!114 &114999452390569972
 MonoBehaviour:
   m_ObjectHideFlags: 1

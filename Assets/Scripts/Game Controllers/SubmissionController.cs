@@ -59,7 +59,7 @@ public class SubmissionController : MonoBehaviour {
 		burritoCaughtIngredients = GameController.instance.player.GetComponent<ObjectCatcher> ().GetIngredients ();
 
 		// Logic regarding ordering system.
-		List<Order> orders = OrderController.instance.orderList;
+		List<Order> orders = OrderController.instance.activeOrders;
 		bool matched = false;
 		foreach (Order order in orders) {
             if (OrderController.instance.BurritoContentsFulfillOrder (order)) {
@@ -121,7 +121,7 @@ public class SubmissionController : MonoBehaviour {
 		GameController.instance.player.GetComponent<ObjectCatcher> ().GetIngredients ().Empty();
 
 		// Determine if we won the level
-		if (OrderController.instance.orderList.Count != 0){
+		if (OrderController.instance.activeOrders.Count != 0){
 			OrderUI.instance.setGeneralMessage("Matches one of the orders!");
 			Debug.Log ("Remaining " + OrderController.instance.OrderListToString ()); // print remaining orders
 		} else {

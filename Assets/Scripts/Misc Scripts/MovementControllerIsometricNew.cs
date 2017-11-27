@@ -24,7 +24,7 @@ public class MovementControllerIsometricNew : MonoBehaviour {
 
 	// Dashing boost on ramps vars
 	private static float dashSpeedOnRamp = 20f;
-	private static float dashDuration = 0.2f; // in seconds
+	private static float dashDuration = 0.4f; // in seconds
 	private static float rampDetectionDistance = 1.5f;
 	private static float rampBiasAngle = 10; // After what angle from a flat ground are we considering the ground to be a ramp.
 	private static float speedUpRampIncreaseFactor = 0.3f;
@@ -136,6 +136,11 @@ public class MovementControllerIsometricNew : MonoBehaviour {
 		dashInput = false;
 		if (Input.GetKey (KeyCode.Space) || Input.GetKey (KeyCode.LeftShift) || Input.GetKey (KeyCode.RightShift)) {
 			dashInput = true;
+		}
+
+		// enable/disable dash particles
+		if (!IsDashing ()) {
+			GetComponent<SmokeTrail> ().Disable ();
 		}
 	}
 
@@ -266,6 +271,7 @@ public class MovementControllerIsometricNew : MonoBehaviour {
 		// dash particles
 		transform.forward = targetDirection;
 		Instantiate (dashParticleSystem, transform.position + dashParticleSpawnOffset, transform.rotation);
+		GetComponent<SmokeTrail> ().Enable ();
 	}
 
 	// Increases the speed up the ramp and snap to the ramp's direction if player is trying to dash up ramp.

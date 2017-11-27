@@ -89,7 +89,7 @@ public class OrderUI : MonoBehaviour {
 
 	private int numberOfIngredients;
 
-	private List<Order> orders;
+	private List<Order> activeOrders;
 	private int orderCount;
 
 	private Dictionary<IngredientSet.Ingredients,Sprite> spriteDict_glowing; 
@@ -126,13 +126,13 @@ public class OrderUI : MonoBehaviour {
 	void Start() {
 		initializeTickets = false;
 		ticketHeight = gameobjectfields.TicketHUD.GetComponent<RectTransform> ().rect.height;
-		orders = OrderController.instance.orderList;
+		activeOrders = OrderController.instance.activeOrders;
 
 	}
 
 	public void TicketInit (int index){
-		if (orders.Count >= index+1) {
-			Order currOrder = orders [index];
+		if (activeOrders.Count >= index+1) {
+			Order currOrder = activeOrders [index];
 
 			// Create the ticket prefab.
 			GameObject ticket = Instantiate (gameobjectfields.TicketPrefab) as GameObject;
@@ -147,12 +147,8 @@ public class OrderUI : MonoBehaviour {
 			ticketRectangle.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, containerWidth);
 			ticketRectangle.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, ticketHeight);
 
-			// Position the ticket prefab.
-			ticketRectangle.anchoredPosition = new Vector2(GetTargetXPosForTicket(index), 0);
-
 			// Initialize the ticket
 			ticket.GetComponent<TicketManager> ().TicketInit(currOrder);
-			ticket.GetComponent<TicketAnimations> ().StartSpawnAnimation ();
 		}
 	}
 
@@ -160,10 +156,15 @@ public class OrderUI : MonoBehaviour {
 	public float GetTargetXPosForTicket(int index) {
 		float xOffset = 0;
 		for (int i = 0; i < index; i++) {
-			xOffset += orders [i].uiTicket.GetComponent<RectTransform> ().rect.width;
+			xOffset += activeOrders [i].uiTicket.GetComponent<RectTransform> ().rect.width;
 			xOffset += ticketMargin;
 		}
 		return xOffset;
+	}
+
+	public float GetTargetXPosForTicket(Order order) {
+		int index = OrderController.instance.activeOrders.IndexOf (order);
+		return GetTargetXPosForTicket(index);
 	}
 
 
@@ -238,9 +239,12 @@ public class OrderUI : MonoBehaviour {
 
 		int numActiveTickets = GetNumberOfActiveTickets ();
 		for (int i = 0; i < numActiveTickets; i++) {
-			orders[i].uiTicket.GetComponent<TicketManager>().UpdateGraphics();
-			orders[i].uiTicket.GetComponent<TicketAnimations> ().StartMoveToXPosition(GetTargetXPosForTicket(i));
+			activeOrders[i].uiTicket.GetComponent<TicketManager>().UpdateGraphics();
 		}
+	}
+
+	public void SubmitOrder(Order order) {
+		order.uiTicket.GetComponent<TicketManager> ().SubmitTicket ();
 	}
 
 	public void ResetScore () {
@@ -277,7 +281,7 @@ public class OrderUI : MonoBehaviour {
 	}
 
 	private int GetNumberOfActiveTickets() {
-		return Math.Min (3, OrderController.instance.orderList.Count);
+		return OrderController.instance.activeOrders.Count;
 	}
 
 	private int GetNumberOfDisplayedTickets() {
@@ -313,8 +317,9 @@ public class OrderUI : MonoBehaviour {
 
 	void UpdateUIOrdersLeft () {
 		textfields.levelOrderList.text = OrderController.instance.OrderListToString();
-		setOrderCount(orders.Count.ToString());
-		if (orders.Count == 1) {
+		int count = OrderController.instance.GetNumTotalOrders ();
+		setOrderCount(count.ToString());
+		if (count == 1) {
 			setOrderCountText ("Order Left");
 		} else {
 			setOrderCountText ("Orders Left");
@@ -409,7 +414,8 @@ public class OrderUI : MonoBehaviour {
 			if (GameController.instance.player != null) {
 				int newNumCaughtIngredients = GameController.instance.player.GetComponent<ObjectCatcher> ().GetNumCaughtIngredients ();
 				if (newNumCaughtIngredients != lastNumCaughtIngredients) {
-					// Only update if lost ingredients. If caught some ingredients, we'll just update after the animation.
+					GameController.instance.UpdateSubmissionValidity();
+					// Only update inventory if we lost ingredients. If we caught some ingredients, we'll just update after the animated icon moves to the inventory.
 					if (newNumCaughtIngredients < lastNumCaughtIngredients) {
 						UpdateUIAfterInventoryChange ();
 					}
@@ -420,7 +426,6 @@ public class OrderUI : MonoBehaviour {
 	}
 
 	public void UpdateUIAfterInventoryChange() {
-		GameController.instance.UpdateSubmissionValidity();
 		CollectionUIUpdate ();
 		TicketUpdate ();
 	}

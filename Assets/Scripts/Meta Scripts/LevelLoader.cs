@@ -343,7 +343,7 @@ public class LevelLoader : MonoBehaviour {
 		GameController.instance.gamestate = GameController.GameState.Play;
 
 		GameController.instance.SetScore(0);
-		OrderController.instance.orderList.Clear ();
+		OrderController.instance.ClearOrders ();
 		Timer timer = GetComponent<Timer> ();
 		// Updates whether we can submit successfully or not
 		OrderUI.instance.UpdateUIAfterInventoryChange();

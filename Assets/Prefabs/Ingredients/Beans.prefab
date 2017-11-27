@@ -26,6 +26,7 @@ GameObject:
   - component: {fileID: 65888812147729178}
   - component: {fileID: 114907234674817818}
   - component: {fileID: 114248500695428876}
+  - component: {fileID: 114136764972276530}
   m_Layer: 0
   m_Name: Beans
   m_TagString: FallingObject
@@ -143,6 +144,17 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1.5, y: 0.5, z: 1.5}
   m_Center: {x: 0, y: 0.25, z: 0}
+--- !u!114 &114136764972276530
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1238977373733884}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd92c1b0a180af04d9f9b35ee8de8fb5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114239602967162748
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -157,7 +169,7 @@ MonoBehaviour:
   startingQualityLevel: 2
   fliesSystemPrefab: {fileID: 1100259634212458, guid: 795f70be6c63a59438c987c2e71f9b3d,
     type: 2}
-  decayRate: 1.5
+  decayRate: 2.5
 --- !u!114 &114248500695428876
 MonoBehaviour:
   m_ObjectHideFlags: 1

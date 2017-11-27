@@ -73,9 +73,29 @@ public class ObjectSpawn : MonoBehaviour {
 		}
 
 		// Spawn the object
-		GameObject objectToSpawn = fallingObjectList[Random.Range(0, fallingObjectList.Length)];
+		GameObject objectToSpawn = GetObjectToSpawn();
 		Quaternion spawnRotation = Quaternion.identity;
 		GameObject obj = Instantiate (objectToSpawn, spawnPosition, spawnRotation) as GameObject;
+	}
+
+	private GameObject GetObjectToSpawn(int numRetries = 1) {
+		GameObject objectToSpawn = fallingObjectList [Random.Range (0, fallingObjectList.Length)];
+
+		// If not retrying (i.e. not cheating to favour needed ingredients), return.
+		if (numRetries == 0) {
+			return objectToSpawn;
+		}
+
+		// We're cheating, so retry for [numRetries] times until we find a needed ingredient.
+		IngredientSet cumulativeIngredientSet = OrderController.instance.GetCumulativeActiveIngredientSet ();
+		for (int i = 0; i < numRetries; i++) {
+			IngredientSet.Ingredients ingredientToSpawn = IngredientSet.StringToIngredient(objectToSpawn.name);
+			if (cumulativeIngredientSet.GetCount (ingredientToSpawn) > 0) {
+				return objectToSpawn;
+			}
+			objectToSpawn = fallingObjectList [Random.Range (0, fallingObjectList.Length)];
+		}
+		return objectToSpawn;
 	}
 
 	public static bool RaycastUntilTerrain(Vector3 position, Vector3 direction, out RaycastHit outHit, float maxDistance = Mathf.Infinity) {

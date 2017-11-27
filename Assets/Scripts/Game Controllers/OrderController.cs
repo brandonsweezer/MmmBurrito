@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class OrderController : MonoBehaviour {
-	
-	public List<Order> orderList;
+
+	public static int maxNumActiveOrders = 3;
+	public List<Order> activeOrders;
+	public List<Order> inactiveOrders;
 
 	// Make this class a singleton
 	public static OrderController instance = null;
@@ -17,18 +19,27 @@ public class OrderController : MonoBehaviour {
 	}
 
 	void Start () {
-		orderList = new List<Order> ();
+		activeOrders = new List<Order> ();
+		inactiveOrders = new List<Order> ();
+	}
+
+	void AddOrder(Order order) {
+		if (activeOrders.Count < maxNumActiveOrders) {
+			activeOrders.Add (order);
+		} else {
+			inactiveOrders.Add (order);
+		}
 	}
 
 	public void AddOrder(int orderIndex, int count = 1) {
 		for (int i = 0; i < count; i++) {
-			orderList.Add (new Order(OrderList.instance.getOrder (orderIndex)));
+			AddOrder (new Order(OrderList.instance.getOrder (orderIndex)));
 		}
 	}
 
 	public void AddOrder(IngredientSet order, int count = 1) {
 		for (int i = 0; i < count; i++) {
-			orderList.Add (new Order(order));
+			AddOrder (new Order(order));
 		}
 	}
 
@@ -37,7 +48,7 @@ public class OrderController : MonoBehaviour {
 		foreach (KeyValuePair<IngredientSet.Ingredients, int> kvp in ingredients) {
 			newOrder.SetCount (kvp.Key, kvp.Value);
 		}
-		orderList.Add (new Order(newOrder));
+		AddOrder (new Order(newOrder));
 	}
 
 	// Must be alternating parameter types between IngredientSet.Ingredients and ints
@@ -49,12 +60,22 @@ public class OrderController : MonoBehaviour {
 		for (int i = 0; i < parameters.Length; i+=2) {
 			newOrder.SetCount ((IngredientSet.Ingredients) parameters[i], (int) parameters[i+1]);
 		}
-		orderList.Add (new Order(newOrder));
+		AddOrder (new Order(newOrder));
+	}
+
+	public void ClearOrders() {
+		inactiveOrders.Clear ();
+		activeOrders.Clear ();
 	}
 
 	public string OrderListToString () {
-		string orderString = "Orders: ";
-		foreach (Order order in orderList) {
+		string orderString = "Active orders: ";
+		foreach (Order order in activeOrders) {
+			orderString += "(" + order.ingredientSet.ToString () + "), ";
+		}
+		orderString.Trim ();
+		orderString += "Inactive orders: ";
+		foreach (Order order in inactiveOrders) {
 			orderString += "(" + order.ingredientSet.ToString () + "), ";
 		}
 		orderString.Trim ();
@@ -86,10 +107,10 @@ public class OrderController : MonoBehaviour {
 
 	// Returns true if our burrito contents fulfill any of the current orders
 	public bool CanSubmitAnOrder() {
-		if (orderList.Count == 0) {
+		if (activeOrders.Count == 0) {
 			return false;
 		}
-		foreach (Order order in orderList) {
+		foreach (Order order in activeOrders) {
 			if (BurritoContentsFulfillOrder (order)) {
 				return true;
 			}
@@ -99,11 +120,41 @@ public class OrderController : MonoBehaviour {
 
 	public void FulfillOrder(Order order) {
 		if (order.uiTicket != null) {
-			order.uiTicket.GetComponent<TicketAnimations> ().StartRemoveAnimation ();
+			OrderUI.instance.SubmitOrder (order);
 		} else {
 			Debug.LogError ("An order did not have any uiTicket attached to it");
 		}
-		orderList.Remove (order);
-		OrderUI.instance.TicketInit (2);
+		activeOrders.Remove (order);
+		foreach (Order activeOrder in activeOrders) {
+			activeOrder.uiTicket.GetComponent<TicketManager> ().MoveToCorrectXPos();
+		}
+
+		// create new ticket after a short delay
+		ActivateNewOrder();
+	}
+
+	private void ActivateNewOrder() {
+		if (inactiveOrders.Count > 0) {
+			activeOrders.Add (inactiveOrders [0]);
+			inactiveOrders.RemoveAt (0);
+			OrderUI.instance.TicketInit (2);
+		}
+	}
+
+	public IngredientSet GetCumulativeActiveIngredientSet() {
+		if (activeOrders.Count == 0) {
+			return new IngredientSet ();
+		}
+
+		IngredientSet set = activeOrders [0].ingredientSet.Clone ();
+		for (int i = 1; i < activeOrders.Count; i++) {
+			set.Combine (activeOrders [i].ingredientSet);
+		}
+
+		return set;
+	}
+
+	public int GetNumTotalOrders() {
+		return activeOrders.Count + inactiveOrders.Count;
 	}
 }

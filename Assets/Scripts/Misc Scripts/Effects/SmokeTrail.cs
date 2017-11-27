@@ -16,9 +16,12 @@ public class SmokeTrail : MonoBehaviour {
 	public ParticleSystem smokeTrailPrefab;
 	private ParticleSystem smokeTrail;
 
+	private bool enabled;
+
 	void Awake() {
 		rb = GetComponent<Rigidbody> ();
 		yOffset = new Vector3 (0, yOffsetFromParent, 0);
+		enabled = true;
 	}
 
 	void Start () {
@@ -28,6 +31,11 @@ public class SmokeTrail : MonoBehaviour {
 
 
 	void Update () {
+		if (!enabled) {
+			smokeTrail.emissionRate = 0;
+			return;
+		}
+
 		smokeTrail.transform.position = gameObject.transform.position + yOffset + (-rb.velocity * speedDistanceFromParentMultiplier);
 		float currentSpeed = rb.velocity.magnitude;
 		if (currentSpeed > minSpeedForParticles) {
@@ -36,6 +44,14 @@ public class SmokeTrail : MonoBehaviour {
 		} else {
 			smokeTrail.emissionRate = 0;
 		}
+	}
+
+	public void Enable() {
+		enabled = true;
+	}
+
+	public void Disable() {
+		enabled = false;
 	}
 
 }
