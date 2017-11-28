@@ -327,7 +327,7 @@ public class LevelLoader : MonoBehaviour {
 
 
 	void InitializeLevel (int levelNumber) {
-		GameController.instance.gamestate = GameController.GameState.Menu;
+		GameController.instance.gamestate = GameController.GameState.LevelStart;
 		GameController.instance.currentLevel = levelNumber;
 
 		SpawnController.instance.SpawnBurrito ();
@@ -741,6 +741,9 @@ public class LevelLoader : MonoBehaviour {
 			else {
 				Resume ();
 			}
+		}
+		else if (Input.GetKeyDown(KeyCode.P)||Input.GetKeyDown(KeyCode.Escape) && GameController.instance.gamestate==GameController.GameState.LevelStart) {
+			GoToMenuLevelSelect ();
 		}
 		else if (Input.GetKeyDown(KeyCode.Escape) && 
 			(GameController.instance.gamestate==GameController.GameState.Win || GameController.instance.gamestate==GameController.GameState.Lose)) {
