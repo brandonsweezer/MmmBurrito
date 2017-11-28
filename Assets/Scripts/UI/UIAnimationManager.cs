@@ -62,7 +62,6 @@ public class UIAnimationManager : MonoBehaviour {
 	}
 	public void MoveToPosAndBack(Vector2 targetPos, float delay, float tweenDuration1, float tweenDuration2, Action finalCallback = null) {
 		Vector2 startPos = rect.anchoredPosition;
-		Debug.Log ("ui animation for " + gameObject.name + ", from " + startPos + " to " + targetPos + " and back");
 		Action callback = () => {
 			ExecuteAfterDelay (delay, () => { 
 				Move (startPos, tweenDuration2, finalCallback); 
