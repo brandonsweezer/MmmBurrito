@@ -11,7 +11,7 @@ public class Rats : MonoBehaviour
     private float rotationSpeedFactor = 0.2f;
     private GameObject target = null;
     
-    private float tolerance2 = 0.2f;
+    private float tolerance2 = 1f;
 
     //if false, return home
     private bool chase;
