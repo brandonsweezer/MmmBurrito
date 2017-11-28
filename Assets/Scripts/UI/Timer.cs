@@ -81,9 +81,6 @@ public class Timer : MonoBehaviour {
 		// Reset animations.
 		animManager.StopAllAnimations ();
 		animManager.ResetToInitialValues();
-		signalingTimeLeft = false;
-		alreadySignaledLevelStart = false;
-		lastSignalTime = -SIGNAL_COOLDOWN * 2f;
 	}
 
 	public void startTimer () {
@@ -92,6 +89,7 @@ public class Timer : MonoBehaviour {
 		isfast = false;
 		isvfast = false;
 		signalingTimeLeft = false;
+		lastSignalTime = Time.time;
 	}
 
 	public void TimerUpdate () {
@@ -119,17 +117,16 @@ public class Timer : MonoBehaviour {
 		// Signal the time left (clock animation).
 		bool tryToSignal = false;
 		// check if at one of the schedules signals
-		foreach (float timeTarget in timeLeftSignals) {
-			if (Mathf.Abs (time - timeTarget) < 0.25f) {
-				tryToSignal = true;
-				break;
+		if (IsSignalCooldownOver () && !signalingTimeLeft) {
+			foreach (float timeTarget in timeLeftSignals) {
+				if (Mathf.Abs (time - timeTarget) < 0.25f) {
+					tryToSignal = true;
+					break;
+				}
 			}
 		}
 		// signal if appropriate
-		if (tryToSignal && !signalingTimeLeft) {
-			if (!IsSignalCooldownOver () && Mathf.Abs (time - 0) > 0.25f) {
-				return;
-			}
+		if (tryToSignal) {
 			SignalTimeLeft ();
 		}
 	}
