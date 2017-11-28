@@ -16,6 +16,8 @@ public class LevelLoader : MonoBehaviour {
 	public GameObject canvasInstructionsMain;
 	public GameObject canvasInstructionsPause;
 	public GameObject canvasLevelStart;
+
+	public GameObject[] HUDToHideOnLevelStart;
 	public Text levelNumberText;
 
 
@@ -307,12 +309,24 @@ public class LevelLoader : MonoBehaviour {
 
 	public void OpenLevelStartCanvas () {
 		canvasLevelStart.SetActive (true);
+		LevelStartHideHUD ();
 	}
 
 	public void CloseLevelStartCanvas () {
 		canvasLevelStart.SetActive (false);
+		LevelStartShowHUD ();
 	}
 
+	void LevelStartHideHUD() {
+		foreach (GameObject g in HUDToHideOnLevelStart) {
+			g.SetActive (false);
+		}
+	}
+	void LevelStartShowHUD() {
+		foreach (GameObject g in HUDToHideOnLevelStart) {
+			g.SetActive (true);
+		}
+	}
 
 
 
