@@ -13,6 +13,7 @@ public class UIAnimationManager : MonoBehaviour {
 
 	private RectTransform rect;
 	private Vector2 defaultPos;
+	private Color defaultColor;
 
 	private Image image;
 
@@ -21,6 +22,7 @@ public class UIAnimationManager : MonoBehaviour {
 		image = gameObject.GetComponent<Image> ();
 
 		defaultPos = rect.anchoredPosition;
+		defaultColor = image.color;
 		GetNewKeys ();
 	}
 
@@ -33,6 +35,7 @@ public class UIAnimationManager : MonoBehaviour {
 	public void ResetToInitialValues() {
 		rect.anchoredPosition = defaultPos;
 		rect.localScale = Vector3.one;
+		image.color = defaultColor;
 	}
 
 	public void SetValues(Vector2 targetPos, Vector3 scale) {
@@ -59,6 +62,7 @@ public class UIAnimationManager : MonoBehaviour {
 	}
 	public void MoveToPosAndBack(Vector2 targetPos, float delay, float tweenDuration1, float tweenDuration2, Action finalCallback = null) {
 		Vector2 startPos = rect.anchoredPosition;
+		Debug.Log ("ui animation for " + gameObject.name + ", from " + startPos + " to " + targetPos + " and back");
 		Action callback = () => {
 			ExecuteAfterDelay (delay, () => { 
 				Move (startPos, tweenDuration2, finalCallback); 
@@ -117,5 +121,6 @@ public class UIAnimationManager : MonoBehaviour {
 	public void StopAllAnimations() {
 		DigitalRuby.Tween.TweenFactory.RemoveTweenKey(scaleKey, DigitalRuby.Tween.TweenStopBehavior.DoNotModify);
 		DigitalRuby.Tween.TweenFactory.RemoveTweenKey(moveKey, DigitalRuby.Tween.TweenStopBehavior.DoNotModify);
+		DigitalRuby.Tween.TweenFactory.RemoveTweenKey(tintKey, DigitalRuby.Tween.TweenStopBehavior.DoNotModify);
 	}
 }

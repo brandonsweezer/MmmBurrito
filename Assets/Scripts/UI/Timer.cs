@@ -74,17 +74,7 @@ public class Timer : MonoBehaviour {
 		time = maxTime;
 		maxT = maxTime;
 		timeLeftWarningContainer.SetActive (false);
-	}
-
-	public void startTimer () {
-		timeDisplayText.color = Color.black;
-		running = true;
-		isfast = false;
-		isvfast = false;
-		//SoundController.instance.audSrc.clip = SoundController.instance.music;
-		//SoundController.instance.audSrc.loop = true;
-		//SoundController.instance.audSrc.Play();
-		//SoundController.instance.audSrc.volume = SoundController.instance.MasterVolume.value;
+		UpdateDisplayedTime ();
 
 		// Reset animations.
 		animManager.StopAllAnimations ();
@@ -94,11 +84,15 @@ public class Timer : MonoBehaviour {
 		lastSignalTime = -SIGNAL_COOLDOWN * 2f;
 	}
 
+	public void startTimer () {
+		timeDisplayText.color = Color.black;
+		running = true;
+		isfast = false;
+		isvfast = false;
+		signalingTimeLeft = false;
+	}
+
 	public void TimerUpdate () {
-		// only update timer if level is in progress
-		//		if (GameController.instance.levelComplete) {
-		//			return;
-		//		}
 		if (GameController.instance.gamestate!=GameController.GameState.Play) {
 			return;
 		}
@@ -117,6 +111,29 @@ public class Timer : MonoBehaviour {
 
 		}
 
+		UpdateDisplayedTime ();
+
+		GameController.instance.gameTime = (int)time;
+
+		// Signal the time left (clock animation).
+		bool tryToSignal = false;
+		// check if at one of the schedules signals
+		foreach (float timeTarget in timeLeftSignals) {
+			if (Mathf.Abs (time - timeTarget) < 0.25f) {
+				tryToSignal = true;
+				break;
+			}
+		}
+		// signal if appropriate
+		if (tryToSignal && !signalingTimeLeft) {
+			if (!IsSignalCooldownOver () && Mathf.Abs (time - 0) > 0.25f) {
+				return;
+			}
+			SignalTimeLeft ();
+		}
+	}
+
+	void UpdateDisplayedTime() {
 		totalSeconds = Mathf.Ceil (time);
 		int minutes = (int) totalSeconds / 60;
 		int seconds = (int)totalSeconds % 60;
@@ -130,37 +147,7 @@ public class Timer : MonoBehaviour {
 		if (seconds <= 30 && minutes == 0) {
 			timeDisplayText.color = Color.red;
 		}
-
-		GameController.instance.gameTime = (int)time;
-
-
 		timeDisplayText.text = timeDisplay;
-
-		// Signal the time left (clock animation).
-		bool tryToSignal = false;
-		// check if at one of the schedules signals
-		foreach (float timeTarget in timeLeftSignals) {
-			if (Mathf.Abs (time - timeTarget) < 0.25f) {
-				tryToSignal = true;
-				break;
-			}
-		}
-		// check if at level start
-		if (LevelJustStarted() && !alreadySignaledLevelStart) {
-			tryToSignal = true;
-		}
-		// signal if appropriate
-		if (tryToSignal && !signalingTimeLeft) {
-			if (!IsSignalCooldownOver () && Mathf.Abs (time - 0) > 0.25f) {
-				return;
-			}
-			if (LevelJustStarted () && !alreadySignaledLevelStart) {
-				alreadySignaledLevelStart = true;
-				SignalTimeLeft (1.5f, 0f);
-			}  else {
-				SignalTimeLeft ();
-			}
-		}
 	}
 
 
@@ -178,7 +165,7 @@ public class Timer : MonoBehaviour {
 	}
 
 	// Animates the clock to the middle of the screen, and then back to its default position.
-	private void SignalTimeLeft(float duration = 1.75f, float tween1 = 0.75f, float tween2 = 0.5f) {
+	public void SignalTimeLeft(float duration = 1.75f, float tween1 = 0.75f, float tween2 = 0.5f) {
 		lastSignalTime = Time.time;
 		signalingTimeLeft = true;
 		animManager.MoveToPosAndBack    (signalingPos,   duration, tween1, tween2, signalingTimeEnd);

@@ -15,6 +15,8 @@ public class LevelLoader : MonoBehaviour {
 	public GameObject canvasSetting;
 	public GameObject canvasInstructionsMain;
 	public GameObject canvasInstructionsPause;
+	public GameObject canvasLevelStart;
+	public Text levelNumberText;
 
 
 	public int maxLevelNumber = 22;
@@ -230,7 +232,6 @@ public class LevelLoader : MonoBehaviour {
 		if (scene.name.Contains ("Level_")) {
 			// Loaded a level.
 			SetPlayCanvas ();
-			GameController.instance.gamestate = GameController.GameState.Play;
 			InitializeLevel (loadingLevelNumber);
 		}
 		else {
@@ -249,6 +250,7 @@ public class LevelLoader : MonoBehaviour {
 		canvasInstructionsMain.SetActive (false);
 		canvasInstructionsPause.SetActive (false);
 		canvasHome.SetActive (false);
+		canvasLevelStart.SetActive (false);
 	}
 
 	void SetHomeCanvas () {
@@ -299,32 +301,66 @@ public class LevelLoader : MonoBehaviour {
 		canvasHUD.SetActive (false);
 	}
 
+	public void OpenLevelStartCanvas () {
+		canvasLevelStart.SetActive (true);
+	}
+
+	public void CloseLevelStartCanvas () {
+		canvasLevelStart.SetActive (false);
+	}
+
 
 
 
 	void InitializeLevel (int levelNumber) {
+		GameController.instance.gamestate = GameController.GameState.Menu;
 		GameController.instance.currentLevel = levelNumber;
-
-		SetupLevelVars (levelNumber);
 
 		SpawnController.instance.SpawnBurrito ();
 
 		OrderUI.instance.ResetUI();
 		OrderUI.instance.ResetScore();
+		OrderUI.instance.DeleteTweeningObjects ();
 
 		// reset final scoring screen stars
 		OrderUI.instance.gameobjectfields.WinScreen.transform.GetChild (0).GetComponent<Image> ().sprite = OrderUI.instance.gameobjectfields.EmptyStar;
 		OrderUI.instance.gameobjectfields.WinScreen.transform.GetChild (1).GetComponent<Image> ().sprite = OrderUI.instance.gameobjectfields.EmptyStar;
 		OrderUI.instance.gameobjectfields.WinScreen.transform.GetChild (2).GetComponent<Image> ().sprite = OrderUI.instance.gameobjectfields.EmptyStar;
-
 		OrderUI.instance.gameobjectfields.GameCompleteScreen.transform.GetChild (0).GetComponent<Image> ().sprite = OrderUI.instance.gameobjectfields.EmptyStar;
 		OrderUI.instance.gameobjectfields.GameCompleteScreen.transform.GetChild (1).GetComponent<Image> ().sprite = OrderUI.instance.gameobjectfields.EmptyStar;
 		OrderUI.instance.gameobjectfields.GameCompleteScreen.transform.GetChild (2).GetComponent<Image> ().sprite = OrderUI.instance.gameobjectfields.EmptyStar;
 
-		OrderUI.instance.DeleteTweeningObjects ();
+		MovementControllerIsometricNew.UpdateViewpointRotation ();
 
+		DisableTimerByLevel ();
+
+		SetupLevelVars (levelNumber);
+
+		// level start screen
+		OpenLevelStartCanvas ();
+		levelNumberText.text = "Level " + levelNumber;
+		StartCoroutine (BeginLevelAfterDelay ());
+	}
+
+	IEnumerator BeginLevelAfterDelay() {
+		yield return new WaitForEndOfFrame ();
+		Timer.instance.SignalTimeLeft (3, 0, 0.5f);
+		yield return new WaitForSeconds(3);
+		BeginLevel ();
+	}
+
+	void BeginLevel() {
+		GameController.instance.gamestate = GameController.GameState.Play;
+		CloseLevelStartCanvas();
+
+		GameController.instance.gamestate = GameController.GameState.Play;
+		// Updates whether we can submit successfully or not
+		OrderUI.instance.UpdateUIAfterInventoryChange();
+	}
+
+	void DisableTimerByLevel() {
 		// disable timer for levels that don't use it
-		if (levelNumber >= 4) {
+		if (GameController.instance.currentLevel >= 4) {
 			OrderUI.instance.textfields.timeRemaining.gameObject.SetActive (true);
 			Timer.instance.TimerObject.SetActive (true);
 			GetComponent<Timer> ().startTimer ();
@@ -332,21 +368,14 @@ public class LevelLoader : MonoBehaviour {
 			OrderUI.instance.textfields.timeRemaining.gameObject.SetActive (false);
 			Timer.instance.TimerObject.SetActive (false);
 		}
-
-		MovementControllerIsometricNew.UpdateViewpointRotation ();
 	}
 
 	// Setup the level variables for the specified level.
 	void SetupLevelVars (int levelNumber) {
-		
-		//GameController.instance.levelComplete = false;
-		GameController.instance.gamestate = GameController.GameState.Play;
 
 		GameController.instance.SetScore(0);
 		OrderController.instance.ClearOrders ();
 		Timer timer = GetComponent<Timer> ();
-		// Updates whether we can submit successfully or not
-		OrderUI.instance.UpdateUIAfterInventoryChange();
 
         switch (levelNumber)
         {
@@ -658,7 +687,7 @@ public class LevelLoader : MonoBehaviour {
             GameController.instance.starScore.Add(400);
             GameController.instance.starScore.Add(500);
             break;
-        case 22:
+		case 22:
         	timer.TimerInit(90);
         	OrderController.instance.AddOrder(
         		IngredientSet.Ingredients.Cheese, 1,
