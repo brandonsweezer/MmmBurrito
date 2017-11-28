@@ -19,6 +19,7 @@ public class LevelLoader : MonoBehaviour {
 
 	public GameObject[] HUDToHideOnLevelStart;
 	public Text levelNumberText;
+	IEnumerator levelStartDelayRoutine;
 
 
 	public int maxLevelNumber = 22;
@@ -353,7 +354,11 @@ public class LevelLoader : MonoBehaviour {
 		// level start screen
 		OpenLevelStartCanvas ();
 		levelNumberText.text = "Level " + levelNumber;
-		StartCoroutine (BeginLevelAfterDelay ());
+		if (levelStartDelayRoutine != null) {
+			StopCoroutine (levelStartDelayRoutine);
+		}
+		levelStartDelayRoutine = BeginLevelAfterDelay ();
+		StartCoroutine (levelStartDelayRoutine);
 	}
 
 	IEnumerator BeginLevelAfterDelay() {
