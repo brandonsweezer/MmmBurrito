@@ -47,8 +47,8 @@ public class Timer : MonoBehaviour {
 	private bool signalingTimeLeft;
 	private float[] timeLeftSignals = {30f, 10f, 0f};
 	private UIAnimationManager animManager;
-	Vector2 signalingPos = new Vector2 (-Screen.width / 2, -Screen.height * 0.5f);
-	Vector3 signalingScale = new Vector3(1.5f, 1.5f, 1.5f);
+	Vector2 DEFAULT_SIGNALING_POS = new Vector2 (-Screen.width / 2, -Screen.height * 0.5f);
+	Vector3 DEFAULT_SIGNALING_SCALE = new Vector3(1.5f, 1.5f, 1.5f);
 	Color signalingTint = new Color(1, 1, 1, 0.7f);
 
 	bool thirty;
@@ -166,10 +166,15 @@ public class Timer : MonoBehaviour {
 
 	// Animates the clock to the middle of the screen, and then back to its default position.
 	public void SignalTimeLeft(float duration = 1.75f, float tween1 = 0.75f, float tween2 = 0.5f) {
+		SignalTimeLeft (DEFAULT_SIGNALING_POS, DEFAULT_SIGNALING_SCALE, duration, tween1, tween2);
+	}
+
+	// Animates the clock to the middle of the screen, and then back to its default position.
+	public void SignalTimeLeft(Vector2 signalPos, Vector3 signalScale, float duration = 1.75f, float tween1 = 0.75f, float tween2 = 0.5f) {
 		lastSignalTime = Time.time;
 		signalingTimeLeft = true;
-		animManager.MoveToPosAndBack    (signalingPos,   duration, tween1, tween2, signalingTimeEnd);
-		animManager.ScaleToValueAndBack (signalingScale, duration, tween1, tween2);
+		animManager.MoveToPosAndBack    (signalPos,   duration, tween1, tween2, signalingTimeEnd);
+		animManager.ScaleToValueAndBack (signalScale, duration, tween1, tween2);
 		// animManager.TintToColorAndBack (signalingTint, duration, tween1, tween2);
 	}
 

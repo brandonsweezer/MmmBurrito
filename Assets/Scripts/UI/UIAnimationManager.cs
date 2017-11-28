@@ -21,9 +21,13 @@ public class UIAnimationManager : MonoBehaviour {
 		rect = GetComponent<RectTransform> ();
 		image = gameObject.GetComponent<Image> ();
 
+		UpdateDefaultValues ();
+		GetNewKeys ();
+	}
+
+	void UpdateDefaultValues() {
 		defaultPos = rect.anchoredPosition;
 		defaultColor = image.color;
-		GetNewKeys ();
 	}
 
 	public void GetNewKeys() {
@@ -45,6 +49,10 @@ public class UIAnimationManager : MonoBehaviour {
 
 	public void SetPos(Vector2 targetPos) {
 		rect.anchoredPosition = targetPos;
+	}
+
+	public void SetColor(Color targetColor) {
+		image.color = targetColor;
 	}
 
 	public void TweenToInitialValues(float duration = 1f, Action callback = null) {
@@ -118,8 +126,23 @@ public class UIAnimationManager : MonoBehaviour {
 	}
 
 	public void StopAllAnimations() {
-		DigitalRuby.Tween.TweenFactory.RemoveTweenKey(scaleKey, DigitalRuby.Tween.TweenStopBehavior.DoNotModify);
-		DigitalRuby.Tween.TweenFactory.RemoveTweenKey(moveKey, DigitalRuby.Tween.TweenStopBehavior.DoNotModify);
-		DigitalRuby.Tween.TweenFactory.RemoveTweenKey(tintKey, DigitalRuby.Tween.TweenStopBehavior.DoNotModify);
+		DigitalRuby.Tween.TweenFactory.RemoveTweenKey(scaleKey, DigitalRuby.Tween.TweenStopBehavior.Complete);
+		DigitalRuby.Tween.TweenFactory.RemoveTweenKey(moveKey, DigitalRuby.Tween.TweenStopBehavior.Complete);
+		DigitalRuby.Tween.TweenFactory.RemoveTweenKey(tintKey, DigitalRuby.Tween.TweenStopBehavior.Complete);
+	}
+
+	public void LevelStartSpawnAnimation(Vector2 position, float duration = 0.5f, float callbackDelay = 2.5f) {
+		StopAllAnimations ();
+		UpdateDefaultValues ();
+		// spawning values
+		Vector2 startPos = new Vector2 (position.x, position.y + rect.sizeDelta.y);
+		Color startColor = defaultColor;
+		startColor.a = 0;
+		SetPos (startPos);
+		SetColor (startColor);
+		// animate to spawn end pos, then back to default pos
+		Action callback = () => ExecuteAfterDelay(callbackDelay, () => Move (defaultPos));
+		Move (position, duration, callback: callback);
+		Tint (defaultColor, duration);
 	}
 }

@@ -130,7 +130,7 @@ public class OrderUI : MonoBehaviour {
 
 	}
 
-	public void TicketInit (int index){
+	public GameObject TicketInit (int index){
 		if (activeOrders.Count >= index+1) {
 			Order currOrder = activeOrders [index];
 
@@ -149,7 +149,10 @@ public class OrderUI : MonoBehaviour {
 
 			// Initialize the ticket
 			ticket.GetComponent<TicketManager> ().TicketInit(currOrder);
+
+			return ticket;
 		}
+		return null;
 	}
 
 	// Returns the x position where the ticket should be after all current animations are over
@@ -401,11 +404,8 @@ public class OrderUI : MonoBehaviour {
 	void Update() {
 		if (gameobjectfields.canvasHUD.activeSelf) {
 			if (initializeTickets) {
-				//    ingredientprefabs.setList();
-				TicketInit (0);
-				TicketInit (1);
-				TicketInit (2);
 				initializeTickets = false;
+				CreateLevelStartTickets ();
 			}
 			UpdateUIOrdersLeft ();
 			UpdateUIMessageTimers ();
@@ -422,6 +422,22 @@ public class OrderUI : MonoBehaviour {
 					lastNumCaughtIngredients = newNumCaughtIngredients;
 				}
 			}
+		}
+	}
+
+	void CreateLevelStartTickets() {
+		// create tickets
+		GameObject[] tickets = new GameObject[3];
+		for (int i = 0; i < activeOrders.Count; i++) {
+			tickets[i] = TicketInit (i);
+		}
+
+		// animate level start spawn
+		float totalTicketWidth = GetTargetXPosForTicket(activeOrders.Count-1) + tickets[activeOrders.Count-1].GetComponent<RectTransform> ().rect.width;
+		Vector2 levelStartPos = new Vector2 (320f - totalTicketWidth/2, -450f);
+		for (int i = 0; i < activeOrders.Count; i++) {
+			tickets[i].GetComponent<UIAnimationManager> ().LevelStartSpawnAnimation (levelStartPos);
+			levelStartPos.x += tickets [i].GetComponent<RectTransform> ().rect.width + ticketMargin;
 		}
 	}
 
