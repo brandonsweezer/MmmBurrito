@@ -28,10 +28,6 @@ public class LevelLoader : MonoBehaviour {
 	private bool play;
 
 
-	Vector2 timerLevelStartPos = new Vector2 (-Screen.width / 2, -320f);
-	Vector3 timerLevelStartScale = new Vector3(2.5f, 2.5f, 2.5f);
-
-
 	// Make this class a singleton
 	public static LevelLoader instance = null;
 
@@ -362,7 +358,8 @@ public class LevelLoader : MonoBehaviour {
 
 	IEnumerator BeginLevelAfterDelay() {
 		yield return new WaitForEndOfFrame ();
-		Timer.instance.SignalTimeLeft (timerLevelStartPos, timerLevelStartScale, 3, 0, 0.5f);
+		// Timer.instance.SignalTimeLeft (timerLevelStartPos, timerLevelStartScale, 3, 0, 0.5f);
+		Timer.instance.LevelStartSpawnAnimation();
 		yield return new WaitForSeconds(3);
 		BeginLevel ();
 	}
