@@ -98,7 +98,6 @@ public class Timer : MonoBehaviour {
 		}
 
 		time -= Time.deltaTime;
-		circle.fillAmount = time/maxT;
 		if (time < 0) {
 			time = 0.0f;
 			StartCoroutine (DisplayLoseScreen ());
@@ -134,6 +133,10 @@ public class Timer : MonoBehaviour {
 	}
 
 	void UpdateDisplayedTime() {
+		// fill
+		circle.fillAmount = time/maxT;
+
+		// text
 		totalSeconds = Mathf.Ceil (time);
 		int minutes = (int) totalSeconds / 60;
 		int seconds = (int)totalSeconds % 60;
