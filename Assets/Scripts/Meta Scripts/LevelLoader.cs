@@ -353,7 +353,7 @@ public class LevelLoader : MonoBehaviour {
 
 		// level start screen
 		OpenLevelStartCanvas ();
-		levelNumberText.text = "Level " + levelNumber;
+		levelNumberText.text = "LEVEL " + levelNumber;
 		if (levelStartDelayRoutine != null) {
 			StopCoroutine (levelStartDelayRoutine);
 		}
