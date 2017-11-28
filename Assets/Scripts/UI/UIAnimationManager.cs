@@ -131,20 +131,20 @@ public class UIAnimationManager : MonoBehaviour {
 		DigitalRuby.Tween.TweenFactory.RemoveTweenKey(tintKey, DigitalRuby.Tween.TweenStopBehavior.Complete);
 	}
 
-	public void LevelStartSpawnAnimation(Vector2 position, float scale = 1f, float duration = 0.5f, float callbackDelay = 2.5f) {
+	public void LevelStartSpawnAnimation(Vector2 endPosition, float startScale = 1f, float endScale = 1f, float duration = 0.5f, float callbackDelay = 2.5f) {
 		StopAllAnimations ();
 		UpdateDefaultValues ();
 		// spawning values
-		Vector2 startPos = new Vector2 (position.x, position.y + rect.sizeDelta.y);
+		Vector2 startPos = new Vector2 (endPosition.x, endPosition.y + rect.sizeDelta.y);
+		SetValues (startPos, new Vector3(startScale, startScale, startScale));
 		Color startColor = defaultColor;
 		startColor.a = 0;
-		SetPos (startPos);
 		SetColor (startColor);
 		// animate to spawn end pos, then back to default pos
 		Action callbackPos = () => ExecuteAfterDelay(callbackDelay, () => Move (defaultPos));
 		Action callbackScale = () => ExecuteAfterDelay(callbackDelay, () => Scale (Vector3.one));
-		Move (position, duration, callbackPos);
-		Scale (new Vector3(scale, scale, scale), duration, callbackScale);
+		Move (endPosition, duration, callbackPos);
+		Scale (new Vector3(endScale, endScale, endScale), duration, callbackScale);
 		Tint (defaultColor, duration);
 	}
 }
