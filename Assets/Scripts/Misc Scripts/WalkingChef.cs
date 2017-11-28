@@ -12,6 +12,9 @@ public class WalkingChef : MonoBehaviour{
     private float rotationSpeedFactor = 0.2f;
     private int coordPointer = 0;
 
+    private int pauseTime = 15;
+    private int decrement = 0;
+
     // Use this for initialization
     void Start()
     {
@@ -49,6 +52,7 @@ public class WalkingChef : MonoBehaviour{
                     transform.position.z < coordinates[coordPointer].y + tolerance && transform.position.z > coordinates[coordPointer].y - tolerance)
                 {
                     coordPointer++;
+                    decrement = pauseTime;
                 }
                 if (coordPointer >= coordinates.Length)
                 {
@@ -64,14 +68,29 @@ public class WalkingChef : MonoBehaviour{
 
 	void FixedUpdate() {
 		Rigidbody rb = transform.GetComponent<Rigidbody>();
-		if (GameController.instance.gamestate != GameController.GameState.Play) {
-			if (!rb.IsSleeping ()) {
-				rb.Sleep ();
-			}
-			return;
-		}
-		if (rb.IsSleeping()) {
-			rb.WakeUp ();
-		}
+        if (decrement == 0)
+        {
+            if (GameController.instance.gamestate != GameController.GameState.Play)
+            {
+                if (!rb.IsSleeping())
+                {
+                    rb.Sleep();
+                }
+                return;
+            }
+            if (rb.IsSleeping())
+            {
+                rb.WakeUp();
+            }
+        }
+        else
+        {
+            decrement--;
+            if (!rb.IsSleeping())
+            {
+                rb.Sleep();
+            }
+            return;
+        }
 	}
 }
