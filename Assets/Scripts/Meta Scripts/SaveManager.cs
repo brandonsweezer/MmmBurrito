@@ -75,9 +75,12 @@ public class SaveManager : MonoBehaviour {
     public int totalStars()
     {
         int stars = 0;
-        foreach(int i in save.levelStars)
+        for(int i = 0; i< LevelLoader.instance.maxLevelNumber; i++)
         {
-            stars += i;
+            if (GetLevelStars(i) != -1)
+            {
+                stars += GetLevelStars(i);
+            }
         }
         return stars;
     }
