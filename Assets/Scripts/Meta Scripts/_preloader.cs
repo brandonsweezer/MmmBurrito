@@ -7,14 +7,12 @@ public class _preloader : MonoBehaviour {
 
 	void Awake () {
         //version 4 is KONGREGATE
-        LoggingManager.instance.Initialize(094, 4, true);
-        LoggingManager.instance.RecordPageLoad();
+        if (LoggingManager.instance != null)
+        {
+            LoggingManager.instance.Initialize(094, 4, true);
+            LoggingManager.instance.RecordPageLoad();
+        }
         SceneManager.LoadScene ("Menu");
-
-        //resubmit total stars on game load
-        Application.ExternalCall("kongregate.stats.submit", "Stars", SaveManager.instance.totalStars());
-        //submit highest level completed
-        Application.ExternalCall("kongregate.stats.submit", "HighestLevel", SaveManager.instance.GetLastLevelCompleted());
 
         /* GAME EVENT IDS
          * 0 Location (LoggingCalls)

@@ -774,6 +774,12 @@ public class LevelLoader : MonoBehaviour {
             GameController.instance.first = false;
             LoggingManager.instance.Initialize(094, 4, true);
             LoggingManager.instance.RecordPageLoad();
+
+
+            //resubmit total stars on game load
+            Application.ExternalCall("kongregate.stats.submit", "Stars", SaveManager.instance.totalStars());
+            //submit highest level completed
+            Application.ExternalCall("kongregate.stats.submit", "HighestLevel", SaveManager.instance.GetLastLevelCompleted());
         }
 		if (Input.anyKeyDown && GameController.instance.gamestate == GameController.GameState.GameStart) {
 			GoToLevel (1);
