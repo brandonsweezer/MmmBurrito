@@ -135,7 +135,7 @@ public class UIAnimationManager : MonoBehaviour {
 		StopAllAnimations ();
 		UpdateDefaultValues ();
 		// spawning values
-		Vector2 startPos = new Vector2 (endPosition.x, endPosition.y + rect.sizeDelta.y);
+		Vector2 startPos = new Vector2 (endPosition.x, endPosition.y + rect.sizeDelta.y * 0.6f);
 		SetValues (startPos, new Vector3(startScale, startScale, startScale));
 		Color startColor = defaultColor;
 		startColor.a = 0;
