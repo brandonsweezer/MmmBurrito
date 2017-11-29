@@ -201,6 +201,11 @@ public class SubmissionController : MonoBehaviour {
 		else {
 			OrderUI.instance.gameobjectfields.WinScreen.gameObject.SetActive (true);
 			OrderUI.instance.setWinMessage ("You Win! Score: " + GameController.instance.score + "\n(Press escape to return to menu)\n(Press enter to go to next level)");
+			if (GameController.instance.currentLevel + 1 > LevelLoader.instance.maxLevelUnlocked) {
+				OrderUI.instance.gameobjectfields.nextButton.gameObject.SetActive (false);
+			} else {
+				OrderUI.instance.gameobjectfields.nextButton.gameObject.SetActive (true);
+			}
 		}
 	}
 

@@ -45,7 +45,7 @@ public class LevelLoader : MonoBehaviour {
         //Level 3
         GameController.instance.starUnlock.Add(0);
         //Level 4
-        GameController.instance.starUnlock.Add(50);
+        GameController.instance.starUnlock.Add(5);
         //Level 5
         GameController.instance.starUnlock.Add(7);
         //Level 6
@@ -792,6 +792,7 @@ public class LevelLoader : MonoBehaviour {
             LoggingManager.instance.Initialize(094, 4, true);
             LoggingManager.instance.RecordPageLoad();
         }
+
 		if (Input.anyKeyDown && GameController.instance.gamestate == GameController.GameState.GameStart) {
 			GoToLevel (1);
 		}
@@ -817,10 +818,8 @@ public class LevelLoader : MonoBehaviour {
 			((GameController.instance.gamestate==GameController.GameState.Pause) || (GameController.instance.gamestate==GameController.GameState.Win) || (GameController.instance.gamestate==GameController.GameState.Lose))) {
 			ReplayLevel ();
 		}
-		else if (Input.GetKeyDown(KeyCode.Return) && GameController.instance.gamestate==GameController.GameState.Win && loadingLevelNumber+1 >= maxLevelUnlocked)
+		else if (Input.GetKeyDown(KeyCode.Return) && GameController.instance.gamestate==GameController.GameState.Win && maxLevelUnlocked >= ((loadingLevelNumber+1) ))
 		{
-			Debug.Log (loadingLevelNumber + 1);
-			Debug.Log (maxLevelUnlocked);
 			GoToNextLevel ();
 		}
 
