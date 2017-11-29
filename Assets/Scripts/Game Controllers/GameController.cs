@@ -10,6 +10,7 @@ public class GameController : MonoBehaviour {
 
 	public enum GameState {
 		Menu,
+		GameStart,
 		LevelStart,
 		Play,
 		Win,
