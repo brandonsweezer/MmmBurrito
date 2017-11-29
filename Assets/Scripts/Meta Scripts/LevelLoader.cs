@@ -23,6 +23,8 @@ public class LevelLoader : MonoBehaviour {
 
 
 	public int maxLevelNumber = 22;
+	public Button[] levelSet; 
+	private int currentStars;
 	private int loadingLevelNumber;
 	private bool inMenuHome;
 	private bool inMenuLevelSelect;
@@ -42,43 +44,43 @@ public class LevelLoader : MonoBehaviour {
         //Level 3
         GameController.instance.starUnlock.Add(0);
         //Level 4
-        GameController.instance.starUnlock.Add(0);
+        GameController.instance.starUnlock.Add(5);
         //Level 5
-        GameController.instance.starUnlock.Add(0);
+        GameController.instance.starUnlock.Add(7);
         //Level 6
-        GameController.instance.starUnlock.Add(0);
+        GameController.instance.starUnlock.Add(9);
         //Level 7
-        GameController.instance.starUnlock.Add(0);
+        GameController.instance.starUnlock.Add(12);
         //Level 8
-        GameController.instance.starUnlock.Add(0);
+        GameController.instance.starUnlock.Add(15);
         //Level 9
-        GameController.instance.starUnlock.Add(0);
+        GameController.instance.starUnlock.Add(17);
         //Level 10
-        GameController.instance.starUnlock.Add(0);
+        GameController.instance.starUnlock.Add(19);
         //Level 11
-        GameController.instance.starUnlock.Add(0);
+        GameController.instance.starUnlock.Add(20);
         //Level 12
-        GameController.instance.starUnlock.Add(0);
+        GameController.instance.starUnlock.Add(22);
         //Level 13
-        GameController.instance.starUnlock.Add(0);
+        GameController.instance.starUnlock.Add(24);
         //Level 14
-        GameController.instance.starUnlock.Add(0);
+        GameController.instance.starUnlock.Add(26);
         //Level 15
-        GameController.instance.starUnlock.Add(0);
+        GameController.instance.starUnlock.Add(28);
         //Level 16
-        GameController.instance.starUnlock.Add(0);
+        GameController.instance.starUnlock.Add(31);
         //Level 17
-        GameController.instance.starUnlock.Add(0);
+        GameController.instance.starUnlock.Add(33);
         //Level 18
-        GameController.instance.starUnlock.Add(0);
+        GameController.instance.starUnlock.Add(35);
         //Level 19
-        GameController.instance.starUnlock.Add(0);
+        GameController.instance.starUnlock.Add(36);
         //Level 20
-        GameController.instance.starUnlock.Add(0);
+        GameController.instance.starUnlock.Add(38);
         //Level 21
-        GameController.instance.starUnlock.Add(0);
+        GameController.instance.starUnlock.Add(40);
         //Level 22
-        GameController.instance.starUnlock.Add(0);
+        GameController.instance.starUnlock.Add(42);
 
 		if (instance == null) {
 			instance = this;
@@ -197,7 +199,9 @@ public class LevelLoader : MonoBehaviour {
 
 	public void FillStars () {
 
-		for (int i=0; i<=maxLevelNumber; i ++) {
+		currentStars = 0;
+
+		for (int i=0; i<maxLevelNumber; i ++) {
 			canvasLevelSelect.transform.GetChild (3 + i).GetChild(1).GetChild(1).GetComponent<Image> ().sprite = OrderUI.instance.gameobjectfields.EmptyStar;
 			canvasLevelSelect.transform.GetChild (3 + i).GetChild(1).GetChild (1).GetComponent<Image> ().color = Color.black;
 			canvasLevelSelect.transform.GetChild (3 + i).GetChild(1).GetChild(0).GetComponent<Image> ().sprite = OrderUI.instance.gameobjectfields.EmptyStar;
@@ -206,6 +210,34 @@ public class LevelLoader : MonoBehaviour {
 			canvasLevelSelect.transform.GetChild (3 + i).GetChild(1).GetChild (2).GetComponent<Image> ().color = Color.black;
 
 			int stars=SaveManager.instance.GetLevelStars (i);
+			int tempStar;
+			if (stars == -1) {
+				tempStar = 0;
+			} else {
+				tempStar = stars;
+			}
+			currentStars += tempStar; 
+
+			Button lvl = (Button)levelSet.GetValue (i); 
+			if (currentStars < GameController.instance.starUnlock [i]) {
+				lvl.interactable = false; 
+				canvasLevelSelect.transform.GetChild (3 + i).GetChild (1).gameObject.SetActive (false);
+				int ftsize = 33; 
+				lvl.transform.GetChild (0).GetComponent<Text> ().fontSize = ftsize;
+				if (GameController.instance.starUnlock [i] - currentStars > 1) {
+					lvl.transform.GetChild (0).GetComponent<Text> ().text = "Need " + (GameController.instance.starUnlock [i] - currentStars) + " Stars"; 
+				} else {
+					lvl.transform.GetChild (0).GetComponent<Text> ().text = "Need " + (GameController.instance.starUnlock [i] - currentStars) + " Star"; 
+
+				}
+			} else {
+				lvl.interactable = true; 
+				canvasLevelSelect.transform.GetChild (3 + i).GetChild (1).gameObject.SetActive (true);
+				int ftsize = 45; 
+				lvl.transform.GetChild (0).GetComponent<Text> ().fontSize = ftsize;
+				lvl.transform.GetChild (0).GetComponent<Text> ().text = (i+1).ToString();
+
+			}
 
 			if (stars >= 1) {
 				canvasLevelSelect.transform.GetChild (2 + i).GetChild(1).GetChild(1).GetComponent<Image> ().sprite = OrderUI.instance.gameobjectfields.FilledStar;
@@ -219,6 +251,7 @@ public class LevelLoader : MonoBehaviour {
 				canvasLevelSelect.transform.GetChild (2 + i).GetChild(1).GetChild(2).GetComponent<Image> ().sprite = OrderUI.instance.gameobjectfields.FilledStar;
 				canvasLevelSelect.transform.GetChild (2 + i).GetChild(1).GetChild (2).GetComponent<Image> ().color = Color.white;
 			}
+				
 		}
 	}
 
@@ -748,7 +781,7 @@ public class LevelLoader : MonoBehaviour {
 		else if ((Input.GetKeyDown(KeyCode.P)|| Input.GetKeyDown(KeyCode.Escape)) && GameController.instance.gamestate==GameController.GameState.Play) {
 			GoToPause();
 		}
-		else if (Input.GetKeyDown(KeyCode.P)||Input.GetKeyDown(KeyCode.Escape)|| Input.GetKeyDown(KeyCode.Return)  && GameController.instance.gamestate==GameController.GameState.Pause) {
+		else if ((Input.GetKeyDown(KeyCode.P)||Input.GetKeyDown(KeyCode.Escape)|| Input.GetKeyDown(KeyCode.Return))  && GameController.instance.gamestate==GameController.GameState.Pause) {
 			if (canvasInstructionsPause.activeSelf == true) {
 				GoToPause ();
 			}
