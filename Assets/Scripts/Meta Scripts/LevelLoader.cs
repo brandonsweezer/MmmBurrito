@@ -23,6 +23,7 @@ public class LevelLoader : MonoBehaviour {
 
 
 	public int maxLevelNumber = 22;
+	public int maxLevelUnlocked = 3; 
 	public Button[] levelSet; 
 	private int currentStars;
 	private int loadingLevelNumber;
@@ -44,7 +45,7 @@ public class LevelLoader : MonoBehaviour {
         //Level 3
         GameController.instance.starUnlock.Add(0);
         //Level 4
-        GameController.instance.starUnlock.Add(5);
+        GameController.instance.starUnlock.Add(50);
         //Level 5
         GameController.instance.starUnlock.Add(7);
         //Level 6
@@ -125,6 +126,15 @@ public class LevelLoader : MonoBehaviour {
 
 	public void PlayLatestLevel  () {
 		int levelNum = (int)Mathf.Min (maxLevelNumber, SaveManager.instance.GetLastLevelCompleted () + 1);
+			int totalStars= 0;
+		for (int i=SaveManager.instance.GetLastLevelCompleted(); i>0; i --) {
+				totalStars+=SaveManager.instance.GetLevelStars (i);
+			}
+		if (totalStars < GameController.instance.starUnlock [levelNum-1]) {
+			levelNum -= 1; 
+		}
+
+
 		Debug.Log ("next level is " + levelNum);
 		if (levelNum == 1) {
 			GoToInstructionsMain ();
@@ -132,6 +142,7 @@ public class LevelLoader : MonoBehaviour {
 			GoToLevel (levelNum);
 		}
 	}
+		
 
 	public void GoToMenuLevelSelect () {
 		SaveManager.instance.printStars ();
@@ -202,6 +213,7 @@ public class LevelLoader : MonoBehaviour {
 		currentStars = 0;
 
 		for (int i=0; i<maxLevelNumber; i ++) {
+			//Reset Empty Star Sprites
 			canvasLevelSelect.transform.GetChild (3 + i).GetChild(1).GetChild(1).GetComponent<Image> ().sprite = OrderUI.instance.gameobjectfields.EmptyStar;
 			canvasLevelSelect.transform.GetChild (3 + i).GetChild(1).GetChild (1).GetComponent<Image> ().color = Color.black;
 			canvasLevelSelect.transform.GetChild (3 + i).GetChild(1).GetChild(0).GetComponent<Image> ().sprite = OrderUI.instance.gameobjectfields.EmptyStar;
@@ -209,6 +221,7 @@ public class LevelLoader : MonoBehaviour {
 			canvasLevelSelect.transform.GetChild (3 + i).GetChild(1).GetChild(2).GetComponent<Image> ().sprite = OrderUI.instance.gameobjectfields.EmptyStar;
 			canvasLevelSelect.transform.GetChild (3 + i).GetChild(1).GetChild (2).GetComponent<Image> ().color = Color.black;
 
+			//Calculates total stars
 			int stars=SaveManager.instance.GetLevelStars (i);
 			int tempStar;
 			if (stars == -1) {
@@ -218,16 +231,17 @@ public class LevelLoader : MonoBehaviour {
 			}
 			currentStars += tempStar; 
 
+			//Determines if a level is unlocked or not
 			Button lvl = (Button)levelSet.GetValue (i); 
 			if (currentStars < GameController.instance.starUnlock [i]) {
 				lvl.interactable = false; 
 				canvasLevelSelect.transform.GetChild (3 + i).GetChild (1).gameObject.SetActive (false);
-				int ftsize = 33; 
+				int ftsize = 25; 
 				lvl.transform.GetChild (0).GetComponent<Text> ().fontSize = ftsize;
 				if (GameController.instance.starUnlock [i] - currentStars > 1) {
-					lvl.transform.GetChild (0).GetComponent<Text> ().text = "Need " + (GameController.instance.starUnlock [i] - currentStars) + " Stars"; 
+					lvl.transform.GetChild (0).GetComponent<Text> ().text = "Need \n" + (GameController.instance.starUnlock [i] - currentStars) + "\nStars"; 
 				} else {
-					lvl.transform.GetChild (0).GetComponent<Text> ().text = "Need " + (GameController.instance.starUnlock [i] - currentStars) + " Star"; 
+					lvl.transform.GetChild (0).GetComponent<Text> ().text = "Need \n" + (GameController.instance.starUnlock [i] - currentStars) + "\nStar"; 
 
 				}
 			} else {
@@ -239,6 +253,7 @@ public class LevelLoader : MonoBehaviour {
 
 			}
 
+			//Sets the correct number of filled sprites
 			if (stars >= 1) {
 				canvasLevelSelect.transform.GetChild (2 + i).GetChild(1).GetChild(1).GetComponent<Image> ().sprite = OrderUI.instance.gameobjectfields.FilledStar;
 				canvasLevelSelect.transform.GetChild (2 + i).GetChild(1).GetChild (1).GetComponent<Image> ().color = Color.white;
@@ -282,6 +297,7 @@ public class LevelLoader : MonoBehaviour {
 		}
 	}
 
+	//Tunrns off all layers
 	void SetAllToFalse() {
 		canvasHUD.SetActive (false);
 		canvasLevelSelect.SetActive (false);
@@ -380,9 +396,10 @@ public class LevelLoader : MonoBehaviour {
 		OrderUI.instance.gameobjectfields.WinScreen.transform.GetChild (0).GetComponent<Image> ().sprite = OrderUI.instance.gameobjectfields.EmptyStar;
 		OrderUI.instance.gameobjectfields.WinScreen.transform.GetChild (1).GetComponent<Image> ().sprite = OrderUI.instance.gameobjectfields.EmptyStar;
 		OrderUI.instance.gameobjectfields.WinScreen.transform.GetChild (2).GetComponent<Image> ().sprite = OrderUI.instance.gameobjectfields.EmptyStar;
-		OrderUI.instance.gameobjectfields.GameCompleteScreen.transform.GetChild (0).GetComponent<Image> ().sprite = OrderUI.instance.gameobjectfields.EmptyStar;
+
 		OrderUI.instance.gameobjectfields.GameCompleteScreen.transform.GetChild (1).GetComponent<Image> ().sprite = OrderUI.instance.gameobjectfields.EmptyStar;
 		OrderUI.instance.gameobjectfields.GameCompleteScreen.transform.GetChild (2).GetComponent<Image> ().sprite = OrderUI.instance.gameobjectfields.EmptyStar;
+		OrderUI.instance.gameobjectfields.GameCompleteScreen.transform.GetChild (3).GetComponent<Image> ().sprite = OrderUI.instance.gameobjectfields.EmptyStar;
 
 		MovementControllerIsometricNew.UpdateViewpointRotation ();
 
@@ -802,8 +819,10 @@ public class LevelLoader : MonoBehaviour {
 			((GameController.instance.gamestate==GameController.GameState.Pause) || (GameController.instance.gamestate==GameController.GameState.Win) || (GameController.instance.gamestate==GameController.GameState.Lose))) {
 			ReplayLevel ();
 		}
-		else if (Input.GetKeyDown(KeyCode.Return) && GameController.instance.gamestate==GameController.GameState.Win)
+		else if (Input.GetKeyDown(KeyCode.Return) && GameController.instance.gamestate==GameController.GameState.Win && loadingLevelNumber+1 >= maxLevelUnlocked)
 		{
+			Debug.Log (loadingLevelNumber + 1);
+			Debug.Log (maxLevelUnlocked);
 			GoToNextLevel ();
 		}
 

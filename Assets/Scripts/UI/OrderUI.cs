@@ -59,6 +59,7 @@ public class GameObjectFields
 	public Sprite[] QualitySprites; 
 
 	public Image WinScreen;
+	public Button nextButton; 
 	public Image LoseScreen;
 	public Image GameCompleteScreen;
 

@@ -133,5 +133,7 @@ public class SaveManager : MonoBehaviour {
 	private void SaveEmptyData() {
 		save = new Save();
 		SaveGame ();
+		LevelLoader.instance.maxLevelUnlocked = 3;
 	}
+
 }

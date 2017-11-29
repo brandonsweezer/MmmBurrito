@@ -144,20 +144,21 @@ public class SubmissionController : MonoBehaviour {
 		int curLevel = GameController.instance.currentLevel;
 		int curScore = GameController.instance.score;
 		int numStars = 0;
+		//Game over
 		if (curLevel == LevelLoader.instance.maxLevelNumber) {
 			if (curScore >= GameController.instance.starScore [0]) {
-				OrderUI.instance.gameobjectfields.GameCompleteScreen.transform.GetChild (0).GetComponent<Image> ().sprite = OrderUI.instance.gameobjectfields.FilledStar;   
+				OrderUI.instance.gameobjectfields.GameCompleteScreen.transform.GetChild (1).GetComponent<Image> ().sprite = OrderUI.instance.gameobjectfields.FilledStar;   
 				numStars++;
 			}
 			if (curScore >= GameController.instance.starScore [1]) {
-				OrderUI.instance.gameobjectfields.GameCompleteScreen.transform.GetChild (1).GetComponent<Image> ().sprite = OrderUI.instance.gameobjectfields.FilledStar;
-				numStars++;
-			}
-			if (curScore >= GameController.instance.starScore [2]) {
 				OrderUI.instance.gameobjectfields.GameCompleteScreen.transform.GetChild (2).GetComponent<Image> ().sprite = OrderUI.instance.gameobjectfields.FilledStar;
 				numStars++;
 			}
-		
+			if (curScore >= GameController.instance.starScore [2]) {
+				OrderUI.instance.gameobjectfields.GameCompleteScreen.transform.GetChild (3).GetComponent<Image> ().sprite = OrderUI.instance.gameobjectfields.FilledStar;
+				numStars++;
+			}
+		//All other levels 
 		} else {
 			if (curScore >= GameController.instance.starScore [0]) {
 				OrderUI.instance.gameobjectfields.WinScreen.transform.GetChild (0).GetComponent<Image> ().sprite = OrderUI.instance.gameobjectfields.FilledStar;   
@@ -175,6 +176,14 @@ public class SubmissionController : MonoBehaviour {
 
 		// save level
 		SaveManager.instance.ProcessLevelCompletion(GameController.instance.currentLevel, GameController.instance.score, numStars);
+		int i = GameController.instance.currentLevel;
+		Debug.Log ("curr= " + GameController.instance.currentLevel);
+		Debug.Log ("stars= " + SaveManager.instance.totalStars());
+		while (SaveManager.instance.totalStars() >= GameController.instance.starUnlock[i-1]) {
+			LevelLoader.instance.maxLevelUnlocked = i; 
+			i++;
+		}
+		Debug.Log ("max= " + LevelLoader.instance.maxLevelUnlocked);
 
 
         //submit stars to kongregate api
