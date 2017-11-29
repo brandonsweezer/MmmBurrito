@@ -27,16 +27,16 @@ public class ColorSetter : MonoBehaviour {
 	}
 
 	void tintColorRecursive(Transform transf, Color color, float t) {
+		// tint each of its children
+		foreach (Transform child in transf) {
+			tintColorRecursive (child, color, t);
+		}
 		// Change this transform's color
 		Renderer renderer = transf.gameObject.GetComponent<Renderer> ();
 		if (renderer != null) {
 			foreach (Material mat in renderer.materials) {
 				mat.color = Color.Lerp (mat.color, color, t);
 			}
-		}
-		// Do the same for each of its children
-		foreach (Transform child in transf) {
-			tintColorRecursive (child, color, t);
 		}
 	}
 }

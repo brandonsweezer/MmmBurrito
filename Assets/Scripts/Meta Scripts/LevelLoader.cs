@@ -789,10 +789,8 @@ public class LevelLoader : MonoBehaviour {
         if (GameController.instance.first)
         {
             GameController.instance.first = false;
-            LoggingManager.instance.Initialize(094, 3, false);
+            LoggingManager.instance.Initialize(094, 4, true);
             LoggingManager.instance.RecordPageLoad();
-            GameController.instance.ABValue = LoggingManager.instance.assignABTestValue(Random.Range(1, 3));
-            LoggingManager.instance.RecordABTestValue();
         }
 		if (Input.anyKeyDown && GameController.instance.gamestate == GameController.GameState.GameStart) {
 			GoToLevel (1);
