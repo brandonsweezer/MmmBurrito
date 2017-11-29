@@ -170,6 +170,12 @@ public class LevelLoader : MonoBehaviour {
 
 	public void GoToInstructionsMain () {
 		SetInstructionCanvasMain();
+		StartCoroutine (DisplayInstructions());
+	}
+
+	IEnumerator DisplayInstructions() {
+		yield return new WaitForSeconds (.01f);
+		GameController.instance.gamestate = GameController.GameState.GameStart;
 	}
 
 	public void GoToInstructionsPause () {
@@ -381,10 +387,12 @@ public class LevelLoader : MonoBehaviour {
 	void DisableTimerByLevel() {
 		// disable timer for levels that don't use it
 		if (GameController.instance.currentLevel >= 4) {
+			OrderUI.instance.textfields.timeRemainingText.gameObject.SetActive (true);
 			OrderUI.instance.textfields.timeRemaining.gameObject.SetActive (true);
 			Timer.instance.TimerObject.SetActive (true);
 			GetComponent<Timer> ().startTimer ();
 		} else {
+			OrderUI.instance.textfields.timeRemainingText.gameObject.SetActive (false);
 			OrderUI.instance.textfields.timeRemaining.gameObject.SetActive (false);
 			Timer.instance.TimerObject.SetActive (false);
 		}
@@ -736,10 +744,13 @@ public class LevelLoader : MonoBehaviour {
             GameController.instance.ABValue = LoggingManager.instance.assignABTestValue(Random.Range(1, 3));
             LoggingManager.instance.RecordABTestValue();
         }
-        if ((Input.GetKeyDown(KeyCode.P)||Input.GetKeyDown(KeyCode.Escape)) && GameController.instance.gamestate==GameController.GameState.Play) {
+		if (Input.anyKeyDown && GameController.instance.gamestate == GameController.GameState.GameStart) {
+			GoToLevel (1);
+		}
+		else if ((Input.GetKeyDown(KeyCode.P)|| Input.GetKeyDown(KeyCode.Escape)) && GameController.instance.gamestate==GameController.GameState.Play) {
 			GoToPause();
 		}
-		else if (Input.GetKeyDown(KeyCode.P)||Input.GetKeyDown(KeyCode.Escape) && GameController.instance.gamestate==GameController.GameState.Pause) {
+		else if (Input.GetKeyDown(KeyCode.P)||Input.GetKeyDown(KeyCode.Escape)|| Input.GetKeyDown(KeyCode.Return)  && GameController.instance.gamestate==GameController.GameState.Pause) {
 			if (canvasInstructionsPause.activeSelf == true) {
 				GoToPause ();
 			}
