@@ -33,6 +33,7 @@ public class TextFields
 	public Text currentLevelWin;
 	public Text currentLevelLose;
 	public Text currentLevelGameComplete;
+	public Text timeRemainingText;
 	public Text timeRemaining;
 }
 

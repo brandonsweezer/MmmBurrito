@@ -94,10 +94,32 @@ public class SoundController : MonoBehaviour {
 		audSrcMusic.volume = value;
 	}
 
+	public void MuteMaster ()
+	{
+		if (MasterVolume.value > 0) {
+			MasterVolume.value = 0;
+			audSrcMusic.volume = 0;
+		} else {
+			MasterVolume.value = 1;
+			audSrcMusic.volume = 1;
+		}
+	}
+
 	public void ChangeFXValue(float value)
 	{
 		SoundEffectVolume.value=value;
 		audSrc.volume = value;
+	}
+
+	public void MuteFX ()
+	{
+		if (SoundEffectVolume.value > 0) {
+			SoundEffectVolume.value = 0;
+			audSrc.volume = 0;
+		} else {
+			SoundEffectVolume.value = 1;
+			audSrc.volume = 1;
+		}
 	}
 
 	public void PlayMusic() {

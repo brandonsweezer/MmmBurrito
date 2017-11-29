@@ -381,11 +381,12 @@ public class LevelLoader : MonoBehaviour {
 	void DisableTimerByLevel() {
 		// disable timer for levels that don't use it
 		if (GameController.instance.currentLevel >= 4) {
+			OrderUI.instance.textfields.timeRemainingText.gameObject.SetActive (true);
 			OrderUI.instance.textfields.timeRemaining.gameObject.SetActive (true);
 			Timer.instance.TimerObject.SetActive (true);
 			GetComponent<Timer> ().startTimer ();
 		} else {
-			OrderUI.instance.textfields.timeRemaining.gameObject.SetActive (false);
+			OrderUI.instance.textfields.timeRemainingText.gameObject.SetActive (false);
 			Timer.instance.TimerObject.SetActive (false);
 		}
 	}
