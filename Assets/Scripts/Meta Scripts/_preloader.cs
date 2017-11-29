@@ -13,6 +13,11 @@ public class _preloader : MonoBehaviour {
         LoggingManager.instance.RecordABTestValue();
         SceneManager.LoadScene ("Menu");
 
+        //resubmit total stars on game load
+        Application.ExternalCall("kongregate.stats.submit", "Stars", SaveManager.instance.totalStars());
+        //submit highest level completed
+        Application.ExternalCall("kongregate.stats.submit", "HighestLevel", SaveManager.instance.GetLastLevelCompleted());
+
         /* GAME EVENT IDS
          * 0 Location (LoggingCalls)
          * 1 Submission Wrong (SubmissionController)

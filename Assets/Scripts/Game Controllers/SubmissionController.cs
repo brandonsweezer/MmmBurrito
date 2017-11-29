@@ -173,10 +173,15 @@ public class SubmissionController : MonoBehaviour {
 			}
 		}
 
-
 		// save level
 		SaveManager.instance.ProcessLevelCompletion(GameController.instance.currentLevel, GameController.instance.score, numStars);
-	}
+
+
+        //submit stars to kongregate api
+        Application.ExternalCall("kongregate.stats.submit", "Stars", SaveManager.instance.totalStars());
+        //submit highest level completed
+        Application.ExternalCall("kongregate.stats.submit", "HighestLevel", SaveManager.instance.GetLastLevelCompleted());
+    }
 
 	IEnumerator DisplayWinScreen() {
 		yield return new WaitForSeconds (1);

@@ -72,6 +72,16 @@ public class SaveManager : MonoBehaviour {
 		return save.levelStars[levelNumber];
 	}
 
+    public int totalStars()
+    {
+        int stars = 0;
+        foreach(int i in save.levelStars)
+        {
+            stars += i;
+        }
+        return stars;
+    }
+
 	public void printStars() {
 		foreach (int i in save.levelStars) {
 		}
