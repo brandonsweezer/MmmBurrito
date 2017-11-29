@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class TicketManager : MonoBehaviour {
 
 	private static Color grayedOutTint = new Color (.7f, .7f, .7f, .5f);
-	private static float ticketYPos = 0;
+	private static float ticketYPos = -3f;
 
 	public GameObject ingredientIconPrefab;
 	public Sprite regularTicketImage;
