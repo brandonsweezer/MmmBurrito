@@ -31,8 +31,6 @@ public class GameController : MonoBehaviour {
 
     public bool dead;
 
-    public int ABValue;
-
     //score needed for certain amount of stars
     public List<int> starScore;
 
