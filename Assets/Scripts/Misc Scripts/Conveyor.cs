@@ -25,6 +25,12 @@ public class Conveyor : MonoBehaviour {
 		if (GameController.instance.gamestate!=GameController.GameState.Play) {
 			return;
 		}
+        if (GameController.instance.gamestate == GameController.GameState.Play)
+        {
+            enabled = true;
+        }
+        else {enabled = false;}
+
         if (enabled)
         {
             float offset = Time.time * speed * 5.0f;
