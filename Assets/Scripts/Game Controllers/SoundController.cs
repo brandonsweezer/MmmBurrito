@@ -31,6 +31,7 @@ public class SoundController : MonoBehaviour {
     public AudioClip urgentTicking;
     public AudioClip invincible;
     public AudioClip orderUp;
+    public AudioClip spring;
 
 	public AudioSource audSrc;
 	public AudioSource audSrcMusic;
@@ -80,6 +81,7 @@ public class SoundController : MonoBehaviour {
         ticking = (AudioClip)Resources.Load("Sound/30 sec");
         urgentTicking = (AudioClip)Resources.Load("Sound/10 sec");
         invincible = (AudioClip)Resources.Load("Sound/invincible");
+        spring = (AudioClip)Resources.Load("Sound/dash2");
 
         //audSrc = gameObject.GetComponent<AudioSource>();
 
