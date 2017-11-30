@@ -90,7 +90,12 @@ public class MovementControllerIsometricNew : MonoBehaviour {
 		} else {
 			velocityChangeRate = velocityChangeRateInAir;
 		}
-	}	
+	}
+
+    public void Bounce(Vector3 force)//TODO Nicholas pls thx
+    {
+        return;
+    }
 
 	void Update () {
 		horizontalMoveInput = 0;
