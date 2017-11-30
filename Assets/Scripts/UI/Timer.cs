@@ -49,7 +49,7 @@ public class Timer : MonoBehaviour {
 	private UIAnimationManager animManager;
 	Vector2 DEFAULT_SIGNALING_POS = new Vector2 (-Screen.width / 2, -Screen.height * 0.5f);
 	Vector3 DEFAULT_SIGNALING_SCALE = new Vector3(1.5f, 1.5f, 1.5f);
-	Vector2 timerLevelStartPos = new Vector2 (-Screen.width / 2, -320f);
+	Vector2 timerLevelStartPos = new Vector2 (0, -275f);
 	float timerLevelStartScale = 2.5f;
 	Color signalingTint = new Color(1, 1, 1, 0.7f);
 

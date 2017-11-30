@@ -14,6 +14,9 @@ public class ObjectSpawn : MonoBehaviour {
 	private float[] spawnRangeX;
 	private float[] spawnRangeZ;
 
+	private float timeOfLastSpawn;
+	private bool constantSpawns = false;
+
 	void Start () {
 		if (fallingObjectList.Length == 0) {
 			return;
@@ -24,36 +27,34 @@ public class ObjectSpawn : MonoBehaviour {
 		spawnRangeX = new float[2]{transform.position.x - xScale/2, transform.position.x + xScale/2};
 		spawnRangeZ = new float[2]{transform.position.z - zScale/2, transform.position.z + zScale/2};
 
-		if (onlyOneSpawn) {
-			SpawnObject ();
-		} else {
-			StartCoroutine (SpawnFallingObjects ());
-		}
+		timeOfLastSpawn = Time.time - spawnInterval + Random.Range (0, 10)/5f;
+		constantSpawns = true;
 	}
 
-	IEnumerator SpawnFallingObjects () {
-		while (true) {
-			while (GameController.instance.gamestate!=GameController.GameState.Play) {
-				yield return null;
-			}
-				
+	bool ShouldSpawnObject() {
+		return Time.time > timeOfLastSpawn + spawnInterval;
+	}
 
-			// Determine Position
-			Vector3 spawnPosition = new Vector3 (Random.Range (spawnRangeX[0], spawnRangeX[1]), maxSpawnHeight, Random.Range (spawnRangeZ[0], spawnRangeZ[1]));
-			// Snap to tiled position
-			spawnPosition.x = Mathf.Round(spawnPosition.x / TiledFloor.tileWidth) * TiledFloor.tileWidth;
-			spawnPosition.z = Mathf.Round(spawnPosition.z / TiledFloor.tileHeight) * TiledFloor.tileHeight;
-			// Offset position a certain distance above ground below that position
-			RaycastHit hit;
-			bool raycast = RaycastUntilTerrain(spawnPosition, Vector3.down, out hit, maxSpawnHeight);
-			if (!raycast) {
-				// Debug.LogError ("Oops! An object spawn region is hovering over the void! Spawning object at height "+maxSpawnHeight);
-			} else {
-				spawnPosition.y = hit.point.y + spawnYOffset;
-			}
+	void Update() {
+		if (!constantSpawns) {
+			return;
+		}
+
+		// Prevent spawns cooling down during pause
+		if (GameController.instance.gamestate != GameController.GameState.Play) {
+			timeOfLastSpawn += Time.deltaTime;
+			return;
+		}
+
+		// Spawn after cooldown
+		if (ShouldSpawnObject ()) {
+			timeOfLastSpawn = Time.time;
 			SpawnObject ();
 
-			yield return new WaitForSeconds (spawnInterval);
+			// only spawn once if desired
+			if (onlyOneSpawn) {
+				constantSpawns = false;
+			}
 		}
 	}
 

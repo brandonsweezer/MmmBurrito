@@ -45,6 +45,7 @@ public class MovementControllerIsometricNew : MonoBehaviour {
 	private bool dashInput;
 	private float timeOfLastDash;
 	private Vector3 xzFacing;
+    private bool unfolded = false;
 
 	// Dash particle system
 	public GameObject dashParticleSystem;
@@ -90,7 +91,12 @@ public class MovementControllerIsometricNew : MonoBehaviour {
 		} else {
 			velocityChangeRate = velocityChangeRateInAir;
 		}
-	}	
+	}
+
+    public void Bounce(Vector3 force)//TODO Nicholas pls thx
+    {
+        return;
+    }
 
 	void Update () {
 		horizontalMoveInput = 0;
@@ -137,6 +143,24 @@ public class MovementControllerIsometricNew : MonoBehaviour {
 		if (Input.GetKey (KeyCode.Space) || Input.GetKey (KeyCode.LeftShift) || Input.GetKey (KeyCode.RightShift)) {
 			dashInput = true;
 		}
+        if (horizontalMoveInput == 0 && verticalMoveInput == 0)
+        {
+            if (!unfolded)
+            {
+                unfolded = true;
+                GetComponent<Animator>().SetFloat("Direction", 1.0f);
+                GetComponent<Animator>().SetFloat("Speed", 1.0f);
+                GetComponent<Animator>().Play(0, -1, 0);
+            }
+        }
+
+        if (unfolded && (horizontalMoveInput != 0 || verticalMoveInput != 0))
+        {
+            unfolded = false;
+            GetComponent<Animator>().SetFloat("Direction", -1.0f);
+            GetComponent<Animator>().SetFloat("Speed", -1.0f);
+            GetComponent<Animator>().Play(0, -1, 0);
+        }
 
 		// enable/disable dash particles
 		if (!IsDashing ()) {

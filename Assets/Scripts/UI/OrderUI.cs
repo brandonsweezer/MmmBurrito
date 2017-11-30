@@ -439,7 +439,7 @@ public class OrderUI : MonoBehaviour {
 		// animate level start spawn
 		float totalTicketWidth = GetTargetXPosForTicket(activeOrders.Count-1) + tickets[activeOrders.Count-1].GetComponent<RectTransform> ().rect.width;
 		totalTicketWidth *= levelStartTicketSizeMultiplier;
-		Vector2 levelStartPos = new Vector2 (320f - totalTicketWidth/2, -450f);
+		Vector2 levelStartPos = new Vector2 (304f - totalTicketWidth/2, -450f);
 		for (int i = 0; i < activeOrders.Count; i++) {
 			float widthToAdd = (tickets [i].GetComponent<RectTransform> ().rect.width + ticketMargin) * levelStartTicketSizeMultiplier;
 			tickets[i].GetComponent<UIAnimationManager> ().LevelStartSpawnAnimation (levelStartPos, 1f, levelStartTicketSizeMultiplier, levelStartTicketAnimationOffset*i);
