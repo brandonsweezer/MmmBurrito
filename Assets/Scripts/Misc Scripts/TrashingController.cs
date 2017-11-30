@@ -43,7 +43,7 @@ public class TrashingController : MonoBehaviour {
 		SoundController.instance.audSrc.PlayOneShot(SoundController.instance.trash, SoundController.instance.SoundEffectVolume.value);
 
         // Update UI
-        OrderUI.instance.setGeneralMessage ("Burrito Trashed");
+        OrderUI.instance.setGeneralMessage ("Ingredient Removed");
 	}
 
 	void Undo() {
