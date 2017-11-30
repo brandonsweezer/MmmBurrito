@@ -22,7 +22,7 @@ public class LevelLoader : MonoBehaviour {
 	IEnumerator levelStartDelayRoutine;
 
 
-	public int maxLevelNumber = 22;
+	public int maxLevelNumber = 24;
 	public int maxLevelUnlocked = 1; 
 	public Button[] levelSet; 
 	private int currentStars;
@@ -214,7 +214,7 @@ public class LevelLoader : MonoBehaviour {
 
 	public void FillStars () {
 
-		currentStars = 0;
+		currentStars = 120;
 
 		for (int i=0; i<maxLevelNumber; i ++) {
 			//Reset Empty Star Sprites
@@ -763,7 +763,7 @@ public class LevelLoader : MonoBehaviour {
             GameController.instance.starScore.Add(400);
             GameController.instance.starScore.Add(500);
             break;
-		case 22:
+		case 24:
         	timer.TimerInit(90);
         	OrderController.instance.AddOrder(
         		IngredientSet.Ingredients.Cheese, 1,
