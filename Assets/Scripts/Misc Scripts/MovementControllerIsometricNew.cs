@@ -7,7 +7,7 @@ public class MovementControllerIsometricNew : MonoBehaviour {
     private int deathTimer = 0;
 	// Speed vars
 	private static float maxSpeed = 13f;
-	private static float dashSpeed = 28f;
+	private static float dashSpeed = 32f;
 	private static float dashBoostDistance = 0f;
 	private static float dashCooldown = 0.8f; // dash cooldown in seconds.
 	private static float dashSlowDownFactor = 0.1f;
@@ -209,11 +209,10 @@ public class MovementControllerIsometricNew : MonoBehaviour {
 			ToggleFriction(true);
 		}
 
-		// If in the air, we don't want to slow down
+		// If in the air, slow down artifically when not pressing buttons
 		if (!grounded) {
-			//ToggleFriction (false);
 			if (!getMovement ()) {
-				Vector3 newXZVelocity = new Vector3 (rb.velocity.x, 0, rb.velocity.z) * 0.9f;
+				Vector3 newXZVelocity = new Vector3 (rb.velocity.x, 0, rb.velocity.z) * 0.94f;
 				rb.velocity = new Vector3 (newXZVelocity.x, rb.velocity.y, newXZVelocity.z);
 			}
 		}
