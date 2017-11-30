@@ -23,7 +23,7 @@ public class LevelLoader : MonoBehaviour {
 
 
 	public int maxLevelNumber = 22;
-	public int maxLevelUnlocked = 3; 
+	public int maxLevelUnlocked = 1; 
 	public Button[] levelSet; 
 	private int currentStars;
 	private int loadingLevelNumber;
@@ -41,9 +41,9 @@ public class LevelLoader : MonoBehaviour {
         //Level 1
         GameController.instance.starUnlock.Add(0);
         //Level 2
-        GameController.instance.starUnlock.Add(0);
+        GameController.instance.starUnlock.Add(1);
         //Level 3
-        GameController.instance.starUnlock.Add(0);
+        GameController.instance.starUnlock.Add(2);
         //Level 4
         GameController.instance.starUnlock.Add(5);
         //Level 5
@@ -81,7 +81,11 @@ public class LevelLoader : MonoBehaviour {
         //Level 21
         GameController.instance.starUnlock.Add(40);
         //Level 22
-        GameController.instance.starUnlock.Add(42);
+        GameController.instance.starUnlock.Add(45);
+		//Level 23
+		GameController.instance.starUnlock.Add(50);
+		//Level 24
+		GameController.instance.starUnlock.Add(55);
 
 		if (instance == null) {
 			instance = this;
@@ -214,12 +218,12 @@ public class LevelLoader : MonoBehaviour {
 
 		for (int i=0; i<maxLevelNumber; i ++) {
 			//Reset Empty Star Sprites
-			canvasLevelSelect.transform.GetChild (3 + i).GetChild(1).GetChild(1).GetComponent<Image> ().sprite = OrderUI.instance.gameobjectfields.EmptyStar;
-			canvasLevelSelect.transform.GetChild (3 + i).GetChild(1).GetChild (1).GetComponent<Image> ().color = Color.black;
-			canvasLevelSelect.transform.GetChild (3 + i).GetChild(1).GetChild(0).GetComponent<Image> ().sprite = OrderUI.instance.gameobjectfields.EmptyStar;
-			canvasLevelSelect.transform.GetChild (3 + i).GetChild(1).GetChild (0).GetComponent<Image> ().color = Color.black;
-			canvasLevelSelect.transform.GetChild (3 + i).GetChild(1).GetChild(2).GetComponent<Image> ().sprite = OrderUI.instance.gameobjectfields.EmptyStar;
-			canvasLevelSelect.transform.GetChild (3 + i).GetChild(1).GetChild (2).GetComponent<Image> ().color = Color.black;
+			canvasLevelSelect.transform.GetChild (3 + i).GetChild(0).GetChild(1).GetChild(0).GetComponent<Image> ().sprite = OrderUI.instance.gameobjectfields.EmptyStar;
+			canvasLevelSelect.transform.GetChild (3 + i).GetChild(0).GetChild(1).GetChild(0).GetComponent<Image> ().color = Color.black;
+			canvasLevelSelect.transform.GetChild (3 + i).GetChild(0).GetChild(1).GetChild(1).GetComponent<Image> ().sprite = OrderUI.instance.gameobjectfields.EmptyStar;
+			canvasLevelSelect.transform.GetChild (3 + i).GetChild(0).GetChild(1).GetChild(1).GetComponent<Image> ().color = Color.black;
+			canvasLevelSelect.transform.GetChild (3 + i).GetChild(0).GetChild(1).GetChild(2).GetComponent<Image> ().sprite = OrderUI.instance.gameobjectfields.EmptyStar;
+			canvasLevelSelect.transform.GetChild (3 + i).GetChild(0).GetChild(1).GetChild(2).GetComponent<Image> ().color = Color.black;
 
 			//Calculates total stars
 			int stars=SaveManager.instance.GetLevelStars (i);
@@ -231,40 +235,37 @@ public class LevelLoader : MonoBehaviour {
 			}
 			currentStars += tempStar; 
 
+			canvasLevelSelect.transform.GetChild (27).GetChild (0).GetComponent<Text> ().text = currentStars.ToString ();
+
 			//Determines if a level is unlocked or not
 			Button lvl = (Button)levelSet.GetValue (i); 
+			//Locked
 			if (currentStars < GameController.instance.starUnlock [i]) {
 				lvl.interactable = false; 
-				canvasLevelSelect.transform.GetChild (3 + i).GetChild (1).gameObject.SetActive (false);
-				int ftsize = 25; 
-				lvl.transform.GetChild (0).GetComponent<Text> ().fontSize = ftsize;
-				if (GameController.instance.starUnlock [i] - currentStars > 1) {
-					lvl.transform.GetChild (0).GetComponent<Text> ().text = "Need \n" + (GameController.instance.starUnlock [i] - currentStars) + "\nStars"; 
-				} else {
-					lvl.transform.GetChild (0).GetComponent<Text> ().text = "Need \n" + (GameController.instance.starUnlock [i] - currentStars) + "\nStar"; 
+				canvasLevelSelect.transform.GetChild (3 + i).GetChild (0).gameObject.SetActive (false);
+				canvasLevelSelect.transform.GetChild (3 + i).GetChild (1).gameObject.SetActive (true);
+				canvasLevelSelect.transform.GetChild (3 + i).GetChild (1).GetChild (0).GetComponent<Text> ().text = (GameController.instance.starUnlock [i] - currentStars).ToString(); 
 
-				}
+			//Unlocked
 			} else {
 				lvl.interactable = true; 
-				canvasLevelSelect.transform.GetChild (3 + i).GetChild (1).gameObject.SetActive (true);
-				int ftsize = 45; 
-				lvl.transform.GetChild (0).GetComponent<Text> ().fontSize = ftsize;
-				lvl.transform.GetChild (0).GetComponent<Text> ().text = (i+1).ToString();
+				canvasLevelSelect.transform.GetChild (3 + i).GetChild (0).gameObject.SetActive (true);
+				canvasLevelSelect.transform.GetChild (3 + i).GetChild (1).gameObject.SetActive (false);
 
 			}
 
 			//Sets the correct number of filled sprites
 			if (stars >= 1) {
-				canvasLevelSelect.transform.GetChild (2 + i).GetChild(1).GetChild(1).GetComponent<Image> ().sprite = OrderUI.instance.gameobjectfields.FilledStar;
-				canvasLevelSelect.transform.GetChild (2 + i).GetChild(1).GetChild (1).GetComponent<Image> ().color = Color.white;
+				canvasLevelSelect.transform.GetChild (2 + i).GetChild(0).GetChild(1).GetChild(0).GetComponent<Image> ().sprite = OrderUI.instance.gameobjectfields.FilledStar;
+				canvasLevelSelect.transform.GetChild (2 + i).GetChild(0).GetChild(1).GetChild(0).GetComponent<Image> ().color = Color.white;
 			}
 			if (stars >= 2) {
-				canvasLevelSelect.transform.GetChild (2 + i).GetChild(1).GetChild(0).GetComponent<Image> ().sprite = OrderUI.instance.gameobjectfields.FilledStar;
-				canvasLevelSelect.transform.GetChild (2 + i).GetChild(1).GetChild (0).GetComponent<Image> ().color = Color.white;
+				canvasLevelSelect.transform.GetChild (2 + i).GetChild(0).GetChild(1).GetChild(1).GetComponent<Image> ().sprite = OrderUI.instance.gameobjectfields.FilledStar;
+				canvasLevelSelect.transform.GetChild (2 + i).GetChild(0).GetChild(1).GetChild(1).GetComponent<Image> ().color = Color.white;
 			}
 			if (stars >= 3) {
-				canvasLevelSelect.transform.GetChild (2 + i).GetChild(1).GetChild(2).GetComponent<Image> ().sprite = OrderUI.instance.gameobjectfields.FilledStar;
-				canvasLevelSelect.transform.GetChild (2 + i).GetChild(1).GetChild (2).GetComponent<Image> ().color = Color.white;
+				canvasLevelSelect.transform.GetChild (2 + i).GetChild(0).GetChild(1).GetChild(2).GetComponent<Image> ().sprite = OrderUI.instance.gameobjectfields.FilledStar;
+				canvasLevelSelect.transform.GetChild (2 + i).GetChild(0).GetChild(1).GetChild(2).GetComponent<Image> ().color = Color.white;
 			}
 				
 		}
