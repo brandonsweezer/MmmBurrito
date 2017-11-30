@@ -217,7 +217,7 @@ public class LevelLoader : MonoBehaviour {
 
 	public void FillStars () {
 
-		currentStars = 120;
+		currentStars = 80;
 
 		for (int i=0; i<maxLevelNumber; i ++) {
 			//Reset Empty Star Sprites
@@ -767,19 +767,29 @@ public class LevelLoader : MonoBehaviour {
             GameController.instance.starScore.Add(500);
             break;
 		case 24:
-        	timer.TimerInit(90);
-        	OrderController.instance.AddOrder(
-        		IngredientSet.Ingredients.Cheese, 1,
-        		IngredientSet.Ingredients.Beans, 1,
-        		IngredientSet.Ingredients.Meatball, 1,
-        		IngredientSet.Ingredients.Tomato, 1,
-        		IngredientSet.Ingredients.Lettuce, 1,
-        		IngredientSet.Ingredients.Rice, 1);
-        	GameController.instance.starScore.Clear();
-        	GameController.instance.starScore.Add(300);
-        	GameController.instance.starScore.Add(450);
-        	GameController.instance.starScore.Add(550);
-            break;
+//        	timer.TimerInit(90);
+//        	OrderController.instance.AddOrder(
+//        		IngredientSet.Ingredients.Cheese, 1,
+//        		IngredientSet.Ingredients.Beans, 1,
+//        		IngredientSet.Ingredients.Meatball, 1,
+//        		IngredientSet.Ingredients.Tomato, 1,
+//        		IngredientSet.Ingredients.Lettuce, 1,
+//        		IngredientSet.Ingredients.Rice, 1);
+//        	GameController.instance.starScore.Clear();
+//        	GameController.instance.starScore.Add(300);
+//        	GameController.instance.starScore.Add(450);
+//        	GameController.instance.starScore.Add(550);
+//            break;
+
+			timer.TimerInit(60);
+			OrderController.instance.AddOrder(
+				IngredientSet.Ingredients.Tomato, 1
+			);
+			GameController.instance.starScore.Clear();
+			GameController.instance.starScore.Add(25);
+			GameController.instance.starScore.Add(75);
+			GameController.instance.starScore.Add(100);
+			break;
         }
             
 
@@ -825,9 +835,16 @@ public class LevelLoader : MonoBehaviour {
 			((GameController.instance.gamestate==GameController.GameState.Pause) || (GameController.instance.gamestate==GameController.GameState.Win) || (GameController.instance.gamestate==GameController.GameState.Lose))) {
 			ReplayLevel ();
 		}
-		else if (Input.GetKeyDown(KeyCode.Return) && GameController.instance.gamestate==GameController.GameState.Win && maxLevelUnlocked >= ((loadingLevelNumber+1) ))
+		else if (Input.GetKeyDown(KeyCode.Return) && GameController.instance.gamestate==GameController.GameState.Win && ((maxLevelUnlocked >= ((loadingLevelNumber+1))) || (loadingLevelNumber==maxLevelNumber)) && OrderUI.instance.gameobjectfields.GameCompleteScreen.gameObject.activeInHierarchy == false)
 		{
 			GoToNextLevel ();
+		}
+		else if (Input.anyKeyDown && OrderUI.instance.gameobjectfields.GameCompleteScreen.gameObject.activeInHierarchy == true) {
+			if (Input.GetMouseButtonDown (0) || Input.GetMouseButtonDown (1) || Input.GetMouseButtonDown (2)) {
+				return; //Do Nothing
+			} else {
+				GoToMenuLevelSelect ();
+			}
 		}
 
 	}

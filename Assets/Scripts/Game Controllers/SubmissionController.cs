@@ -139,7 +139,6 @@ public class SubmissionController : MonoBehaviour {
 		GameController.instance.gamestate = GameController.GameState.Win;
 		OrderUI.instance.setWinTime(Timer.instance.getDisplayTime ());
 		OrderUI.instance.textfields.currentLevelWin.text = "Level "+GameController.instance.currentLevel;
-		OrderUI.instance.textfields.currentLevelGameComplete.text = "Level "+GameController.instance.currentLevel;
 
 		int curLevel = GameController.instance.currentLevel;
 		int curScore = GameController.instance.score;
@@ -180,17 +179,7 @@ public class SubmissionController : MonoBehaviour {
 	IEnumerator DisplayWinScreen() {
 		yield return new WaitForSeconds (1);
 		LevelLoader.instance.SetEndCanvas (); 
-		if (GameController.instance.currentLevel == LevelLoader.instance.maxLevelNumber) {
-			OrderUI.instance.gameobjectfields.GameCompleteScreen.gameObject.SetActive (true);
-		}
-		else {
-			OrderUI.instance.gameobjectfields.WinScreen.gameObject.SetActive (true);
-			if (GameController.instance.currentLevel + 1 > LevelLoader.instance.maxLevelUnlocked) {
-				OrderUI.instance.gameobjectfields.nextButton.gameObject.SetActive (false);
-			} else {
-				OrderUI.instance.gameobjectfields.nextButton.gameObject.SetActive (true);
-			}
-		}
+		OrderUI.instance.gameobjectfields.WinScreen.gameObject.SetActive (true);
 	}
 
 	void CreateScorePopup(int score) {

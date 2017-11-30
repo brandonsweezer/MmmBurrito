@@ -24,15 +24,12 @@ public class TextFields
 
 	public Text WinScore;
 	public Text WinTime;
-	public Text GameCompleteTime;
 	public Text LoseScore;
 	public Text GameScore;
-	public Text GameCompleteScore;
 
 	public Text currentLevel;
 	public Text currentLevelWin;
 	public Text currentLevelLose;
-	public Text currentLevelGameComplete;
 	public Text timeRemainingText;
 	public Text timeRemaining;
 }
@@ -394,14 +391,12 @@ public class OrderUI : MonoBehaviour {
 
 	public void setWinTime(string msg) {
 		textfields.WinTime.text = msg;
-		textfields.GameCompleteTime.text = msg;
 	}
 
 	public void setScore(string msg) {
 		textfields.WinScore.text = msg;
 		textfields.GameScore.text = msg;
 		textfields.LoseScore.text = msg;
-		textfields.GameCompleteScore.text = msg;
 	}
 
 	// Update is called once per frame

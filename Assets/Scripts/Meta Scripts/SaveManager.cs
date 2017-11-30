@@ -72,14 +72,16 @@ public class SaveManager : MonoBehaviour {
 		return save.levelStars[levelNumber];
 	}
 
-    public int totalStars()
-    {
+    public int totalStars() {
         int stars = 0;
-        for(int i = 0; i< LevelLoader.instance.maxLevelNumber; i++)
+		for (int i = 0; i < LevelLoader.instance.maxLevelNumber; i++)
         {
+			Debug.Log ("test");
             if (GetLevelStars(i) != -1)
             {
                 stars += GetLevelStars(i);
+				Debug.Log ("level: " + i);
+				Debug.Log ("total stars: " + stars);
             }
         }
         return stars;
@@ -136,7 +138,7 @@ public class SaveManager : MonoBehaviour {
 	private void SaveEmptyData() {
 		save = new Save();
 		SaveGame ();
-		LevelLoader.instance.maxLevelUnlocked = 3;
+		LevelLoader.instance.maxLevelUnlocked = 1;
 	}
 
 }
