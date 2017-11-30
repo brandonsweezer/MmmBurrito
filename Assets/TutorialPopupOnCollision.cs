@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using TMPro;
 
 public class TutorialPopupOnCollision : MonoBehaviour {
 
@@ -12,7 +11,7 @@ public class TutorialPopupOnCollision : MonoBehaviour {
 
 	void Start() {
 		popupObject = Instantiate (UIPopupPrefab) as GameObject;
-		popupObject.transform.GetChild(0).GetComponent<TextMeshPro> ().text = textToDisplay;
+		popupObject.GetComponent<TutorialPopupManager> ().SetText(textToDisplay);
 	}
 
 	void OnCollisionEnter(Collision collision) {
