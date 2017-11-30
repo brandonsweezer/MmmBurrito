@@ -44,6 +44,8 @@ public class JumpPad : MonoBehaviour {
                 cooldown = 48;
                 Animator a = GetComponent<Animator>();
                 a.Play(0, -1, 0);
+                var sc = SoundController.instance;
+                sc.audSrc.PlayOneShot(sc.spring, sc.SoundEffectVolume.value);
             }
         }
     }
