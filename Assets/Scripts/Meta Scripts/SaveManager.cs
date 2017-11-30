@@ -74,7 +74,7 @@ public class SaveManager : MonoBehaviour {
 
     public int totalStars() {
         int stars = 0;
-		for (int i = 0; i < LevelLoader.instance.maxLevelNumber; i++)
+		for (int i = 1; i <= LevelLoader.instance.maxLevelNumber; i++)
         {
 			Debug.Log ("test");
             if (GetLevelStars(i) != -1)
