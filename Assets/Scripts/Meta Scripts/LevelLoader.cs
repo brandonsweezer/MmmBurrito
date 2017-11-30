@@ -22,7 +22,7 @@ public class LevelLoader : MonoBehaviour {
 	IEnumerator levelStartDelayRoutine;
 
 
-	public int maxLevelNumber = 22;
+	public int maxLevelNumber = 24;
 	public int maxLevelUnlocked = 1; 
 	public Button[] levelSet; 
 	private int currentStars;
@@ -97,7 +97,10 @@ public class LevelLoader : MonoBehaviour {
     public void GoToNextLevel()
 	{
 		if (loadingLevelNumber == maxLevelNumber) {
-			GoToMenuMain ();
+			OrderUI.instance.gameobjectfields.WinScreen.gameObject.SetActive (false);
+			OrderUI.instance.gameobjectfields.GameCompleteScreen.gameObject.SetActive (true);
+			Text summary = OrderUI.instance.gameobjectfields.GameCompleteScreen.transform.GetChild (0).GetChild (0).GetComponent<Text> ();
+			summary.text = SaveManager.instance.totalStars ().ToString () + "/" + (maxLevelNumber * 3f).ToString (); 
 			return;
 		}
 
@@ -398,9 +401,9 @@ public class LevelLoader : MonoBehaviour {
 		OrderUI.instance.gameobjectfields.WinScreen.transform.GetChild (1).GetComponent<Image> ().sprite = OrderUI.instance.gameobjectfields.EmptyStar;
 		OrderUI.instance.gameobjectfields.WinScreen.transform.GetChild (2).GetComponent<Image> ().sprite = OrderUI.instance.gameobjectfields.EmptyStar;
 
-		OrderUI.instance.gameobjectfields.GameCompleteScreen.transform.GetChild (1).GetComponent<Image> ().sprite = OrderUI.instance.gameobjectfields.EmptyStar;
-		OrderUI.instance.gameobjectfields.GameCompleteScreen.transform.GetChild (2).GetComponent<Image> ().sprite = OrderUI.instance.gameobjectfields.EmptyStar;
-		OrderUI.instance.gameobjectfields.GameCompleteScreen.transform.GetChild (3).GetComponent<Image> ().sprite = OrderUI.instance.gameobjectfields.EmptyStar;
+		//OrderUI.instance.gameobjectfields.GameCompleteScreen.transform.GetChild (1).GetComponent<Image> ().sprite = OrderUI.instance.gameobjectfields.EmptyStar;
+		//OrderUI.instance.gameobjectfields.GameCompleteScreen.transform.GetChild (2).GetComponent<Image> ().sprite = OrderUI.instance.gameobjectfields.EmptyStar;
+		//OrderUI.instance.gameobjectfields.GameCompleteScreen.transform.GetChild (3).GetComponent<Image> ().sprite = OrderUI.instance.gameobjectfields.EmptyStar;
 
 		MovementControllerIsometricNew.UpdateViewpointRotation ();
 
