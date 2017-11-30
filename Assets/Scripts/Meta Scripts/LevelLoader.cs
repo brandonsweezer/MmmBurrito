@@ -574,114 +574,111 @@ public class LevelLoader : MonoBehaviour {
             GameController.instance.starScore.Add(400);
             break;
         case 11:
-            timer.TimerInit(60);
-            OrderController.instance.AddOrder(
-                IngredientSet.Ingredients.Lettuce, 1,
-                IngredientSet.Ingredients.Cheese, 1
-            );
-            OrderController.instance.AddOrder(
-                IngredientSet.Ingredients.Tomato, 2
-            );
-            GameController.instance.starScore.Clear();
-            GameController.instance.starScore.Add(200);
-            GameController.instance.starScore.Add(300);
-            GameController.instance.starScore.Add(400);
-            break;
-        case 12:
-            timer.TimerInit(90);
-            OrderController.instance.AddOrder(
-                IngredientSet.Ingredients.Lettuce, 1
-            );
-            OrderController.instance.AddOrder(
-                IngredientSet.Ingredients.Tomato, 1
-            );
-            OrderController.instance.AddOrder(
-                IngredientSet.Ingredients.Tomato, 1,
-                IngredientSet.Ingredients.Cheese, 1,
-                IngredientSet.Ingredients.Lettuce, 1
-            );
-            OrderController.instance.AddOrder(
-                IngredientSet.Ingredients.Cheese, 1,
-                IngredientSet.Ingredients.Cheese, 1,
-                IngredientSet.Ingredients.Cheese, 1
-            );
-            GameController.instance.starScore.Clear();
-            GameController.instance.starScore.Add(400);
-            GameController.instance.starScore.Add(500);
-            GameController.instance.starScore.Add(600);
-            break;
-
-        case 13:
-            timer.TimerInit(90);
-            OrderController.instance.AddOrder(
-                IngredientSet.Ingredients.Cheese, 1,
-                IngredientSet.Ingredients.Lettuce, 1
-            );
-            OrderController.instance.AddOrder(
-                IngredientSet.Ingredients.Tomato, 1,
-                IngredientSet.Ingredients.Lettuce, 1
-            );
-            OrderController.instance.AddOrder(
-                IngredientSet.Ingredients.Cheese, 1,
-                IngredientSet.Ingredients.Tomato, 1,
-                IngredientSet.Ingredients.Lettuce, 1
-            );
-            GameController.instance.starScore.Clear();
-            GameController.instance.starScore.Add(300);
-            GameController.instance.starScore.Add(400);
-            GameController.instance.starScore.Add(600);
-            break;
-
-		case 14:
-			timer.TimerInit(12);
-			OrderController.instance.AddOrder(
-				IngredientSet.Ingredients.Tomato, 2,
-				IngredientSet.Ingredients.Cheese, 1,
-				IngredientSet.Ingredients.Lettuce, 1
-			);
-			GameController.instance.starScore.Clear();
-			GameController.instance.starScore.Add(200);
-			GameController.instance.starScore.Add(300);
-			GameController.instance.starScore.Add(400);
-			break;
-        case 15:
-            timer.TimerInit(45);
-            OrderController.instance.AddOrder(
-                IngredientSet.Ingredients.Tomato, 1,
-                IngredientSet.Ingredients.Lettuce, 1
-            );
-            OrderController.instance.AddOrder(
-            IngredientSet.Ingredients.Cheese, 1,
-            IngredientSet.Ingredients.Meatball, 1
-            );
+                timer.TimerInit(12);
+                OrderController.instance.AddOrder(
+                    IngredientSet.Ingredients.Tomato, 2,
+                    IngredientSet.Ingredients.Cheese, 1,
+                    IngredientSet.Ingredients.Lettuce, 1
+                );
                 GameController.instance.starScore.Clear();
-            GameController.instance.starScore.Add(200);
-            GameController.instance.starScore.Add(300);
-            GameController.instance.starScore.Add(400);
-            break;
+                GameController.instance.starScore.Add(200);
+                GameController.instance.starScore.Add(300);
+                GameController.instance.starScore.Add(400);
+                break;
+        case 12:
+                timer.TimerInit(90);
+                OrderController.instance.AddOrder(
+                    IngredientSet.Ingredients.Cheese, 1,
+                    IngredientSet.Ingredients.Lettuce, 1
+                );
+                OrderController.instance.AddOrder(
+                    IngredientSet.Ingredients.Tomato, 1,
+                    IngredientSet.Ingredients.Lettuce, 1
+                );
+                OrderController.instance.AddOrder(
+                    IngredientSet.Ingredients.Cheese, 1,
+                    IngredientSet.Ingredients.Tomato, 1,
+                    IngredientSet.Ingredients.Lettuce, 1
+                );
+                GameController.instance.starScore.Clear();
+                GameController.instance.starScore.Add(300);
+                GameController.instance.starScore.Add(400);
+                GameController.instance.starScore.Add(600);
+                break;
+        case 13:
 
-            case 16:
-            timer.TimerInit(90);
-            OrderController.instance.AddOrder(
-                IngredientSet.Ingredients.Meatball, 1,
-                IngredientSet.Ingredients.Cheese, 1,
-                IngredientSet.Ingredients.Tomato, 1
-            );
+                timer.TimerInit(60);
+                OrderController.instance.AddOrder(
+                    IngredientSet.Ingredients.Lettuce, 1,
+                    IngredientSet.Ingredients.Cheese, 1
+                );
+                OrderController.instance.AddOrder(
+                    IngredientSet.Ingredients.Tomato, 2
+                );
+                GameController.instance.starScore.Clear();
+                GameController.instance.starScore.Add(200);
+                GameController.instance.starScore.Add(300);
+                GameController.instance.starScore.Add(400);
+                break;
+		case 14:
+                timer.TimerInit(90);
+                OrderController.instance.AddOrder(
+                    IngredientSet.Ingredients.Lettuce, 1
+                );
+                OrderController.instance.AddOrder(
+                    IngredientSet.Ingredients.Tomato, 1
+                );
+                OrderController.instance.AddOrder(
+                    IngredientSet.Ingredients.Tomato, 1,
+                    IngredientSet.Ingredients.Cheese, 1,
+                    IngredientSet.Ingredients.Lettuce, 1
+                );
+                OrderController.instance.AddOrder(
+                    IngredientSet.Ingredients.Cheese, 1,
+                    IngredientSet.Ingredients.Cheese, 1,
+                    IngredientSet.Ingredients.Cheese, 1
+                );
+                GameController.instance.starScore.Clear();
+                GameController.instance.starScore.Add(400);
+                GameController.instance.starScore.Add(500);
+                GameController.instance.starScore.Add(600);
+                break;
+            case 15:
+                timer.TimerInit(90);
+                OrderController.instance.AddOrder(
+                    IngredientSet.Ingredients.Meatball, 1,
+                    IngredientSet.Ingredients.Cheese, 1,
+                    IngredientSet.Ingredients.Tomato, 1
+                );
                 OrderController.instance.AddOrder(
                 IngredientSet.Ingredients.Lettuce, 1,
                 IngredientSet.Ingredients.Meatball, 1
             );
-            OrderController.instance.AddOrder(
-                IngredientSet.Ingredients.Lettuce, 1,
-                IngredientSet.Ingredients.Lettuce, 1,
-                IngredientSet.Ingredients.Tomato, 1
-            );
+                OrderController.instance.AddOrder(
+                    IngredientSet.Ingredients.Lettuce, 1,
+                    IngredientSet.Ingredients.Lettuce, 1,
+                    IngredientSet.Ingredients.Tomato, 1
+                );
                 GameController.instance.starScore.Clear();
-            GameController.instance.starScore.Add(400);
-            GameController.instance.starScore.Add(550);
-            GameController.instance.starScore.Add(700);
-            break;
-
+                GameController.instance.starScore.Add(400);
+                GameController.instance.starScore.Add(550);
+                GameController.instance.starScore.Add(700);
+                break;
+            case 16:
+                timer.TimerInit(45);
+                OrderController.instance.AddOrder(
+                    IngredientSet.Ingredients.Tomato, 1,
+                    IngredientSet.Ingredients.Lettuce, 1
+                );
+                OrderController.instance.AddOrder(
+                IngredientSet.Ingredients.Cheese, 1,
+                IngredientSet.Ingredients.Meatball, 1
+                );
+                GameController.instance.starScore.Clear();
+                GameController.instance.starScore.Add(200);
+                GameController.instance.starScore.Add(300);
+                GameController.instance.starScore.Add(400);
+                break;
             case 17:
                 timer.TimerInit(90);
                 OrderController.instance.AddOrder(
