@@ -217,7 +217,7 @@ public class LevelLoader : MonoBehaviour {
 
 	public void FillStars () {
 
-		currentStars = 80;
+		currentStars = 0;
 
 		for (int i=0; i<maxLevelNumber; i ++) {
 			//Reset Empty Star Sprites
