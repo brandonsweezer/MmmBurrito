@@ -235,7 +235,7 @@ public class SubmissionController : MonoBehaviour {
 					{
 						if (t2.CurrentProgress > 0.6f) {
 							// animate total score incrementing
-							ScoreUI.instance.AnimateScore (score);
+							ScoreUI.instance.AnimateScore (GameController.instance.score);
 						}
 						// fade out
 						scorePopup.GetComponent<TextMesh>().color = new Color(0, 1, 0, t2.CurrentValue);

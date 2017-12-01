@@ -793,8 +793,8 @@ public class LevelLoader : MonoBehaviour {
                     IngredientSet.Ingredients.Meatball, 1);
                 GameController.instance.starScore.Clear();
                 GameController.instance.starScore.Add(500);
-                GameController.instance.starScore.Add(800);
-                GameController.instance.starScore.Add(1150);
+                GameController.instance.starScore.Add(700);
+                GameController.instance.starScore.Add(900);
                 break;
             case 22:
                 timer.TimerInit(45);
