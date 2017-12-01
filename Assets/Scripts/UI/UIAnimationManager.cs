@@ -130,6 +130,18 @@ public class UIAnimationManager : MonoBehaviour {
 		DigitalRuby.Tween.TweenFactory.RemoveTweenKey(moveKey, DigitalRuby.Tween.TweenStopBehavior.Complete);
 		DigitalRuby.Tween.TweenFactory.RemoveTweenKey(tintKey, DigitalRuby.Tween.TweenStopBehavior.Complete);
 	}
+    
+    public void pulse()
+    {
+        Action callbackScale = () => ExecuteAfterDelay(0f, () => Scale(Vector3.one));
+        Action sizeChange = () =>
+        {
+            Scale(new Vector3(2f, 2f, 2f), 0.5f, callbackScale);
+        };
+        ExecuteAfterDelay(0f, sizeChange);
+        ExecuteAfterDelay(1f, sizeChange);
+        ExecuteAfterDelay(2f, sizeChange);
+    }
 
 	public void LevelStartSpawnAnimation(Vector2 endPosition, float startScale = 1f, float endScale = 1f, float startDelay = 0f, float duration = 0.5f, float callbackDelay = 2.5f) {
 		StopAllAnimations ();
