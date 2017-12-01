@@ -79,7 +79,9 @@ public class MovementControllerIsometricNew : MonoBehaviour {
 
     private void Start()
     {
-        GetComponent<Animator>().enabled = false;
+		GetComponent<Animator>().enabled = true;
+		unfolded = true;
+		animator.SetTrigger("Unwrap");
     }
 
     // Update the rotation of our movement input to match our camera angle
@@ -176,7 +178,7 @@ public class MovementControllerIsometricNew : MonoBehaviour {
 	}
 
 	void FixedUpdate () {
-		if (GameController.instance.gamestate != GameController.GameState.Play) {
+		if (GameController.instance.gamestate != GameController.GameState.Play && GameController.instance.gamestate != GameController.GameState.LevelStart) {
 			if (!rb.IsSleeping ()) {
 				if (lastVelocity == Vector3.zero) {
 					lastVelocity = rb.velocity;
