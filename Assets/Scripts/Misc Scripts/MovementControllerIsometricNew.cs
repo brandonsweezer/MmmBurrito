@@ -58,7 +58,6 @@ public class MovementControllerIsometricNew : MonoBehaviour {
     //Audio vars
     AudioSource audSrc;
 
-
     void Awake () {
 		rb = GetComponent<Rigidbody> ();
 		timeOfLastDash = 0f;
@@ -68,9 +67,14 @@ public class MovementControllerIsometricNew : MonoBehaviour {
         audSrc = SoundController.instance.audSrc;
     }
 
-	// Update the rotation of our movement input to match our camera angle
-	// (i.e. pressing the "up" arrow key moves the burrito up on the screen).
-	public static void UpdateViewpointRotation() {
+    private void Start()
+    {
+        GetComponent<Animator>().enabled = false;
+    }
+
+    // Update the rotation of our movement input to match our camera angle
+    // (i.e. pressing the "up" arrow key moves the burrito up on the screen).
+    public static void UpdateViewpointRotation() {
 		viewpointRotation = Quaternion.FromToRotation (Vector3.forward, Vector3.ProjectOnPlane(Camera.main.transform.up, Vector3.up));
 	}
 
@@ -109,6 +113,7 @@ public class MovementControllerIsometricNew : MonoBehaviour {
     }
 
 	void Update () {
+        
 		horizontalMoveInput = 0;
 		verticalMoveInput = 0;
 
@@ -158,19 +163,30 @@ public class MovementControllerIsometricNew : MonoBehaviour {
             if (!unfolded)
             {
                 unfolded = true;
-                GetComponent<Animator>().SetFloat("Direction", 1.0f);
-                GetComponent<Animator>().SetFloat("Speed", 1.0f);
-                GetComponent<Animator>().Play(0, -1, 0);
+                Animator a = GetComponent<Animator>();
+                a.enabled = true;
+                a.SetTrigger("Unwrap");
             }
         }
 
-        if (unfolded && (horizontalMoveInput != 0 || verticalMoveInput != 0))
-        {
-            unfolded = false;
-            GetComponent<Animator>().SetFloat("Direction", -1.0f);
-            GetComponent<Animator>().SetFloat("Speed", -1.0f);
-            GetComponent<Animator>().Play(0, -1, 0);
-        }
+        if (unfolded) { 
+            if (horizontalMoveInput != 0 || verticalMoveInput != 0)
+            {
+                unfolded = false;
+                Animator a = GetComponent<Animator>();
+                a.enabled = true;
+                Vector3 targetDirection = ((horizontalMoveInput * Vector3.right) + (verticalMoveInput * Vector3.forward)).normalized;
+                if (Vector3.Dot(targetDirection, transform.forward) < 0){
+                    a.SetFloat("Direction", -1.0f);
+                }
+                if (Vector3.Dot(targetDirection, transform.forward) > 0)
+                {
+                    a.SetFloat("Direction", 1.0f);
+                }
+
+                a.SetTrigger("Roll");
+            }
+        } 
 
 		// enable/disable dash particles
 		if (!IsDashing ()) {
