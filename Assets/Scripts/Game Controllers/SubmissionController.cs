@@ -201,6 +201,14 @@ public class SubmissionController : MonoBehaviour {
 		yield return new WaitForSeconds (1);
 		LevelLoader.instance.SetEndCanvas (); 
 		OrderUI.instance.gameobjectfields.WinScreen.gameObject.SetActive (true);
+		if ((GameController.instance.currentLevel + 1) > LevelLoader.instance.maxLevelUnlocked) {
+			//Next Level Locked
+			OrderUI.instance.gameobjectfields.nextButton.interactable = false;
+		} else {
+			//Next Level Unlocked
+			OrderUI.instance.gameobjectfields.nextButton.interactable = true;
+				
+		}
 	}
 
 	void CreateScorePopup(int score) {
