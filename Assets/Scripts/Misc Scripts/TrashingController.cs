@@ -30,20 +30,19 @@ public class TrashingController : MonoBehaviour {
 		}
 
 		if (Input.GetKeyDown(KeyCode.T)) {
-			Trash();
+			ThrowOutLast();
 		}
 	}
 
-	public void Trash() {
-		LoggingManager.instance.RecordEvent(3, "Trashed ingredients with T: " + GameController.instance.player.GetComponent<ObjectCatcher>().GetIngredients().ToString());
+	public void ThrowOutLast() {
+		LoggingManager.instance.RecordEvent(3, "Threw out last ingredient. Ingredients were: " + GameController.instance.player.GetComponent<ObjectCatcher>().GetIngredients().ToString());
 
-		//ThrowOutContents();
 		Undo ();
 
 		SoundController.instance.audSrc.PlayOneShot(SoundController.instance.trash, SoundController.instance.SoundEffectVolume.value);
 
         // Update UI
-        OrderUI.instance.setGeneralMessage ("Ingredient Removed");
+        OrderUI.instance.setGeneralMessage ("Tossed Ingredient");
 	}
 
 	void Undo() {
@@ -59,7 +58,7 @@ public class TrashingController : MonoBehaviour {
 		caughtIngredients.Undo (out ingredientType, out quality);
 
 		// spawn
-		Vector3 spawnDir = GetSpawnDirRandom(100f);
+		Vector3 spawnDir = GetSpawnDirRandom(70f);
 		Vector3 spawnLocation = player.transform.position + spawnDir * ingredientSpawnZOffset + ingredientSpawnAdditionalOffset;
 		GameObject obj = Instantiate (IngredientSet.GetPrefab(ingredientType), spawnLocation, Quaternion.identity) as GameObject;
 		FallDecayDie fallScript = obj.GetComponent<FallDecayDie> ();
@@ -77,7 +76,7 @@ public class TrashingController : MonoBehaviour {
 	}
 
 	// Spawn the ingredients around the burrito and empty the contents
-	void ThrowOutContents() {
+	public void ThrowOutContents() {
 		GameObject player = GameController.instance.player;
 		CaughtIngredientSet caughtIngredients = player.GetComponent<ObjectCatcher> ().GetIngredients ();
 		int numIngredients = caughtIngredients.ingredientSet.GetFullCount ();
@@ -87,14 +86,13 @@ public class TrashingController : MonoBehaviour {
 
 
 		// Spawn all the ingredients around the burrito
-		float angleBetweenSpawns = angleSpread / numIngredients;
 		for (int i = 0; i < numIngredients; i++) {
 			IngredientSet.Ingredients ingredientType;
 			int quality;
 			caughtIngredients.GetNthIngredient (i, out ingredientType, out quality);
 
 			// spawn
-			Vector3 spawnDir = GetSpawnDirPartSpread(i, numIngredients);
+			Vector3 spawnDir = GetSpawnDirFullSpread(i, numIngredients);
 			Vector3 spawnLocation = player.transform.position + spawnDir * ingredientSpawnZOffset + ingredientSpawnAdditionalOffset;
 			GameObject obj = Instantiate (IngredientSet.GetPrefab(ingredientType), spawnLocation, Quaternion.identity) as GameObject;
 			FallDecayDie fallScript = obj.GetComponent<FallDecayDie> ();

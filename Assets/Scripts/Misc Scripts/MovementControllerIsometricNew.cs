@@ -50,6 +50,11 @@ public class MovementControllerIsometricNew : MonoBehaviour {
 	private float timeOfLastDash;
 	private Vector3 xzFacing;
     private bool unfolded = false;
+	private Animator animator;
+
+	private Collider foldedCollisionBox;
+	private Collider unfoldedCollisionBox;
+	private IEnumerator collisionBoxCoroutine;
 
 	// Dash particle system
 	public GameObject dashParticleSystem;
@@ -60,6 +65,11 @@ public class MovementControllerIsometricNew : MonoBehaviour {
 
     void Awake () {
 		rb = GetComponent<Rigidbody> ();
+		animator = GetComponent<Animator>();
+
+		foldedCollisionBox = GetComponent<CapsuleCollider> ();
+		unfoldedCollisionBox = GetComponent<MeshCollider> ();
+
 		timeOfLastDash = 0f;
 		xzFacing = Vector3.forward;
 		velocityChangeRate = velocityChangeRateOnGround;
@@ -69,7 +79,9 @@ public class MovementControllerIsometricNew : MonoBehaviour {
 
     private void Start()
     {
-        GetComponent<Animator>().enabled = false;
+		GetComponent<Animator>().enabled = true;
+		unfolded = true;
+		animator.SetTrigger("Unwrap");
     }
 
     // Update the rotation of our movement input to match our camera angle
@@ -158,35 +170,6 @@ public class MovementControllerIsometricNew : MonoBehaviour {
 		if (Input.GetKey (KeyCode.Space) || Input.GetKey (KeyCode.LeftShift) || Input.GetKey (KeyCode.RightShift)) {
 			dashInput = true;
 		}
-        if (horizontalMoveInput == 0 && verticalMoveInput == 0)
-        {
-            if (!unfolded)
-            {
-                unfolded = true;
-                Animator a = GetComponent<Animator>();
-                a.enabled = true;
-                a.SetTrigger("Unwrap");
-            }
-        }
-
-        if (unfolded) { 
-            if (horizontalMoveInput != 0 || verticalMoveInput != 0)
-            {
-                unfolded = false;
-                Animator a = GetComponent<Animator>();
-                a.enabled = true;
-                Vector3 targetDirection = ((horizontalMoveInput * Vector3.right) + (verticalMoveInput * Vector3.forward)).normalized;
-                if (Vector3.Dot(targetDirection, transform.forward) < 0){
-                    a.SetFloat("Direction", -1.0f);
-                }
-                if (Vector3.Dot(targetDirection, transform.forward) > 0)
-                {
-                    a.SetFloat("Direction", 1.0f);
-                }
-
-                a.SetTrigger("Roll");
-            }
-        } 
 
 		// enable/disable dash particles
 		if (!IsDashing ()) {
@@ -195,7 +178,7 @@ public class MovementControllerIsometricNew : MonoBehaviour {
 	}
 
 	void FixedUpdate () {
-		if (GameController.instance.gamestate != GameController.GameState.Play) {
+		if (GameController.instance.gamestate != GameController.GameState.Play && GameController.instance.gamestate != GameController.GameState.LevelStart) {
 			if (!rb.IsSleeping ()) {
 				if (lastVelocity == Vector3.zero) {
 					lastVelocity = rb.velocity;
@@ -240,6 +223,63 @@ public class MovementControllerIsometricNew : MonoBehaviour {
 		}
 
 		IncreaseSpeedDashingUpRamp ();
+
+		HandleFolding ();
+	}
+
+	void HandleFolding() {
+		animator.enabled = true;
+
+		if (!getMovement()) {
+			if (!unfolded) {
+				unfolded = true;
+				animator.SetTrigger("Unwrap");
+				UpdateCollisionBoxAfterDelay (0.23f);
+			}
+		}
+		else if (unfolded) {
+			unfolded = false;
+			animator.SetTrigger("Roll");
+			UpdateCollisionBoxAfterDelay (0.1f);
+		}
+
+		if (!unfolded) {
+			UpdateAnimationDirection ();
+		}
+	}
+
+	void UpdateCollisionBoxAfterDelay(float delay) {
+		if (collisionBoxCoroutine != null) {
+			StopCoroutine (collisionBoxCoroutine);
+		}
+		collisionBoxCoroutine = UpdateCollisionBoxAfterDelayRoutine (delay);
+		StartCoroutine (collisionBoxCoroutine);
+	}
+
+	IEnumerator UpdateCollisionBoxAfterDelayRoutine(float delay) {
+		yield return new WaitForSeconds (delay);
+		UpdateCollisionBox ();
+	}
+
+	void UpdateCollisionBox() {
+		if (unfolded) {
+			unfoldedCollisionBox.enabled = true;
+			foldedCollisionBox.enabled = false;
+		} else {
+			unfoldedCollisionBox.enabled = false;
+			foldedCollisionBox.enabled = true;
+		}
+	}
+
+	void UpdateAnimationDirection() {
+		Vector3 XZmove = new Vector3 (rb.velocity.x, 0, rb.velocity.z);
+		if (Vector3.Dot(XZmove, transform.forward) < 0) {
+			animator.SetFloat("Direction", -1.0f);
+		}
+		if (Vector3.Dot(XZmove, transform.forward) > 0)
+		{
+			animator.SetFloat("Direction", 1.0f);
+		}
 	}
 
 	void UpdateXZFacing() {

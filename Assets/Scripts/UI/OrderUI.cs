@@ -351,7 +351,7 @@ public class OrderUI : MonoBehaviour {
 
 
 	public void Trash () {
-		TrashingController.instance.Trash ();
+		TrashingController.instance.ThrowOutLast ();
 	}
 
 

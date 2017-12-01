@@ -33,12 +33,13 @@ public class VulnerableToHazards : MonoBehaviour {
 
 		GameObject gameObj = collision.gameObject;
 		if (gameObj.tag == "DeadlyHazard" || gameObj.tag == "Chef" || gameObj.tag == "Rat") {
-            //TODO: DEATH SOUND
+
+			TrashingController.instance.ThrowOutContents ();
+
 			audSrc.PlayOneShot(SoundController.instance.death, SoundController.instance.SoundEffectVolume.value);
-            GameController.instance.dead = true;
-            /*OrderUI.instance.ResetAfterDeath();
-            OrderUI.instance.CollectionUIUpdate();*/
 			OrderUI.instance.setGeneralMessage ("You have died!");
+            GameController.instance.dead = true;
+
             if (gameObj.tag == "DeadlyHazard")
             {
                 LoggingManager.instance.RecordEvent(12, "Died to a " + gameObj.tag);
