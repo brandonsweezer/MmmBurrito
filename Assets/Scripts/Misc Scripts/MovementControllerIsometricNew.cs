@@ -138,8 +138,11 @@ public class MovementControllerIsometricNew : MonoBehaviour {
 //			return;
 //		}
 		if (GameController.instance.gamestate!=GameController.GameState.Play) {
+			animator.enabled = false;
 			return;
 		}
+		animator.enabled = true;
+
         if (GameController.instance.dead)
         {
             deathTimer++;
