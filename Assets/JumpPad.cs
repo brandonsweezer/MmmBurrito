@@ -14,6 +14,8 @@ public class JumpPad : MonoBehaviour {
 	void Start () {
         cooldown = 0;
         on = true;
+        Animator a = GetComponent<Animator>();
+        a.enabled = false;
 	}
 	
 	// Update is called once per frame
@@ -45,6 +47,7 @@ public class JumpPad : MonoBehaviour {
                 on = false;
                 cooldown = JUMP_COOLDOWN;
                 Animator a = GetComponent<Animator>();
+                a.enabled = true;
                 a.Play(0, -1, 0);
                 var sc = SoundController.instance;
                 sc.audSrc.PlayOneShot(sc.spring, sc.SoundEffectVolume.value);
