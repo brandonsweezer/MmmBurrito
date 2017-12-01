@@ -150,4 +150,9 @@ public class UIAnimationManager : MonoBehaviour {
 		};
 		ExecuteAfterDelay (startDelay, spawnAnimation);
 	}
+
+	public void SkipToTargetPos() {
+		StopAllAnimations ();
+		ResetToInitialValues ();
+	}
 }
