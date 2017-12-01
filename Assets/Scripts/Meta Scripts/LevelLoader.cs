@@ -445,17 +445,18 @@ public class LevelLoader : MonoBehaviour {
 		BeginLevel ();
 	}
 
-	void BeginLevel() {
+	void BeginLevel(bool skipAnimations = false) {
 		GameController.instance.gamestate = GameController.GameState.Play;
 		CloseLevelStartCanvas();
 
-		GameController.instance.gamestate = GameController.GameState.Play;
 		// Updates whether we can submit successfully or not
 		OrderUI.instance.UpdateUIAfterInventoryChange();
 
-		Timer.instance.StopAnimations ();
-		for (int i = 0; i < OrderUI.instance.activeOrders.Count; i++) {
-			OrderUI.instance.tickets[i].GetComponent<UIAnimationManager> ().SkipToTargetPos ();
+		if (skipAnimations) {
+			Timer.instance.StopAnimations ();
+			for (int i = 0; i < OrderUI.instance.activeOrders.Count; i++) {
+				OrderUI.instance.tickets [i].GetComponent<UIAnimationManager> ().SkipToTargetPos ();
+			}
 		}
 	}
 
@@ -862,7 +863,7 @@ public class LevelLoader : MonoBehaviour {
 			}
 			if (GameController.instance.gamestate == GameController.GameState.LevelStart) {
 				StopCoroutine (levelStartDelayRoutine);
-				BeginLevel ();
+				BeginLevel (true);
 			}
 		}
 
