@@ -213,4 +213,8 @@ public class Timer : MonoBehaviour {
 	public void LevelStartSpawnAnimation() {
 		animManager.LevelStartSpawnAnimation(timerLevelStartPos, 1f, timerLevelStartScale);
 	}
+
+	public void StopAnimations() {
+		animManager.SkipToTargetPos ();
+	}
 }

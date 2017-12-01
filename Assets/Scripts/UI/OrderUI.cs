@@ -90,8 +90,9 @@ public class OrderUI : MonoBehaviour {
 
 	private int numberOfIngredients;
 
-	private List<Order> activeOrders;
+	public List<Order> activeOrders;
 	private int orderCount;
+	public GameObject[] tickets;
 
 	private Dictionary<IngredientSet.Ingredients,Sprite> spriteDict_glowing; 
 	private Dictionary<IngredientSet.Ingredients,Sprite> spriteDict_full;
@@ -466,7 +467,7 @@ public class OrderUI : MonoBehaviour {
 
 	void CreateLevelStartTickets() {
 		// create tickets
-		GameObject[] tickets = new GameObject[3];
+		tickets = new GameObject[3];
 		for (int i = 0; i < activeOrders.Count; i++) {
 			tickets[i] = TicketInit (i);
 		}
