@@ -5,9 +5,9 @@ using UnityEngine;
 public class TrashingController : MonoBehaviour {
 
 	// (0, 0, 1) is the direction (before rotation) in which the ingredient is spawning.
-	private static Vector3 ingredientSpawnAdditionalOffset = new Vector3(0, 0.8f, 0);
-	private static float ingredientSpawnZOffset = 1f;
-	private static Vector3 ingredientSpawnAdditionalVelocity = new Vector3(0, 10f, 0);
+	private static Vector3 ingredientSpawnAdditionalOffset = new Vector3(0, 1f, 0);
+	private static float ingredientSpawnZOffset = 1.5f;
+	private static Vector3 ingredientSpawnAdditionalVelocity = new Vector3(0, 12f, 0);
 	private static float ingredientSpawnZVelocity = 3f;
 	private static float angleSpread = 200f;
 
