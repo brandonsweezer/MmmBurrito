@@ -29,7 +29,7 @@ public class MovementControllerIsometricNew : MonoBehaviour {
 	private static float rampBiasAngle = 10; // After what angle from a flat ground are we considering the ground to be a ramp.
 	private static float speedUpRampIncreaseFactor = 0.3f;
 
-	// bouncing/jump bad vars
+	// bouncing/jump pad vars
 	private static float bounceInputStun = 0.1f;
 	private float timeOfLastBounce = 0f;
 
@@ -211,10 +211,16 @@ public class MovementControllerIsometricNew : MonoBehaviour {
 
 		// If in the air, slow down artifically when not pressing buttons
 		if (!grounded) {
+			ToggleFriction (false);
+
 			if (!getMovement ()) {
 				Vector3 newXZVelocity = new Vector3 (rb.velocity.x, 0, rb.velocity.z) * 0.94f;
 				rb.velocity = new Vector3 (newXZVelocity.x, rb.velocity.y, newXZVelocity.z);
 			}
+
+			Vector3 newXZVelocity2 = new Vector3 (rb.velocity.x, 0, rb.velocity.z).normalized * currentXZSpeed;
+			Vector3 newVelocity2 = new Vector3 (newXZVelocity2.x, rb.velocity.y, newXZVelocity2.z);
+			rb.velocity = Vector3.Lerp (rb.velocity, newVelocity2, 0.5f);
 		}
 
 		IncreaseSpeedDashingUpRamp ();
