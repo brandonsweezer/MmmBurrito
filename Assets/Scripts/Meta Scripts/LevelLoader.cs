@@ -13,8 +13,9 @@ public class LevelLoader : MonoBehaviour {
 	public GameObject canvasPrivacy;
 	public GameObject canvasPause;
 	public GameObject canvasSetting;
-	public GameObject canvasInstructionsMain;
+	public GameObject canvasInstructionsGameLoad;
 	public GameObject canvasInstructionsPause;
+	public GameObject canvasInstructionsHome;
 	public GameObject canvasLevelStart;
 
 	public GameObject[] HUDToHideOnLevelStart;
@@ -144,7 +145,7 @@ public class LevelLoader : MonoBehaviour {
 
 		Debug.Log ("next level is " + levelNum);
 		if (levelNum == 1) {
-			GoToInstructionsMain ();
+			GoToInstructionsGameLoad ();
 		} else {
 			GoToLevel (levelNum);
 		}
@@ -188,8 +189,8 @@ public class LevelLoader : MonoBehaviour {
 		GameController.instance.gamestate = GameController.GameState.Pause;
 	}
 
-	public void GoToInstructionsMain () {
-		SetInstructionCanvasMain();
+	public void GoToInstructionsGameLoad () {
+		SetInstructionCanvasGameLoad();
 		StartCoroutine (DisplayInstructions());
 	}
 
@@ -200,6 +201,11 @@ public class LevelLoader : MonoBehaviour {
 
 	public void GoToInstructionsPause () {
 		SetInstructionCanvasPause();
+	}
+
+	public void GoToInstructionsHome () {
+		SetInstructionCanvasHome();
+		GoToMenu ();
 	}
 
 	public void Resume() {
@@ -311,8 +317,9 @@ public class LevelLoader : MonoBehaviour {
 		canvasPrivacy.SetActive (false);
 		canvasPause.SetActive (false);
 		canvasSetting.SetActive (false);
-		canvasInstructionsMain.SetActive (false);
+		canvasInstructionsGameLoad.SetActive (false);
 		canvasInstructionsPause.SetActive (false);
+		canvasInstructionsHome.SetActive (false);
 		canvasHome.SetActive (false);
 		canvasLevelStart.SetActive (false);
 	}
@@ -343,13 +350,18 @@ public class LevelLoader : MonoBehaviour {
 		canvasSetting.SetActive (true);
 	}
 
-	void SetInstructionCanvasMain () {
+	void SetInstructionCanvasGameLoad () {
 		SetAllToFalse ();
-		canvasInstructionsMain.SetActive (true);
+		canvasInstructionsGameLoad.SetActive (true);
 	}
 
 	void SetInstructionCanvasPause () {
 		canvasInstructionsPause.SetActive (true);
+	}
+
+	void SetInstructionCanvasHome () {
+		SetAllToFalse ();
+		canvasInstructionsHome.SetActive (true);
 	}
 
 	void SetPauseCanvas () {
