@@ -52,6 +52,9 @@ public class MovementControllerIsometricNew : MonoBehaviour {
     private bool unfolded = false;
 	private Animator animator;
 
+	private Collider foldedCollisionBox;
+	private Collider unfoldedCollisionBox;
+
 	// Dash particle system
 	public GameObject dashParticleSystem;
 	private Vector3 dashParticleSpawnOffset = new Vector3(0, 0, 0);
@@ -62,6 +65,9 @@ public class MovementControllerIsometricNew : MonoBehaviour {
     void Awake () {
 		rb = GetComponent<Rigidbody> ();
 		animator = GetComponent<Animator>();
+
+		foldedCollisionBox = GetComponent<CapsuleCollider> ();
+		unfoldedCollisionBox = GetComponent<MeshCollider> ();
 
 		timeOfLastDash = 0f;
 		xzFacing = Vector3.forward;
@@ -224,16 +230,28 @@ public class MovementControllerIsometricNew : MonoBehaviour {
 		if (!getMovement()) {
 			if (!unfolded) {
 				unfolded = true;
+				UpdateCollisionBox ();
 				animator.SetTrigger("Unwrap");
 			}
 		}
 		else if (unfolded) {
 			unfolded = false;
+			UpdateCollisionBox ();
 			animator.SetTrigger("Roll");
 		}
 
 		if (!unfolded) {
 			UpdateAnimationDirection ();
+		}
+	}
+
+	void UpdateCollisionBox() {
+		if (unfolded) {
+			unfoldedCollisionBox.enabled = true;
+			foldedCollisionBox.enabled = false;
+		} else {
+			unfoldedCollisionBox.enabled = false;
+			foldedCollisionBox.enabled = true;
 		}
 	}
 
