@@ -99,8 +99,6 @@ public class MovementControllerIsometricNew : MonoBehaviour {
 		}
 
 		slidingOffRamp = false;
-		Vector3 velocityToAdd = Vector3.zero;
-
 		foreach (ContactPoint p in col.contacts) {
 			Vector3 floorNormal = p.normal;
 
@@ -110,18 +108,18 @@ public class MovementControllerIsometricNew : MonoBehaviour {
 				SetGrounded (true);
 			}
 
-			if (angleWithUp > 2f && angleWithUp <= 85 && !getMovement () && !IsDashing()) {
-				slidingOffRamp = true;
+
+			bool goingUpRamp = angleWithUp > 2f && angleWithUp <= 85;
+			if (col.gameObject.name.Contains("Ramp") && goingUpRamp && !getMovement () && !IsDashing()) {
 				Debug.Log ("sliding off ramp");
-
-
+				slidingOffRamp = true;
 				Vector3 awayFromRamp = -col.gameObject.transform.forward;
-				Vector3 v = awayFromRamp;
-				velocityToAdd = v;
+				Vector3 v = awayFromRamp * Time.deltaTime * 70f;
+				rb.velocity += v;
 			}
 		}
-		Debug.Log ("add velocity: " + velocityToAdd);
-		rb.velocity += velocityToAdd;
+
+
 
 
 			/*// move off of ramps
