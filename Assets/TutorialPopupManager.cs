@@ -17,6 +17,10 @@ public class TutorialPopupManager : MonoBehaviour {
 	}
 
 	void Update() {
+		if (GameController.instance.gamestate != GameController.GameState.Play) {
+			Hide ();
+		}
+
 		PositionAndFaceCamera ();
 	}
 
