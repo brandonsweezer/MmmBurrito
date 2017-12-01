@@ -31,14 +31,41 @@ public class SubmissionController : MonoBehaviour {
         audSrc = SoundController.instance.audSrc;
 
     }
-		
+
+	private float timeOfLastChange = -1;
+	private float submitDelayAfterChange = 0.4f;
+	private int lastNumIngredients = -1;
+	private bool changeWasMade = false;
 
 	void OnTriggerStay (Collider other) {
+		// dont do anything if we didn't do anything new
+		if (Time.time > timeOfLastChange + submitDelayAfterChange && changeWasMade) {
+			Debug.Log ("last change was long enough ago. gogogo");
+			OnTriggerEnter (other);
+		}
+	}
+
+	void Update() {
+		// dont do anything if we didn't do anything new
+		if (GameController.instance.player != null) {
+			int newNumIngredients = GameController.instance.player.GetComponent<ObjectCatcher> ().GetNumCaughtIngredients ();
+			if (lastNumIngredients != newNumIngredients) {
+				lastNumIngredients = newNumIngredients;
+				timeOfLastChange = Time.time;
+				changeWasMade = true;
+			}
+		}
+	}
+	
+	void OnTriggerEnter(Collider other) {
 		// Disregard any collisions that aren't with the burrito
 		GameObject burrito = other.gameObject;
 		if (burrito.tag != "Player") {
 			return;
 		}
+
+		timeOfLastChange = Time.time;
+		changeWasMade = false;
 
 		// Prevent submission if we haven't caught any objects.
 		if (burrito.GetComponent<ObjectCatcher> ().IsEmpty ()) {
@@ -75,7 +102,7 @@ public class SubmissionController : MonoBehaviour {
             //DOES NOT MATCH
             audSrc.PlayOneShot(SoundController.instance.wrongSubmission);
 			Debug.Log("Submitted burrito does not match");
-			OrderUI.instance.setGeneralMessage ("Incorrect Burrito! Press T to remove an ingredient)");
+			OrderUI.instance.setGeneralMessage ("Incorrect Burrito");
 					//setTextString ("Invalid Burrito Submission");
             LoggingManager.instance.RecordEvent(1, "Submitted ingredients: " + GameController.instance.player.GetComponent<ObjectCatcher>().GetIngredients().ToString()
             + ". Did not match.");
@@ -124,7 +151,7 @@ public class SubmissionController : MonoBehaviour {
 
 		// Determine if we won the level
 		if (OrderController.instance.activeOrders.Count != 0){
-			OrderUI.instance.setGeneralMessage("Matches one of the orders!");
+			//OrderUI.instance.setGeneralMessage("Burrito Submitted");
 			Debug.Log ("Remaining " + OrderController.instance.OrderListToString ()); // print remaining orders
 		} else {
 			ProcessLevelWin ();

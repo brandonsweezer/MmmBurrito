@@ -65,7 +65,7 @@ public class ObjectCatcher : MonoBehaviour {
 			SetnewIngredient (true);
 			// Make sure burrito is not full
 			if (caughtIngredients.ingredientSet.GetFullCount () >= 6) {
-				OrderUI.instance.setGeneralMessage ("Burrito too full! Press 'T' to make room!");
+				OrderUI.instance.setGeneralMessage ("Burrito full!");
 				return;
 			}
 
