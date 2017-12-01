@@ -13,11 +13,13 @@ public class ObjectCatcher : MonoBehaviour {
 	private bool newIngredient=false; 
 	private IngredientSet.Ingredients ingredientType;
 	private int ingredientQuality;
+	int lastNumIngredients = 0;
 
 
 	void Start () {
 		canCatch = true;
 		caughtIngredients = new CaughtIngredientSet();
+		ToggleGuts (false);
 		//SetTextString("");
 	}
 
@@ -109,6 +111,22 @@ public class ObjectCatcher : MonoBehaviour {
 
 	public int GetNumCaughtIngredients() {
 		return GetIngredients ().ingredientSet.GetFullCount ();
+	}
+
+	void Update() {
+		int numIngredients = GetNumCaughtIngredients ();
+		if (lastNumIngredients != numIngredients) {
+			lastNumIngredients = numIngredients;
+			if (numIngredients == 0) {
+				ToggleGuts (false);
+			} else {
+				ToggleGuts (true);
+			}
+		}
+	}
+
+	public void ToggleGuts(bool toggle) {
+		GameController.instance.player.transform.GetChild (1).gameObject.SetActive (toggle);
 	}
 }
 

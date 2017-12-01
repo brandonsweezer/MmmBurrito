@@ -65,7 +65,7 @@ public class MovementControllerIsometricNew : MonoBehaviour {
 
     void Awake () {
 		rb = GetComponent<Rigidbody> ();
-		animator = GetComponent<Animator>();
+		animator = transform.GetChild(0).GetComponent<Animator>();
 
 		foldedCollisionBox = GetComponent<CapsuleCollider> ();
 		unfoldedCollisionBox = GetComponent<MeshCollider> ();
@@ -79,7 +79,7 @@ public class MovementControllerIsometricNew : MonoBehaviour {
 
     private void Start()
     {
-		GetComponent<Animator>().enabled = true;
+		animator.enabled = true;
 		unfolded = true;
 		animator.SetTrigger("Unwrap");
     }
@@ -212,7 +212,7 @@ public class MovementControllerIsometricNew : MonoBehaviour {
 		if (!grounded) {
 			ToggleFriction (false);
 
-			if (!getMovement ()) {
+			if (!getMovement () && !IsDashing()) {
 				Vector3 newXZVelocity = new Vector3 (rb.velocity.x, 0, rb.velocity.z) * 0.94f;
 				rb.velocity = new Vector3 (newXZVelocity.x, rb.velocity.y, newXZVelocity.z);
 			}
@@ -230,15 +230,17 @@ public class MovementControllerIsometricNew : MonoBehaviour {
 	void HandleFolding() {
 		animator.enabled = true;
 
-		if (!getMovement()) {
+		if (!getMovement() && grounded) {
 			if (!unfolded) {
 				unfolded = true;
+				animator.ResetTrigger("Roll");
 				animator.SetTrigger("Unwrap");
 				UpdateCollisionBoxAfterDelay (0.23f);
 			}
 		}
 		else if (unfolded) {
 			unfolded = false;
+			animator.ResetTrigger("Unwrap");
 			animator.SetTrigger("Roll");
 			UpdateCollisionBoxAfterDelay (0.1f);
 		}
@@ -262,7 +264,7 @@ public class MovementControllerIsometricNew : MonoBehaviour {
 	}
 
 	void UpdateCollisionBox() {
-		if (unfolded) {
+		if (false) {
 			unfoldedCollisionBox.enabled = true;
 			foldedCollisionBox.enabled = false;
 		} else {
