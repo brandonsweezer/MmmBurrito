@@ -135,14 +135,7 @@ public class LevelLoader : MonoBehaviour {
 
 	public void PlayLatestLevel  () {
 		int totalStars = SaveManager.instance.totalStars ();
-		int levelNum = (int)Mathf.Min (maxLevelNumber, SaveManager.instance.GetLastLevelCompleted () + 1);
-		while (totalStars < GameController.instance.starUnlock [levelNum-1] || SaveManager.instance.GetLevelStars(levelNum) < 0) {
-			levelNum -= 1; 
-			if (levelNum <= 1) {
-				levelNum = 1;
-				break;
-			}
-		}
+		int levelNum = (int)Mathf.Min(maxLevelUnlocked, Mathf.Min (maxLevelNumber, SaveManager.instance.GetLastLevelCompleted () + 1));
 
 		if (levelNum == 1) {
 			GoToInstructionsGameLoad ();
