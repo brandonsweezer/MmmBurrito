@@ -73,7 +73,6 @@ public class Timer : MonoBehaviour {
 	}
 
 	public void TimerInit (int maxTime) {
-		Debug.Log ("timer init");
 		running = false;
 		time = maxTime;
 		maxT = maxTime;
@@ -86,8 +85,6 @@ public class Timer : MonoBehaviour {
 	}
 
 	public void startTimer () {
-
-		Debug.Log ("start timer");
 		timeDisplayText.color = Color.black;
 		running = true;
 		isfast = false;
