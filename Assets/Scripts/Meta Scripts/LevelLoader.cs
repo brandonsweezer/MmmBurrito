@@ -478,9 +478,9 @@ public class LevelLoader : MonoBehaviour {
                 IngredientSet.Ingredients.Tomato, 1
             );
             GameController.instance.starScore.Clear();
-            GameController.instance.starScore.Add(25);
-            GameController.instance.starScore.Add(75);
             GameController.instance.starScore.Add(100);
+            GameController.instance.starScore.Add(300);
+            GameController.instance.starScore.Add(400);
             break;
         // 2 ingredients
         case 2:
@@ -853,7 +853,8 @@ public class LevelLoader : MonoBehaviour {
 				BeginLevel ();
 			}
 		}
-		else if ((Input.GetKeyDown(KeyCode.P)|| Input.GetKeyDown(KeyCode.Escape)) && GameController.instance.gamestate==GameController.GameState.Play) {
+
+		if ((Input.GetKeyDown(KeyCode.P)|| Input.GetKeyDown(KeyCode.Escape)) && GameController.instance.gamestate==GameController.GameState.Play) {
 			GoToPause();
 		}
 		else if ((Input.GetKeyDown(KeyCode.P)||Input.GetKeyDown(KeyCode.Escape)|| Input.GetKeyDown(KeyCode.Return))  && GameController.instance.gamestate==GameController.GameState.Pause) {

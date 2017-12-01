@@ -5,24 +5,32 @@ using TMPro;
 
 public class TutorialPopupOnCollision : MonoBehaviour {
 
-	public string textToDisplay;
+	public Texture imageToDisplay;
 	public GameObject UIPopupPrefab;
 
 	private GameObject popupObject;
 
 	void Start() {
 		popupObject = Instantiate (UIPopupPrefab) as GameObject;
-		popupObject.transform.GetChild(0).GetComponent<TextMeshPro> ().text = textToDisplay;
+		popupObject.transform.GetChild(0).GetComponent<Renderer> ().material.mainTexture = imageToDisplay;
 	}
 
-	void OnCollisionEnter(Collision collision) {
-		if (collision.collider.tag == "Player") {
+	void OnCollisionStay(Collision collision) {
+		OnTriggerStay (collision.collider);
+	}
+
+	void OnTriggerStay(Collider col) {
+		if (col.tag == "Player") {
 			popupObject.GetComponent<TutorialPopupManager> ().Show ();
 		}
 	}
 
 	void OnCollisionExit(Collision collision) {
-		if (collision.collider.tag == "Player") {
+		OnTriggerExit (collision.collider);
+	}
+
+	void OnTriggerExit(Collider col) {
+		if (col.tag == "Player") {
 			popupObject.GetComponent<TutorialPopupManager> ().Hide ();
 		}
 	}
