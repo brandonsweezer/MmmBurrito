@@ -34,8 +34,8 @@ public class TutorialPopupManager : MonoBehaviour {
 
 		// position
 		Vector3 playerPos = transform.parent.transform.position;
-		transform.position = playerPos + cam.transform.up * 3.75f;
-		transform.position += (cam.transform.position - transform.position).normalized * 7f;
+		transform.position = playerPos + cam.transform.up * 4.25f;
+		transform.position += (cam.transform.position - transform.position).normalized * 10f;
 	}
 
 	public void Show() {
