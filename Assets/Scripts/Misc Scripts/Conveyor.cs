@@ -6,7 +6,6 @@ public class Conveyor : MonoBehaviour {
 
     Vector3 direction;
     public float speed;
-    public bool enabled;
 	private float defaultSpeed = 0.2f;
     private Renderer rend;
 
@@ -25,24 +24,22 @@ public class Conveyor : MonoBehaviour {
 		if (GameController.instance.gamestate!=GameController.GameState.Play) {
 			return;
 		}
-        if (enabled)
-        {
             float offset = Time.time * speed * 5.0f;
             rend.material.mainTextureOffset = new Vector2(0, offset);
-        }
     }
 
     /** Handle collisions with player objects */
     void OnCollisionStay(Collision collision)
     {
-        if (enabled)
+        if (GameController.instance.gamestate != GameController.GameState.Play)
         {
-            GameObject gameObj = collision.gameObject;
-		    if (gameObj.tag != "Terrain" && gameObj.tag != "SpawnArea")
-            {
-                Rigidbody rb = gameObj.transform.GetComponent<Rigidbody>();
-                rb.position += (speed * direction);
-            }
+            return;
+        }
+        GameObject gameObj = collision.gameObject;
+		if (gameObj.tag != "Terrain" && gameObj.tag != "SpawnArea")
+        {
+            Rigidbody rb = gameObj.transform.GetComponent<Rigidbody>();
+            rb.position += (speed * direction);
         }
     }
 
