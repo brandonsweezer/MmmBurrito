@@ -52,9 +52,15 @@ public class MovementControllerIsometricNew : MonoBehaviour {
     private bool unfolded = false;
 	private Animator animator;
 
-	private Collider foldedCollisionBox;
-	private Collider unfoldedCollisionBox;
+	// collision box
+	private CapsuleCollider col;
 	private IEnumerator collisionBoxCoroutine;
+	private static Vector3 colBigCenter = new Vector3(0, 0.5f, 0);
+	private static float colBigRadius = 1.2f;
+	private static Vector3 colSmallCenter = Vector3.zero;
+	private static float colSmallRadius = 0.5f;
+	private Vector3 colTargetCenter = colSmallCenter;
+	private float colTargetRadius = colSmallRadius;
 
 	// Dash particle system
 	public GameObject dashParticleSystem;
@@ -66,9 +72,7 @@ public class MovementControllerIsometricNew : MonoBehaviour {
     void Awake () {
 		rb = GetComponent<Rigidbody> ();
 		animator = transform.GetChild(0).GetComponent<Animator>();
-
-		foldedCollisionBox = GetComponent<CapsuleCollider> ();
-		unfoldedCollisionBox = GetComponent<MeshCollider> ();
+		col = GetComponent<CapsuleCollider> ();
 
 		timeOfLastDash = 0f;
 		xzFacing = Vector3.forward;
@@ -175,6 +179,10 @@ public class MovementControllerIsometricNew : MonoBehaviour {
 		if (!IsDashing ()) {
 			GetComponent<SmokeTrail> ().Disable ();
 		}
+
+		float lerpMagnitude = 0.3f;
+		col.radius = Mathf.Lerp (col.radius, colTargetRadius, lerpMagnitude); 
+		col.center = Vector3.Lerp (col.center, colTargetCenter, lerpMagnitude);
 	}
 
 	void FixedUpdate () {
@@ -230,12 +238,12 @@ public class MovementControllerIsometricNew : MonoBehaviour {
 	void HandleFolding() {
 		animator.enabled = true;
 
-		if (!getMovement() && grounded) {
+		if (!getMovement() /*&& grounded*/) {
 			if (!unfolded) {
 				unfolded = true;
 				animator.ResetTrigger("Roll");
 				animator.SetTrigger("Unwrap");
-				UpdateCollisionBoxAfterDelay (0.23f);
+				UpdateCollisionBoxAfterDelay (0.1f);
 			}
 		}
 		else if (unfolded) {
@@ -257,19 +265,19 @@ public class MovementControllerIsometricNew : MonoBehaviour {
 		collisionBoxCoroutine = UpdateCollisionBoxAfterDelayRoutine (delay);
 		StartCoroutine (collisionBoxCoroutine);
 	}
-
+		
 	IEnumerator UpdateCollisionBoxAfterDelayRoutine(float delay) {
 		yield return new WaitForSeconds (delay);
 		UpdateCollisionBox ();
 	}
 
 	void UpdateCollisionBox() {
-		if (false) {
-			unfoldedCollisionBox.enabled = true;
-			foldedCollisionBox.enabled = false;
+		if (unfolded) {
+			colTargetCenter = colBigCenter;
+			colTargetRadius = colBigRadius;
 		} else {
-			unfoldedCollisionBox.enabled = false;
-			foldedCollisionBox.enabled = true;
+			colTargetCenter = colSmallCenter;
+			colTargetRadius = colSmallRadius;
 		}
 	}
 
