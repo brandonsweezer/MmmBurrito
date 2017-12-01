@@ -424,7 +424,9 @@ public class LevelLoader : MonoBehaviour {
 	IEnumerator BeginLevelAfterDelay() {
 		yield return new WaitForEndOfFrame ();
 		// Timer.instance.SignalTimeLeft (timerLevelStartPos, timerLevelStartScale, 3, 0, 0.5f);
-		Timer.instance.LevelStartSpawnAnimation();
+		if (GameController.instance.currentLevel > 3) {
+			Timer.instance.LevelStartSpawnAnimation ();
+		}
 		yield return new WaitForSeconds(3);
 		BeginLevel ();
 	}
