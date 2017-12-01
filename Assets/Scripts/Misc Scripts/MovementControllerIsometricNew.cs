@@ -54,6 +54,7 @@ public class MovementControllerIsometricNew : MonoBehaviour {
 
 	private Collider foldedCollisionBox;
 	private Collider unfoldedCollisionBox;
+	private IEnumerator collisionBoxCoroutine;
 
 	// Dash particle system
 	public GameObject dashParticleSystem;
@@ -230,19 +231,32 @@ public class MovementControllerIsometricNew : MonoBehaviour {
 		if (!getMovement()) {
 			if (!unfolded) {
 				unfolded = true;
-				UpdateCollisionBox ();
 				animator.SetTrigger("Unwrap");
+				UpdateCollisionBoxAfterDelay (0.23f);
 			}
 		}
 		else if (unfolded) {
 			unfolded = false;
-			UpdateCollisionBox ();
 			animator.SetTrigger("Roll");
+			UpdateCollisionBoxAfterDelay (0.1f);
 		}
 
 		if (!unfolded) {
 			UpdateAnimationDirection ();
 		}
+	}
+
+	void UpdateCollisionBoxAfterDelay(float delay) {
+		if (collisionBoxCoroutine != null) {
+			StopCoroutine (collisionBoxCoroutine);
+		}
+		collisionBoxCoroutine = UpdateCollisionBoxAfterDelayRoutine (delay);
+		StartCoroutine (collisionBoxCoroutine);
+	}
+
+	IEnumerator UpdateCollisionBoxAfterDelayRoutine(float delay) {
+		yield return new WaitForSeconds (delay);
+		UpdateCollisionBox ();
 	}
 
 	void UpdateCollisionBox() {
