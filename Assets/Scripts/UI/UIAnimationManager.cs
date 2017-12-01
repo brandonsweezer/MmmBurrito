@@ -129,6 +129,7 @@ public class UIAnimationManager : MonoBehaviour {
 		DigitalRuby.Tween.TweenFactory.RemoveTweenKey(scaleKey, DigitalRuby.Tween.TweenStopBehavior.Complete);
 		DigitalRuby.Tween.TweenFactory.RemoveTweenKey(moveKey, DigitalRuby.Tween.TweenStopBehavior.Complete);
 		DigitalRuby.Tween.TweenFactory.RemoveTweenKey(tintKey, DigitalRuby.Tween.TweenStopBehavior.Complete);
+		StopAllCoroutines ();
 	}
     
     public void pulse()
@@ -136,7 +137,7 @@ public class UIAnimationManager : MonoBehaviour {
         Action callbackScale = () => ExecuteAfterDelay(0f, () => Scale(Vector3.one));
         Action sizeChange = () =>
         {
-            Scale(new Vector3(2f, 2f, 2f), 0.5f, callbackScale);
+            Scale(Vector3.one * 2.5f, 0.5f, callbackScale);
         };
         ExecuteAfterDelay(0f, sizeChange);
         ExecuteAfterDelay(1f, sizeChange);
