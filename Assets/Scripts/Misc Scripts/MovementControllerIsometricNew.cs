@@ -54,6 +54,7 @@ public class MovementControllerIsometricNew : MonoBehaviour {
 
 	private Collider foldedCollisionBox;
 	private Collider unfoldedCollisionBox;
+	private IEnumerator collisionBoxCoroutine;
 
 	// Dash particle system
 	public GameObject dashParticleSystem;
@@ -78,7 +79,9 @@ public class MovementControllerIsometricNew : MonoBehaviour {
 
     private void Start()
     {
-        GetComponent<Animator>().enabled = false;
+		GetComponent<Animator>().enabled = true;
+		unfolded = true;
+		animator.SetTrigger("Unwrap");
     }
 
     // Update the rotation of our movement input to match our camera angle
@@ -175,7 +178,7 @@ public class MovementControllerIsometricNew : MonoBehaviour {
 	}
 
 	void FixedUpdate () {
-		if (GameController.instance.gamestate != GameController.GameState.Play) {
+		if (GameController.instance.gamestate != GameController.GameState.Play && GameController.instance.gamestate != GameController.GameState.LevelStart) {
 			if (!rb.IsSleeping ()) {
 				if (lastVelocity == Vector3.zero) {
 					lastVelocity = rb.velocity;
@@ -230,19 +233,32 @@ public class MovementControllerIsometricNew : MonoBehaviour {
 		if (!getMovement()) {
 			if (!unfolded) {
 				unfolded = true;
-				UpdateCollisionBox ();
 				animator.SetTrigger("Unwrap");
+				UpdateCollisionBoxAfterDelay (0.23f);
 			}
 		}
 		else if (unfolded) {
 			unfolded = false;
-			UpdateCollisionBox ();
 			animator.SetTrigger("Roll");
+			UpdateCollisionBoxAfterDelay (0.1f);
 		}
 
 		if (!unfolded) {
 			UpdateAnimationDirection ();
 		}
+	}
+
+	void UpdateCollisionBoxAfterDelay(float delay) {
+		if (collisionBoxCoroutine != null) {
+			StopCoroutine (collisionBoxCoroutine);
+		}
+		collisionBoxCoroutine = UpdateCollisionBoxAfterDelayRoutine (delay);
+		StartCoroutine (collisionBoxCoroutine);
+	}
+
+	IEnumerator UpdateCollisionBoxAfterDelayRoutine(float delay) {
+		yield return new WaitForSeconds (delay);
+		UpdateCollisionBox ();
 	}
 
 	void UpdateCollisionBox() {
