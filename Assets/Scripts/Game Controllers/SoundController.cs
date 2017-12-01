@@ -182,6 +182,17 @@ public class SoundController : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		SetMusicBasedOnTime (Timer.instance.getTime());
+
+		if (springRequested) {
+			audSrc.PlayOneShot(spring,SoundEffectVolume.value);
+			springRequested = false;
+		}
+	}
+
+
+	private bool springRequested = false;
+	public void RequestSpringFX() {
+		springRequested = true;
 	}
 
 }

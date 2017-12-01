@@ -49,8 +49,7 @@ public class JumpPad : MonoBehaviour {
                 Animator a = GetComponent<Animator>();
                 a.enabled = true;
                 a.Play(0, -1, 0);
-                var sc = SoundController.instance;
-                sc.audSrc.PlayOneShot(sc.spring, sc.SoundEffectVolume.value);
+				SoundController.instance.RequestSpringFX ();
             }
         }
     }
