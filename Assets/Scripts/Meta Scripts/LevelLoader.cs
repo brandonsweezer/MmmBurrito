@@ -866,7 +866,8 @@ public class LevelLoader : MonoBehaviour {
 				BeginLevel ();
 			}
 		}
-		else if ((Input.GetKeyDown(KeyCode.P)|| Input.GetKeyDown(KeyCode.Escape)) && GameController.instance.gamestate==GameController.GameState.Play) {
+
+		if ((Input.GetKeyDown(KeyCode.P)|| Input.GetKeyDown(KeyCode.Escape)) && GameController.instance.gamestate==GameController.GameState.Play) {
 			GoToPause();
 		}
 		else if ((Input.GetKeyDown(KeyCode.P)||Input.GetKeyDown(KeyCode.Escape)|| Input.GetKeyDown(KeyCode.Return))  && GameController.instance.gamestate==GameController.GameState.Pause) {
