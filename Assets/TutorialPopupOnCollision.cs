@@ -21,6 +21,9 @@ public class TutorialPopupOnCollision : MonoBehaviour {
 
 	void OnTriggerStay(Collider col) {
 		if (col.tag == "Player") {
+			if (GameController.instance.gamestate != GameController.GameState.Play) {
+				return;
+			}
 			popupObject.GetComponent<TutorialPopupManager> ().Show ();
 		}
 	}

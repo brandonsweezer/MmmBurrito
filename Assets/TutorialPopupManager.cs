@@ -1,19 +1,27 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DigitalRuby.Tween;
 
 public class TutorialPopupManager : MonoBehaviour {
 
 	private Camera cam;
 	private Renderer renderer;
+	private GameObject image;
+
+	private float spawnAnimationDuration = 0.25f;
+
+	public bool showing;
 
 	void Awake() {
 		cam = Camera.main;
-		renderer = transform.GetChild (0).GetComponent<Renderer> ();
+		image = transform.GetChild (0).gameObject;
+		renderer = image.GetComponent<Renderer> ();
 	}
 
 	void Start() {
-		Hide ();
+		HideImmediate ();
+		showing = false;
 	}
 
 	void Update() {
@@ -38,15 +46,56 @@ public class TutorialPopupManager : MonoBehaviour {
 
 		// position
 		Vector3 playerPos = transform.parent.transform.position;
-		transform.position = playerPos + cam.transform.up * 4.25f;
+		transform.position = playerPos + cam.transform.up * 2.25f;
 		transform.position += (cam.transform.position - transform.position).normalized * 10f;
 	}
 
 	public void Show() {
-		renderer.enabled = true;
+		if (!showing) {
+			showing = true;
+			renderer.enabled = true;
+			StopAnimation ();
+			SpawnAnimation ();
+		}
 	}
 
 	public void Hide() {
+		if (showing) {
+			showing = false;
+			StopAnimation ();
+			DespawnAnimation ();
+		}
+	}
+
+	void SpawnAnimation() {
+		gameObject.Tween (name+"scale", Vector3.one * 0.1f, Vector3.one, spawnAnimationDuration, TweenScaleFunctions.QuadraticEaseIn, (t) => 
+			{
+				gameObject.transform.localScale = t.CurrentValue;
+			}
+		);
+		/*image.Tween (name+"pos", new Vector3(0, -1.5f, 0), Vector3.zero, spawnAnimationDuration, TweenScaleFunctions.QuadraticEaseOut, (t) => 
+			{
+				image.transform.localPosition = t.CurrentValue;
+			}
+		);*/
+	}
+
+	void DespawnAnimation() {
+		gameObject.Tween (name+"scale", Vector3.one, Vector3.zero, spawnAnimationDuration, TweenScaleFunctions.QuadraticEaseIn, (t) => 
+			{
+				gameObject.transform.localScale = t.CurrentValue;
+			}, (t) => {
+				HideImmediate();
+			}
+		);
+	}
+
+	void StopAnimation() {
+		DigitalRuby.Tween.TweenFactory.RemoveTweenKey(name+"scale", DigitalRuby.Tween.TweenStopBehavior.Complete);
+		DigitalRuby.Tween.TweenFactory.RemoveTweenKey(name+"pos", DigitalRuby.Tween.TweenStopBehavior.Complete);
+	}
+
+	void HideImmediate() {
 		renderer.enabled = false;
 	}
 }
