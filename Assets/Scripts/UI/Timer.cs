@@ -47,7 +47,7 @@ public class Timer : MonoBehaviour {
 	private bool signalingTimeLeft;
 	private float[] timeLeftSignals = {30f, 10f, 0f};
 	private UIAnimationManager animManager;
-	Vector2 DEFAULT_SIGNALING_POS = new Vector2 (-Screen.width / 2, -Screen.height * 0.5f);
+	Vector2 DEFAULT_SIGNALING_POS = new Vector2 (0, -Screen.height * 0.5f);
 	Vector3 DEFAULT_SIGNALING_SCALE = new Vector3(1.5f, 1.5f, 1.5f);
 	Vector2 timerLevelStartPos = new Vector2 (0, -275f);
 	float timerLevelStartScale = 2.5f;
@@ -136,7 +136,14 @@ public class Timer : MonoBehaviour {
 		circle.fillAmount = time/maxT;
 
 		// text
-		totalSeconds = Mathf.Ceil (time);
+		if (time <= 30) {
+			timeDisplayText.color = Color.red;
+		}
+		timeDisplayText.text = ConvertTimeToDisplay(time);
+	}
+
+	public string ConvertTimeToDisplay(float secondsToConvert) {
+		totalSeconds = Mathf.Ceil (secondsToConvert);
 		int minutes = (int) totalSeconds / 60;
 		int seconds = (int)totalSeconds % 60;
 		string secondsDisplay;
@@ -145,11 +152,7 @@ public class Timer : MonoBehaviour {
 		} else {
 			secondsDisplay = seconds.ToString ();
 		}
-		timeDisplay = minutes.ToString() +":" +secondsDisplay;
-		if (seconds <= 30 && minutes == 0) {
-			timeDisplayText.color = Color.red;
-		}
-		timeDisplayText.text = timeDisplay;
+		return minutes.ToString() +":" +secondsDisplay;
 	}
 
 
@@ -196,7 +199,7 @@ public class Timer : MonoBehaviour {
 	}
 
 	public string getDisplayTime() {
-		return timeDisplay;
+		return ConvertTimeToDisplay(time);
 	}
 
 	private bool LevelJustStarted() {
