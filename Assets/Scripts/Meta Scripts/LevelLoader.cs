@@ -440,7 +440,13 @@ public class LevelLoader : MonoBehaviour {
 		GameController.instance.gamestate = GameController.GameState.Play;
 		// Updates whether we can submit successfully or not
 		OrderUI.instance.UpdateUIAfterInventoryChange();
+
+		Timer.instance.StopAnimations ();
+		for (int i = 0; i < OrderUI.instance.activeOrders.Count; i++) {
+			OrderUI.instance.tickets[i].GetComponent<UIAnimationManager> ().SkipToTargetPos ();
+		}
 	}
+
 
 	void DisableTimerByLevel() {
 		// disable timer for levels that don't use it
@@ -851,8 +857,14 @@ public class LevelLoader : MonoBehaviour {
             Application.ExternalCall("kongregate.stats.submit", "HighestLevel", SaveManager.instance.GetLastLevelCompleted());
         }
 
-		if (Input.anyKeyDown && GameController.instance.gamestate == GameController.GameState.GameStart) {
-			GoToLevel (1);
+		if (Input.anyKeyDown) {
+			if (GameController.instance.gamestate == GameController.GameState.GameStart) {
+				GoToLevel (1);
+			}
+			if (GameController.instance.gamestate == GameController.GameState.LevelStart) {
+				StopCoroutine (levelStartDelayRoutine);
+				BeginLevel ();
+			}
 		}
 		else if ((Input.GetKeyDown(KeyCode.P)|| Input.GetKeyDown(KeyCode.Escape)) && GameController.instance.gamestate==GameController.GameState.Play) {
 			GoToPause();
