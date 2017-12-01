@@ -224,7 +224,7 @@ public class LevelLoader : MonoBehaviour {
 	public void FillStars () {
 
 
-		currentStars = 80;
+		currentStars = 0;
 
 
 		for (int i=1; i<=maxLevelNumber; i ++) {
@@ -255,7 +255,7 @@ public class LevelLoader : MonoBehaviour {
 				lvl.interactable = false; 
 				canvasLevelSelect.transform.GetChild (2 + i).GetChild (0).gameObject.SetActive (false);
 				canvasLevelSelect.transform.GetChild (2 + i).GetChild (1).gameObject.SetActive (true);
-				canvasLevelSelect.transform.GetChild (2 + i).GetChild (1).GetChild (0).GetComponent<Text> ().text = (GameController.instance.starUnlock [i] - currentStars).ToString(); 
+				canvasLevelSelect.transform.GetChild (2 + i).GetChild (1).GetChild (0).GetComponent<Text> ().text = (GameController.instance.starUnlock [i-1] - currentStars).ToString(); 
 
 			//Unlocked
 			} else {
@@ -491,9 +491,9 @@ public class LevelLoader : MonoBehaviour {
                 IngredientSet.Ingredients.Tomato, 1
             );
             GameController.instance.starScore.Clear();
+            GameController.instance.starScore.Add(25);
+            GameController.instance.starScore.Add(50);
             GameController.instance.starScore.Add(100);
-            GameController.instance.starScore.Add(300);
-            GameController.instance.starScore.Add(400);
             break;
         // 2 ingredients
         case 2:
