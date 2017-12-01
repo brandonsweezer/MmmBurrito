@@ -20,6 +20,7 @@ public class LevelLoader : MonoBehaviour {
 
 	public GameObject[] HUDToHideOnLevelStart;
 	public Text levelNumberText;
+	public Text tutText;
 	IEnumerator levelStartDelayRoutine;
 
 
@@ -427,11 +428,22 @@ public class LevelLoader : MonoBehaviour {
 		// level start screen
 		OpenLevelStartCanvas ();
 		levelNumberText.text = "LEVEL " + levelNumber;
+		SetTutText (levelNumber);
 		if (levelStartDelayRoutine != null) {
 			StopCoroutine (levelStartDelayRoutine);
 		}
 		levelStartDelayRoutine = BeginLevelAfterDelay ();
 		StartCoroutine (levelStartDelayRoutine);
+	}
+
+	void SetTutText(int levelNumber) {
+		if (levelNumber == 6) {
+			tutText.text = "Submit both ingredients together";
+		} else if (levelNumber == 7) {
+			tutText.text = "Submit the two orders separately";
+		} else {
+			tutText.text = "";
+		}
 	}
 
 	IEnumerator BeginLevelAfterDelay() {
