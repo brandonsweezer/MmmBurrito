@@ -421,9 +421,9 @@ public class LevelLoader : MonoBehaviour {
 
 		MovementControllerIsometricNew.UpdateViewpointRotation ();
 
-		DisableTimerByLevel ();
-
 		SetupLevelVars (levelNumber);
+
+		DisableTimerByLevel ();
 
 		// level start screen
 		OpenLevelStartCanvas ();
@@ -445,24 +445,25 @@ public class LevelLoader : MonoBehaviour {
 		BeginLevel ();
 	}
 
-	void BeginLevel() {
+	void BeginLevel(bool skipAnimations = false) {
 		GameController.instance.gamestate = GameController.GameState.Play;
 		CloseLevelStartCanvas();
 
-		GameController.instance.gamestate = GameController.GameState.Play;
 		// Updates whether we can submit successfully or not
 		OrderUI.instance.UpdateUIAfterInventoryChange();
 
-		Timer.instance.StopAnimations ();
-		for (int i = 0; i < OrderUI.instance.activeOrders.Count; i++) {
-			OrderUI.instance.tickets[i].GetComponent<UIAnimationManager> ().SkipToTargetPos ();
+		if (skipAnimations) {
+			Timer.instance.StopAnimations ();
+			for (int i = 0; i < OrderUI.instance.activeOrders.Count; i++) {
+				OrderUI.instance.tickets [i].GetComponent<UIAnimationManager> ().SkipToTargetPos ();
+			}
 		}
 	}
 
 
 	void DisableTimerByLevel() {
 		// disable timer for levels that don't use it
-		if (GameController.instance.currentLevel >= 4) {
+		if (GameController.instance.currentLevel > 3) {
 			OrderUI.instance.textfields.timeRemainingText.gameObject.SetActive (true);
 			OrderUI.instance.textfields.timeRemaining.gameObject.SetActive (true);
 			Timer.instance.TimerObject.SetActive (true);
@@ -862,7 +863,7 @@ public class LevelLoader : MonoBehaviour {
 			}
 			if (GameController.instance.gamestate == GameController.GameState.LevelStart) {
 				StopCoroutine (levelStartDelayRoutine);
-				BeginLevel ();
+				BeginLevel (true);
 			}
 		}
 

@@ -73,6 +73,7 @@ public class Timer : MonoBehaviour {
 	}
 
 	public void TimerInit (int maxTime) {
+		running = false;
 		time = maxTime;
 		maxT = maxTime;
 		timeLeftWarningContainer.SetActive (false);
@@ -106,7 +107,7 @@ public class Timer : MonoBehaviour {
 			SoundController.instance.audSrc.PlayOneShot(SoundController.instance.lose, SoundController.instance.SoundEffectVolume.value);
 			//            GameController.instance.levelEnd = true;
 			//            GameController.instance.levelComplete = true;
-
+			SignalTimeLeft ();
 
 		}
 

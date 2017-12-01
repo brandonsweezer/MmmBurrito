@@ -70,7 +70,6 @@ public class TutorialPopupManager : MonoBehaviour {
 	}
 
 	void SpawnAnimation() {
-		Debug.Log ("scale: " + popupScale);
 		gameObject.Tween (name+"scale", Vector3.one * 0.1f, popupScale, spawnAnimationDuration, TweenScaleFunctions.QuadraticEaseIn, (t) => 
 			{
 				gameObject.transform.localScale = t.CurrentValue;
