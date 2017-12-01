@@ -421,9 +421,9 @@ public class LevelLoader : MonoBehaviour {
 
 		MovementControllerIsometricNew.UpdateViewpointRotation ();
 
-		DisableTimerByLevel ();
-
 		SetupLevelVars (levelNumber);
+
+		DisableTimerByLevel ();
 
 		// level start screen
 		OpenLevelStartCanvas ();
@@ -462,7 +462,7 @@ public class LevelLoader : MonoBehaviour {
 
 	void DisableTimerByLevel() {
 		// disable timer for levels that don't use it
-		if (GameController.instance.currentLevel >= 4) {
+		if (GameController.instance.currentLevel > 3) {
 			OrderUI.instance.textfields.timeRemainingText.gameObject.SetActive (true);
 			OrderUI.instance.textfields.timeRemaining.gameObject.SetActive (true);
 			Timer.instance.TimerObject.SetActive (true);
