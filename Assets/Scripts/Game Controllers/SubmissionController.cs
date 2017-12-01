@@ -172,10 +172,6 @@ public class SubmissionController : MonoBehaviour {
 		int levelScore = scoreOrders + scoreTime;
 		StartCoroutine (DisplayWinScreen());
 
-		// animate the win
-		OrderUI.instance.setWinTime(Timer.instance.getDisplayTime ());
-		OrderUI.instance.AnimateScoreWin(scoreOrders, scoreTime, Timer.instance.getTime());
-
 		int nextStar = 0; 
 		// find number of stars
 		int numStars = 0;
@@ -191,20 +187,16 @@ public class SubmissionController : MonoBehaviour {
 			numStars++;
 		}
 
-		if (numStars == 3) {
-			//All stars collected
-			OrderUI.instance.gameobjectfields.WinScreen.gameObject.transform.GetChild (11).gameObject.SetActive (false);
-			OrderUI.instance.gameobjectfields.WinScreen.gameObject.transform.GetChild (12).gameObject.SetActive (false);
-			OrderUI.instance.gameobjectfields.WinScreen.gameObject.transform.GetChild (13).gameObject.SetActive (true);
-		} else {
-			//Show score for next star
-			OrderUI.instance.gameobjectfields.WinScreen.gameObject.transform.GetChild (11).gameObject.SetActive (true);
-			OrderUI.instance.gameobjectfields.WinScreen.gameObject.transform.GetChild (12).gameObject.SetActive (true);
-			OrderUI.instance.gameobjectfields.WinScreen.gameObject.transform.GetChild (13).gameObject.SetActive (false);
-		
-			Text nextStarText = OrderUI.instance.gameobjectfields.WinScreen.gameObject.transform.GetChild (12).gameObject.GetComponent<Text> ();
-			nextStarText.text = nextStar.ToString();
-		}
+
+		Text nextStarText = OrderUI.instance.gameobjectfields.WinScreen.gameObject.transform.GetChild (12).gameObject.GetComponent<Text> ();
+		nextStarText.text = nextStar.ToString();
+		OrderUI.instance.gameobjectfields.WinScreen.gameObject.transform.GetChild (11).gameObject.SetActive (false);
+		OrderUI.instance.gameobjectfields.WinScreen.gameObject.transform.GetChild (12).gameObject.SetActive (false);
+		OrderUI.instance.gameobjectfields.WinScreen.gameObject.transform.GetChild (13).gameObject.SetActive (false);
+
+		// animate the win
+		OrderUI.instance.setWinTime(Timer.instance.getDisplayTime ());
+		OrderUI.instance.AnimateScoreWin(scoreOrders, scoreTime, Timer.instance.getTime(), numStars);
 
 		// save level
 		SaveManager.instance.ProcessLevelCompletion(GameController.instance.currentLevel, levelScore, numStars);

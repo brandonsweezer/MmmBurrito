@@ -402,28 +402,45 @@ public class OrderUI : MonoBehaviour {
 		textfields.LoseScore.text = msg;
 	}
 
-	public void AnimateScoreWin(int scoreOrders, int scoreTime, float secondsLeft) {
+	public void AnimateScoreWin(int scoreOrders, int scoreTime, float secondsLeft, int stars) {
 		textfields.WinScore.text = 0.ToString();
 		textfields.WinScore.gameObject.Tween(textfields.WinScore.GetHashCode(), 0, scoreOrders, 2.5f, TweenScaleFunctions.Linear, (t) => 
 			{
 				SetWinScoreAnimation(t.CurrentValue);
 			}, (t) =>
 			{
-				StartCoroutine(AnimateTimeLeftToScore(scoreOrders, scoreTime, secondsLeft));
+				StartCoroutine(AnimateTimeLeftToScore(scoreOrders, scoreTime, secondsLeft, stars));
 			}
 		);
 	}
 
-	IEnumerator AnimateTimeLeftToScore(int scoreOrders, int scoreTime, float secondsLeft) {
+	IEnumerator AnimateTimeLeftToScore(int scoreOrders, int scoreTime, float secondsLeft, int stars) {
 		yield return new WaitForSeconds (1);
 		textfields.WinScore.gameObject.Tween(textfields.WinScore.GetHashCode(), scoreOrders, scoreTime+scoreOrders, 1.2f, TweenScaleFunctions.Linear, (t2) => 
 			{
 				SetWinScoreAnimation(t2.CurrentValue);
+			}, (t4) => 
+			{
+				ShowStarScoreText(stars);
 			});
 		textfields.WinTime.gameObject.Tween(textfields.WinTime.GetHashCode(), secondsLeft, 0, 1.2f, TweenScaleFunctions.Linear, (t3) => 
 			{
 				textfields.WinTime.text = Timer.instance.ConvertTimeToDisplay(t3.CurrentValue);
 			});
+	}
+
+	void ShowStarScoreText(int stars) {
+		if (stars == 3) {
+			//All stars collected
+			OrderUI.instance.gameobjectfields.WinScreen.gameObject.transform.GetChild (11).gameObject.SetActive (false);
+			OrderUI.instance.gameobjectfields.WinScreen.gameObject.transform.GetChild (12).gameObject.SetActive (false);
+			OrderUI.instance.gameobjectfields.WinScreen.gameObject.transform.GetChild (13).gameObject.SetActive (true);
+		} else {
+			//Show score for next star
+			OrderUI.instance.gameobjectfields.WinScreen.gameObject.transform.GetChild (11).gameObject.SetActive (true);
+			OrderUI.instance.gameobjectfields.WinScreen.gameObject.transform.GetChild (12).gameObject.SetActive (true);
+			OrderUI.instance.gameobjectfields.WinScreen.gameObject.transform.GetChild (13).gameObject.SetActive (false);
+		}
 	}
 
 	void SetWinScoreAnimation(float score) {
