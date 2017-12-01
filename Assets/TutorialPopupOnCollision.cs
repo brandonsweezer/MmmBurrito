@@ -7,12 +7,14 @@ public class TutorialPopupOnCollision : MonoBehaviour {
 
 	public Texture imageToDisplay;
 	public GameObject UIPopupPrefab;
+	public float popupScale = 1;
 
 	private GameObject popupObject;
 
 	void Start() {
 		popupObject = Instantiate (UIPopupPrefab) as GameObject;
 		popupObject.transform.GetChild(0).GetComponent<Renderer> ().material.mainTexture = imageToDisplay;
+		popupObject.GetComponent<TutorialPopupManager> ().SetPopupScale(popupScale);
 	}
 
 	void OnCollisionStay(Collision collision) {

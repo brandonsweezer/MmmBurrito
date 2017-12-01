@@ -9,6 +9,8 @@ public class TutorialPopupManager : MonoBehaviour {
 	private Renderer renderer;
 	private GameObject image;
 
+	private Vector3 popupScale = Vector3.one;
+
 	private float spawnAnimationDuration = 0.25f;
 
 	public bool showing;
@@ -68,7 +70,8 @@ public class TutorialPopupManager : MonoBehaviour {
 	}
 
 	void SpawnAnimation() {
-		gameObject.Tween (name+"scale", Vector3.one * 0.1f, Vector3.one, spawnAnimationDuration, TweenScaleFunctions.QuadraticEaseIn, (t) => 
+		Debug.Log ("scale: " + popupScale);
+		gameObject.Tween (name+"scale", Vector3.one * 0.1f, popupScale, spawnAnimationDuration, TweenScaleFunctions.QuadraticEaseIn, (t) => 
 			{
 				gameObject.transform.localScale = t.CurrentValue;
 			}
@@ -81,7 +84,7 @@ public class TutorialPopupManager : MonoBehaviour {
 	}
 
 	void DespawnAnimation() {
-		gameObject.Tween (name+"scale", Vector3.one, Vector3.zero, spawnAnimationDuration, TweenScaleFunctions.QuadraticEaseIn, (t) => 
+		gameObject.Tween (name+"scale", popupScale, Vector3.zero, spawnAnimationDuration, TweenScaleFunctions.QuadraticEaseIn, (t) => 
 			{
 				gameObject.transform.localScale = t.CurrentValue;
 			}, (t) => {
@@ -97,5 +100,9 @@ public class TutorialPopupManager : MonoBehaviour {
 
 	void HideImmediate() {
 		renderer.enabled = false;
+	}
+
+	public void SetPopupScale(float s) {
+		popupScale.Set (s, s, s);
 	}
 }
