@@ -380,7 +380,7 @@ public class MovementControllerIsometricNew : MonoBehaviour {
 	void IncreaseSpeedDashingUpRamp() {
 		RaycastHit hit;
 		if (IsDashing() && Physics.Raycast (transform.position, Vector3.down, out hit, rampDetectionDistance)) {
-			if (Vector3.Angle (hit.normal, Vector3.up) >= rampBiasAngle) {
+			if (Vector3.Angle (hit.normal, Vector3.up) >= rampBiasAngle && hit.collider.gameObject.name.Contains("Ramp")) {
 				// Dashing on a ramp, check if we need to snap to and boost up the ramp
 				GameObject ramp = hit.collider.gameObject;
 				Vector3 rampDirection = ramp.transform.forward;
