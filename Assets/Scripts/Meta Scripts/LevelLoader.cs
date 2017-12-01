@@ -858,7 +858,7 @@ public class LevelLoader : MonoBehaviour {
         if (GameController.instance.first)
         {
             GameController.instance.first = false;
-            LoggingManager.instance.Initialize(094, 4, true);
+            LoggingManager.instance.Initialize(094, 4, false);
             LoggingManager.instance.RecordPageLoad();
 
 

@@ -9,7 +9,7 @@ public class _preloader : MonoBehaviour {
         //version 4 is KONGREGATE
         if (LoggingManager.instance != null)
         {
-            LoggingManager.instance.Initialize(094, 4, true);
+            LoggingManager.instance.Initialize(094, 4, false);
             LoggingManager.instance.RecordPageLoad();
         }
         SceneManager.LoadScene ("Menu");
