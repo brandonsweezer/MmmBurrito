@@ -142,7 +142,6 @@ public class SubmissionController : MonoBehaviour {
 		// calculate score
 		int scoreOrders = GameController.instance.score;
 		int scoreTime = (int)Mathf.Floor(Timer.instance.getTime()) * SCORE_PER_SECOND;
-		Debug.Log (Timer.instance.getTime () + " time left: " + scoreTime + " score");
 		int levelScore = scoreOrders + scoreTime;
 		StartCoroutine (DisplayWinScreen());
 

@@ -136,7 +136,14 @@ public class Timer : MonoBehaviour {
 		circle.fillAmount = time/maxT;
 
 		// text
-		totalSeconds = Mathf.Ceil (time);
+		if (time <= 30) {
+			timeDisplayText.color = Color.red;
+		}
+		timeDisplayText.text = ConvertTimeToDisplay(time);
+	}
+
+	public string ConvertTimeToDisplay(float secondsToConvert) {
+		totalSeconds = Mathf.Ceil (secondsToConvert);
 		int minutes = (int) totalSeconds / 60;
 		int seconds = (int)totalSeconds % 60;
 		string secondsDisplay;
@@ -145,11 +152,7 @@ public class Timer : MonoBehaviour {
 		} else {
 			secondsDisplay = seconds.ToString ();
 		}
-		timeDisplay = minutes.ToString() +":" +secondsDisplay;
-		if (seconds <= 30 && minutes == 0) {
-			timeDisplayText.color = Color.red;
-		}
-		timeDisplayText.text = timeDisplay;
+		return minutes.ToString() +":" +secondsDisplay;
 	}
 
 
@@ -196,7 +199,7 @@ public class Timer : MonoBehaviour {
 	}
 
 	public string getDisplayTime() {
-		return timeDisplay;
+		return ConvertTimeToDisplay(time);
 	}
 
 	private bool LevelJustStarted() {

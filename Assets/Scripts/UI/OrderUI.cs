@@ -413,13 +413,13 @@ public class OrderUI : MonoBehaviour {
 
 	IEnumerator AnimateTimeLeftToScore(int scoreOrders, int scoreTime, float secondsLeft) {
 		yield return new WaitForSeconds (1);
-		textfields.WinScore.gameObject.Tween(textfields.WinScore.GetHashCode(), scoreOrders, scoreTime+scoreOrders, 1f, TweenScaleFunctions.Linear, (t2) => 
+		textfields.WinScore.gameObject.Tween(textfields.WinScore.GetHashCode(), scoreOrders, scoreTime+scoreOrders, 1.2f, TweenScaleFunctions.Linear, (t2) => 
 			{
 				SetWinScoreAnimation(t2.CurrentValue);
 			});
-		textfields.WinTime.gameObject.Tween(textfields.WinTime.GetHashCode(), secondsLeft, 0, 1f, TweenScaleFunctions.Linear, (t3) => 
+		textfields.WinTime.gameObject.Tween(textfields.WinTime.GetHashCode(), secondsLeft, 0, 1.2f, TweenScaleFunctions.Linear, (t3) => 
 			{
-				textfields.WinTime.text = ((int)t3.CurrentValue).ToString();
+				textfields.WinTime.text = Timer.instance.ConvertTimeToDisplay(t3.CurrentValue);
 			});
 	}
 
