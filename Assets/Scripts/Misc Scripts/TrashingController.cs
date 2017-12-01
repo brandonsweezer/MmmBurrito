@@ -58,7 +58,7 @@ public class TrashingController : MonoBehaviour {
 		caughtIngredients.Undo (out ingredientType, out quality);
 
 		// spawn
-		Vector3 spawnDir = GetSpawnDirRandom(100f);
+		Vector3 spawnDir = GetSpawnDirRandom(70f);
 		Vector3 spawnLocation = player.transform.position + spawnDir * ingredientSpawnZOffset + ingredientSpawnAdditionalOffset;
 		GameObject obj = Instantiate (IngredientSet.GetPrefab(ingredientType), spawnLocation, Quaternion.identity) as GameObject;
 		FallDecayDie fallScript = obj.GetComponent<FallDecayDie> ();
