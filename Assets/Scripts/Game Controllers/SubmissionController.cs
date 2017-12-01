@@ -184,7 +184,7 @@ public class SubmissionController : MonoBehaviour {
 		int i = GameController.instance.currentLevel;
 		Debug.Log ("curr= " + GameController.instance.currentLevel);
 		Debug.Log ("stars= " + SaveManager.instance.totalStars());
-		while (SaveManager.instance.totalStars() >= GameController.instance.starUnlock[i-1]) {
+		while (LevelLoader.instance.maxLevelUnlocked < LevelLoader.instance.maxLevelNumber && SaveManager.instance.totalStars() >= GameController.instance.starUnlock[i-1]) {
 			LevelLoader.instance.maxLevelUnlocked = i; 
 			i++;
 		}
@@ -201,13 +201,20 @@ public class SubmissionController : MonoBehaviour {
 		yield return new WaitForSeconds (1);
 		LevelLoader.instance.SetEndCanvas (); 
 		OrderUI.instance.gameobjectfields.WinScreen.gameObject.SetActive (true);
-		if ((GameController.instance.currentLevel + 1) > LevelLoader.instance.maxLevelUnlocked) {
+		if ((GameController.instance.currentLevel + 1) > LevelLoader.instance.maxLevelUnlocked && GameController.instance.currentLevel < LevelLoader.instance.maxLevelNumber) {
 			//Next Level Locked
 			OrderUI.instance.gameobjectfields.nextButton.interactable = false;
 		} else {
 			//Next Level Unlocked
 			OrderUI.instance.gameobjectfields.nextButton.interactable = true;
-				
+		}
+
+		if (GameController.instance.currentLevel < LevelLoader.instance.maxLevelNumber) {
+			OrderUI.instance.gameobjectfields.levelsButton.gameObject.SetActive(true);
+			OrderUI.instance.gameobjectfields.replayButton.gameObject.SetActive(true);
+		} else {
+			OrderUI.instance.gameobjectfields.levelsButton.gameObject.SetActive(false);
+			OrderUI.instance.gameobjectfields.replayButton.gameObject.SetActive(false);
 		}
 	}
 

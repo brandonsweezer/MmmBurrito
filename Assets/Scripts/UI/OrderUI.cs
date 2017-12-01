@@ -57,6 +57,8 @@ public class GameObjectFields
 
 	public Image WinScreen;
 	public Button nextButton; 
+	public Button replayButton; 
+	public Button levelsButton; 
 	public Image LoseScreen;
 	public Image GameCompleteScreen;
 
