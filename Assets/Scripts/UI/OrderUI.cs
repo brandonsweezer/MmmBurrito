@@ -399,6 +399,46 @@ public class OrderUI : MonoBehaviour {
 		textfields.LoseScore.text = msg;
 	}
 
+	public void AnimateScoreWin(int scoreOrders, int scoreTime, float secondsLeft) {
+		textfields.WinScore.text = 0.ToString();
+		textfields.WinScore.gameObject.Tween(textfields.WinScore.GetHashCode(), 0, scoreOrders, 2.5f, TweenScaleFunctions.Linear, (t) => 
+			{
+				SetWinScoreAnimation(t.CurrentValue);
+			}, (t) =>
+			{
+				StartCoroutine(AnimateTimeLeftToScore(scoreOrders, scoreTime, secondsLeft));
+			}
+		);
+	}
+
+	IEnumerator AnimateTimeLeftToScore(int scoreOrders, int scoreTime, float secondsLeft) {
+		yield return new WaitForSeconds (1);
+		textfields.WinScore.gameObject.Tween(textfields.WinScore.GetHashCode(), scoreOrders, scoreTime+scoreOrders, 1f, TweenScaleFunctions.Linear, (t2) => 
+			{
+				SetWinScoreAnimation(t2.CurrentValue);
+			});
+		textfields.WinTime.gameObject.Tween(textfields.WinTime.GetHashCode(), secondsLeft, 0, 1f, TweenScaleFunctions.Linear, (t3) => 
+			{
+				textfields.WinTime.text = ((int)t3.CurrentValue).ToString();
+			});
+	}
+
+	void SetWinScoreAnimation(float score) {
+		textfields.WinScore.text = ((int)score).ToString();
+
+		//Level Over
+		if (score >= GameController.instance.starScore [0]) {
+			OrderUI.instance.gameobjectfields.WinScreen.transform.GetChild (0).GetComponent<Image> ().sprite = OrderUI.instance.gameobjectfields.FilledStar;
+		}
+		if (score >= GameController.instance.starScore [1]) {
+			OrderUI.instance.gameobjectfields.WinScreen.transform.GetChild (1).GetComponent<Image> ().sprite = OrderUI.instance.gameobjectfields.FilledStar;
+		}
+		if (score >= GameController.instance.starScore [2]) {
+			OrderUI.instance.gameobjectfields.WinScreen.transform.GetChild (2).GetComponent<Image> ().sprite = OrderUI.instance.gameobjectfields.FilledStar;
+		}
+	}
+
+
 	// Update is called once per frame
 	void Update() {
 		if (gameobjectfields.canvasHUD.activeSelf) {
