@@ -7,14 +7,14 @@ public class MovementControllerIsometricNew : MonoBehaviour {
     private int deathTimer = 0;
 	// Speed vars
 	private static float maxSpeed = 13f;
-	private static float dashSpeed = 28f;
+	private static float dashSpeed = 32f;
 	private static float dashBoostDistance = 0f;
 	private static float dashCooldown = 0.8f; // dash cooldown in seconds.
 	private static float dashSlowDownFactor = 0.1f;
 
 	// Control responsiveness vars
 	private static float velocityChangeRate;
-	private static float velocityChangeRateInAir = 0.03f;
+	private static float velocityChangeRateInAir = 0.15f;
 	private static float velocityChangeRateOnGround = 0.2f;
 	private static float additionalTurnRateLerp = 0.2f;
 	// How closely going straight up the ramp we must be to snap to ramp and get the speed boost.
@@ -28,6 +28,10 @@ public class MovementControllerIsometricNew : MonoBehaviour {
 	private static float rampDetectionDistance = 1.5f;
 	private static float rampBiasAngle = 10; // After what angle from a flat ground are we considering the ground to be a ramp.
 	private static float speedUpRampIncreaseFactor = 0.3f;
+
+	// bouncing/jump pad vars
+	private static float bounceInputStun = 0.1f;
+	private float timeOfLastBounce = 0f;
 
 	private Vector3 lastVelocity = new Vector3();
 
@@ -93,9 +97,15 @@ public class MovementControllerIsometricNew : MonoBehaviour {
 		}
 	}
 
-    public void Bounce(Vector3 force)//TODO Nicholas pls thx
-    {
-        return;
+    public void Bounce(Vector3 force)
+	{
+		Vector3 v = force * 7f;
+		if (v.y == 0) {
+			v.y = 4f;
+		}
+		rb.velocity = v;
+		transform.position += new Vector3 (0, 1, 0);
+		timeOfLastBounce = Time.time;
     }
 
 	void Update () {
@@ -169,14 +179,6 @@ public class MovementControllerIsometricNew : MonoBehaviour {
 	}
 
 	void FixedUpdate () {
-		// Only do anything if we're still playing the level
-//		if (GameController.instance.levelComplete) {
-//			return;
-//		}
-//		if (GameController.instance.gamestate!=GameController.GameState.Play) {
-//			return;
-//		}
-
 		if (GameController.instance.gamestate != GameController.GameState.Play) {
 			if (!rb.IsSleeping ()) {
 				if (lastVelocity == Vector3.zero) {
@@ -207,11 +209,18 @@ public class MovementControllerIsometricNew : MonoBehaviour {
 			ToggleFriction(true);
 		}
 
-		// If in the air, we don't want to slow down
+		// If in the air, slow down artifically when not pressing buttons
 		if (!grounded) {
 			ToggleFriction (false);
-			Vector3 newXZVelocity = new Vector3 (rb.velocity.x, 0, rb.velocity.z).normalized * currentXZSpeed;
-			rb.velocity = new Vector3 (newXZVelocity.x, rb.velocity.y, newXZVelocity.z);
+
+			if (!getMovement ()) {
+				Vector3 newXZVelocity = new Vector3 (rb.velocity.x, 0, rb.velocity.z) * 0.94f;
+				rb.velocity = new Vector3 (newXZVelocity.x, rb.velocity.y, newXZVelocity.z);
+			}
+
+			Vector3 newXZVelocity2 = new Vector3 (rb.velocity.x, 0, rb.velocity.z).normalized * currentXZSpeed;
+			Vector3 newVelocity2 = new Vector3 (newXZVelocity2.x, rb.velocity.y, newXZVelocity2.z);
+			rb.velocity = Vector3.Lerp (rb.velocity, newVelocity2, 0.5f);
 		}
 
 		IncreaseSpeedDashingUpRamp ();
@@ -322,6 +331,9 @@ public class MovementControllerIsometricNew : MonoBehaviour {
 
 	// Returns true if we're trying to move with the input
 	public bool getMovement() {
+		if (InBounceInputStun ()) {
+			return false;
+		}
 		return horizontalMoveInput != 0 || verticalMoveInput != 0 || dashInput;
 	}
 
@@ -331,6 +343,10 @@ public class MovementControllerIsometricNew : MonoBehaviour {
 
 	bool IsDashing() {
 		return (Time.time - timeOfLastDash < dashDuration);
+	}
+
+	bool InBounceInputStun() {
+		return (timeOfLastBounce + bounceInputStun) > Time.time;
 	}
 
 	public Vector3 GetXZFacing() {

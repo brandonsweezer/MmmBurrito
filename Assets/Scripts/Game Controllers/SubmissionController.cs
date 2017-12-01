@@ -21,6 +21,8 @@ public class SubmissionController : MonoBehaviour {
 
     private Camera mainCam;
 
+	private int SCORE_PER_SECOND = 5;
+
 	void Awake() {
 		mainCam = Camera.main;
 	}
@@ -131,35 +133,38 @@ public class SubmissionController : MonoBehaviour {
 
 	void ProcessLevelWin() {
 		Debug.Log ("All orders completed");
-		StartCoroutine (DisplayWinScreen());
-		OrderUI.instance.setScore (GameController.instance.score.ToString ());
+
 		LoggingManager.instance.RecordEvent (7, "Level quit, timer at " + GameController.instance.gameTime);
 		LoggingManager.instance.RecordEvent (8, "Won level, timer at " + GameController.instance.gameTime);
-
 		GameController.instance.gamestate = GameController.GameState.Win;
-		OrderUI.instance.setWinTime(Timer.instance.getDisplayTime ());
 		OrderUI.instance.textfields.currentLevelWin.text = "Level "+GameController.instance.currentLevel;
 
-		int curLevel = GameController.instance.currentLevel;
-		int curScore = GameController.instance.score;
+		// calculate score
+		int scoreOrders = GameController.instance.score;
+		int scoreTime = (int)Mathf.Floor(Timer.instance.getTime()) * SCORE_PER_SECOND;
+		int levelScore = scoreOrders + scoreTime;
+		StartCoroutine (DisplayWinScreen());
+
+		// animate the win
+		OrderUI.instance.setWinTime(Timer.instance.getDisplayTime ());
+		OrderUI.instance.AnimateScoreWin(scoreOrders, scoreTime, Timer.instance.getTime());
+
+
+		// find number of stars
 		int numStars = 0;
-		//Level Over
-		if (curScore >= GameController.instance.starScore [0]) {
-			OrderUI.instance.gameobjectfields.WinScreen.transform.GetChild (0).GetComponent<Image> ().sprite = OrderUI.instance.gameobjectfields.FilledStar;   
+		if (levelScore >= GameController.instance.starScore [0]) { 
 			numStars++;
 		}
-		if (curScore >= GameController.instance.starScore [1]) {
-			OrderUI.instance.gameobjectfields.WinScreen.transform.GetChild (1).GetComponent<Image> ().sprite = OrderUI.instance.gameobjectfields.FilledStar;
+		if (levelScore >= GameController.instance.starScore [1]) {
 			numStars++;
 		}
-		if (curScore >= GameController.instance.starScore [2]) {
-			OrderUI.instance.gameobjectfields.WinScreen.transform.GetChild (2).GetComponent<Image> ().sprite = OrderUI.instance.gameobjectfields.FilledStar;
+		if (levelScore >= GameController.instance.starScore [2]) {
 			numStars++;
 		}
 
 
 		// save level
-		SaveManager.instance.ProcessLevelCompletion(GameController.instance.currentLevel, GameController.instance.score, numStars);
+		SaveManager.instance.ProcessLevelCompletion(GameController.instance.currentLevel, levelScore, numStars);
 		int i = GameController.instance.currentLevel;
 		Debug.Log ("curr= " + GameController.instance.currentLevel);
 		Debug.Log ("stars= " + SaveManager.instance.totalStars());

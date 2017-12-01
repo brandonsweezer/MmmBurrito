@@ -38,7 +38,14 @@ public class SpawnController : MonoBehaviour {
 			return;
 		}
 
-		Vector3 spawnPosition = spawnPoint.transform.position + new Vector3 (0, 1, 0);
+		Vector3 spawnPosition = spawnPoint.transform.position + Vector3.up*2f;
+
+		RaycastHit hit;
+		bool raycast = ObjectSpawn.RaycastUntilTerrain(spawnPoint.transform.position + new Vector3 (0, 1, 0), Vector3.down, out hit);
+		if (raycast) {
+			spawnPosition = hit.point + Vector3.up*0.5f;
+		}
+
 		GameObject newBurrito = Instantiate (burritoPrefab, spawnPosition, Quaternion.identity) as GameObject;
 		newBurrito.tag = "Player";
 

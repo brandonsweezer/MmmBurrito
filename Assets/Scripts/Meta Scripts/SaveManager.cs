@@ -46,6 +46,21 @@ public class SaveManager : MonoBehaviour {
 		Debug.Log ("Game saved.");
 	}
 
+	public void SaveVolumeMusic(float v) {
+		save.volumeMusic = v;
+		SaveGame ();
+	}
+	public float GetVolumeMusic() {
+		return save.volumeMusic;
+	}
+	public void SaveVolumeEffects(float v) {
+		save.volumeEffects = v;
+		SaveGame ();
+	}
+	public float GetVolumeEffects() {
+		return save.volumeEffects;
+	}
+
 	public void SetLastLevelCompleted(int i) {
 		save.lastLevelCompleted = i;
 	}

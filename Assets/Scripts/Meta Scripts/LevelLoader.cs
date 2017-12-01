@@ -217,7 +217,9 @@ public class LevelLoader : MonoBehaviour {
 
 	public void FillStars () {
 
+
 		currentStars = 80;
+
 
 		for (int i=1; i<=maxLevelNumber; i ++) {
 			//Reset Empty Star Sprites
@@ -767,7 +769,30 @@ public class LevelLoader : MonoBehaviour {
             GameController.instance.starScore.Add(400);
             GameController.instance.starScore.Add(500);
             break;
-		case 24:
+            case 23:
+                timer.TimerInit(90);
+                OrderController.instance.AddOrder(
+                    IngredientSet.Ingredients.Beans, 1);
+                OrderController.instance.AddOrder(
+                    IngredientSet.Ingredients.Cheese, 1);
+                OrderController.instance.AddOrder(
+                    IngredientSet.Ingredients.Lettuce, 1);
+                OrderController.instance.AddOrder(
+                    IngredientSet.Ingredients.Tomato, 1);
+                OrderController.instance.AddOrder(
+                    IngredientSet.Ingredients.Meatball, 1);
+                OrderController.instance.AddOrder(
+                    IngredientSet.Ingredients.Beans, 1,
+                    IngredientSet.Ingredients.Cheese, 1,
+                    IngredientSet.Ingredients.Lettuce, 1,
+                    IngredientSet.Ingredients.Tomato, 1,
+                    IngredientSet.Ingredients.Meatball, 1);
+                GameController.instance.starScore.Clear();
+                GameController.instance.starScore.Add(500);
+                GameController.instance.starScore.Add(750);
+                GameController.instance.starScore.Add(950);
+                break;
+            case 24:
 //        	timer.TimerInit(90);
 //        	OrderController.instance.AddOrder(
 //        		IngredientSet.Ingredients.Cheese, 1,

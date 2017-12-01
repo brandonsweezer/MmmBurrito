@@ -8,7 +8,7 @@ public class SoundController : MonoBehaviour {
 //    public float MasterVolume;
 //    public float SoundEffectVolume;
 
-	public Slider MasterVolume;
+	public Slider MusicVolume;
 	public Slider SoundEffectVolume;
 
     public AudioClip pickup;
@@ -60,8 +60,6 @@ public class SoundController : MonoBehaviour {
     // Use this for initialization
     void Start () {
 		musicUrgency = MusicUrgency.Regular;
-		MasterVolume.value = 1f;
-		SoundEffectVolume.value = 1f;
         pickup = (AudioClip) Resources.Load("Sound/pickup");
         fall = (AudioClip) Resources.Load("Sound/fall");
         bump = (AudioClip) Resources.Load("Sound/bump");
@@ -85,25 +83,27 @@ public class SoundController : MonoBehaviour {
 
         //audSrc = gameObject.GetComponent<AudioSource>();
 
-        audSrcMusic.clip = SoundController.instance.music;
+		Debug.Log ("save manager: " + SaveManager.instance);
+		ChangeMasterValue (SaveManager.instance.GetVolumeMusic ());
+		ChangeFXValue (SaveManager.instance.GetVolumeEffects ());
+		audSrcMusic.clip = SoundController.instance.music;
 		audSrcMusic.loop = true;
 		audSrcMusic.Play();
     }
 
 	public void ChangeMasterValue(float value)
 	{
-		MasterVolume.value=value;
+		MusicVolume.value=value;
 		audSrcMusic.volume = value;
+		SaveManager.instance.SaveVolumeMusic (value);
 	}
 
 	public void MuteMaster ()
 	{
-		if (MasterVolume.value > 0) {
-			MasterVolume.value = 0;
-			audSrcMusic.volume = 0;
+		if (MusicVolume.value > 0) {
+			ChangeMasterValue (0);
 		} else {
-			MasterVolume.value = 1;
-			audSrcMusic.volume = 1;
+			ChangeMasterValue (1);
 		}
 	}
 
@@ -111,16 +111,15 @@ public class SoundController : MonoBehaviour {
 	{
 		SoundEffectVolume.value=value;
 		audSrc.volume = value;
+		SaveManager.instance.SaveVolumeEffects (value);
 	}
 
 	public void MuteFX ()
 	{
 		if (SoundEffectVolume.value > 0) {
-			SoundEffectVolume.value = 0;
-			audSrc.volume = 0;
+			ChangeFXValue (0);
 		} else {
-			SoundEffectVolume.value = 1;
-			audSrc.volume = 1;
+			ChangeFXValue (1);
 		}
 	}
 

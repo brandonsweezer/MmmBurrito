@@ -6,6 +6,8 @@ public class ObjectSpawn : MonoBehaviour {
 	public GameObject[] fallingObjectList;
 	public float spawnInterval;
 
+	private float nextSpawnInterval;
+
 	public bool onlyOneSpawn = false;
 
 	public float spawnYOffset = 25f;
@@ -18,6 +20,7 @@ public class ObjectSpawn : MonoBehaviour {
 	private bool constantSpawns = false;
 
 	void Start () {
+		GetNewSpawnInterval ();
 		if (fallingObjectList.Length == 0) {
 			return;
 		}
@@ -27,12 +30,15 @@ public class ObjectSpawn : MonoBehaviour {
 		spawnRangeX = new float[2]{transform.position.x - xScale/2, transform.position.x + xScale/2};
 		spawnRangeZ = new float[2]{transform.position.z - zScale/2, transform.position.z + zScale/2};
 
-		timeOfLastSpawn = Time.time - spawnInterval + Random.Range (0, 10)/5f;
+		timeOfLastSpawn = Time.time - spawnInterval + Random.Range (0, 10)/4f;
+		if (onlyOneSpawn) {
+			timeOfLastSpawn = -spawnInterval;
+		}
 		constantSpawns = true;
 	}
 
 	bool ShouldSpawnObject() {
-		return Time.time > timeOfLastSpawn + spawnInterval;
+		return Time.time > timeOfLastSpawn + nextSpawnInterval;
 	}
 
 	void Update() {
@@ -77,6 +83,7 @@ public class ObjectSpawn : MonoBehaviour {
 		GameObject objectToSpawn = GetObjectToSpawn();
 		Quaternion spawnRotation = Quaternion.identity;
 		GameObject obj = Instantiate (objectToSpawn, spawnPosition, spawnRotation) as GameObject;
+		GetNewSpawnInterval ();
 	}
 
 	private GameObject GetObjectToSpawn(int numRetries = 1) {
@@ -115,5 +122,10 @@ public class ObjectSpawn : MonoBehaviour {
 			}
 		}
 		return returnValue;
+	}
+
+	private void GetNewSpawnInterval() {
+		float rand = Random.Range (0, 100) / 100f * spawnInterval * 0.3f;
+		nextSpawnInterval = spawnInterval + rand;
 	}
 }

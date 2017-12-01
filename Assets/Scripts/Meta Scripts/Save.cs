@@ -9,6 +9,8 @@ public class Save {
 	public List<int> levelScores = new List<int> ();
 	public List<int> levelStars = new List<int> ();
 	public int lastLevelCompleted;
+	public float volumeMusic;
+	public float volumeEffects;
 
 	public Save() {
 		lastLevelCompleted = 0;
@@ -16,6 +18,8 @@ public class Save {
 			levelScores.Add (-1);
 			levelStars.Add (-1);
 		}
+		volumeMusic = 1f;
+		volumeEffects = 1f;
 	}
 
 }
