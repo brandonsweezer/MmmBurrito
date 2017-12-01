@@ -224,7 +224,7 @@ public class LevelLoader : MonoBehaviour {
 	public void FillStars () {
 
 
-		currentStars = 100;
+		currentStars = 0;
 
 
 		for (int i=1; i<=maxLevelNumber; i ++) {
