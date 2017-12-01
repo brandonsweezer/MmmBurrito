@@ -6,8 +6,8 @@ Material:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: rice
-  m_Shader: {fileID: 10755, guid: 0000000000000000f000000000000000, type: 0}
+  m_Name: cheese rot
+  m_Shader: {fileID: 4800000, guid: c2b712be6f101c74d8308c56a904bea3, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -18,10 +18,6 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
-    - _AlphaTex:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
     - _BRDFTex:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -50,18 +46,14 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _DetailTex:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
     - _EmissionMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
+        m_Texture: {fileID: 2800000, guid: 272b3b3e267d388498146556eb92425f, type: 3}
+        m_Scale: {x: 9.5, y: 9.5}
+        m_Offset: {x: -0, y: -0.5}
     - _MaskTex:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -72,10 +64,6 @@ Material:
         m_Offset: {x: 0, y: 0}
     - _NormalMap:
         m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _NormalMapII:
-        m_Texture: {fileID: 2800000, guid: fbba011cc6fa1474294f6700f3e9ac41, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _OcclusionMap:
@@ -90,66 +78,38 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _ramp:
-        m_Texture: {fileID: 2800000, guid: e4260f2126a7f9d41ada0e7bd1efbba4, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _snow:
-        m_Texture: {fileID: 2800000, guid: 50c397b0cfd8e7f4cb233370c8999495, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
     m_Floats:
-    - PixelSnap: 0
     - _AmbientContribution: 1
     - _Blend1: 1
     - _Bright: 1
     - _BumpScale: 1
-    - _ColorMask: 15
-    - _Cull: 2
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
-    - _EnableExternalAlpha: 0
-    - _Freezeeffectnormal: 4.77537
-    - _Gloss: 0.3252537
     - _GlossMapScale: 1
     - _GlossPow: 0.28
     - _Glossiness: 0
     - _GlossyReflections: 1
-    - _Ice_fresnel: 0
-    - _LocalGlobal: 0
     - _Metallic: 0
     - _Mode: 0
     - _OcclusionStrength: 1
-    - _Outline: 0.0001
+    - _Outline: 0.0075
     - _Parallax: 0.02
-    - _RimMax: 1
-    - _RimMin: 0.5
+    - _RimMax: 0.98
+    - _RimMin: 0.46
     - _SmoothnessTextureChannel: 0
     - _SpecPow: 0.03
     - _SpecularHighlights: 1
     - _SrcBlend: 1
-    - _Stencil: 0
-    - _StencilComp: 8
-    - _StencilOp: 0
-    - _StencilReadMask: 255
-    - _StencilWriteMask: 255
-    - _Transparency: 0
     - _UVSec: 0
-    - _UseUIAlphaClip: 0
-    - _WindQuality: 0
     - _ZWrite: 1
-    - _snow_slider: 7.705339
     m_Colors:
-    - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _Color2: {r: 0.9485294, g: 0.87233925, b: 0.82298875, a: 0}
-    - _Color3: {r: 0.86764705, g: 0.7673309, b: 0.67625433, a: 0}
+    - _Color: {r: 0.97794116, g: 0.72770333, b: 0.35234642, a: 1}
+    - _Color2: {r: 1, g: 0.85993916, b: 0.5110294, a: 0}
+    - _Color3: {r: 0.41911763, g: 0.2269016, b: 0.052389704, a: 0}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 0}
-    - _Flip: {r: 1, g: 1, b: 1, a: 1}
-    - _HColor: {r: 0.9044118, g: 0.7877372, b: 0.7448097, a: 1}
-    - _HueVariation: {r: 1, g: 0.5, b: 0, a: 0.1}
-    - _OutlineColor: {r: 0, g: 0, b: 0, a: 1}
-    - _RendererColor: {r: 1, g: 1, b: 1, a: 1}
-    - _RimColor: {r: 0.8, g: 0.8, b: 0.8, a: 0.6}
-    - _SColor: {r: 0.60294116, g: 0.61547697, b: 0.6251081, a: 1}
-    - _SpecColor: {r: 0.9632353, g: 0.9490701, b: 0.9490701, a: 0.5}
+    - _HColor: {r: 1, g: 0.95697266, b: 0.7684905, a: 1}
+    - _OutlineColor: {r: 1, g: 0.709, b: 0, a: 1}
+    - _RimColor: {r: 0.16470589, g: 0.16470589, b: 0.16470589, a: 0.6}
+    - _SColor: {r: 0.4852941, g: 0.30613887, b: 0.11418684, a: 1}
+    - _SpecColor: {r: 1, g: 1, b: 1, a: 0.5}

@@ -83,14 +83,14 @@ public class FallDecayDie : MonoBehaviour {
 
 	void UpdateQualityVisuals() {
 		// tint the ingredient
-		float t = 0f;
+		/*float t = 0f;
 		if (qualityLevel <= 1) {
 			t = 0.35f;
 		}
-		GetComponent<ColorSetter> ().TintColor(Color.black, t);
+		GetComponent<ColorSetter> ().TintColor(Color.black, t);*/
 
 		// update displayed model
-		/*TODO: update the following code to account for the extra child that is the fly system
+		//TODO: update the following code to account for the extra child that is the fly system
 			if (qualityLevel <= 0 || transform.childCount == 1) {
 				return;
 			}
@@ -99,7 +99,7 @@ public class FallDecayDie : MonoBehaviour {
 			}
 			int newChildIndex = (int)Mathf.Min (transform.childCount-1, startingQualityLevel - qualityLevel);
 			Transform childToActivate = transform.GetChild(newChildIndex);
-			childToActivate.gameObject.SetActive (true);*/
+			childToActivate.gameObject.SetActive (true);
 	}
 
 
