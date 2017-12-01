@@ -50,6 +50,7 @@ public class MovementControllerIsometricNew : MonoBehaviour {
 	private float timeOfLastDash;
 	private Vector3 xzFacing;
     private bool unfolded = false;
+	private Animator animator;
 
 	// Dash particle system
 	public GameObject dashParticleSystem;
@@ -60,6 +61,8 @@ public class MovementControllerIsometricNew : MonoBehaviour {
 
     void Awake () {
 		rb = GetComponent<Rigidbody> ();
+		animator = GetComponent<Animator>();
+
 		timeOfLastDash = 0f;
 		xzFacing = Vector3.forward;
 		velocityChangeRate = velocityChangeRateOnGround;
@@ -158,35 +161,6 @@ public class MovementControllerIsometricNew : MonoBehaviour {
 		if (Input.GetKey (KeyCode.Space) || Input.GetKey (KeyCode.LeftShift) || Input.GetKey (KeyCode.RightShift)) {
 			dashInput = true;
 		}
-        if (horizontalMoveInput == 0 && verticalMoveInput == 0)
-        {
-            if (!unfolded)
-            {
-                unfolded = true;
-                Animator a = GetComponent<Animator>();
-                a.enabled = true;
-                a.SetTrigger("Unwrap");
-            }
-        }
-
-        if (unfolded) { 
-            if (horizontalMoveInput != 0 || verticalMoveInput != 0)
-            {
-                unfolded = false;
-                Animator a = GetComponent<Animator>();
-                a.enabled = true;
-                Vector3 targetDirection = ((horizontalMoveInput * Vector3.right) + (verticalMoveInput * Vector3.forward)).normalized;
-                if (Vector3.Dot(targetDirection, transform.forward) < 0){
-                    a.SetFloat("Direction", -1.0f);
-                }
-                if (Vector3.Dot(targetDirection, transform.forward) > 0)
-                {
-                    a.SetFloat("Direction", 1.0f);
-                }
-
-                a.SetTrigger("Roll");
-            }
-        } 
 
 		// enable/disable dash particles
 		if (!IsDashing ()) {
@@ -240,6 +214,38 @@ public class MovementControllerIsometricNew : MonoBehaviour {
 		}
 
 		IncreaseSpeedDashingUpRamp ();
+
+		HandleFolding ();
+	}
+
+	void HandleFolding() {
+		animator.enabled = true;
+
+		if (!getMovement()) {
+			if (!unfolded) {
+				unfolded = true;
+				animator.SetTrigger("Unwrap");
+			}
+		}
+		else if (unfolded) {
+			unfolded = false;
+			animator.SetTrigger("Roll");
+		}
+
+		if (!unfolded) {
+			UpdateAnimationDirection ();
+		}
+	}
+
+	void UpdateAnimationDirection() {
+		Vector3 XZmove = new Vector3 (rb.velocity.x, 0, rb.velocity.z);
+		if (Vector3.Dot(XZmove, transform.forward) < 0) {
+			animator.SetFloat("Direction", -1.0f);
+		}
+		if (Vector3.Dot(XZmove, transform.forward) > 0)
+		{
+			animator.SetFloat("Direction", 1.0f);
+		}
 	}
 
 	void UpdateXZFacing() {
