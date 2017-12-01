@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class MovementControllerIsometricNew : MonoBehaviour {
 
-    private int deathTimer = 0;
+	private int deathTimer = 0;
 	// Speed vars
 	private static float maxSpeed = 13f;
 	private static float dashSpeed = 32f;
@@ -29,6 +29,9 @@ public class MovementControllerIsometricNew : MonoBehaviour {
 	private static float rampBiasAngle = 10; // After what angle from a flat ground are we considering the ground to be a ramp.
 	private static float speedUpRampIncreaseFactor = 0.3f;
 
+	// Sliding off ramps vars
+	private bool slidingOffRamp = false;
+
 	// bouncing/jump pad vars
 	private static float bounceInputStun = 0.1f;
 	private float timeOfLastBounce = 0f;
@@ -49,7 +52,7 @@ public class MovementControllerIsometricNew : MonoBehaviour {
 	private bool dashInput;
 	private float timeOfLastDash;
 	private Vector3 xzFacing;
-    private bool unfolded = false;
+	private bool rolling = false;
 	private Animator animator;
 
 	private Collider foldedCollisionBox;
@@ -60,10 +63,10 @@ public class MovementControllerIsometricNew : MonoBehaviour {
 	public GameObject dashParticleSystem;
 	private Vector3 dashParticleSpawnOffset = new Vector3(0, 0, 0);
 
-    //Audio vars
-    AudioSource audSrc;
+	//Audio vars
+	AudioSource audSrc;
 
-    void Awake () {
+	void Awake () {
 		rb = GetComponent<Rigidbody> ();
 		animator = GetComponent<Animator>();
 
@@ -74,28 +77,77 @@ public class MovementControllerIsometricNew : MonoBehaviour {
 		xzFacing = Vector3.forward;
 		velocityChangeRate = velocityChangeRateOnGround;
 
-        audSrc = SoundController.instance.audSrc;
-    }
+		audSrc = SoundController.instance.audSrc;
+	}
 
-    private void Start()
-    {
+	private void Start()
+	{
 		GetComponent<Animator>().enabled = true;
-		unfolded = true;
+		rolling = true;
 		animator.SetTrigger("Unwrap");
-    }
+	}
 
-    // Update the rotation of our movement input to match our camera angle
-    // (i.e. pressing the "up" arrow key moves the burrito up on the screen).
-    public static void UpdateViewpointRotation() {
+	// Update the rotation of our movement input to match our camera angle
+	// (i.e. pressing the "up" arrow key moves the burrito up on the screen).
+	public static void UpdateViewpointRotation() {
 		viewpointRotation = Quaternion.FromToRotation (Vector3.forward, Vector3.ProjectOnPlane(Camera.main.transform.up, Vector3.up));
 	}
 
-	// Start decaying after hitting something
 	void OnCollisionStay(Collision col) {
-		Vector3 floorNormal = col.contacts [0].normal;
-		if ((col.gameObject.tag == "Terrain" || col.gameObject.tag == "SpawnArea") && Vector3.Angle(floorNormal, Vector3.up) <= maxFloorAngleForGrounding) {
-			SetGrounded (true);
+		if (col.gameObject.tag != "Terrain" && col.gameObject.tag != "SpawnArea") {
+			return;
 		}
+
+		slidingOffRamp = false;
+		Vector3 velocityToAdd = Vector3.zero;
+
+		foreach (ContactPoint p in col.contacts) {
+			Vector3 floorNormal = p.normal;
+
+			float angleWithUp = Vector3.Angle (floorNormal, Vector3.up);
+
+			if (angleWithUp <= maxFloorAngleForGrounding) {
+				SetGrounded (true);
+			}
+
+			if (angleWithUp > 2f && angleWithUp <= 85 && !getMovement () && !IsDashing()) {
+				slidingOffRamp = true;
+				Debug.Log ("sliding off ramp");
+
+
+				Vector3 awayFromRamp = -col.gameObject.transform.forward;
+				Vector3 v = awayFromRamp;
+				velocityToAdd = v;
+			}
+		}
+		Debug.Log ("add velocity: " + velocityToAdd);
+		rb.velocity += velocityToAdd;
+
+
+			/*// move off of ramps
+			slidingOffRamp = false;
+			Vector3 velocityToAdd = Vector3.zero;
+			if (angleWithUp > 2f && angleWithUp <= 85 && !getMovement ()) {
+				ToggleFriction (false);
+
+				slidingOffRamp = true;
+
+				// at end of ramp
+				if (floorNormal == Vector3.down) {
+					Debug.Log ("hitting ramp with down normal");
+					Vector3 awayFromRamp = -col.gameObject.transform.forward;
+					transform.position += awayFromRamp * 0.3f;
+				} else {
+					Debug.Log ("hitting ramp normal: " + floorNormal);
+					slidingOffRamp = true;
+					Vector3 awayFromRamp = Vector3.Cross (Vector3.Cross (floorNormal, Vector3.down), floorNormal);
+					//awayFromRamp = Vector3.Lerp (floorNormal, awayFromRamp, 0.8f);
+					Vector3 v = awayFromRamp * 50f * Time.deltaTime;
+					if (v.magnitude > velocityToAdd.magnitude) {
+						velocityToAdd = v;
+					}
+				}
+			}*/
 	}
 
 	void OnCollisionExit(Collision col) {
@@ -113,7 +165,7 @@ public class MovementControllerIsometricNew : MonoBehaviour {
 		}
 	}
 
-    public void Bounce(Vector3 force)
+	public void Bounce(Vector3 force)
 	{
 		Vector3 v = force * 7f;
 		if (v.y == 0) {
@@ -122,37 +174,37 @@ public class MovementControllerIsometricNew : MonoBehaviour {
 		rb.velocity = v;
 		transform.position += new Vector3 (0, 1, 0);
 		timeOfLastBounce = Time.time;
-    }
+	}
 
 	void Update () {
-        
+
 		horizontalMoveInput = 0;
 		verticalMoveInput = 0;
 
 		// Only read input if we're still playing the level
-//		if (GameController.instance.levelComplete) {
-//			return;
-//		}
+		//		if (GameController.instance.levelComplete) {
+		//			return;
+		//		}
 		if (GameController.instance.gamestate!=GameController.GameState.Play) {
 			return;
 		}
-        if (GameController.instance.dead)
-        {
-            deathTimer++;
-            transform.Rotate(new Vector3(0, 20f, 0));
-            transform.localScale -= Vector3.one * 0.003f *deathTimer;
-            gameObject.GetComponent<Rigidbody>().Sleep();
-            gameObject.GetComponent<Rigidbody>().detectCollisions = false;
-            if (deathTimer >= 60)
-            {
-                deathTimer = 0;
-                GameController.instance.dead = false;
-                SpawnController.instance.DestroyAndRespawn();
-            }
-            return;
-        }
+		if (GameController.instance.dead)
+		{
+			deathTimer++;
+			transform.Rotate(new Vector3(0, 20f, 0));
+			transform.localScale -= Vector3.one * 0.003f *deathTimer;
+			gameObject.GetComponent<Rigidbody>().Sleep();
+			gameObject.GetComponent<Rigidbody>().detectCollisions = false;
+			if (deathTimer >= 60)
+			{
+				deathTimer = 0;
+				GameController.instance.dead = false;
+				SpawnController.instance.DestroyAndRespawn();
+			}
+			return;
+		}
 
-        // Detect move input.
+		// Detect move input.
 		if (Input.GetKey (KeyCode.RightArrow) || Input.GetKey(KeyCode.D)) {
 			horizontalMoveInput += 1;
 		}
@@ -205,7 +257,9 @@ public class MovementControllerIsometricNew : MonoBehaviour {
 			ManualMove();
 		} else {
 			// Let friction slow us down
-			ToggleFriction(true);
+			if (!slidingOffRamp) {
+				ToggleFriction (true);
+			}
 		}
 
 		// If in the air, slow down artifically when not pressing buttons
@@ -227,25 +281,30 @@ public class MovementControllerIsometricNew : MonoBehaviour {
 		HandleFolding ();
 	}
 
+	private float unfoldDelay = 0.05f;
+	private float timeOfLastRoll = 0;
+
 	void HandleFolding() {
 		animator.enabled = true;
 
-		if (!getMovement()) {
-			if (!unfolded) {
-				unfolded = true;
-				animator.SetTrigger("Unwrap");
-				UpdateCollisionBoxAfterDelay (0.23f);
+		bool moving = getMovement ();
+		bool waitedLongEnoughToUnwrap = timeOfLastRoll + unfoldDelay < Time.time;
+
+
+		bool stationary = !moving && !slidingOffRamp && grounded && !IsDashing();
+		if (stationary) {
+			if (waitedLongEnoughToUnwrap) {
+				animator.ResetTrigger ("Roll");
+				animator.SetTrigger ("Unwrap");
 			}
 		}
-		else if (unfolded) {
-			unfolded = false;
-			animator.SetTrigger("Roll");
-			UpdateCollisionBoxAfterDelay (0.1f);
+		else {
+			timeOfLastRoll = Time.time;
+			animator.ResetTrigger ("Unwrap");
+			animator.SetTrigger ("Roll");
 		}
 
-		if (!unfolded) {
-			UpdateAnimationDirection ();
-		}
+		UpdateAnimationDirection ();
 	}
 
 	void UpdateCollisionBoxAfterDelay(float delay) {
@@ -262,13 +321,22 @@ public class MovementControllerIsometricNew : MonoBehaviour {
 	}
 
 	void UpdateCollisionBox() {
-		if (unfolded) {
+		if (false){//!rolling) {
 			unfoldedCollisionBox.enabled = true;
 			foldedCollisionBox.enabled = false;
+			//animator.SetTrigger("Unwrap");
 		} else {
 			unfoldedCollisionBox.enabled = false;
 			foldedCollisionBox.enabled = true;
+			//animator.SetTrigger("Roll");
 		}
+
+		// put above floor
+		/*RaycastHit hit;
+		bool raycast = ObjectSpawn.RaycastUntilTerrain(transform.position + new Vector3 (0, 1, 0), Vector3.down, out hit);
+		if (raycast) {
+			transform.position = hit.point;
+		}*/
 	}
 
 	void UpdateAnimationDirection() {
