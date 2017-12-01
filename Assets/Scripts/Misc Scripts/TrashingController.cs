@@ -29,7 +29,7 @@ public class TrashingController : MonoBehaviour {
 			return;
 		}
 
-		if (Input.GetKeyDown(KeyCode.U)) {
+		if (Input.GetKeyDown(KeyCode.T)) {
 			Trash();
 		}
 	}
